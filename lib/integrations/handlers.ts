@@ -24,12 +24,12 @@ export async function dispatchSingle(
   event: IntegrationEvent,
   integration: StoreIntegration,
   store: StoreInfo,
-): Promise<void> {
+): Promise<{ buttonsSent?: boolean }> {
   const currency = (event.payload.currency as string) || store.currency
 
   switch (integration.integration_id) {
-    case "whatsapp":
-      await handleWhatsApp(
+    case "whatsapp": {
+      const result = await handleWhatsApp(
         event.event_type,
         event.payload as unknown as Parameters<typeof handleWhatsApp>[1],
         integration.config as unknown as Parameters<typeof handleWhatsApp>[2],
@@ -37,7 +37,8 @@ export async function dispatchSingle(
         currency,
         store.language,
       )
-      break
+      return { buttonsSent: result.buttonsSent }
+    }
     case "meta-capi":
       await handleMetaCAPI(
         event.event_type,
@@ -69,4 +70,6 @@ export async function dispatchSingle(
     default:
       break
   }
+
+  return {}
 }

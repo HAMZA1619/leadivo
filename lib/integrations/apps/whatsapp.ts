@@ -129,7 +129,8 @@ async function generateAIMessage(
   payload: EventPayload,
   storeName: string,
   currency: string,
-  language: string
+  language: string,
+  codConfirmation?: boolean
 ): Promise<string | null> {
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) return null
@@ -232,7 +233,7 @@ Rules:
   9. Blank line.
   10. Delivery details: address and country (include city only if provided).
   11. Blank line.
-  12. A short closing.
+  12. A short closing.${codConfirmation ? `\n  13. End with a natural question asking the customer to confirm their order (e.g. "Can you confirm this order?" or "Does everything look good?"). Keep it casual.` : ""}
 - Keep it concise — sound like a real person, not a robot.
 - Vary your wording naturally each time.
 - Do NOT include links, emojis, or placeholder text.
@@ -325,7 +326,8 @@ export function buildWhatsAppMessage(
   eventType: string,
   payload: EventPayload,
   storeName: string,
-  currency: string
+  currency: string,
+  codConfirmation?: boolean
 ): string {
   const firstName = payload.customer_name.split(" ")[0]
 
@@ -365,7 +367,11 @@ export function buildWhatsAppMessage(
       lines.push(``, `Delivery: ${addressLine}`)
     }
 
-    lines.push(``, `We're on it! You'll hear from us when there's an update.`)
+    if (codConfirmation) {
+      lines.push(``, `Can you confirm this order?`)
+    } else {
+      lines.push(``, `We're on it! You'll hear from us when there's an update.`)
+    }
 
     return lines.join("\n")
   }
@@ -417,16 +423,21 @@ export async function handleWhatsApp(
   storeName: string,
   currency: string,
   storeLanguage?: string
-): Promise<void> {
-  if (!config.connected || !config.instance_name) return
+): Promise<{ buttonsSent: boolean }> {
+  if (!config.connected || !config.instance_name) return { buttonsSent: false }
 
   const enabledEvents = config.enabled_events ?? ["order.created"]
-  if (!enabledEvents.includes(eventType)) return
+  if (!enabledEvents.includes(eventType)) return { buttonsSent: false }
+
+  const codConfirmation =
+    eventType === "order.created" &&
+    !!config.cod_confirmation_enabled &&
+    !!payload.order_id
 
   const message =
-    (await generateAIMessage(eventType, payload, storeName, currency, storeLanguage || "en")) ||
-    buildWhatsAppMessage(eventType, payload, storeName, currency)
-  if (!message) return
+    (await generateAIMessage(eventType, payload, storeName, currency, storeLanguage || "en", codConfirmation)) ||
+    buildWhatsAppMessage(eventType, payload, storeName, currency, codConfirmation)
+  if (!message) return { buttonsSent: false }
 
   const evolutionUrl = process.env.EVOLUTION_API_URL
   const evolutionKey = process.env.EVOLUTION_API_KEY
@@ -456,6 +467,8 @@ export async function handleWhatsApp(
     const body = await res.text().catch(() => "")
     throw new Error(`WhatsApp API error ${res.status}: ${body}`)
   }
+
+  return { buttonsSent: codConfirmation }
 }
 
 export function shouldSendConfirmation(config: WhatsAppConfig): boolean {

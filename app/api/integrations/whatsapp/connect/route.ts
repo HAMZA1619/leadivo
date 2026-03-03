@@ -117,10 +117,13 @@ export async function POST(request: Request) {
         method: "POST",
         headers,
         body: JSON.stringify({
-          url: webhookUrl,
-          webhook_by_events: false,
-          webhook_base64: false,
-          events: ["MESSAGES_UPSERT"],
+          webhook: {
+            url: webhookUrl,
+            enabled: true,
+            webhook_by_events: false,
+            webhook_base64: false,
+            events: ["MESSAGES_UPSERT"],
+          },
         }),
         signal: AbortSignal.timeout(10000),
       }).catch(() => {})

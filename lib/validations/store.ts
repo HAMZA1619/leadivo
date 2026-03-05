@@ -8,7 +8,7 @@ export const storeSchema = z.object({
     .max(30, "validation.slugMax")
     .regex(/^[a-z0-9-]+$/, "validation.slugFormat"),
   description: z.string().max(500).optional(),
-  language: z.enum(["en", "fr", "ar"]).default("en"),
+  language: z.string().min(2).max(5).default("en"),
   currency: z.string().min(1, "validation.currencyRequired"),
   payment_methods: z.array(z.literal("cod")).default(["cod"]),
 })

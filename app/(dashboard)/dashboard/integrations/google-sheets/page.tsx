@@ -17,17 +17,26 @@ export default async function GoogleSheetsPage() {
 
   if (!store) redirect("/dashboard/store")
 
-  const { data: integration } = await supabase
-    .from("store_integrations")
-    .select("*")
-    .eq("store_id", store.id)
-    .eq("integration_id", "google-sheets")
-    .single()
+  const [{ data: integration }, { data: markets }] = await Promise.all([
+    supabase
+      .from("store_integrations")
+      .select("*")
+      .eq("store_id", store.id)
+      .eq("integration_id", "google-sheets")
+      .single(),
+    supabase
+      .from("markets")
+      .select("id, name")
+      .eq("store_id", store.id)
+      .eq("is_active", true)
+      .order("name"),
+  ])
 
   return (
     <GoogleSheetsSetup
       storeId={store.id}
       installed={integration || null}
+      markets={(markets || []) as { id: string; name: string }[]}
     />
   )
 }

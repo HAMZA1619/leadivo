@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
@@ -8,6 +9,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2, Save, CheckCircle2, Monitor, Server, ChevronDown } from "lucide-react"
+import { TiktokIcon } from "@/components/icons/tiktok"
+import { IntegrationPageHeader } from "@/components/dashboard/integrations/integration-page-header"
+import { IntegrationPageLayout } from "@/components/dashboard/integrations/integration-page-layout"
 
 const SUPPORTED_EVENTS = [
   { name: "ViewContent", descKey: "tiktokEapiEventViewContentDesc", type: "pixel" as const },
@@ -26,18 +30,34 @@ interface InstalledIntegration {
 interface Props {
   storeId: string
   installed: InstalledIntegration | null
-  onDone: () => void
+  onDone?: () => void
 }
 
 export function TiktokEapiSetup({ storeId, installed, onDone }: Props) {
   const { t } = useTranslation()
+  const router = useRouter()
+  const done = onDone ?? (() => router.refresh())
   const config = installed?.config || {}
 
-  const [pixelCode, setPixelCode] = useState((config.pixel_code as string) || "")
-  const [accessToken, setAccessToken] = useState((config.access_token as string) || "")
-  const [testEventCode, setTestEventCode] = useState((config.test_event_code as string) || "")
+  const savedPixelCode = (config.pixel_code as string) || ""
+  const savedAccessToken = (config.access_token as string) || ""
+  const savedTestEventCode = (config.test_event_code as string) || ""
+  const [pixelCode, setPixelCode] = useState(savedPixelCode)
+  const [accessToken, setAccessToken] = useState(savedAccessToken)
+  const [testEventCode, setTestEventCode] = useState(savedTestEventCode)
   const [saving, setSaving] = useState(false)
   const [showEvents, setShowEvents] = useState(false)
+
+  const hasChanges =
+    pixelCode.trim() !== savedPixelCode ||
+    accessToken.trim() !== savedAccessToken ||
+    testEventCode.trim() !== savedTestEventCode
+
+  function handleDiscard() {
+    setPixelCode(savedPixelCode)
+    setAccessToken(savedAccessToken)
+    setTestEventCode(savedTestEventCode)
+  }
 
   async function handleSave() {
     if (!pixelCode.trim() || !accessToken.trim()) return
@@ -78,7 +98,7 @@ export function TiktokEapiSetup({ storeId, installed, onDone }: Props) {
       }
 
       toast.success(t("integrations.tiktokEapiSaved"))
-      onDone()
+      done()
     } catch {
       toast.error(t("integrations.connectFailed"))
     } finally {
@@ -87,7 +107,26 @@ export function TiktokEapiSetup({ storeId, installed, onDone }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      <IntegrationPageHeader
+        title="TikTok Events API"
+        description={t("integrations.tiktokEapiDescription")}
+        icon={TiktokIcon}
+        iconColor="#000000"
+        installed={installed}
+        storeId={storeId}
+        integrationId="tiktok-eapi"
+      />
+      <IntegrationPageLayout
+        integrationId="tiktok-eapi"
+        installed={!!installed}
+        hasChanges={hasChanges}
+        saving={saving}
+        saveDisabled={!pixelCode.trim() || !accessToken.trim()}
+        onSave={handleSave}
+        onDiscard={handleDiscard}
+      >
+      <div className="space-y-4">
       {installed && !!config.pixel_code && (
         <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-3 dark:border-green-900 dark:bg-green-950">
           <CheckCircle2 className="h-4 w-4 shrink-0 text-green-600" />
@@ -163,18 +202,22 @@ export function TiktokEapiSetup({ storeId, installed, onDone }: Props) {
         />
       </div>
 
-      <Button
-        className="w-full"
-        onClick={handleSave}
-        disabled={saving || !pixelCode.trim() || !accessToken.trim()}
-      >
-        {saving ? (
-          <Loader2 className="me-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Save className="me-2 h-4 w-4" />
-        )}
-        {t("integrations.tiktokEapiSave")}
-      </Button>
+      {!installed && (
+        <Button
+          className="w-full"
+          onClick={handleSave}
+          disabled={saving || !pixelCode.trim() || !accessToken.trim()}
+        >
+          {saving ? (
+            <Loader2 className="me-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Save className="me-2 h-4 w-4" />
+          )}
+          {t("integrations.tiktokEapiSave")}
+        </Button>
+      )}
+      </div>
+      </IntegrationPageLayout>
     </div>
   )
 }

@@ -20,6 +20,23 @@ function getStoredLanguage(): string {
 const localeLoaders: Record<string, () => Promise<{ default: any }>> = {
   fr: () => import("./locales/fr.json"),
   ar: () => import("./locales/ar.json"),
+  es: () => import("./locales/es.json"),
+  pt: () => import("./locales/pt.json"),
+  de: () => import("./locales/de.json"),
+  it: () => import("./locales/it.json"),
+  nl: () => import("./locales/nl.json"),
+  tr: () => import("./locales/tr.json"),
+  ru: () => import("./locales/ru.json"),
+  zh: () => import("./locales/zh.json"),
+  ja: () => import("./locales/ja.json"),
+  ko: () => import("./locales/ko.json"),
+  hi: () => import("./locales/hi.json"),
+  id: () => import("./locales/id.json"),
+  ms: () => import("./locales/ms.json"),
+  pl: () => import("./locales/pl.json"),
+  sv: () => import("./locales/sv.json"),
+  th: () => import("./locales/th.json"),
+  vi: () => import("./locales/vi.json"),
 }
 
 const initialLang = getStoredLanguage()

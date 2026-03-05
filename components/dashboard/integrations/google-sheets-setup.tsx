@@ -5,40 +5,36 @@ import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useTranslation } from "react-i18next"
 import { toast } from "sonner"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+import { Switch } from "@/components/ui/switch"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import {
   AVAILABLE_FIELDS,
   DEFAULT_FIELD_MAPPINGS,
   type FieldMapping,
   type RowGrouping,
+  type SyncFilters,
 } from "@/lib/integrations/apps/google-sheets"
+import { ORDER_STATUSES } from "@/lib/constants"
 import { GoogleSheetsIcon } from "@/components/icons/google-sheets"
 import {
   Loader2,
   CheckCircle2,
-  Unplug,
   FileSpreadsheet,
   ExternalLink,
   GripVertical,
-  Save,
   ArrowLeft,
   ArrowRight,
   Check,
   AlertTriangle,
+  ChevronsUpDown,
 } from "lucide-react"
+import { IntegrationPageHeader } from "@/components/dashboard/integrations/integration-page-header"
+import { IntegrationPageLayout } from "@/components/dashboard/integrations/integration-page-layout"
+import { useLanguageStore } from "@/lib/store/language-store"
 
 interface InstalledIntegration {
   id: string
@@ -47,9 +43,15 @@ interface InstalledIntegration {
   config: Record<string, unknown>
 }
 
+interface Market {
+  id: string
+  name: string
+}
+
 interface Props {
   storeId: string
   installed: InstalledIntegration | null
+  markets?: Market[]
 }
 
 function initMappingsFromConfig(config: Record<string, unknown>): {
@@ -191,11 +193,10 @@ function FieldMappingEditor({
                 }`}
               >
                 <GripVertical className="h-3.5 w-3.5 shrink-0 cursor-grab text-muted-foreground/50" />
-                <input
-                  type="checkbox"
+                <Checkbox
                   checked
-                  onChange={() => toggleField(field.key)}
-                  className="h-3.5 w-3.5 shrink-0 rounded border-input accent-primary"
+                  onCheckedChange={() => toggleField(field.key)}
+                  className="shrink-0"
                 />
                 <span className="shrink-0 text-xs text-muted-foreground w-24 truncate">
                   {def?.defaultHeader || field.key}
@@ -227,11 +228,10 @@ function FieldMappingEditor({
                   className="flex items-center gap-2 rounded-md border border-dashed bg-muted/30 p-2"
                 >
                   <div className="w-3.5 shrink-0" />
-                  <input
-                    type="checkbox"
+                  <Checkbox
                     checked={false}
-                    onChange={() => toggleField(key)}
-                    className="h-3.5 w-3.5 shrink-0 rounded border-input accent-primary"
+                    onCheckedChange={() => toggleField(key)}
+                    className="shrink-0"
                   />
                   <span className="text-sm text-muted-foreground">
                     {def.defaultHeader}
@@ -246,10 +246,23 @@ function FieldMappingEditor({
   )
 }
 
-export function GoogleSheetsSetup({ storeId, installed }: Props) {
+function formatRelativeTime(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 1) return "Just now"
+  if (mins < 60) return `${mins}m ago`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `${hours}h ago`
+  const days = Math.floor(hours / 24)
+  return `${days}d ago`
+}
+
+export function GoogleSheetsSetup({ storeId, installed, markets = [] }: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { t } = useTranslation()
+  const language = useLanguageStore((s) => s.language)
+  const dir = language === "ar" ? "rtl" : "ltr"
   const g = (key: string, opts?: Record<string, unknown>) => String(t(`integrations.googleSheets.${key}`, opts as never))
 
   const scopeError = searchParams.get("error") === "insufficient_scopes"
@@ -259,20 +272,26 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
 
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
-  const [showDisconnect, setShowDisconnect] = useState(false)
   const [syncing, setSyncing] = useState(false)
   const [savingFields, setSavingFields] = useState(false)
   const [syncOldOrders, setSyncOldOrders] = useState(false)
   const [rowGrouping, setRowGrouping] = useState<RowGrouping>(
     (config.row_grouping as RowGrouping) || "per_product",
   )
-
   const [trackAbandoned, setTrackAbandoned] = useState(
     !!(config as Record<string, unknown>).track_abandoned_checkouts
   )
   const [spreadsheetUrl, setSpreadsheetUrl] = useState("")
   const [createNew, setCreateNew] = useState(true)
   const [loadingHeaders, setLoadingHeaders] = useState(false)
+  // Filters state
+  const savedFilters = (config.filters as SyncFilters) || {}
+  const [filterStatuses, setFilterStatuses] = useState<string[]>(
+    savedFilters.statuses || [],
+  )
+  const [filterMarkets, setFilterMarkets] = useState<string[]>(
+    savedFilters.market_ids || [],
+  )
 
   const initialRowGrouping = (config.row_grouping as RowGrouping) || "per_product"
   const initial = initMappingsFromConfig(config)
@@ -288,13 +307,17 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
     rowGrouping !== initialRowGrouping ||
     trackAbandoned !== initialTrackAbandoned ||
     JSON.stringify(enabledFields) !== JSON.stringify(initial.enabled) ||
-    JSON.stringify(disabledFields) !== JSON.stringify(initial.disabled)
+    JSON.stringify(disabledFields) !== JSON.stringify(initial.disabled) ||
+    JSON.stringify(filterStatuses) !== JSON.stringify(savedFilters.statuses || []) ||
+    JSON.stringify(filterMarkets) !== JSON.stringify(savedFilters.market_ids || [])
 
   function handleCancelChanges() {
     setEnabledFields(initial.enabled)
     setDisabledFields(initial.disabled)
     setRowGrouping(initialRowGrouping)
     setTrackAbandoned(initialTrackAbandoned)
+    setFilterStatuses(savedFilters.statuses || [])
+    setFilterMarkets(savedFilters.market_ids || [])
   }
 
   async function fetchHeaders(spreadsheetId: string) {
@@ -379,9 +402,14 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
   async function handleFinishSetup() {
     setLoading(true)
     try {
+      const filters: SyncFilters = {}
+      if (filterStatuses.length > 0) filters.statuses = filterStatuses
+      if (filterMarkets.length > 0) filters.market_ids = filterMarkets
+
       const mappingsPayload = {
         field_mappings: enabledFields,
         row_grouping: rowGrouping,
+        filters,
       }
 
       if (createNew) {
@@ -446,7 +474,15 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: installed.id,
-          config: { field_mappings: enabledFields, row_grouping: rowGrouping, track_abandoned_checkouts: trackAbandoned },
+          config: {
+            field_mappings: enabledFields,
+            row_grouping: rowGrouping,
+            track_abandoned_checkouts: trackAbandoned,
+            filters: {
+              ...(filterStatuses.length > 0 ? { statuses: filterStatuses } : {}),
+              ...(filterMarkets.length > 0 ? { market_ids: filterMarkets } : {}),
+            },
+          },
         }),
       })
       if (!res.ok) {
@@ -454,6 +490,7 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
         return
       }
       toast.success(g("settingsSaved"))
+      refreshPage()
     } catch {
       toast.error(g("settingsSaveFailed"))
     } finally {
@@ -479,31 +516,6 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
       toast.error(g("syncFailed"))
     } finally {
       setSyncing(false)
-    }
-  }
-
-  async function handleDisconnect() {
-    setLoading(true)
-    try {
-      await fetch("/api/integrations/google-sheets/disconnect", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ store_id: storeId }),
-      })
-
-      if (installed) {
-        await fetch(`/api/integrations?id=${installed.id}`, {
-          method: "DELETE",
-        })
-      }
-
-      toast.success(g("disconnected"))
-      router.push("/dashboard/integrations")
-    } catch {
-      toast.error(g("disconnectFailed"))
-    } finally {
-      setLoading(false)
-      setShowDisconnect(false)
     }
   }
 
@@ -546,38 +558,32 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
 
   return (
     <div className="space-y-6">
-      {/* Page header */}
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild className="shrink-0">
-            <Link href="/dashboard/integrations">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
-              <GoogleSheetsIcon className="h-5 w-5" style={{ color: "#0F9D58" }} />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold">{g("title")}</h1>
-              <p className="text-sm text-muted-foreground">
-                {g("description")}
-              </p>
-            </div>
-          </div>
-        </div>
-        {isConnected && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-red-600 hover:text-red-700 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-950 border-red-200 dark:border-red-900"
-            onClick={() => setShowDisconnect(true)}
-          >
-            <Unplug className="me-1.5 h-3.5 w-3.5" />
-            {g("disconnectButton")}
-          </Button>
-        )}
-      </div>
+      <IntegrationPageHeader
+        title={g("title")}
+        description={g("description")}
+        icon={GoogleSheetsIcon}
+        iconColor="#0F9D58"
+        installed={installed}
+        storeId={storeId}
+        integrationId="google-sheets"
+        onBeforeUninstall={async () => {
+          await fetch("/api/integrations/google-sheets/disconnect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ store_id: storeId }),
+          })
+        }}
+      />
+
+      <IntegrationPageLayout
+        integrationId="google-sheets"
+        installed={!!installed}
+        hasChanges={hasChanges && isConnected && hasSpreadsheet}
+        saving={savingFields}
+        saveDisabled={enabledFields.length === 0}
+        onSave={handleSaveFieldMappings}
+        onDiscard={handleCancelChanges}
+      >
 
       {/* Scope error banner */}
       {scopeError && (
@@ -651,7 +657,7 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
                     name="sheet-choice"
                     checked={createNew}
                     onChange={() => setCreateNew(true)}
-                    className="mt-0.5 h-4 w-4 accent-primary"
+                    className="mt-0.5 h-4 w-4 appearance-none rounded-full border-2 border-input checked:border-primary checked:bg-primary checked:shadow-[inset_0_0_0_2.5px_white]"
                   />
                   <div>
                     <p className="text-sm font-medium">{g("createNew")}</p>
@@ -671,7 +677,7 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
                     name="sheet-choice"
                     checked={!createNew}
                     onChange={() => setCreateNew(false)}
-                    className="mt-0.5 h-4 w-4 accent-primary"
+                    className="mt-0.5 h-4 w-4 appearance-none rounded-full border-2 border-input checked:border-primary checked:bg-primary checked:shadow-[inset_0_0_0_2.5px_white]"
                   />
                   <div className="flex-1 space-y-2">
                     <div>
@@ -707,7 +713,7 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
           {/* Step 2: Column mapping + Row grouping + Sync + Finish */}
           {step === 2 && (
             <>
-              <div className="grid gap-6 md:grid-cols-2">
+              <div dir={dir} className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">{g("columnMapping")}</Label>
                   <p className="text-xs text-muted-foreground">
@@ -749,7 +755,7 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
                           value={opt.value}
                           checked={rowGrouping === opt.value}
                           onChange={() => setRowGrouping(opt.value)}
-                          className="mt-0.5 h-4 w-4 accent-primary"
+                          className="mt-0.5 h-4 w-4 appearance-none rounded-full border-2 border-input checked:border-primary checked:bg-primary checked:shadow-[inset_0_0_0_2.5px_white]"
                         />
                         <div>
                           <p className="text-sm font-medium">{opt.label}</p>
@@ -762,11 +768,10 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
                   </div>
 
                   <label className="flex items-center gap-3 cursor-pointer rounded-lg border p-4 hover:bg-muted/50 transition-colors">
-                    <input
-                      type="checkbox"
+                    <Checkbox
                       checked={syncOldOrders}
-                      onChange={(e) => setSyncOldOrders(e.target.checked)}
-                      className="h-4 w-4 rounded border-input accent-primary"
+                      onCheckedChange={(v) => setSyncOldOrders(!!v)}
+                      className="shrink-0"
                     />
                     <div>
                       <p className="text-sm font-medium">{g("syncExisting")}</p>
@@ -797,30 +802,42 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
         </>
       )}
 
-      {/* State 3: Connected + spreadsheet configured */}
-      {isConnected && hasSpreadsheet && (
-        <>
-          <div className="flex items-center justify-between gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3 dark:border-green-900 dark:bg-green-950">
-            <div className="flex items-center gap-3 min-w-0">
-              <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600" />
-              <div className="min-w-0">
-                <p className="font-medium text-green-800 dark:text-green-200">
-                  {g("connectedStatus")}
-                </p>
-                <a
-                  href={urlJoin("https://docs.google.com/spreadsheets/d", String(config.spreadsheet_id))}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-0.5 flex items-center gap-1 text-sm text-green-600 hover:underline dark:text-green-400"
-                >
-                  {(config.spreadsheet_name as string) || "Spreadsheet"}
-                  <ExternalLink className="h-3 w-3" />
-                </a>
+      {/* State 3: Spreadsheet configured */}
+      {hasSpreadsheet && (
+        <div className="space-y-4">
+          <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 dark:border-green-900 dark:bg-green-950 space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600" />
+                <div className="min-w-0">
+                  <p className="font-medium text-green-800 dark:text-green-200">
+                    {g("connectedStatus")}
+                  </p>
+                  <a
+                    href={urlJoin("https://docs.google.com/spreadsheets/d", String(config.spreadsheet_id))}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-0.5 flex items-center gap-1 text-sm text-green-600 hover:underline dark:text-green-400"
+                  >
+                    {(config.spreadsheet_name as string) || "Spreadsheet"}
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                  {config.google_email ? (
+                    <p className="text-xs text-green-600/70 dark:text-green-400/70 mt-0.5">
+                      {String(config.google_email)}
+                    </p>
+                  ) : null}
+                </div>
               </div>
+              {config.last_synced_at ? (
+                <span className="text-xs text-green-600 dark:text-green-400 shrink-0">
+                  {g("lastSynced")}: {formatRelativeTime(String(config.last_synced_at))}
+                </span>
+              ) : null}
             </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div dir={dir} className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label className="text-sm font-medium">{g("columnMapping")}</Label>
               <p className="text-xs text-muted-foreground">
@@ -837,6 +854,92 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
             </div>
 
             <div className="space-y-4">
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-sm font-medium">{g("filters")}</Label>
+                  <p className="text-xs text-muted-foreground mt-1">{g("filtersHint")}</p>
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium">{g("statusFilter")}</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" size="sm" className="w-full justify-between font-normal">
+                        <span className="truncate">
+                          {filterStatuses.length === 0
+                            ? g("allStatuses")
+                            : filterStatuses.map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(", ")}
+                        </span>
+                        <ChevronsUpDown className="ms-2 h-3.5 w-3.5 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-1">
+                      {ORDER_STATUSES.map((status) => {
+                        const selected = filterStatuses.includes(status)
+                        return (
+                          <button
+                            key={status}
+                            type="button"
+                            onClick={() => {
+                              setFilterStatuses(
+                                selected
+                                  ? filterStatuses.filter((s) => s !== status)
+                                  : [...filterStatuses, status],
+                              )
+                            }}
+                            className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent cursor-pointer"
+                          >
+                            <Check className={`h-3.5 w-3.5 ${selected ? "opacity-100" : "opacity-0"}`} />
+                            <span className="capitalize">{status}</span>
+                          </button>
+                        )
+                      })}
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                {markets.length > 0 && (
+                  <div className="space-y-1.5">
+                    <Label className="text-xs font-medium">{g("marketFilter")}</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" size="sm" className="w-full justify-between font-normal">
+                          <span className="truncate">
+                            {filterMarkets.length === 0
+                              ? g("allMarkets")
+                              : markets
+                                  .filter((m) => filterMarkets.includes(m.id))
+                                  .map((m) => m.name)
+                                  .join(", ")}
+                          </span>
+                          <ChevronsUpDown className="ms-2 h-3.5 w-3.5 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="p-1">
+                        {markets.map((market) => {
+                          const selected = filterMarkets.includes(market.id)
+                          return (
+                            <button
+                              key={market.id}
+                              type="button"
+                              onClick={() => {
+                                setFilterMarkets(
+                                  selected
+                                    ? filterMarkets.filter((id) => id !== market.id)
+                                    : [...filterMarkets, market.id],
+                                )
+                              }}
+                              className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent cursor-pointer"
+                            >
+                              <Check className={`h-3.5 w-3.5 ${selected ? "opacity-100" : "opacity-0"}`} />
+                              <span>{market.name}</span>
+                            </button>
+                          )
+                        })}
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                )}
+              </div>
+
               <div className="space-y-2">
                 <Label className="text-sm font-medium">{g("rowGrouping")}</Label>
                 <p className="text-xs text-muted-foreground">
@@ -857,7 +960,7 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
                       value={opt.value}
                       checked={rowGrouping === opt.value}
                       onChange={() => setRowGrouping(opt.value)}
-                      className="mt-0.5 h-4 w-4 accent-primary"
+                      className="mt-0.5 h-4 w-4 appearance-none rounded-full border-2 border-input checked:border-primary checked:bg-primary checked:shadow-[inset_0_0_0_2.5px_white]"
                     />
                     <div>
                       <p className="text-sm font-medium">{opt.label}</p>
@@ -869,70 +972,25 @@ export function GoogleSheetsSetup({ storeId, installed }: Props) {
                 ))}
               </div>
 
-              <label className="flex items-center gap-3 cursor-pointer rounded-lg border p-4 hover:bg-muted/50 transition-colors">
-                <input
-                  type="checkbox"
-                  checked={trackAbandoned}
-                  onChange={(e) => setTrackAbandoned(e.target.checked)}
-                  className="h-4 w-4 rounded border-input accent-primary"
-                />
+              <div className="flex items-center justify-between rounded-lg border p-4">
                 <div>
                   <p className="text-sm font-medium">{g("trackAbandoned")}</p>
                   <p className="text-xs text-muted-foreground">
                     {g("trackAbandonedHint")}
                   </p>
                 </div>
-              </label>
-
-              {hasChanges && (
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={handleCancelChanges}
-                  >
-                    {g("cancel")}
-                  </Button>
-                  <Button
-                    className="flex-1"
-                    onClick={handleSaveFieldMappings}
-                    disabled={savingFields || enabledFields.length === 0}
-                  >
-                    {savingFields ? (
-                      <Loader2 className="me-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      <Save className="me-2 h-4 w-4" />
-                    )}
-                    {g("saveChanges")}
-                  </Button>
-                </div>
-              )}
+                <Switch
+                  checked={trackAbandoned}
+                  onCheckedChange={setTrackAbandoned}
+                />
+              </div>
             </div>
           </div>
-        </>
+        </div>
       )}
 
-      <AlertDialog open={showDisconnect} onOpenChange={setShowDisconnect}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{g("disconnectTitle")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {g("disconnectDescription")}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>{g("cancel")}</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDisconnect}
-              disabled={loading}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              {loading && <Loader2 className="me-2 h-4 w-4 animate-spin" />}
-              {g("disconnectButton")}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+
+      </IntegrationPageLayout>
     </div>
   )
 }

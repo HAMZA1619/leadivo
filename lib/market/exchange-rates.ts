@@ -72,11 +72,9 @@ function persistRates(from: string, rates: Record<string, number>) {
       rate,
       updated_at: new Date().toISOString(),
     }))
-    supabase
+    void supabase
       .from("exchange_rate_cache")
       .upsert(rows, { onConflict: "base_currency,target_currency" })
-      .then(() => {})
-      .catch(() => {})
   } catch {
     // ignore persistence errors
   }

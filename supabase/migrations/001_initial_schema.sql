@@ -21,7 +21,7 @@ CREATE TABLE stores (
   name TEXT NOT NULL,
   description TEXT,
   design_settings JSONB NOT NULL DEFAULT '{}',
-  language TEXT NOT NULL DEFAULT 'en' CHECK (language IN ('en', 'fr', 'ar')),
+  language TEXT NOT NULL DEFAULT 'en' CHECK (language IN ('en','fr','ar','es','pt','de','it','nl','tr','ru','zh','ja','ko','hi','id','ms','pl','sv','th','vi')),
   currency TEXT NOT NULL DEFAULT 'USD',
   payment_methods TEXT[] DEFAULT '{cod}' CHECK (payment_methods = '{cod}'),
   is_published BOOLEAN NOT NULL DEFAULT false,
@@ -597,13 +597,50 @@ CREATE TABLE integration_events (
   integration_id TEXT NOT NULL,
   event_type TEXT NOT NULL,
   payload JSONB NOT NULL DEFAULT '{}',
-  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'processing', 'completed', 'failed')),
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'processing', 'completed', 'failed', 'abandoned')),
   error TEXT,
+  retry_count INTEGER NOT NULL DEFAULT 0,
+  max_retries INTEGER NOT NULL DEFAULT 3,
   processed_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX idx_integration_events_store ON integration_events(store_id);
 CREATE INDEX idx_integration_events_status ON integration_events(status) WHERE status = 'pending';
+CREATE INDEX idx_integration_events_failed_retryable ON integration_events(status, retry_count, max_retries)
+  WHERE status = 'failed';
+
+-- Retry failed integration events: re-inserts failed events as new pending rows
+-- so the Supabase webhook (on INSERT) picks them up again.
+-- Call via pg_cron: SELECT public.retry_failed_integration_events();
+CREATE OR REPLACE FUNCTION public.retry_failed_integration_events()
+RETURNS INTEGER AS $$
+DECLARE
+  retried INTEGER := 0;
+  rec RECORD;
+BEGIN
+  FOR rec IN
+    SELECT id, store_id, integration_id, event_type, payload, retry_count, max_retries
+    FROM public.integration_events
+    WHERE status = 'failed'
+      AND retry_count < max_retries
+      AND integration_id != '_trigger'
+    ORDER BY created_at ASC
+    LIMIT 50
+    FOR UPDATE SKIP LOCKED
+  LOOP
+    -- Insert a new pending row (triggers the Supabase webhook on INSERT)
+    INSERT INTO public.integration_events (store_id, integration_id, event_type, payload, status, retry_count, max_retries)
+    VALUES (rec.store_id, rec.integration_id, rec.event_type, rec.payload, 'pending', rec.retry_count, rec.max_retries);
+
+    -- Mark the original failed row as abandoned so it's not retried again
+    UPDATE public.integration_events SET status = 'abandoned' WHERE id = rec.id;
+
+    retried := retried + 1;
+  END LOOP;
+
+  RETURN retried;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
 
 ALTER TABLE integration_events ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Owners can view own events" ON integration_events FOR SELECT
@@ -854,7 +891,7 @@ BEGIN
   END IF;
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = '';
 
 CREATE TRIGGER enforce_status_transition
   BEFORE UPDATE OF status ON orders

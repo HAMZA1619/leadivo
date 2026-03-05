@@ -27,15 +27,108 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 })
     }
 
-    // Only process trigger rows (integration_id is null or '_trigger', status pending).
-    // Dispatch rows have a real integration_id and would re-trigger this
-    // webhook — skip them to prevent duplicate events.
+    const supabase = createAdminClient()
     const isTriggerRow = !event.integration_id || event.integration_id === "_trigger"
+
+    // Retried events have a real integration_id and status 'pending' (re-inserted by pg_cron)
+    if (!isTriggerRow && event.status === "pending") {
+      const retryCount = event.retry_count || 0
+
+      const { data: store } = await supabase
+        .from("stores")
+        .select("id, name, currency, language")
+        .eq("id", event.store_id)
+        .single()
+
+      if (!store) {
+        await supabase
+          .from("integration_events")
+          .update({ status: "failed", error: "Store not found", processed_at: new Date().toISOString() })
+          .eq("id", event.id)
+        return NextResponse.json({ error: "Store not found" }, { status: 404 })
+      }
+
+      const { data: integrationRow } = await supabase
+        .from("store_integrations")
+        .select("integration_id, config")
+        .eq("store_id", event.store_id)
+        .eq("integration_id", event.integration_id)
+        .single()
+
+      if (!integrationRow) {
+        await supabase
+          .from("integration_events")
+          .update({ status: "failed", error: "Integration not found", processed_at: new Date().toISOString() })
+          .eq("id", event.id)
+        return NextResponse.json({ ok: true, skipped: true })
+      }
+
+      await supabase
+        .from("integration_events")
+        .update({ status: "processing" })
+        .eq("id", event.id)
+
+      let enrichedPayload = event.payload || {}
+      if (event.event_type === "order.created" && enrichedPayload.order_id) {
+        const { data: items } = await supabase
+          .from("order_items")
+          .select("product_name, product_price, quantity, variant_options")
+          .eq("order_id", enrichedPayload.order_id)
+        if (items && items.length > 0) {
+          enrichedPayload = { ...enrichedPayload, items }
+        }
+      }
+
+      try {
+        const dispatchResult = await dispatchSingle(
+          { event_type: event.event_type, payload: enrichedPayload },
+          integrationRow,
+          { id: store.id, name: store.name, currency: store.currency, language: store.language },
+        )
+
+        await supabase
+          .from("integration_events")
+          .update({ status: "completed", processed_at: new Date().toISOString() })
+          .eq("id", event.id)
+
+        if (dispatchResult.confirmationSent) {
+          try {
+            const normalizedPhone = normalizePhone(
+              enrichedPayload.customer_phone as string,
+              enrichedPayload.customer_country as string | undefined,
+            )
+            await supabase.from("order_confirmations").insert({
+              order_id: enrichedPayload.order_id,
+              store_id: event.store_id,
+              customer_phone: normalizedPhone,
+              status: "pending",
+              sent_at: new Date().toISOString(),
+            })
+          } catch (confirmErr) {
+            console.error("COD confirmation record error:", confirmErr)
+          }
+        }
+
+        return NextResponse.json({ ok: true, retried: true, status: "completed" })
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : "Unknown error"
+        await supabase
+          .from("integration_events")
+          .update({
+            status: "failed",
+            error: errorMsg,
+            processed_at: new Date().toISOString(),
+            retry_count: retryCount + 1,
+          })
+          .eq("id", event.id)
+        return NextResponse.json({ ok: true, retried: true, status: "failed", error: errorMsg })
+      }
+    }
+
+    // Only process trigger rows (integration_id is null or '_trigger', status pending)
     if (!isTriggerRow || event.status !== "pending") {
       return NextResponse.json({ ok: true, skipped: true })
     }
-
-    const supabase = createAdminClient()
 
     const { data: store } = await supabase
       .from("stores")
@@ -99,6 +192,7 @@ export async function POST(request: Request) {
             event_type: event.event_type,
             payload: enrichedPayload,
             status: "processing",
+            retry_count: 0,
           })
           .select("id")
           .single()
@@ -119,8 +213,8 @@ export async function POST(request: Request) {
               .eq("id", appEventId)
           }
 
-          // COD confirmation buttons were sent inline with the order message
-          if (dispatchResult.buttonsSent) {
+          // COD confirmation was sent with the order message
+          if (dispatchResult.confirmationSent) {
             try {
               const normalizedPhone = normalizePhone(
                 enrichedPayload.customer_phone as string,

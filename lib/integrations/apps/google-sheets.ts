@@ -52,6 +52,7 @@ export const AVAILABLE_FIELDS: AvailableField[] = [
   { key: "ip_address", defaultHeader: "IP Address" },
   { key: "currency", defaultHeader: "Currency" },
   { key: "delivery_fee", defaultHeader: "Delivery Fee" },
+  { key: "market_name", defaultHeader: "Market" },
   { key: "event_type", defaultHeader: "Event" },
   { key: "checkout_status", defaultHeader: "Recovery" },
 ]
@@ -91,7 +92,31 @@ export interface EventPayload {
   delivery_fee?: number
   created_at?: string
   items?: OrderItem[]
+  market_id?: string | null
+  market_name?: string
   [key: string]: unknown
+}
+
+export interface SyncFilters {
+  statuses?: string[]
+  market_ids?: string[]
+}
+
+export function shouldSyncOrder(
+  payload: EventPayload,
+  filters?: SyncFilters,
+): boolean {
+  if (!filters) return true
+
+  if (filters.statuses && filters.statuses.length > 0) {
+    if (!filters.statuses.includes(payload.status)) return false
+  }
+
+  if (filters.market_ids && filters.market_ids.length > 0) {
+    if (!payload.market_id || !filters.market_ids.includes(payload.market_id)) return false
+  }
+
+  return true
 }
 
 function getOrderFieldValue(
@@ -140,6 +165,8 @@ function getOrderFieldValue(
       return payload.currency || currency
     case "delivery_fee":
       return payload.delivery_fee ? `${payload.delivery_fee} ${currency}` : ""
+    case "market_name":
+      return payload.market_name || ""
     case "event_type":
       return (payload as Record<string, unknown>).event_type as string || "Order"
     case "checkout_status":

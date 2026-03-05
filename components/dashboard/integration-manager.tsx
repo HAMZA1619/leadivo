@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
-import { APP_LIST, APPS } from "@/lib/integrations/registry"
+import { APP_LIST } from "@/lib/integrations/registry"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,26 +19,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import Link from "next/link"
-import { Activity, BarChart3, Bell, Puzzle, Table, Truck } from "lucide-react"
+import { BarChart3, Bell, Puzzle, Table as TableIcon, Truck } from "lucide-react"
 import type { AppDefinition } from "@/lib/integrations/registry"
-import { WhatsAppSetup } from "@/components/dashboard/integrations/whatsapp-setup"
-import { MetaCapiSetup } from "@/components/dashboard/integrations/meta-capi-setup"
-import { TiktokEapiSetup } from "@/components/dashboard/integrations/tiktok-eapi-setup"
-import { GoogleAnalyticsSetup } from "@/components/dashboard/integrations/google-analytics-setup"
 
 const CATEGORY_ORDER = ["analytics", "notifications", "productivity", "shipping"] as const
 
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   analytics: BarChart3,
   notifications: Bell,
-  productivity: Table,
+  productivity: TableIcon,
   shipping: Truck,
 }
 
@@ -55,12 +43,28 @@ interface InstalledIntegration {
 interface Props {
   storeId: string
   installedIntegrations: InstalledIntegration[]
+  latestEvents?: Record<string, { status: string; created_at: string }>
 }
 
-export function IntegrationManager({ storeId, installedIntegrations }: Props) {
+function getStatusInfo(
+  installed: InstalledIntegration | undefined,
+  latestEvent?: { status: string },
+  t?: (key: string) => string,
+): { color: string; dotColor: string; label: string } {
+  if (!installed) return { color: "", dotColor: "", label: "" }
+  const config = installed.config as Record<string, unknown>
+  if (latestEvent?.status === "failed") {
+    return { color: "text-red-600 dark:text-red-400", dotColor: "bg-red-500", label: t?.("integrations.statusError") || "Error" }
+  }
+  if (config.connected === false) {
+    return { color: "text-amber-600 dark:text-amber-400", dotColor: "bg-amber-500", label: t?.("integrations.statusAttention") || "Attention" }
+  }
+  return { color: "text-green-600 dark:text-green-400", dotColor: "bg-green-500", label: t?.("integrations.statusActive") || "Active" }
+}
+
+export function IntegrationManager({ storeId, installedIntegrations, latestEvents = {} }: Props) {
   const { t } = useTranslation()
   const router = useRouter()
-  const [setupAppId, setSetupAppId] = useState<string | null>(null)
   const [uninstallId, setUninstallId] = useState<string | null>(null)
 
   const installedMap = new Map(
@@ -117,61 +121,6 @@ export function IntegrationManager({ storeId, installedIntegrations }: Props) {
     setUninstallId(null)
   }
 
-  function renderSetupContent() {
-    if (!setupAppId) return null
-
-    switch (setupAppId) {
-      case "whatsapp":
-        return (
-          <WhatsAppSetup
-            storeId={storeId}
-            installed={installedMap.get("whatsapp") || null}
-            onDone={() => {
-              setSetupAppId(null)
-              router.refresh()
-            }}
-          />
-        )
-      case "meta-capi":
-        return (
-          <MetaCapiSetup
-            storeId={storeId}
-            installed={installedMap.get("meta-capi") || null}
-            onDone={() => {
-              setSetupAppId(null)
-              router.refresh()
-            }}
-          />
-        )
-      case "tiktok-eapi":
-        return (
-          <TiktokEapiSetup
-            storeId={storeId}
-            installed={installedMap.get("tiktok-eapi") || null}
-            onDone={() => {
-              setSetupAppId(null)
-              router.refresh()
-            }}
-          />
-        )
-      case "google-analytics":
-        return (
-          <GoogleAnalyticsSetup
-            storeId={storeId}
-            installed={installedMap.get("google-analytics") || null}
-            onDone={() => {
-              setSetupAppId(null)
-              router.refresh()
-            }}
-          />
-        )
-      default:
-        return <p className="text-muted-foreground">{t("integrations.noSetup")}</p>
-    }
-  }
-
-  const currentApp = setupAppId ? APPS[setupAppId] : null
-
   const groupedApps = CATEGORY_ORDER
     .map((cat) => ({
       category: cat,
@@ -185,77 +134,54 @@ export function IntegrationManager({ storeId, installedIntegrations }: Props) {
     const config = (installed?.config || {}) as Record<string, unknown>
     const hasTestCode = (app.id === "meta-capi" || app.id === "tiktok-eapi") && !!config.test_event_code
     const isTestMode = hasTestCode && !!config.test_mode
+    const status = installed ? getStatusInfo(installed, latestEvents[app.id], t) : null
+
     return (
       <Card key={app.id}>
-        <CardHeader className="flex flex-row items-start gap-3 space-y-0 pb-3">
+        <CardHeader className="flex flex-row items-center gap-3 space-y-0 p-4">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
             <Icon className="h-5 w-5" style={app.iconColor ? { color: app.iconColor } : undefined} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
               <CardTitle className="text-base truncate">{app.name}</CardTitle>
-              {installed && hasTestCode && (
-                <div className="flex shrink-0 items-center gap-2">
-                  <Badge
-                    variant="outline"
-                    className={isTestMode
-                      ? "border-amber-500/50 bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400"
-                      : "border-emerald-500/50 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400"
-                    }
-                  >
-                    {isTestMode
-                      ? t("integrations.test")
-                      : t("integrations.live")}
-                  </Badge>
-                  <Switch
-                    checked={!isTestMode}
-                    onCheckedChange={() => handleTestModeToggle(installed)}
-                  />
+              {installed && status && (
+                <div className={`flex items-center gap-1.5 text-xs ${status.color}`}>
+                  <div className={`h-1.5 w-1.5 rounded-full ${status.dotColor}`} />
+                  <span className="hidden sm:inline">{status.label}</span>
                 </div>
               )}
             </div>
-            <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+            <p className="mt-0.5 text-sm text-muted-foreground line-clamp-1 hidden sm:block">
               {app.description}
             </p>
           </div>
-        </CardHeader>
-        <CardContent className="pt-0">
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant={installed ? "outline" : "default"}
-              onClick={() => {
-                if (app.id === "google-sheets") {
-                  router.push("/dashboard/integrations/google-sheets")
-                } else {
-                  setSetupAppId(app.id)
-                }
-              }}
-            >
-              {installed
-                ? t("integrations.configure")
-                : t("integrations.install")}
-            </Button>
-            {installed && (
-              <>
-                <Button size="sm" variant="outline" asChild>
-                  <Link href={`/dashboard/integrations/${app.id}/events`}>
-                    <Activity className="me-1.5 h-3.5 w-3.5" />
-                    {t("integrations.events.link")}
-                  </Link>
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="ms-auto text-red-600 hover:text-red-700 hover:bg-red-100 dark:hover:bg-red-950"
-                  onClick={() => setUninstallId(installed.id)}
-                >
-                  {t("integrations.uninstall")}
-                </Button>
-              </>
+
+          <div className="flex items-center gap-2 shrink-0">
+            {installed && hasTestCode && (
+              <Switch
+                checked={!isTestMode}
+                onCheckedChange={() => handleTestModeToggle(installed)}
+              />
+            )}
+            {installed ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => router.push(`/dashboard/integrations/${app.id}`)}
+              >
+                {t("integrations.open")}
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                onClick={() => router.push(`/dashboard/integrations/${app.id}`)}
+              >
+                {t("integrations.install")}
+              </Button>
             )}
           </div>
-        </CardContent>
+        </CardHeader>
       </Card>
     )
   }
@@ -296,24 +222,6 @@ export function IntegrationManager({ storeId, installedIntegrations }: Props) {
           <p className="text-muted-foreground">{t("integrations.empty")}</p>
         </div>
       )}
-
-      <Dialog
-        open={!!setupAppId}
-        onOpenChange={(open) => !open && setSetupAppId(null)}
-      >
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>
-              {currentApp
-                ? installedMap.has(currentApp.id)
-                  ? t("integrations.configureTitle", { name: currentApp.name })
-                  : t("integrations.installTitle", { name: currentApp.name })
-                : ""}
-            </DialogTitle>
-          </DialogHeader>
-          {renderSetupContent()}
-        </DialogContent>
-      </Dialog>
 
       <AlertDialog
         open={!!uninstallId}

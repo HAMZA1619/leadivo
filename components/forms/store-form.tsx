@@ -57,7 +57,7 @@ export function StoreForm({ userId, title, initialData, children }: StoreFormPro
     defaultValues: {
       name: initialData?.name || "",
       slug: initialData?.slug || "",
-      language: (initialData?.language as "en" | "fr" | "ar") || "en",
+      language: (initialData?.language as string) || "en",
       currency: initialData?.currency || "USD",
       payment_methods: ["cod"] as const,
     },

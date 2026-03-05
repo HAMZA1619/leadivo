@@ -70,11 +70,11 @@ export async function GET(request: NextRequest) {
     let zone = null
 
     async function findZone(forMarketId: string | null) {
-      const escapedCountry = country.replace(/%/g, "\\%").replace(/_/g, "\\_")
+      const escapedCountry = country!.replace(/%/g, "\\%").replace(/_/g, "\\_")
       let q = supabase
         .from("shipping_zones")
         .select("id, default_rate")
-        .eq("store_id", store.id)
+        .eq("store_id", store!.id)
         .eq("is_active", true)
         .ilike("country_name", escapedCountry)
 
@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
         let q2 = supabase
           .from("shipping_zones")
           .select("id, default_rate")
-          .eq("store_id", store.id)
+          .eq("store_id", store!.id)
           .eq("is_active", true)
           .eq("country_code", countryCode)
 

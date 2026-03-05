@@ -13,6 +13,8 @@ import { Shuffle, Palette, Type, LayoutGrid, Settings2, ImageIcon, CreditCard, H
 import type { DesignState, PreviewTab } from "./design-preview"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
+import { STOREFRONT_LANGUAGES } from "@/lib/i18n/languages"
+import { Checkbox } from "@/components/ui/checkbox"
 
 type SectionId = "branding" | "colors" | "typography" | "layout" | "checkout" | "thankyou" | "preferences" | "seo"
 
@@ -163,17 +165,45 @@ export function DesignControls({ state, onChange, storeId, previewTab, onPreview
 
               <div className="space-y-2">
                 <h3 className="text-sm font-medium">{t("storefront.storefrontLanguage")}</h3>
-                <Select value={state.language} onValueChange={(v) => onChange({ language: v as DesignState["language"] })}>
+                <Select value={state.language} onValueChange={(v) => {
+                  const updates: Partial<DesignState> = { language: v }
+                  if (state.enabledLanguages.includes(v)) {
+                    updates.enabledLanguages = state.enabledLanguages.filter((l) => l !== v)
+                  }
+                  onChange(updates)
+                }}>
                   <SelectTrigger className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="en">{t("language.en")}</SelectItem>
-                    <SelectItem value="fr">{t("language.fr")}</SelectItem>
-                    <SelectItem value="ar">{t("language.ar")}</SelectItem>
+                    {STOREFRONT_LANGUAGES.map((lang) => (
+                      <SelectItem key={lang.code} value={lang.code}>{lang.name}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
+
+              {/* Additional languages hidden for now
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium">{t("storefront.additionalLanguages")}</h3>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {STOREFRONT_LANGUAGES.filter((l) => l.code !== state.language).map((lang) => (
+                    <label key={lang.code} className="flex items-center gap-2 rounded-md border px-2.5 py-1.5 text-sm cursor-pointer hover:bg-muted/50">
+                      <Checkbox
+                        checked={state.enabledLanguages.includes(lang.code)}
+                        onCheckedChange={(checked) => {
+                          const next = checked
+                            ? [...state.enabledLanguages, lang.code]
+                            : state.enabledLanguages.filter((l) => l !== lang.code)
+                          onChange({ enabledLanguages: next })
+                        }}
+                      />
+                      {lang.name}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              */}
 
               <div className="space-y-1.5">
                 <h3 className="text-sm font-medium">{t("design.storeDescription")}</h3>

@@ -13,6 +13,7 @@ import { cn, parseDesignSettings, getImageUrl, sanitizeCss, isValidHttpUrl } fro
 import { BORDER_RADIUS_OPTIONS, CARD_SHADOW_OPTIONS, PRODUCT_IMAGE_RATIO_OPTIONS, LAYOUT_SPACING_OPTIONS } from "@/lib/constants"
 import { getStoreBySlug, getStoreIntegration, getStoreOwnerAccess, getStoreMarkets } from "@/lib/storefront/cache"
 import { detectMarketByCountry } from "@/lib/market/detect-market"
+import { STOREFRONT_LANGUAGES, RTL_LANGUAGES } from "@/lib/i18n/languages"
 import type { Metadata } from "next"
 
 export async function generateMetadata({
@@ -130,8 +131,13 @@ export default async function StoreLayout({
   const baseHref = isCustomDomain ? "" : `/${slug}`
 
   const ds = parseDesignSettings((store.design_settings || {}) as Record<string, unknown>)
-  const storeLang = ds.language || store.language || "en"
-  const isRtl = storeLang === "ar"
+  const primaryLang = ds.language || store.language || "en"
+  const enabledLangs = ds.enabledLanguages?.length > 0
+    ? [primaryLang, ...ds.enabledLanguages.filter((l: string) => l !== primaryLang)]
+    : [primaryLang]
+  const langCookie = cookieStore.get("biostore-lang")?.value
+  const storeLang = (langCookie && enabledLangs.includes(langCookie)) ? langCookie : primaryLang
+  const isRtl = RTL_LANGUAGES.has(storeLang)
   const radiusCss = BORDER_RADIUS_OPTIONS.find((r) => r.value === ds.borderRadius)?.css || "8px"
   const shadowCss = CARD_SHADOW_OPTIONS.find((s) => s.value === ds.cardShadow)?.css || "none"
   const imageRatioCss = PRODUCT_IMAGE_RATIO_OPTIONS.find((r) => r.value === ds.productImageRatio)?.css || "1/1"
@@ -264,6 +270,11 @@ export default async function StoreLayout({
               stickyHeader={ds.stickyHeader}
               markets={hasMarkets ? markets.map((m) => ({ slug: m.slug, name: m.name, currency: m.currency })) : undefined}
               activeMarketSlug={activeMarket?.slug}
+              enabledLanguages={enabledLangs.length > 1 ? enabledLangs.map((code: string) => {
+                const lang = STOREFRONT_LANGUAGES.find((l) => l.code === code)
+                return { code, name: lang?.name || code }
+              }) : undefined}
+              activeLanguage={storeLang}
             />
             <main className="mx-auto max-w-2xl px-4 py-6">{children}</main>
             <StoreFooter storeName={store.name} socialInstagram={ds.socialInstagram} socialTiktok={ds.socialTiktok} socialFacebook={ds.socialFacebook} socialWhatsapp={ds.socialWhatsapp} />

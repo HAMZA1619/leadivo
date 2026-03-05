@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
@@ -8,6 +9,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2, Save, CheckCircle2, Monitor, Server, ChevronDown } from "lucide-react"
+import { MetaIcon } from "@/components/icons/meta"
+import { IntegrationPageHeader } from "@/components/dashboard/integrations/integration-page-header"
+import { IntegrationPageLayout } from "@/components/dashboard/integrations/integration-page-layout"
 
 const SUPPORTED_EVENTS = [
   { name: "ViewContent", descKey: "metaCapiEventViewContentDesc", type: "pixel" as const },
@@ -26,18 +30,34 @@ interface InstalledIntegration {
 interface Props {
   storeId: string
   installed: InstalledIntegration | null
-  onDone: () => void
+  onDone?: () => void
 }
 
 export function MetaCapiSetup({ storeId, installed, onDone }: Props) {
   const { t } = useTranslation()
+  const router = useRouter()
+  const done = onDone ?? (() => router.refresh())
   const config = installed?.config || {}
 
-  const [pixelId, setPixelId] = useState((config.pixel_id as string) || "")
-  const [accessToken, setAccessToken] = useState((config.access_token as string) || "")
-  const [testEventCode, setTestEventCode] = useState((config.test_event_code as string) || "")
+  const savedPixelId = (config.pixel_id as string) || ""
+  const savedAccessToken = (config.access_token as string) || ""
+  const savedTestEventCode = (config.test_event_code as string) || ""
+  const [pixelId, setPixelId] = useState(savedPixelId)
+  const [accessToken, setAccessToken] = useState(savedAccessToken)
+  const [testEventCode, setTestEventCode] = useState(savedTestEventCode)
   const [saving, setSaving] = useState(false)
   const [showEvents, setShowEvents] = useState(false)
+
+  const hasChanges =
+    pixelId.trim() !== savedPixelId ||
+    accessToken.trim() !== savedAccessToken ||
+    testEventCode.trim() !== savedTestEventCode
+
+  function handleDiscard() {
+    setPixelId(savedPixelId)
+    setAccessToken(savedAccessToken)
+    setTestEventCode(savedTestEventCode)
+  }
 
   async function handleSave() {
     if (!pixelId.trim() || !accessToken.trim()) return
@@ -78,7 +98,7 @@ export function MetaCapiSetup({ storeId, installed, onDone }: Props) {
       }
 
       toast.success(t("integrations.metaCapiSaved"))
-      onDone()
+      done()
     } catch {
       toast.error(t("integrations.connectFailed"))
     } finally {
@@ -87,7 +107,26 @@ export function MetaCapiSetup({ storeId, installed, onDone }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      <IntegrationPageHeader
+        title="Meta Conversions API"
+        description={t("integrations.metaCapiDescription")}
+        icon={MetaIcon}
+        iconColor="#0081FB"
+        installed={installed}
+        storeId={storeId}
+        integrationId="meta-capi"
+      />
+      <IntegrationPageLayout
+        integrationId="meta-capi"
+        installed={!!installed}
+        hasChanges={hasChanges}
+        saving={saving}
+        saveDisabled={!pixelId.trim() || !accessToken.trim()}
+        onSave={handleSave}
+        onDiscard={handleDiscard}
+      >
+      <div className="space-y-4">
       {installed && !!config.pixel_id && (
         <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-3 dark:border-green-900 dark:bg-green-950">
           <CheckCircle2 className="h-4 w-4 shrink-0 text-green-600" />
@@ -163,18 +202,22 @@ export function MetaCapiSetup({ storeId, installed, onDone }: Props) {
         />
       </div>
 
-      <Button
-        className="w-full"
-        onClick={handleSave}
-        disabled={saving || !pixelId.trim() || !accessToken.trim()}
-      >
-        {saving ? (
-          <Loader2 className="me-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Save className="me-2 h-4 w-4" />
-        )}
-        {t("integrations.metaCapiSave")}
-      </Button>
+      {!installed && (
+        <Button
+          className="w-full"
+          onClick={handleSave}
+          disabled={saving || !pixelId.trim() || !accessToken.trim()}
+        >
+          {saving ? (
+            <Loader2 className="me-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Save className="me-2 h-4 w-4" />
+          )}
+          {t("integrations.metaCapiSave")}
+        </Button>
+      )}
+      </div>
+      </IntegrationPageLayout>
     </div>
   )
 }

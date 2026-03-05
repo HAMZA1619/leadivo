@@ -1,12 +1,14 @@
 "use client"
 
-import { useState } from "react"
-import { CheckCircle, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
+import { useState, useEffect } from "react"
+import { CheckCircle, Languages, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
 import { BORDER_RADIUS_OPTIONS, CARD_SHADOW_OPTIONS, PRODUCT_IMAGE_RATIO_OPTIONS, LAYOUT_SPACING_OPTIONS } from "@/lib/constants"
 import { cn, getImageUrl, sanitizeCss } from "@/lib/utils"
 import { useTranslation } from "react-i18next"
 import type { TFunction } from "i18next"
 import "@/lib/i18n"
+import { loadLocale } from "@/lib/i18n"
+import { RTL_LANGUAGES } from "@/lib/i18n/languages"
 
 export type PreviewTab = "store" | "checkout" | "thankyou"
 
@@ -27,7 +29,8 @@ export interface DesignState {
   productImageRatio: "square" | "portrait" | "landscape"
   layoutSpacing: "compact" | "normal" | "spacious"
   customCss: string
-  language: "en" | "fr" | "ar"
+  language: string
+  enabledLanguages: string[]
   showBranding: boolean
   showFloatingCart: boolean
   showSearch: boolean
@@ -69,7 +72,7 @@ interface DesignPreviewProps {
   onTabChange: (tab: PreviewTab) => void
 }
 
-const RTL_LANGS = new Set(["ar"])
+const RTL_LANGS = RTL_LANGUAGES
 
 const themeCard: Record<string, string> = {
   default: "border",
@@ -154,9 +157,34 @@ const tabs: { value: PreviewTab; labelKey: string }[] = [
 
 export function DesignPreview({ state, storeName, storeDescription, currency, previewTab, onTabChange }: DesignPreviewProps) {
   const { t, i18n } = useTranslation()
-  const st = i18n.getFixedT(state.language)
+  const [previewLang, setPreviewLang] = useState(state.language)
+  const [localeReady, setLocaleReady] = useState(false)
+  const enabledLangs = state.enabledLanguages?.length > 0
+    ? [state.language, ...state.enabledLanguages.filter((l) => l !== state.language)]
+    : [state.language]
+
+  useEffect(() => {
+    setPreviewLang(state.language)
+  }, [state.language])
+
+  useEffect(() => {
+    setLocaleReady(false)
+    loadLocale(previewLang).then(() => {
+      setLocaleReady(true)
+    })
+  }, [previewLang])
+
+  // Also preload all enabled languages so cycling is instant
+  useEffect(() => {
+    enabledLangs.forEach((lang) => loadLocale(lang))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.enabledLanguages, state.language])
+
+  // localeReady triggers re-render after async locale load, ensuring getFixedT has the bundle
+  void localeReady
+  const st = i18n.getFixedT(previewLang)
   const radiusCss = getRadiusCss(state.borderRadius)
-  const isRtl = RTL_LANGS.has(state.language)
+  const isRtl = RTL_LANGS.has(previewLang)
 
   const [cart, setCart] = useState<Record<string, PreviewCartItem>>({})
 
@@ -257,6 +285,9 @@ export function DesignPreview({ state, storeName, storeDescription, currency, pr
               cartTotal={cartTotal}
               onAddToCart={addToCart}
               onGoToCheckout={() => onTabChange("checkout")}
+              enabledLangs={enabledLangs}
+              previewLang={previewLang}
+              setPreviewLang={setPreviewLang}
             />
           )}
           {previewTab === "checkout" && (
@@ -302,6 +333,9 @@ function StorePreview({
   cartTotal,
   onAddToCart,
   onGoToCheckout,
+  enabledLangs,
+  previewLang,
+  setPreviewLang,
 }: {
   state: DesignState
   storeName: string
@@ -313,6 +347,9 @@ function StorePreview({
   cartTotal: number
   onAddToCart: (name: string, price: number) => void
   onGoToCheckout: () => void
+  enabledLangs: string[]
+  previewLang: string
+  setPreviewLang: (lang: string) => void
 }) {
   const [img1, img2] = pickImages(storeName)
 
@@ -325,7 +362,7 @@ function StorePreview({
           {state.announcementText}
         </div>
       )}
-      <PreviewHeader state={state} storeName={storeName} cartCount={cartCount} onCartClick={onGoToCheckout} />
+      <PreviewHeader state={state} storeName={storeName} cartCount={cartCount} onCartClick={onGoToCheckout} enabledLanguages={enabledLangs} activeLanguage={previewLang} onLanguageChange={setPreviewLang} />
       {state.bannerPath && (
         <div className="relative px-2 pt-2">
           <img src={getImageUrl(state.bannerPath)!} alt="" className="w-full" style={{ borderRadius: radiusCss }} />
@@ -382,7 +419,7 @@ function StorePreview({
                 {cartCount}
               </span>
             </div>
-            <span>{st("designPreview.viewCart")}</span>
+            <span>{st("storefront.viewCart")}</span>
             <span className="font-bold">{cartTotal.toFixed(2)} {currency}</span>
           </button>
         </div>
@@ -434,7 +471,7 @@ function CheckoutPreview({
         {/* Cart summary */}
         {cartItems.length > 0 ? (
           <div className="space-y-1.5">
-            <p className="text-[10px] font-bold">{st("designPreview.viewCart")} ({itemCount})</p>
+            <p className="text-[10px] font-bold">{st("storefront.viewCart")} ({itemCount})</p>
             {cartItems.map((item) => (
               <div key={item.name} className="flex items-center gap-2 border-b pb-2">
                 <div className="h-8 w-8 shrink-0 rounded bg-gray-100" />
@@ -484,7 +521,7 @@ function CheckoutPreview({
               className="mt-2 text-[10px] font-medium underline"
               style={{ color: "var(--store-accent)" }}
             >
-              {st("designPreview.continueShopping")}
+              {st("storefront.continueShopping")}
             </button>
           </div>
         )}
@@ -492,19 +529,19 @@ function CheckoutPreview({
         {cartItems.length > 0 && (
           <>
             <div className="border-t pt-2">
-              <p className="text-[10px] font-bold">{st("designPreview.deliveryInformation")}</p>
+              <p className="text-[10px] font-bold">{st("storefront.deliveryInformation")}</p>
             </div>
 
-            <PreviewField label={st("designPreview.fullName")} />
-            <PreviewField label={st("designPreview.phone")} />
+            <PreviewField label={st("storefront.fullName")} />
+            <PreviewField label={st("storefront.phone")} />
 
-            {state.checkoutShowEmail && <PreviewField label={st("designPreview.email")} />}
-            {state.checkoutShowCountry && <PreviewField label={st("designPreview.country")} />}
-            {state.checkoutShowCity && <PreviewField label={st("designPreview.city")} />}
+            {state.checkoutShowEmail && <PreviewField label={st("storefront.email")} />}
+            {state.checkoutShowCountry && <PreviewField label={st("storefront.country")} />}
+            {state.checkoutShowCity && <PreviewField label={st("storefront.city")} />}
 
-            <PreviewField label={st("designPreview.address")} tall />
+            <PreviewField label={st("storefront.address")} tall />
 
-            {state.checkoutShowNote && <PreviewField label={st("designPreview.noteLabel")} tall />}
+            {state.checkoutShowNote && <PreviewField label={st("storefront.note")} tall />}
 
             <button
               type="button"
@@ -517,7 +554,7 @@ function CheckoutPreview({
                 border: state.buttonStyle === "outline" ? "1.5px solid var(--store-accent)" : "none",
               }}
             >
-              {st("designPreview.orderNow")}
+              {st("storefront.orderNow")}
             </button>
           </>
         )}
@@ -550,8 +587,8 @@ function ThankYouPreview({
         >
           <CheckCircle className="h-6 w-6" />
         </div>
-        <p className="text-sm font-bold">{st("designPreview.orderConfirmed")}</p>
-        <p className="text-[10px] opacity-60">{st("designPreview.orderNumber")}</p>
+        <p className="text-sm font-bold">{st("storefront.orderConfirmed")}</p>
+        <p className="text-[10px] opacity-60">{st("storefront.orderNumber", { number: "1234" })}</p>
         <p className="text-[10px] leading-relaxed opacity-60">{message}</p>
         <button
           type="button"
@@ -562,7 +599,7 @@ function ThankYouPreview({
             borderRadius: radiusCss,
           }}
         >
-          {st("designPreview.continueShopping")}
+          {st("storefront.continueShopping")}
         </button>
       </div>
     </>
@@ -575,12 +612,25 @@ function PreviewHeader({
   storeName,
   cartCount = 0,
   onCartClick,
+  enabledLanguages,
+  activeLanguage,
+  onLanguageChange,
 }: {
   state: DesignState
   storeName: string
   cartCount?: number
   onCartClick?: () => void
+  enabledLanguages?: string[]
+  activeLanguage?: string
+  onLanguageChange?: (lang: string) => void
 }) {
+  function cycleLanguage() {
+    if (!enabledLanguages || enabledLanguages.length <= 1 || !onLanguageChange || !activeLanguage) return
+    const idx = enabledLanguages.indexOf(activeLanguage)
+    const next = enabledLanguages[(idx + 1) % enabledLanguages.length]
+    onLanguageChange(next)
+  }
+
   return (
     <header
       className={cn("top-0 z-10 border-b backdrop-blur", state.stickyHeader && "sticky")}
@@ -602,17 +652,25 @@ function PreviewHeader({
             {storeName}
           </span>
         </div>
-        <button type="button" className="relative" onClick={onCartClick}>
-          <ShoppingCart className="h-3 w-3 opacity-50" />
-          {cartCount > 0 && (
-            <span
-              className="absolute -end-1.5 -top-1.5 flex h-3 w-3 items-center justify-center rounded-full text-[6px] font-bold"
-              style={{ backgroundColor: "var(--store-accent)", color: state.buttonTextColor }}
-            >
-              {cartCount}
-            </span>
+        <div className="flex items-center gap-1">
+          {enabledLanguages && enabledLanguages.length > 1 && (
+            <button type="button" onClick={cycleLanguage} className="flex items-center gap-0.5 text-[8px] opacity-60 hover:opacity-100 transition-opacity">
+              <Languages className="h-2.5 w-2.5" />
+              <span>{activeLanguage?.toUpperCase()}</span>
+            </button>
           )}
-        </button>
+          <button type="button" className="relative" onClick={onCartClick}>
+            <ShoppingCart className="h-3 w-3 opacity-50" />
+            {cartCount > 0 && (
+              <span
+                className="absolute -end-1.5 -top-1.5 flex h-3 w-3 items-center justify-center rounded-full text-[6px] font-bold"
+                style={{ backgroundColor: "var(--store-accent)", color: state.buttonTextColor }}
+              >
+                {cartCount}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </header>
   )
@@ -706,7 +764,7 @@ function PreviewProductCard({
               border: isOutline ? "1.5px solid var(--store-accent)" : "none",
             }}
           >
-            {added ? "✓" : st("designPreview.addToCart")}
+            {added ? "✓" : st("storefront.addToCart")}
           </button>
         )}
       </div>

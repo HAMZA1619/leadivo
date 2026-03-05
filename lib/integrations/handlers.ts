@@ -24,20 +24,21 @@ export async function dispatchSingle(
   event: IntegrationEvent,
   integration: StoreIntegration,
   store: StoreInfo,
-): Promise<{ buttonsSent?: boolean }> {
+): Promise<{ confirmationSent?: boolean }> {
   const currency = (event.payload.currency as string) || store.currency
 
   switch (integration.integration_id) {
     case "whatsapp": {
+      const configLang = (integration.config?.message_language as string) || ""
       const result = await handleWhatsApp(
         event.event_type,
         event.payload as unknown as Parameters<typeof handleWhatsApp>[1],
         integration.config as unknown as Parameters<typeof handleWhatsApp>[2],
         store.name,
         currency,
-        store.language,
+        configLang || store.language,
       )
-      return { buttonsSent: result.buttonsSent }
+      return { confirmationSent: result.confirmationSent }
     }
     case "meta-capi":
       await handleMetaCAPI(

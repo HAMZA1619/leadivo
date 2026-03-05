@@ -650,7 +650,8 @@
     "deliveryNotAvailable": "La livraison n'est pas disponible pour cette ville",
     "freeDelivery": "Gratuite",
     "scanToShop": "Scannez pour acheter sur votre téléphone",
-    "continueOnDesktop": "Continuer sur ordinateur"
+    "continueOnDesktop": "Continuer sur ordinateur",
+    "additionalLanguages": "Langues supplémentaires"
   },
   "auth": {
     "welcomeBack": "Bon retour",
@@ -917,6 +918,8 @@
       "shipping": "Connectez les transporteurs et gérez les livraisons."
     },
     "install": "Installer",
+    "open": "Ouvrir",
+    "settings": "Configuration",
     "configure": "Configurer",
     "active": "Actif",
     "paused": "En pause",
@@ -927,10 +930,16 @@
     "uninstallDescription": "Cela supprimera l'intégration et sa configuration. Vous pourrez la réinstaller plus tard.",
     "uninstalled": "Intégration désinstallée",
     "cancel": "Annuler",
+    "discard": "Annuler",
+    "saveChanges": "Enregistrer",
     "enabled": "Intégration activée",
     "disabled": "Intégration en pause",
     "test": "Test",
     "live": "Live",
+    "statusActive": "Actif",
+    "statusError": "Erreur",
+    "statusAttention": "Attention",
+    "statusDisabled": "Désactivé",
     "testMode": "Mode test activé",
     "liveMode": "Mode live activé",
     "noSetup": "Aucune configuration disponible pour cette intégration.",
@@ -949,8 +958,14 @@
     "save": "Enregistrer",
     "whatsappAiNote": "Les messages sont générés par l'IA à partir des détails de la commande.",
     "codConfirmationTitle": "Confirmation de commande COD",
-    "codConfirmationDescription": "Envoyez un message WhatsApp avec des boutons Confirmer/Annuler lorsqu'une commande est passée. Le client confirme avant l'expédition.",
+    "codConfirmationDescription": "Demandez aux clients de confirmer les commandes contre remboursement via WhatsApp avant l'expédition. Le client répond pour confirmer ou annuler.",
     "codConfirmationEnable": "Activer la confirmation COD",
+    "messageLanguageTitle": "Langue des messages",
+    "messageLanguageDescription": "Choisissez la langue des messages WhatsApp envoyés aux clients.",
+    "messageLanguageDefault": "Auto (langue du magasin)",
+    "messageLanguageSearch": "Rechercher une langue...",
+    "messageLanguageEmpty": "Aucune langue trouvée.",
+    "messageDialectDefault": "Sélectionner le dialecte",
     "eventNewOrder": "Nouvelle commande",
     "eventStatusChanged": "Changement de statut",
     "eventAbandonedCheckout": "Panier abandonné",
@@ -958,6 +973,7 @@
     "disconnect": "Déconnecter",
     "connectFailed": "Échec de la connexion",
     "disconnectFailed": "Échec de la déconnexion",
+    "metaCapiDescription": "Envoyer des événements d'achat côté serveur à Facebook pour un suivi précis des conversions.",
     "metaCapiSetupHint": "L'API Conversions est active. Les événements sont envoyés à Facebook.",
     "metaCapiSupportedEvents": "Événements pris en charge",
     "metaCapiEventViewContentDesc": "Page produit consultée",
@@ -970,6 +986,7 @@
     "metaCapiTestCodeHint": "Trouvez-le dans Facebook Events Manager → Événements test. Retirez-le avant la mise en production.",
     "metaCapiSaved": "Meta Conversions API enregistré",
     "metaCapiSave": "Enregistrer",
+    "tiktokEapiDescription": "Envoyer des événements de paiement côté serveur à TikTok pour un suivi précis des conversions.",
     "tiktokEapiSetupHint": "L'API Événements TikTok est connectée et suit les événements.",
     "tiktokEapiSupportedEvents": "Événements supportés",
     "tiktokEapiEventViewContentDesc": "Page produit consultée",
@@ -981,6 +998,7 @@
     "tiktokEapiTestCode": "Code d'événement test (optionnel)",
     "tiktokEapiSaved": "TikTok Events API enregistré",
     "tiktokEapiSave": "Enregistrer",
+    "googleAnalyticsDescription": "Ajouter le suivi Google Analytics pour mesurer le trafic et les performances de votre boutique.",
     "googleAnalyticsSetupHint": "Google Analytics est actif et suit votre boutique.",
     "googleAnalyticsMeasurementId": "ID de mesure",
     "googleAnalyticsInvalidId": "ID de mesure invalide (doit commencer par G-)",
@@ -1040,8 +1058,18 @@
       "enabledFields": "Champs activés (glisser pour réordonner)",
       "disabledFields": "Champs désactivés",
       "columnHeader": "En-tête de colonne",
+      "advanced": "Avancé",
       "trackAbandoned": "Suivre les paniers abandonnés",
-      "trackAbandonedHint": "Enregistrer les événements de paniers abandonnés dans la feuille avec les commandes"
+      "trackAbandonedHint": "Enregistrer les événements de paniers abandonnés dans la feuille avec les commandes",
+      "filters": "Filtres de synchronisation",
+      "filtersHint": "Synchroniser uniquement les commandes correspondant à ces filtres. Laissez vide pour tout synchroniser.",
+      "statusFilter": "Statut",
+      "allStatuses": "Tous les statuts",
+      "marketFilter": "Marché",
+      "allMarkets": "Tous les marchés",
+      "lastSynced": "Dernière sync",
+      "unsavedChanges": "Vous avez des modifications non enregistrées",
+      "discard": "Annuler"
     },
     "events": {
       "link": "Événements",
@@ -1058,7 +1086,8 @@
         "pending": "En attente",
         "processing": "En cours",
         "completed": "Terminé",
-        "failed": "Échoué"
+        "failed": "Échoué",
+        "abandoned": "Abandonné"
       }
     }
   },
@@ -1244,6 +1273,23 @@
   "language": {
     "en": "English",
     "fr": "Français",
-    "ar": "العربية"
+    "ar": "العربية",
+    "es": "Español",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "ru": "Русский",
+    "zh": "中文",
+    "ja": "日本語",
+    "ko": "한국어",
+    "hi": "हिन्दी",
+    "id": "Bahasa Indonesia",
+    "ms": "Bahasa Melayu",
+    "pl": "Polski",
+    "sv": "Svenska",
+    "th": "ไทย",
+    "vi": "Tiếng Việt"
   }
 }

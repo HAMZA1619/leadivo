@@ -10,6 +10,7 @@ import { useBaseHref } from "@/lib/hooks/use-base-href"
 import { useEffect, useState } from "react"
 import { cn, getImageUrl } from "@/lib/utils"
 import { MarketPicker } from "@/components/store/market-picker"
+import { LanguagePicker } from "@/components/store/language-picker"
 import Image from "next/image"
 
 interface StoreHeaderProps {
@@ -20,9 +21,11 @@ interface StoreHeaderProps {
   stickyHeader?: boolean
   markets?: { slug: string; name: string; currency: string }[]
   activeMarketSlug?: string | null
+  enabledLanguages?: { code: string; name: string }[]
+  activeLanguage?: string
 }
 
-export function StoreHeader({ slug, name, logoPath, bannerPath, stickyHeader = true, markets, activeMarketSlug }: StoreHeaderProps) {
+export function StoreHeader({ slug, name, logoPath, bannerPath, stickyHeader = true, markets, activeMarketSlug, enabledLanguages, activeLanguage }: StoreHeaderProps) {
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   const baseHref = useBaseHref()
@@ -46,6 +49,9 @@ export function StoreHeader({ slug, name, logoPath, bannerPath, stickyHeader = t
           </span>
         </Link>
         <div className="flex items-center gap-1">
+          {enabledLanguages && enabledLanguages.length > 1 && (
+            <LanguagePicker languages={enabledLanguages} activeLanguage={activeLanguage || ""} />
+          )}
           {markets && markets.length > 1 && (
             <MarketPicker markets={markets} activeMarketSlug={activeMarketSlug} />
           )}

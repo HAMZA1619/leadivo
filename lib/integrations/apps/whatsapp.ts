@@ -118,10 +118,68 @@ export function normalizePhone(phone: string, country?: string): string {
   return cleaned
 }
 
+export interface WhatsAppLanguage {
+  code: string
+  name: string
+  dialects?: { code: string; name: string }[]
+}
+
+export const WHATSAPP_LANGUAGES: WhatsAppLanguage[] = [
+  { code: "en", name: "English" },
+  { code: "fr", name: "Français", dialects: [
+    { code: "fr", name: "Français standard" },
+    { code: "fr-CA", name: "Français canadien" },
+    { code: "fr-MA", name: "Français marocain" },
+  ]},
+  { code: "ar", name: "العربية", dialects: [
+    { code: "ar", name: "العربية الفصحى" },
+    { code: "ar-EG", name: "مصري" },
+    { code: "ar-MA", name: "دارجة مغربية" },
+    { code: "ar-SA", name: "خليجي" },
+    { code: "ar-LB", name: "لبناني / شامي" },
+    { code: "ar-DZ", name: "جزائري" },
+    { code: "ar-TN", name: "تونسي" },
+  ]},
+  { code: "es", name: "Español", dialects: [
+    { code: "es", name: "Español (España)" },
+    { code: "es-MX", name: "Español (México)" },
+    { code: "es-AR", name: "Español (Argentina)" },
+  ]},
+  { code: "pt", name: "Português", dialects: [
+    { code: "pt", name: "Português (Portugal)" },
+    { code: "pt-BR", name: "Português (Brasil)" },
+  ]},
+  { code: "de", name: "Deutsch" },
+  { code: "it", name: "Italiano" },
+  { code: "nl", name: "Nederlands" },
+  { code: "tr", name: "Türkçe" },
+  { code: "ru", name: "Русский" },
+  { code: "zh", name: "中文", dialects: [
+    { code: "zh", name: "简体中文" },
+    { code: "zh-TW", name: "繁體中文" },
+  ]},
+  { code: "ja", name: "日本語" },
+  { code: "ko", name: "한국어" },
+  { code: "hi", name: "हिन्दी" },
+  { code: "id", name: "Bahasa Indonesia" },
+  { code: "ms", name: "Bahasa Melayu" },
+  { code: "pl", name: "Polski" },
+  { code: "sv", name: "Svenska" },
+  { code: "th", name: "ไทย" },
+  { code: "vi", name: "Tiếng Việt" },
+]
+
 const LANGUAGE_NAMES: Record<string, string> = {
   en: "English",
-  fr: "French",
-  ar: "Arabic",
+  fr: "French", "fr-CA": "Canadian French", "fr-MA": "Moroccan French",
+  ar: "Modern Standard Arabic", "ar-EG": "Egyptian Arabic", "ar-MA": "Moroccan Arabic (Darija)",
+  "ar-SA": "Gulf Arabic", "ar-LB": "Lebanese/Levantine Arabic", "ar-DZ": "Algerian Arabic", "ar-TN": "Tunisian Arabic",
+  es: "Spanish", "es-MX": "Mexican Spanish", "es-AR": "Argentine Spanish",
+  pt: "Portuguese", "pt-BR": "Brazilian Portuguese",
+  de: "German", it: "Italian", nl: "Dutch", tr: "Turkish", ru: "Russian",
+  zh: "Simplified Chinese", "zh-TW": "Traditional Chinese",
+  ja: "Japanese", ko: "Korean", hi: "Hindi", id: "Indonesian",
+  ms: "Malay", pl: "Polish", sv: "Swedish", th: "Thai", vi: "Vietnamese",
 }
 
 async function generateAIMessage(
@@ -200,8 +258,9 @@ New status: ${payload.new_status}`
     context = `Event: Abandoned checkout recovery
 Store: ${aPayload.store_name}
 Customer: ${aPayload.customer_name}
-Store URL: ${aPayload.store_url}
 Total: ${aPayload.total} ${currency}
+Store URL: ${aPayload.store_url}
+
 Items in cart:
 ${itemsList}`
   } else {
@@ -273,14 +332,19 @@ CRITICAL — ONLY translate the static text (greetings, labels, closing). NEVER 
 Rules:
 - Write ONLY the static/surrounding text in ${langName}. All dynamic data stays in its original form.
 - Use WhatsApp formatting: *bold* for store name and total.
-- Structure:
+- Structure (use blank lines between each section):
   1. Greet using the customer's name (first word only).
-  2. Remind them they left items in their cart.
-  3. List the items briefly.
-  4. Show the total.
-  5. Include the store URL so they can complete their order.
-  6. A short encouraging closing.
-- Keep it concise — 5-8 lines max.
+  2. Blank line.
+  3. Remind them they left items in their cart at *store name*.
+  4. Blank line.
+  5. List the items briefly, each on its own line with quantity and price.
+  6. Blank line.
+  7. Show the total in bold.
+  8. Blank line.
+  9. A line saying they can complete their order, followed by the store URL on its own line.
+  10. Blank line.
+  11. A short encouraging closing (one line).
+- Keep it concise and well-spaced.
 - Sound helpful and friendly, not pushy.
 - Do NOT include emojis or placeholder text.
 - Do NOT start with "Dear" — be casual and direct.
@@ -408,7 +472,11 @@ export function buildWhatsAppMessage(
     }
 
     lines.push(`*Total: ${aPayload.total} ${currency}*`)
-    lines.push(``, `Complete your order here: ${aPayload.store_url}`)
+    lines.push(``)
+    lines.push(`Complete your order here:`)
+    lines.push(aPayload.store_url)
+    lines.push(``)
+    lines.push(`We saved everything for you!`)
 
     return lines.join("\n")
   }
@@ -423,11 +491,11 @@ export async function handleWhatsApp(
   storeName: string,
   currency: string,
   storeLanguage?: string
-): Promise<{ buttonsSent: boolean }> {
-  if (!config.connected || !config.instance_name) return { buttonsSent: false }
+): Promise<{ confirmationSent: boolean }> {
+  if (!config.connected || !config.instance_name) return { confirmationSent: false }
 
   const enabledEvents = config.enabled_events ?? ["order.created"]
-  if (!enabledEvents.includes(eventType)) return { buttonsSent: false }
+  if (!enabledEvents.includes(eventType)) return { confirmationSent: false }
 
   const codConfirmation =
     eventType === "order.created" &&
@@ -437,7 +505,7 @@ export async function handleWhatsApp(
   const message =
     (await generateAIMessage(eventType, payload, storeName, currency, storeLanguage || "en", codConfirmation)) ||
     buildWhatsAppMessage(eventType, payload, storeName, currency, codConfirmation)
-  if (!message) return { buttonsSent: false }
+  if (!message) return { confirmationSent: false }
 
   const evolutionUrl = process.env.EVOLUTION_API_URL
   const evolutionKey = process.env.EVOLUTION_API_KEY
@@ -458,6 +526,7 @@ export async function handleWhatsApp(
       body: JSON.stringify({
         number: phone,
         text: message,
+        linkPreview: eventType === "checkout.abandoned",
       }),
       signal: AbortSignal.timeout(15000),
     }
@@ -468,76 +537,5 @@ export async function handleWhatsApp(
     throw new Error(`WhatsApp API error ${res.status}: ${body}`)
   }
 
-  return { buttonsSent: codConfirmation }
-}
-
-export function shouldSendConfirmation(config: WhatsAppConfig): boolean {
-  return !!(config.connected && config.instance_name && config.cod_confirmation_enabled)
-}
-
-export async function sendConfirmationButtons(
-  orderId: string,
-  orderNumber: number,
-  payload: EventPayload,
-  config: WhatsAppConfig,
-  storeName: string,
-  currency: string,
-): Promise<boolean> {
-  if (!config.connected || !config.instance_name) return false
-
-  const evolutionUrl = process.env.EVOLUTION_API_URL
-  const evolutionKey = process.env.EVOLUTION_API_KEY
-  if (!evolutionUrl || !evolutionKey) return false
-
-  const phone = normalizePhone(payload.customer_phone, payload.customer_country)
-  const firstName = payload.customer_name.split(" ")[0]
-
-  const itemsList = payload.items?.length
-    ? payload.items
-        .map(
-          (i) =>
-            `${i.product_name}${i.variant_options ? ` (${Object.values(i.variant_options).join(", ")})` : ""} x${i.quantity}`
-        )
-        .join("\n")
-    : ""
-
-  const description = [
-    `${firstName}, please confirm your order from *${storeName}*`,
-    ``,
-    `*Order #${orderNumber}*`,
-    itemsList,
-    `*Total: ${payload.total} ${currency}*`,
-    ``,
-    `Reply *1* to confirm or *2* to cancel`,
-  ]
-    .filter(Boolean)
-    .join("\n")
-
-  try {
-    const res = await fetch(
-      urlJoin(evolutionUrl, "message/sendButtons", config.instance_name),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          apikey: evolutionKey,
-        },
-        body: JSON.stringify({
-          number: phone,
-          title: "Order Confirmation",
-          description,
-          footer: storeName,
-          buttons: [
-            { type: "reply", displayText: "Confirm", id: `confirm_${orderId}` },
-            { type: "reply", displayText: "Cancel", id: `cancel_${orderId}` },
-          ],
-        }),
-        signal: AbortSignal.timeout(15000),
-      }
-    )
-
-    return res.ok
-  } catch {
-    return false
-  }
+  return { confirmationSent: codConfirmation }
 }

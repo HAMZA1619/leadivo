@@ -90,14 +90,39 @@ export async function GET(request: Request) {
       )
     }
 
+    // Extract Google email from id_token (already returned, no extra scope needed)
+    let googleEmail = ""
+    if (tokens.id_token) {
+      try {
+        const payload = JSON.parse(
+          Buffer.from(tokens.id_token.split(".")[1], "base64").toString(),
+        )
+        googleEmail = payload.email || ""
+      } catch {}
+    }
+
+    // Preserve existing config fields (filters, field_mappings, etc.) on reconnect
+    let existingConfig: Record<string, unknown> = {}
+    const { data: existingIntegration } = await supabase
+      .from("store_integrations")
+      .select("config")
+      .eq("store_id", storeId)
+      .eq("integration_id", "google-sheets")
+      .single()
+    if (existingIntegration?.config) {
+      existingConfig = existingIntegration.config as Record<string, unknown>
+    }
+
     const config = {
+      ...existingConfig,
       access_token: tokens.access_token!,
       refresh_token: refreshToken,
       token_expiry: tokens.expiry_date || Date.now() + 3600 * 1000,
       connected: true,
-      spreadsheet_id: "",
-      spreadsheet_name: "",
-      sheet_name: "Orders",
+      spreadsheet_id: existingConfig.spreadsheet_id || "",
+      spreadsheet_name: existingConfig.spreadsheet_name || "",
+      sheet_name: existingConfig.sheet_name || "Orders",
+      google_email: googleEmail || existingConfig.google_email || "",
     }
 
     await supabase.from("store_integrations").upsert(

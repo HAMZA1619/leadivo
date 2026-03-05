@@ -650,7 +650,8 @@
     "deliveryNotAvailable": "التوصيل غير متاح لهذه المدينة",
     "freeDelivery": "مجاني",
     "scanToShop": "امسح الرمز للتسوق من هاتفك",
-    "continueOnDesktop": "المتابعة على الكمبيوتر"
+    "continueOnDesktop": "المتابعة على الكمبيوتر",
+    "additionalLanguages": "لغات إضافية"
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك",
@@ -917,6 +918,8 @@
       "shipping": "اربط شركات الشحن وأدر عمليات التوصيل."
     },
     "install": "تثبيت",
+    "open": "فتح",
+    "settings": "التكوين",
     "configure": "إعداد",
     "active": "نشط",
     "paused": "متوقف",
@@ -927,10 +930,16 @@
     "uninstallDescription": "سيؤدي هذا إلى إزالة التكامل وإعداداته. يمكنك إعادة تثبيته لاحقاً.",
     "uninstalled": "تم إزالة التكامل",
     "cancel": "إلغاء",
+    "discard": "تجاهل",
+    "saveChanges": "حفظ التغييرات",
     "enabled": "تم تفعيل التكامل",
     "disabled": "تم إيقاف التكامل",
     "test": "تجريبي",
     "live": "مباشر",
+    "statusActive": "نشط",
+    "statusError": "خطأ",
+    "statusAttention": "تنبيه",
+    "statusDisabled": "معطل",
     "testMode": "تم التبديل إلى وضع الاختبار",
     "liveMode": "تم التبديل إلى الوضع المباشر",
     "noSetup": "لا يوجد إعداد متاح لهذا التكامل.",
@@ -949,8 +958,14 @@
     "save": "حفظ",
     "whatsappAiNote": "يتم إنشاء الرسائل بواسطة الذكاء الاصطناعي بناءً على تفاصيل الطلب.",
     "codConfirmationTitle": "تأكيد طلب الدفع عند الاستلام",
-    "codConfirmationDescription": "أرسل رسالة واتساب بأزرار تأكيد/إلغاء عند تقديم طلب. العميل يؤكد قبل الشحن.",
+    "codConfirmationDescription": "اطلب من العملاء تأكيد طلبات الدفع عند الاستلام عبر واتساب قبل الشحن. يرد العميل للتأكيد أو الإلغاء.",
     "codConfirmationEnable": "تفعيل تأكيد الطلب",
+    "messageLanguageTitle": "لغة الرسائل",
+    "messageLanguageDescription": "اختر اللغة التي ترسل بها رسائل واتساب للعملاء.",
+    "messageLanguageDefault": "تلقائي (لغة المتجر)",
+    "messageLanguageSearch": "ابحث عن لغة...",
+    "messageLanguageEmpty": "لم يتم العثور على لغة.",
+    "messageDialectDefault": "اختر اللهجة",
     "eventNewOrder": "طلب جديد",
     "eventStatusChanged": "تغيير حالة الطلب",
     "eventAbandonedCheckout": "سلة متروكة",
@@ -958,6 +973,7 @@
     "disconnect": "فصل",
     "connectFailed": "فشل الاتصال",
     "disconnectFailed": "فشل الفصل",
+    "metaCapiDescription": "إرسال أحداث الشراء من الخادم إلى فيسبوك لتتبع التحويلات بدقة.",
     "metaCapiSetupHint": "واجهة التحويلات مفعّلة. يتم إرسال الأحداث إلى فيسبوك.",
     "metaCapiSupportedEvents": "الأحداث المدعومة",
     "metaCapiEventViewContentDesc": "تم عرض صفحة المنتج",
@@ -970,6 +986,7 @@
     "metaCapiTestCodeHint": "تجده في Facebook Events Manager ← أحداث الاختبار. احذفه قبل الإطلاق.",
     "metaCapiSaved": "تم حفظ Meta Conversions API",
     "metaCapiSave": "حفظ",
+    "tiktokEapiDescription": "إرسال أحداث الدفع من الخادم إلى تيك توك لتتبع التحويلات بدقة.",
     "tiktokEapiSetupHint": "واجهة أحداث TikTok متصلة وتتتبع الأحداث.",
     "tiktokEapiSupportedEvents": "الأحداث المدعومة",
     "tiktokEapiEventViewContentDesc": "تم عرض صفحة المنتج",
@@ -981,6 +998,7 @@
     "tiktokEapiTestCode": "رمز حدث الاختبار (اختياري)",
     "tiktokEapiSaved": "تم حفظ TikTok Events API",
     "tiktokEapiSave": "حفظ",
+    "googleAnalyticsDescription": "إضافة تتبع Google Analytics لقياس حركة المرور وأداء متجرك.",
     "googleAnalyticsSetupHint": "Google Analytics مفعّل ويتتبع متجرك.",
     "googleAnalyticsMeasurementId": "معرّف القياس",
     "googleAnalyticsInvalidId": "معرّف القياس غير صالح (يجب أن يبدأ بـ G-)",
@@ -1037,11 +1055,21 @@
       "connectFailed": "فشل الاتصال",
       "insufficientPermissions": "صلاحيات غير كافية",
       "insufficientPermissionsHint": "تحتاج إلى منح صلاحيات Google Sheets وGoogle Drive. أعد الاتصال وتأكد من تحديد جميع الصلاحيات المطلوبة.",
+      "advanced": "متقدم",
       "trackAbandoned": "تتبع السلات المتروكة",
       "trackAbandonedHint": "تسجيل أحداث السلات المتروكة في الجدول مع الطلبات",
       "enabledFields": "الحقول المفعّلة (اسحب لإعادة الترتيب)",
       "disabledFields": "الحقول المعطّلة",
-      "columnHeader": "عنوان العمود"
+      "columnHeader": "عنوان العمود",
+      "filters": "فلاتر المزامنة",
+      "filtersHint": "مزامنة الطلبات التي تطابق هذه الفلاتر فقط. اتركها فارغة لمزامنة جميع الطلبات.",
+      "statusFilter": "الحالة",
+      "allStatuses": "جميع الحالات",
+      "marketFilter": "السوق",
+      "allMarkets": "جميع الأسواق",
+      "lastSynced": "آخر مزامنة",
+      "unsavedChanges": "لديك تغييرات غير محفوظة",
+      "discard": "تجاهل"
     },
     "events": {
       "link": "الأحداث",
@@ -1058,7 +1086,8 @@
         "pending": "قيد الانتظار",
         "processing": "جاري المعالجة",
         "completed": "مكتمل",
-        "failed": "فشل"
+        "failed": "فشل",
+        "abandoned": "متروك"
       }
     }
   },
@@ -1244,6 +1273,23 @@
   "language": {
     "en": "English",
     "fr": "Français",
-    "ar": "العربية"
+    "ar": "العربية",
+    "es": "Español",
+    "pt": "Português",
+    "de": "Deutsch",
+    "it": "Italiano",
+    "nl": "Nederlands",
+    "tr": "Türkçe",
+    "ru": "Русский",
+    "zh": "中文",
+    "ja": "日本語",
+    "ko": "한국어",
+    "hi": "हिन्दी",
+    "id": "Bahasa Indonesia",
+    "ms": "Bahasa Melayu",
+    "pl": "Polski",
+    "sv": "Svenska",
+    "th": "ไทย",
+    "vi": "Tiếng Việt"
   }
 }

@@ -2,11 +2,27 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { NextResponse } from "next/server"
 import urlJoin from "url-join"
 
+const LANG_NAMES: Record<string, string> = {
+  en: "English", fr: "French", "fr-CA": "Canadian French", "fr-MA": "Moroccan French",
+  ar: "Modern Standard Arabic", "ar-EG": "Egyptian Arabic", "ar-MA": "Moroccan Arabic (Darija)",
+  "ar-SA": "Gulf Arabic", "ar-LB": "Lebanese Arabic", "ar-DZ": "Algerian Arabic", "ar-TN": "Tunisian Arabic",
+  es: "Spanish", "es-MX": "Mexican Spanish", "es-AR": "Argentine Spanish",
+  pt: "Portuguese", "pt-BR": "Brazilian Portuguese",
+  de: "German", it: "Italian", nl: "Dutch", tr: "Turkish", ru: "Russian",
+  zh: "Simplified Chinese", "zh-TW": "Traditional Chinese",
+  ja: "Japanese", ko: "Korean", hi: "Hindi", id: "Indonesian",
+  ms: "Malay", pl: "Polish", sv: "Swedish", th: "Thai", vi: "Vietnamese",
+}
+
+const FALLBACK_CLARIFICATION = "Sorry, I didn't understand. Could you reply with *yes* to confirm or *no* to cancel?"
+
 async function generateClarificationMessage(customerText: string, language: string): Promise<string> {
   const apiKey = process.env.GROQ_API_KEY
-  if (!apiKey) return "Sorry, I didn't understand. Could you reply with *yes* to confirm or *no* to cancel?"
+  if (!apiKey) return FALLBACK_CLARIFICATION
 
-  try {
+  const langName = LANG_NAMES[language] || "English"
+
+  async function callGroq(): Promise<string | null> {
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -18,22 +34,31 @@ async function generateClarificationMessage(customerText: string, language: stri
         messages: [
           {
             role: "system",
-            content: `You are a WhatsApp assistant helping a customer confirm or cancel their order. The customer sent an unclear reply. Generate a short, friendly message in ${language === "ar" ? "Arabic" : language === "fr" ? "French" : "English"} asking them to clarify by replying with yes to confirm or no to cancel. Keep it to 1-2 sentences, casual tone, no emojis. Output ONLY the message.`,
+            content: `Write a short WhatsApp message in ${langName}. Every word MUST be in ${langName}. The customer sent an unclear reply to an order confirmation. Ask them to reply *yes* to confirm or *no* to cancel. 1-2 sentences, casual, no emojis, no "Dear". Output ONLY the message.`,
           },
           { role: "user", content: `Customer replied: "${customerText}"` },
         ],
         max_tokens: 100,
-        temperature: 0.7,
+        temperature: 0.5,
       }),
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(12000),
     })
 
-    if (!res.ok) return "Sorry, I didn't understand. Could you reply with *yes* to confirm or *no* to cancel?"
-
+    if (!res.ok) return null
     const data = await res.json()
-    return data.choices?.[0]?.message?.content?.trim() || "Sorry, I didn't understand. Could you reply with *yes* to confirm or *no* to cancel?"
+    return data.choices?.[0]?.message?.content?.trim() || null
+  }
+
+  try {
+    const result = await callGroq()
+    if (result) return result
+    return (await callGroq()) || FALLBACK_CLARIFICATION
   } catch {
-    return "Sorry, I didn't understand. Could you reply with *yes* to confirm or *no* to cancel?"
+    try {
+      return (await callGroq()) || FALLBACK_CLARIFICATION
+    } catch {
+      return FALLBACK_CLARIFICATION
+    }
   }
 }
 
@@ -54,7 +79,7 @@ async function classifyResponse(text: string): Promise<"confirm" | "cancel" | "u
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) return null
 
-  try {
+  async function callGroq(): Promise<"confirm" | "cancel" | "unknown" | null> {
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -66,14 +91,14 @@ async function classifyResponse(text: string): Promise<"confirm" | "cancel" | "u
         messages: [
           {
             role: "system",
-            content: `You classify customer replies to an order confirmation message. The customer was asked to confirm or cancel their order. Based on their reply, output EXACTLY one word: "confirm" if positive, "cancel" if negative, "unknown" if unclear. No explanation.`,
+            content: `Classify this customer reply to an order confirmation. They were asked to confirm or cancel. Output EXACTLY one word: "confirm" if positive, "cancel" if negative, "unknown" if unclear. The customer may reply in any language. No explanation.`,
           },
           { role: "user", content: text },
         ],
         max_tokens: 10,
         temperature: 0,
       }),
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(12000),
     })
 
     if (!res.ok) return null
@@ -85,8 +110,18 @@ async function classifyResponse(text: string): Promise<"confirm" | "cancel" | "u
     if (result === "cancel") return "cancel"
     if (result === "unknown") return "unknown"
     return null
+  }
+
+  try {
+    const result = await callGroq()
+    if (result) return result
+    return await callGroq()
   } catch {
-    return null
+    try {
+      return await callGroq()
+    } catch {
+      return null
+    }
   }
 }
 
@@ -159,7 +194,9 @@ export async function POST(request: Request) {
               .eq("integration_id", "whatsapp")
               .single()
 
-            const instanceName = (integration?.config as Record<string, unknown>)?.instance_name as string | undefined
+            const config = (integration?.config || {}) as Record<string, unknown>
+            const instanceName = config.instance_name as string | undefined
+            const messageLang = config.message_language as string | undefined
             const { data: store } = await supabase
               .from("stores")
               .select("language")
@@ -167,7 +204,7 @@ export async function POST(request: Request) {
               .single()
 
             if (instanceName) {
-              const clarification = await generateClarificationMessage(text, store?.language || "en")
+              const clarification = await generateClarificationMessage(text, messageLang || store?.language || "en")
               await sendWhatsAppText(instanceName, phone, clarification)
             }
           }

@@ -267,94 +267,60 @@ ${itemsList}`
     return null
   }
 
+  const keepAsIs = `DO NOT translate these — copy exactly as-is:
+- Customer name: "${payload.customer_name}" (use first word only)
+- Store name: "${storeName}" (never prefix with "store"/"متجر"/"magasin" etc.)
+- Product names, addresses, numbers, prices, currency codes`
+
   const systemPrompts: Record<string, string> = {
-    "order.created": `You are a WhatsApp notification assistant. Generate a warm, friendly WhatsApp message in ${langName} to confirm a customer's new order.
+    "order.created": `Write a WhatsApp order confirmation. Language: ${langName}. Every word of your output MUST be in ${langName} except the dynamic values below.
 
-CRITICAL — ONLY translate the static text (greetings, labels, closing). NEVER translate or change any of these dynamic values:
-- Customer name: "${payload.customer_name}" — use EXACTLY as-is (first word only).
-- Store name: "${storeName}" — use EXACTLY as-is. Do NOT add words like "store" or "متجر" before it.
-- Product names: use EXACTLY as provided in the items list.
-- Address: use EXACTLY as provided. Do NOT translate or reformat it.
-- Numbers, prices, currency codes: keep as-is.
+${keepAsIs}
 
-Rules:
-- Write ONLY the static/surrounding text in ${langName}. All dynamic data stays in its original form.
-- Use WhatsApp formatting: *bold* for store name, order number, and total.
-- Structure (use blank lines between each section):
-  1. Greet using the customer's name exactly as given above.
-  2. Blank line.
-  3. Order number.
-  4. Blank line.
-  5. Each item on its own line with quantity and price.
-  6. Blank line.
-  7. If a discount was applied, show subtotal, discount, then total. Otherwise just show total.
-  8. If a delivery fee is provided, show it before the total.
-  9. Blank line.
-  10. Delivery details: address and country (include city only if provided).
-  11. Blank line.
-  12. A short closing.${codConfirmation ? `\n  13. End with a natural question asking the customer to confirm their order (e.g. "Can you confirm this order?" or "Does everything look good?"). Keep it casual.` : ""}
-- Keep it concise — sound like a real person, not a robot.
-- Vary your wording naturally each time.
-- Do NOT include links, emojis, or placeholder text.
-- Do NOT start with "Dear" — be casual and direct.
-- Output ONLY the message text.`,
+Use *bold* for store name, order number, total. Separate sections with blank lines.
+Structure:
+1. Casual greeting with first name
+2. *Order #number*
+3. Items list (name x qty — price currency, one per line)
+4. ${payload.discount_amount && payload.discount_amount > 0 ? "Subtotal, discount line, " : ""}${payload.delivery_fee && payload.delivery_fee > 0 ? "delivery fee, " : ""}*Total*
+5. Delivery address
+6. ${codConfirmation ? "Natural question asking to confirm the order" : "Short friendly closing"}
 
-    "order.status_changed": `You are a WhatsApp notification assistant. Generate a short, friendly WhatsApp message in ${langName} to update a customer on their order status.
+No emojis. No links. No "Dear". Output ONLY the message.`,
 
-CRITICAL — ONLY translate the static text (greetings, labels, closing). NEVER translate or change any of these dynamic values:
-- Customer name: "${payload.customer_name}" — use EXACTLY as-is (first word only).
-- Store name: "${storeName}" — use EXACTLY as-is. Do NOT add words like "store" or "متجر" before it.
-- Numbers, prices, currency codes: keep as-is.
+    "order.status_changed": `Write a WhatsApp order status update. Language: ${langName}. Every word MUST be in ${langName} except the dynamic values below.
 
-Rules:
-- Write ONLY the static/surrounding text in ${langName}. All dynamic data stays in its original form.
-- Use WhatsApp formatting: *bold* for store name, order number, and new status.
-- Structure:
-  1. Greet using the customer's name exactly as given above.
-  2. Inform them their order status changed.
-  3. Show: Order #, old status → new status.
-  4. A short encouraging line based on the new status.
-- Keep it to 3-5 lines. Short and clear.
-- Vary your wording naturally each time.
-- Do NOT include links, emojis, or placeholder text.
-- Do NOT start with "Dear" — be casual and direct.
-- Output ONLY the message text.`,
+${keepAsIs}
 
-    "checkout.abandoned": `You are a WhatsApp recovery assistant. Generate a warm, friendly WhatsApp message in ${langName} to remind a customer about items they left in their cart.
+Use *bold* for store name, order number, new status.
+Structure (3-5 lines total):
+1. Casual greeting with first name
+2. Order # with status: old → *new*
+3. One encouraging line matching the new status
 
-CRITICAL — ONLY translate the static text (greetings, labels, closing). NEVER translate or change any of these dynamic values:
-- Customer name: "${payload.customer_name}" — use EXACTLY as-is (first word only).
-- Store name: "${(payload as unknown as AbandonedCheckoutPayload).store_name}" — use EXACTLY as-is. Do NOT add words like "store" or "متجر" before it.
-- Product names: use EXACTLY as provided in the items list.
-- Numbers, prices, currency codes: keep as-is.
-- Store URL: use EXACTLY as provided.
+No emojis. No links. No "Dear". Output ONLY the message.`,
 
-Rules:
-- Write ONLY the static/surrounding text in ${langName}. All dynamic data stays in its original form.
-- Use WhatsApp formatting: *bold* for store name and total.
-- Structure (use blank lines between each section):
-  1. Greet using the customer's name (first word only).
-  2. Blank line.
-  3. Remind them they left items in their cart at *store name*.
-  4. Blank line.
-  5. List the items briefly, each on its own line with quantity and price.
-  6. Blank line.
-  7. Show the total in bold.
-  8. Blank line.
-  9. A line saying they can complete their order, followed by the store URL on its own line.
-  10. Blank line.
-  11. A short encouraging closing (one line).
-- Keep it concise and well-spaced.
-- Sound helpful and friendly, not pushy.
-- Do NOT include emojis or placeholder text.
-- Do NOT start with "Dear" — be casual and direct.
-- Output ONLY the message text.`,
+    "checkout.abandoned": `Write a WhatsApp cart recovery message. Language: ${langName}. Every word MUST be in ${langName} except the dynamic values below.
+
+${keepAsIs}
+- Store URL: "${(payload as unknown as AbandonedCheckoutPayload).store_url}" (copy exactly)
+
+Use *bold* for store name, total. Separate sections with blank lines.
+Structure:
+1. Casual greeting with first name
+2. Remind about items left at *store name*
+3. Items list (name x qty — price currency, one per line)
+4. *Total*
+5. Store URL on its own line
+6. Short friendly closing
+
+No emojis. Not pushy. No "Dear". Output ONLY the message.`,
   }
 
   const systemPrompt = systemPrompts[eventType]
   if (!systemPrompt) return null
 
-  try {
+  async function callGroq(): Promise<string | null> {
     const res = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
       {
@@ -369,20 +335,30 @@ Rules:
             { role: "system", content: systemPrompt },
             { role: "user", content: context },
           ],
-          max_tokens: 400,
-          temperature: 0.9,
+          max_tokens: 500,
+          temperature: 0.6,
         }),
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(15000),
       }
     )
 
     if (!res.ok) return null
 
     const data = await res.json()
-    const text = data.choices?.[0]?.message?.content?.trim()
-    return text || null
+    return data.choices?.[0]?.message?.content?.trim() || null
+  }
+
+  // Try twice before giving up
+  try {
+    const result = await callGroq()
+    if (result) return result
+    return await callGroq()
   } catch {
-    return null
+    try {
+      return await callGroq()
+    } catch {
+      return null
+    }
   }
 }
 

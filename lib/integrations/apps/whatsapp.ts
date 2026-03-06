@@ -172,8 +172,8 @@ export const WHATSAPP_LANGUAGES: WhatsAppLanguage[] = [
 const LANGUAGE_NAMES: Record<string, string> = {
   en: "English",
   fr: "French", "fr-CA": "Canadian French", "fr-MA": "Moroccan French",
-  ar: "Modern Standard Arabic", "ar-EG": "Egyptian Arabic", "ar-MA": "Moroccan Arabic (Darija)",
-  "ar-SA": "Gulf Arabic", "ar-LB": "Lebanese/Levantine Arabic", "ar-DZ": "Algerian Arabic", "ar-TN": "Tunisian Arabic",
+  ar: "Modern Standard Arabic (العربية الفصحى) written in Arabic script", "ar-EG": "Egyptian Arabic (مصري) written in Arabic script", "ar-MA": "Moroccan Darija (الدارجة المغربية) written in Arabic script",
+  "ar-SA": "Gulf Arabic (خليجي) written in Arabic script", "ar-LB": "Lebanese/Levantine Arabic (لبناني) written in Arabic script", "ar-DZ": "Algerian Arabic (جزائري) written in Arabic script", "ar-TN": "Tunisian Arabic (تونسي) written in Arabic script",
   es: "Spanish", "es-MX": "Mexican Spanish", "es-AR": "Argentine Spanish",
   pt: "Portuguese", "pt-BR": "Brazilian Portuguese",
   de: "German", it: "Italian", nl: "Dutch", tr: "Turkish", ru: "Russian",

@@ -4,6 +4,7 @@ export const shippingZoneSchema = z.object({
   country_code: z.string().length(2),
   country_name: z.string().min(1),
   default_rate: z.number().min(0).max(99999),
+  free_shipping_threshold: z.number().min(0).max(99999).nullable().default(null),
   is_active: z.boolean().default(true),
 })
 

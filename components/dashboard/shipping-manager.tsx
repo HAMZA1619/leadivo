@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useTranslation } from "react-i18next"
-import { Check, ChevronDown, ChevronsUpDown, Loader2, Plus, Trash2, Truck, X } from "lucide-react"
+import { Check, ChevronDown, ChevronsUpDown, Gift, Loader2, Plus, Trash2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -32,6 +32,7 @@ interface ShippingZone {
   country_code: string
   country_name: string
   default_rate: number
+  free_shipping_threshold: number | null
   is_active: boolean
   shipping_city_rates: CityRate[]
 }
@@ -59,6 +60,7 @@ export function ShippingManager({ initialZones, currency, markets }: ShippingMan
   const [newCountryCode, setNewCountryCode] = useState("")
   const [newDefaultRate, setNewDefaultRate] = useState("")
   const [newFreeShipping, setNewFreeShipping] = useState(false)
+  const [newThreshold, setNewThreshold] = useState("")
 
   // Add city form state (bulk)
   const [newCityNames, setNewCityNames] = useState("")
@@ -93,6 +95,7 @@ export function ShippingManager({ initialZones, currency, markets }: ShippingMan
           country_code: country.code,
           country_name: country.name,
           default_rate: newFreeShipping ? 0 : parseFloat(newDefaultRate),
+          free_shipping_threshold: newThreshold ? parseFloat(newThreshold) : null,
           is_active: true,
           market_id: selectedMarketId || null,
         }),
@@ -105,6 +108,7 @@ export function ShippingManager({ initialZones, currency, markets }: ShippingMan
         setNewCountryCode("")
         setNewDefaultRate("")
         setNewFreeShipping(false)
+        setNewThreshold("")
         router.refresh()
       } else {
         const data = await res.json()
@@ -141,6 +145,21 @@ export function ShippingManager({ initialZones, currency, markets }: ShippingMan
     })
     if (res.ok) {
       setZones((prev) => prev.map((z) => z.id === zoneId ? { ...z, default_rate: num } : z))
+    } else {
+      toast.error(t("shipping.saveError"))
+    }
+  }
+
+  async function handleUpdateThreshold(zoneId: string, value: string) {
+    const threshold = value.trim() === "" ? null : parseFloat(value)
+    if (threshold !== null && (isNaN(threshold) || threshold < 0)) return
+    const res = await fetch("/api/shipping", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: zoneId, free_shipping_threshold: threshold }),
+    })
+    if (res.ok) {
+      setZones((prev) => prev.map((z) => z.id === zoneId ? { ...z, free_shipping_threshold: threshold } : z))
     } else {
       toast.error(t("shipping.saveError"))
     }
@@ -325,8 +344,14 @@ export function ShippingManager({ initialZones, currency, markets }: ShippingMan
                         </span>
                       )}
                     </div>
-                    <div className="mt-0.5 text-sm text-muted-foreground">
-                      {t("shipping.defaultRate")}: {Number(zone.default_rate) === 0 ? t("shipping.freeShipping") : `${zone.default_rate} ${sym}`}
+                    <div className="mt-0.5 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                      <span>{t("shipping.defaultRate")}: {Number(zone.default_rate) === 0 ? t("shipping.freeShipping") : `${zone.default_rate} ${sym}`}</span>
+                      {zone.free_shipping_threshold != null && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+                          <Gift className="h-3 w-3" />
+                          {t("shipping.freeAbove")} {zone.free_shipping_threshold} {sym}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
@@ -347,18 +372,30 @@ export function ShippingManager({ initialZones, currency, markets }: ShippingMan
 
                 {isExpanded && (
                   <div className="border-t px-4 pb-4 pt-3">
-                    <div className="mb-3 flex items-center gap-3">
-                      <Label className="text-sm">{t("shipping.defaultRate")}</Label>
-                      <div className="flex items-center gap-1">
+                    <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label className="text-xs text-muted-foreground">{t("shipping.defaultRate")} ({sym})</Label>
                         <Input
                           type="number"
                           min="0"
                           step="0.01"
-                          className="h-8 w-28"
+                          className="h-9"
                           defaultValue={zone.default_rate}
                           onBlur={(e) => handleUpdateRate(zone.id, e.target.value)}
                         />
-                        <span className="text-sm text-muted-foreground">{sym}</span>
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label className="text-xs text-muted-foreground">{t("shipping.freeShippingThreshold")} ({sym})</Label>
+                        <Input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          className="h-9"
+                          placeholder={t("shipping.noThreshold")}
+                          defaultValue={zone.free_shipping_threshold ?? ""}
+                          onBlur={(e) => handleUpdateThreshold(zone.id, e.target.value)}
+                        />
+                        <p className="text-xs text-muted-foreground">{t("shipping.thresholdHint")}</p>
                       </div>
                     </div>
 
@@ -499,17 +536,34 @@ export function ShippingManager({ initialZones, currency, markets }: ShippingMan
               </Label>
             </div>
             {!newFreeShipping && (
-              <div className="space-y-2">
-                <Label>{t("shipping.defaultRate")} ({sym})</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0.00"
-                  value={newDefaultRate}
-                  onChange={(e) => setNewDefaultRate(e.target.value)}
-                />
-              </div>
+              <>
+                <div className="space-y-2">
+                  <Label>{t("shipping.defaultRate")} ({sym})</Label>
+                  <Input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={newDefaultRate}
+                    onChange={(e) => setNewDefaultRate(e.target.value)}
+                  />
+                </div>
+                <div className="rounded-md border border-dashed border-emerald-300 bg-emerald-50/50 p-3 dark:border-emerald-800 dark:bg-emerald-950/20">
+                  <div className="mb-2 flex items-center gap-2 text-sm font-medium text-emerald-700 dark:text-emerald-400">
+                    <Gift className="h-4 w-4" />
+                    {t("shipping.freeShippingThreshold")}
+                  </div>
+                  <Input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder={t("shipping.thresholdPlaceholder")}
+                    value={newThreshold}
+                    onChange={(e) => setNewThreshold(e.target.value)}
+                  />
+                  <p className="mt-1.5 text-xs text-muted-foreground">{t("shipping.thresholdHint")}</p>
+                </div>
+              </>
             )}
           </div>
           <DialogFooter>

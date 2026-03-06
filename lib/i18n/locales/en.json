@@ -649,6 +649,7 @@
     "deliveryFee": "Delivery",
     "deliveryNotAvailable": "Delivery is not available to this city",
     "freeDelivery": "Free",
+    "freeShippingHint": "Add {{amount}} more for free shipping!",
     "scanToShop": "Scan to shop on your phone",
     "continueOnDesktop": "Continue on desktop",
     "additionalLanguages": "Additional languages"
@@ -1254,7 +1255,12 @@
     "addCities": "Add {{count}} cities",
     "saveError": "Failed to save",
     "saveFailed": "Failed to save",
-    "globalZones": "Global zones"
+    "globalZones": "Global zones",
+    "freeAbove": "Free above",
+    "noThreshold": "None",
+    "thresholdHint": "Orders above this amount get free shipping. Leave empty for no threshold.",
+    "thresholdPlaceholder": "e.g. 200",
+    "freeShippingThreshold": "Free shipping threshold"
   },
   "timeAgo": {
     "justNow": "just now",

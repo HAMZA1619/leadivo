@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
     if (!store) return NextResponse.json({ error: "Store not found" }, { status: 404 })
 
-    const { country_code, country_name, default_rate, is_active } = parsed.data
+    const { country_code, country_name, default_rate, free_shipping_threshold, is_active } = parsed.data
     const market_id = body.market_id || null
 
     const { data, error } = await supabase
@@ -69,6 +69,7 @@ export async function POST(request: NextRequest) {
         country_code,
         country_name,
         default_rate,
+        free_shipping_threshold,
         is_active,
       })
       .select("*, shipping_city_rates(*)")
@@ -116,6 +117,7 @@ export async function PATCH(request: NextRequest) {
 
     const updates: Record<string, unknown> = { updated_at: new Date().toISOString() }
     if (body.default_rate !== undefined) updates.default_rate = body.default_rate
+    if (body.free_shipping_threshold !== undefined) updates.free_shipping_threshold = body.free_shipping_threshold
     if (body.is_active !== undefined) updates.is_active = body.is_active
 
     const { data, error } = await supabase

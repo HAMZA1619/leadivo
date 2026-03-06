@@ -649,6 +649,7 @@
     "deliveryFee": "Livraison",
     "deliveryNotAvailable": "La livraison n'est pas disponible pour cette ville",
     "freeDelivery": "Gratuite",
+    "freeShippingHint": "Ajoutez {{amount}} de plus pour la livraison gratuite !",
     "scanToShop": "Scannez pour acheter sur votre téléphone",
     "continueOnDesktop": "Continuer sur ordinateur",
     "additionalLanguages": "Langues supplémentaires"
@@ -1254,7 +1255,12 @@
     "addCities": "Ajouter {{count}} villes",
     "saveError": "Échec de l'enregistrement",
     "saveFailed": "Échec de l'enregistrement",
-    "globalZones": "Zones globales"
+    "globalZones": "Zones globales",
+    "freeAbove": "Gratuit au-dessus de",
+    "noThreshold": "Aucun",
+    "thresholdHint": "Les commandes au-dessus de ce montant bénéficient de la livraison gratuite. Laissez vide pour aucun seuil.",
+    "thresholdPlaceholder": "ex. 200",
+    "freeShippingThreshold": "Seuil de livraison gratuite"
   },
   "timeAgo": {
     "justNow": "à l'instant",

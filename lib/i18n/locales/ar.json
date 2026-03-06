@@ -649,6 +649,7 @@
     "deliveryFee": "التوصيل",
     "deliveryNotAvailable": "التوصيل غير متاح لهذه المدينة",
     "freeDelivery": "مجاني",
+    "freeShippingHint": "أضف {{amount}} للحصول على شحن مجاني!",
     "scanToShop": "امسح الرمز للتسوق من هاتفك",
     "continueOnDesktop": "المتابعة على الكمبيوتر",
     "additionalLanguages": "لغات إضافية"
@@ -1254,7 +1255,12 @@
     "addCities": "إضافة {{count}} مدن",
     "saveError": "فشل في الحفظ",
     "saveFailed": "فشل في الحفظ",
-    "globalZones": "المناطق العامة"
+    "globalZones": "المناطق العامة",
+    "freeAbove": "مجاني فوق",
+    "noThreshold": "لا يوجد",
+    "thresholdHint": "الطلبات التي تتجاوز هذا المبلغ تحصل على شحن مجاني. اتركه فارغاً لعدم وجود حد.",
+    "thresholdPlaceholder": "مثال: 200",
+    "freeShippingThreshold": "حد الشحن المجاني"
   },
   "timeAgo": {
     "justNow": "الآن",

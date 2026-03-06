@@ -11,7 +11,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { formatPriceSymbol } from "@/lib/utils"
 import { useStoreCurrency } from "@/lib/hooks/use-store-currency"
 import { COUNTRIES } from "@/lib/constants"
-import { Check, ChevronsUpDown, ImageIcon, Loader2, Minus, Plus, Tag, Trash2, X } from "lucide-react"
+import { Check, ChevronsUpDown, ImageIcon, Loader2, Minus, Plus, Tag, Trash2, Truck, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
@@ -53,6 +53,7 @@ export default function CartPage() {
   const [deliveryExcluded, setDeliveryExcluded] = useState(false)
   const [hasShipping, setHasShipping] = useState(false)
   const [availableCities, setAvailableCities] = useState<string[]>([])
+  const [freeShippingThreshold, setFreeShippingThreshold] = useState<number | null>(null)
 
   const [form, setForm] = useState({
     customer_name: "",
@@ -239,6 +240,9 @@ export default function CartPage() {
       .catch(() => {})
   }, [])
 
+  // Subtotal for shipping threshold + discount re-validation
+  const subtotal = getTotal()
+
   // Debounced shipping rate lookup when country/city changes
   useEffect(() => {
     if (!form.customer_country) {
@@ -246,6 +250,7 @@ export default function CartPage() {
       setHasShipping(false)
       setDeliveryExcluded(false)
       setAvailableCities([])
+      setFreeShippingThreshold(null)
       return
     }
     setDeliveryLoading(true)
@@ -254,6 +259,7 @@ export default function CartPage() {
         const params = new URLSearchParams({ slug, country: form.customer_country })
         if (form.customer_city) params.set("city", form.customer_city)
         if (market?.id) params.set("market_id", market.id)
+        params.set("subtotal", String(getDiscountedTotal()))
         const res = await fetch(`/api/shipping/lookup?${params}`)
         if (!res.ok) throw new Error("lookup failed")
         const data = await res.json()
@@ -261,17 +267,19 @@ export default function CartPage() {
         setDeliveryExcluded(data.excluded || false)
         setDeliveryFee(data.excluded ? null : (data.delivery_fee ?? null))
         if (data.cities) setAvailableCities(data.cities)
+        setFreeShippingThreshold(data.free_shipping_threshold ?? null)
       } catch {
         setDeliveryFee(null)
         setHasShipping(false)
         setDeliveryExcluded(false)
         setAvailableCities([])
+        setFreeShippingThreshold(null)
       } finally {
         setDeliveryLoading(false)
       }
     }, 500)
     return () => clearTimeout(timer)
-  }, [form.customer_country, form.customer_city, slug, market])
+  }, [form.customer_country, form.customer_city, slug, market, subtotal]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Debounced re-save checkout session when form/cart changes
   useEffect(() => {
@@ -286,7 +294,6 @@ export default function CartPage() {
   }, [form, items, saveCheckoutSession])
 
   // Check for automatic discounts and re-validate applied discounts on cart changes
-  const subtotal = getTotal()
   useEffect(() => {
     if (items.length === 0) {
       setDiscount(null)
@@ -567,13 +574,21 @@ export default function CartPage() {
           </div>
         )}
         {!deliveryLoading && hasShipping && deliveryFee !== null && (
-          <div className="flex justify-between text-sm text-muted-foreground">
-            <span>{t("storefront.deliveryFee")}</span>
+          <div className={cn("flex justify-between text-sm", deliveryFee === 0 && freeShippingThreshold != null ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground")}>
+            <span className="flex items-center gap-1.5">
+              {deliveryFee === 0 && freeShippingThreshold != null && <Truck className="h-3.5 w-3.5" />}
+              {t("storefront.deliveryFee")}
+            </span>
             <span>{deliveryFee === 0 ? t("storefront.freeDelivery") : formatPriceSymbol(deliveryFee, currency)}</span>
           </div>
         )}
         {!deliveryLoading && deliveryExcluded && (
           <p className="text-sm text-destructive">{t("storefront.deliveryNotAvailable")}</p>
+        )}
+        {!deliveryLoading && hasShipping && freeShippingThreshold != null && deliveryFee !== null && deliveryFee > 0 && freeShippingThreshold > getDiscountedTotal() && (
+          <p className="text-xs text-muted-foreground">
+            {t("storefront.freeShippingHint", { amount: formatPriceSymbol(freeShippingThreshold - getDiscountedTotal(), currency) })}
+          </p>
         )}
         <div className="flex justify-between text-lg font-bold">
           <span>{t("storefront.total")}</span>

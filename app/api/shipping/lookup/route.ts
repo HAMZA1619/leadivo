@@ -11,6 +11,8 @@ export async function GET(request: NextRequest) {
     const country = searchParams.get("country")
     const city = searchParams.get("city")
     const marketId = searchParams.get("market_id")
+    const subtotalParam = searchParams.get("subtotal")
+    const subtotal = subtotalParam ? parseFloat(subtotalParam) : null
 
     if (!slug || !country) {
       return NextResponse.json({ delivery_fee: 0, has_shipping: false, excluded: false, currency: null, cities: [] })
@@ -73,7 +75,7 @@ export async function GET(request: NextRequest) {
       const escapedCountry = country!.replace(/%/g, "\\%").replace(/_/g, "\\_")
       let q = supabase
         .from("shipping_zones")
-        .select("id, default_rate")
+        .select("id, default_rate, free_shipping_threshold")
         .eq("store_id", store!.id)
         .eq("is_active", true)
         .ilike("country_name", escapedCountry)
@@ -85,7 +87,7 @@ export async function GET(request: NextRequest) {
       if (countryCode) {
         let q2 = supabase
           .from("shipping_zones")
-          .select("id, default_rate")
+          .select("id, default_rate, free_shipping_threshold")
           .eq("store_id", store!.id)
           .eq("is_active", true)
           .eq("country_code", countryCode)
@@ -130,24 +132,32 @@ export async function GET(request: NextRequest) {
 
       if (cityRate) {
         if (cityRate.is_excluded) {
-          return NextResponse.json({ delivery_fee: null, has_shipping: true, excluded: true, currency: shippingCurrency, cities })
+          return NextResponse.json({ delivery_fee: null, has_shipping: true, excluded: true, currency: shippingCurrency, cities, free_shipping_threshold: null })
         }
+        const cityFee = convertFee(Number(cityRate.rate))
+        const threshold = zone.free_shipping_threshold != null ? convertFee(Number(zone.free_shipping_threshold)) : null
+        const isFreeViaThreshold = threshold != null && subtotal != null && subtotal >= threshold
         return NextResponse.json({
-          delivery_fee: convertFee(Number(cityRate.rate)),
+          delivery_fee: isFreeViaThreshold ? 0 : cityFee,
           has_shipping: true,
           excluded: false,
           currency: shippingCurrency,
           cities,
+          free_shipping_threshold: threshold,
         })
       }
     }
 
+    const defaultFee = convertFee(Number(zone.default_rate))
+    const threshold = zone.free_shipping_threshold != null ? convertFee(Number(zone.free_shipping_threshold)) : null
+    const isFreeViaThreshold = threshold != null && subtotal != null && subtotal >= threshold
     return NextResponse.json({
-      delivery_fee: convertFee(Number(zone.default_rate)),
+      delivery_fee: isFreeViaThreshold ? 0 : defaultFee,
       has_shipping: true,
       excluded: false,
       currency: shippingCurrency,
       cities,
+      free_shipping_threshold: threshold,
     })
   } catch {
     return NextResponse.json({ delivery_fee: 0, has_shipping: false, excluded: false, currency: null, cities: [] })

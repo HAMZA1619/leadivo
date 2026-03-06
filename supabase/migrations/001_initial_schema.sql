@@ -483,6 +483,7 @@ CREATE TABLE shipping_zones (
   country_code TEXT NOT NULL,
   country_name TEXT NOT NULL,
   default_rate DECIMAL(10,2) NOT NULL DEFAULT 0,
+  free_shipping_threshold DECIMAL(10,2) DEFAULT NULL,
   is_active BOOLEAN NOT NULL DEFAULT true,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()

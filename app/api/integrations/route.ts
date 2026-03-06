@@ -150,7 +150,7 @@ export async function DELETE(request: Request) {
     // Verify integration belongs to a store owned by the current user
     const { data: integration } = await supabase
       .from("store_integrations")
-      .select("store_id, stores!inner(owner_id)")
+      .select("store_id, integration_id, stores!inner(owner_id)")
       .eq("id", id)
       .single()
 
@@ -162,6 +162,13 @@ export async function DELETE(request: Request) {
     if (owner.owner_id !== user.id) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
+
+    // Delete associated events
+    await supabase
+      .from("integration_events")
+      .delete()
+      .eq("store_id", integration.store_id)
+      .eq("integration_id", integration.integration_id)
 
     const { error } = await supabase
       .from("store_integrations")

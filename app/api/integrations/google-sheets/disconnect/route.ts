@@ -49,10 +49,12 @@ export async function POST(request: Request) {
       }
     }
 
+    // Preserve settings (field_mappings, filters, row_grouping, etc.) so reconnect restores them
+    const { access_token, refresh_token, token_expiry, google_email, ...preserved } = config
     await supabase
       .from("store_integrations")
       .update({
-        config: { connected: false },
+        config: { ...preserved, connected: false },
         updated_at: new Date().toISOString(),
       })
       .eq("id", integration.id)

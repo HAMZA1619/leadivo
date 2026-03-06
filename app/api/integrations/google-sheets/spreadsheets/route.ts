@@ -117,7 +117,7 @@ export async function POST(request: Request) {
     if (!user)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
-    const { store_id, field_mappings, row_grouping } = await request.json()
+    const { store_id, field_mappings, row_grouping, spreadsheet_name, filters, track_abandoned_checkouts } = await request.json()
     if (!store_id)
       return NextResponse.json({ error: "Missing store_id" }, { status: 400 })
 
@@ -142,15 +142,17 @@ export async function POST(request: Request) {
     let config = integration.config as any
     config = await refreshAccessToken(config)
 
-    // Merge field_mappings/row_grouping if provided
+    // Merge field_mappings/row_grouping/filters if provided
     if (field_mappings) config.field_mappings = field_mappings
     if (row_grouping) config.row_grouping = row_grouping
+    if (filters) config.filters = filters
+    if (track_abandoned_checkouts != null) config.track_abandoned_checkouts = track_abandoned_checkouts
 
     const auth = getAuthenticatedClient(config)
     const sheets = getSheetsClient(auth)
 
     const sheetName = "Orders"
-    const title = `${store.name} Orders`
+    const title = (spreadsheet_name && typeof spreadsheet_name === "string" && spreadsheet_name.trim()) ? spreadsheet_name.trim() : `${store.name} Orders`
     const headers = getHeaders(config.field_mappings)
 
     const createRes = await sheets.spreadsheets.create({
@@ -222,7 +224,7 @@ export async function PATCH(request: Request) {
     if (!user)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
-    const { store_id, spreadsheet_id, field_mappings, row_grouping } = await request.json()
+    const { store_id, spreadsheet_id, field_mappings, row_grouping, filters } = await request.json()
     if (!store_id || !spreadsheet_id)
       return NextResponse.json(
         { error: "Missing store_id or spreadsheet_id" },
@@ -250,9 +252,10 @@ export async function PATCH(request: Request) {
     let config = integration.config as any
     config = await refreshAccessToken(config)
 
-    // Merge field_mappings/row_grouping if provided
+    // Merge field_mappings/row_grouping/filters if provided
     if (field_mappings) config.field_mappings = field_mappings
     if (row_grouping) config.row_grouping = row_grouping
+    if (filters) config.filters = filters
 
     const auth = getAuthenticatedClient(config)
     const sheets = getSheetsClient(auth)

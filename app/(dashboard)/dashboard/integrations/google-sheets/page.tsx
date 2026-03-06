@@ -11,7 +11,7 @@ export default async function GoogleSheetsPage() {
 
   const { data: store } = await supabase
     .from("stores")
-    .select("id")
+    .select("id, name")
     .eq("owner_id", user.id)
     .single()
 
@@ -35,6 +35,7 @@ export default async function GoogleSheetsPage() {
   return (
     <GoogleSheetsSetup
       storeId={store.id}
+      storeName={store.name}
       installed={integration || null}
       markets={(markets || []) as { id: string; name: string }[]}
     />

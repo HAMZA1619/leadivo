@@ -92,7 +92,7 @@ export async function POST(request: Request) {
       const { data: orders, error: ordersError } = await supabase
         .from("orders")
         .select(
-          "order_number, customer_name, customer_phone, customer_email, customer_city, customer_country, customer_address, status, total, subtotal, note, created_at, market_id, markets(name), order_items(product_name, product_price, quantity, variant_options)",
+          "order_number, customer_name, customer_phone, customer_email, customer_city, customer_country, customer_address, status, total, subtotal, discount_amount, note, ip_address, currency, delivery_fee, created_at, market_id, markets(name), order_items(product_name, product_price, quantity, variant_options)",
         )
         .eq("store_id", store_id)
         .order("created_at", { ascending: true })

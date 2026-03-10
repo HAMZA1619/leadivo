@@ -19,16 +19,16 @@ export default function DocsPage() {
   const results = query.trim() ? searchArticles(query, lang) : null
 
   return (
-    <div className="space-y-8">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold sm:text-4xl">{t("docs.title")}</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="space-y-2 text-center">
+        <h1 className="text-2xl font-bold sm:text-3xl md:text-4xl">{t("docs.title")}</h1>
+        <p className="text-sm text-muted-foreground sm:text-base">
           {t("docs.subtitle")}
         </p>
       </div>
 
-      <div className="relative mx-auto max-w-md">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <div className="relative mx-auto max-w-md px-1">
+        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           placeholder={t("docs.searchPlaceholder")}
           value={query}
@@ -46,32 +46,32 @@ export default function DocsPage() {
             <Link
               key={article.slug}
               href={`/docs/${article.category}/${article.slug}`}
-              className="block rounded-lg border p-4 transition-colors hover:bg-muted/50"
+              className="block rounded-lg border p-3 transition-colors hover:bg-muted/50 sm:p-4"
             >
               <p className="font-medium">{article.title[lang]}</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground line-clamp-2">
                 {article.description[lang]}
               </p>
             </Link>
           ))}
           {results.length === 0 && (
-            <p className="text-center text-muted-foreground py-8">
+            <p className="py-8 text-center text-muted-foreground">
               {t("docs.noResults")}
             </p>
           )}
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {CATEGORIES.map((cat) => {
             const IconComponent =
               (Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[cat.icon] ?? Icons.FileText
             return (
               <Link key={cat.slug} href={`/docs/${cat.slug}`}>
                 <Card className="h-full transition-colors hover:bg-muted/50">
-                  <CardHeader>
-                    <IconComponent className="h-6 w-6 text-primary mb-2" />
+                  <CardHeader className="p-4 sm:p-6">
+                    <IconComponent className="mb-2 h-6 w-6 text-primary" />
                     <CardTitle className="text-base">{cat.title[lang]}</CardTitle>
-                    <CardDescription>{cat.description[lang]}</CardDescription>
+                    <CardDescription className="line-clamp-2">{cat.description[lang]}</CardDescription>
                   </CardHeader>
                 </Card>
               </Link>

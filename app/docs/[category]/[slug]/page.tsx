@@ -63,13 +63,13 @@ export default function ArticlePage({
               <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
                 {i + 1}
               </span>
-              <div>
+              <div className="min-w-0">
                 <h2 className="text-lg font-semibold">{step.title[lang]}</h2>
                 <p className="text-muted-foreground">{step.description[lang]}</p>
               </div>
             </div>
             {step.image && (
-              <div className="ml-10">
+              <div className="sm:ml-10">
                 <StepImage src={step.image} alt={step.title[lang]} />
               </div>
             )}

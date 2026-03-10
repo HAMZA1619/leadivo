@@ -41,11 +41,11 @@ export default function CategoryPage({
           <Link
             key={article.slug}
             href={`/docs/${slug}/${article.slug}`}
-            className="flex items-center justify-between rounded-lg border p-4 transition-colors hover:bg-muted/50"
+            className="flex items-center justify-between gap-3 rounded-lg border p-4 transition-colors hover:bg-muted/50"
           >
-            <div>
+            <div className="min-w-0">
               <p className="font-medium">{article.title[lang]}</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground line-clamp-2">
                 {article.description[lang]}
               </p>
             </div>

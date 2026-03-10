@@ -48,12 +48,18 @@ export const metadata: Metadata = {
     description:
       "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders directly — no coding needed.",
     locale: "en_US",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Leadivo" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Leadivo — Turn Your Social Media Into a Store",
     description:
       "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders directly — no coding needed.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: "/logo.png",
+    apple: "/apple-touch-icon.png",
   },
   robots: {
     index: true,

@@ -7,6 +7,7 @@ import { LanguageSwitcher } from "@/components/dashboard/language-switcher"
 import { useTranslation } from "react-i18next"
 import { ArrowLeft } from "lucide-react"
 import { LeadivoLogo } from "@/components/icons/leadivo-logo"
+import { Separator } from "@/components/ui/separator"
 import "@/lib/i18n"
 
 export default function PrivacyPage() {
@@ -65,8 +66,30 @@ function PrivacyContent() {
         </div>
       </main>
 
-      <footer className="border-t py-8 text-center text-sm text-muted-foreground">
-        <p>{t("landing.footer")}</p>
+      <footer className="border-t px-4 py-12 md:px-6">
+        <div className="mx-auto max-w-5xl">
+          <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:justify-between md:text-start">
+            <div>
+              <LeadivoLogo className="mx-auto h-10 md:mx-0" />
+              <p className="mt-2 text-sm text-muted-foreground">{t("landing.footerTagline")}</p>
+            </div>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <Link href="/docs" className="transition-colors hover:text-foreground">
+                {t("docs.title")}
+              </Link>
+              <Link href="/privacy" className="transition-colors hover:text-foreground">
+                {t("landing.privacyPolicy")}
+              </Link>
+              <Link href="/terms" className="transition-colors hover:text-foreground">
+                {t("landing.termsOfService")}
+              </Link>
+            </div>
+          </div>
+          <Separator className="my-6" />
+          <p className="text-center text-xs text-muted-foreground">
+            {t("landing.footerCopyright")}
+          </p>
+        </div>
       </footer>
     </div>
   )

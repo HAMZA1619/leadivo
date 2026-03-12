@@ -19,6 +19,7 @@ export async function POST(request: Request) {
       discount_code,
       discount_amount,
       delivery_fee,
+      recovery_token,
     } = body
 
     if (!slug || !customer_phone || !cart_items?.length) {
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const { error: rpcError } = await supabase.rpc("upsert_abandoned_checkout", {
+    const { data: rpcData, error: rpcError } = await supabase.rpc("upsert_abandoned_checkout", {
       p_store_id: store.id,
       p_customer_phone: customer_phone,
       p_customer_name: customer_name || null,
@@ -73,6 +74,7 @@ export async function POST(request: Request) {
       p_discount_code: discount_code || null,
       p_discount_amount: discount_amount || 0,
       p_market_id: resolvedMarketId,
+      p_recovery_token: recovery_token || null,
     })
 
     if (rpcError) {
@@ -80,7 +82,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to save checkout session" }, { status: 500 })
     }
 
-    return NextResponse.json({ ok: true })
+    const row = Array.isArray(rpcData) ? rpcData[0] : rpcData
+    return NextResponse.json({ ok: true, recovery_token: row?.checkout_token ?? null })
   } catch (err) {
     console.error("[checkout-sessions] Unhandled error:", err)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

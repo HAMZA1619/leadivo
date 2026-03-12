@@ -80,7 +80,7 @@ async function handleCron(request: Request) {
 
       // Build recovery URL
       const baseStoreUrl = getStoreUrl(store.slug, store.custom_domain, store.domain_verified)
-      const recoveryUrl = urlJoin(baseStoreUrl, "cart") + `?checkout=${checkout.id}&token=${checkout.recovery_token}`
+      const recoveryUrl = urlJoin(baseStoreUrl, "cart") + `?checkout=${checkout.recovery_token}`
 
       // Build payload compatible with integration handlers
       const items = (checkout.cart_items as { product_name: string; product_price: number; quantity: number; variant_options?: Record<string, string> | null }[]) || []

@@ -88,7 +88,7 @@ export default async function AbandonedCheckoutDetailPage({
     .slice(0, 2)
 
   const storeUrl = getStoreUrl(store.slug, store.custom_domain, store.domain_verified)
-  const recoveryLink = urlJoin(storeUrl, "cart") + `?checkout=${checkout.id}&token=${checkout.recovery_token}`
+  const recoveryLink = urlJoin(storeUrl, "cart") + `?checkout=${checkout.recovery_token}`
 
   return (
     <div className="space-y-6">

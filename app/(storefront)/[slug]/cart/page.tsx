@@ -67,12 +67,11 @@ export default function CartPage() {
   })
 
   const searchParams = useSearchParams()
-  const recoverId = searchParams.get("checkout")
-  const recoverToken = searchParams.get("token")
+  const recoverToken = searchParams.get("checkout")
 
   useEffect(() => {
-    if (!recoverId || !recoverToken) return
-    fetch(`/api/recover/${recoverId}?token=${encodeURIComponent(recoverToken)}`)
+    if (!recoverToken) return
+    fetch(`/api/recover/${encodeURIComponent(recoverToken)}`)
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (!data) return
@@ -91,6 +90,8 @@ export default function CartPage() {
           marketSlug: activeMarketSlug,
           appliedDiscount: null,
         })
+        recoveryTokenRef.current = recoverToken
+        phoneEnteredRef.current = true
         setForm((prev) => ({
           ...prev,
           customer_name: data.customer_name || prev.customer_name,
@@ -102,7 +103,7 @@ export default function CartPage() {
         }))
       })
       .catch(() => {})
-  }, [recoverId, recoverToken, slug])
+  }, [recoverToken, slug])
 
   const [loading, setLoading] = useState(false)
   const captchaRef = useRef<HTMLDivElement>(null)
@@ -157,6 +158,7 @@ export default function CartPage() {
 
   const checkoutSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const phoneEnteredRef = useRef(false)
+  const recoveryTokenRef = useRef<string | null>(null)
 
   const saveCheckoutSession = useCallback(() => {
     if (!form.customer_phone || items.length === 0) return
@@ -190,9 +192,15 @@ export default function CartPage() {
         discount_code: appliedDiscount?.code || undefined,
         discount_amount: appliedDiscount?.discountAmount || 0,
         delivery_fee: deliveryFee || 0,
+        recovery_token: recoveryTokenRef.current || undefined,
       }),
     })
-      .then((r) => { if (!r.ok) r.json().then((d) => console.error("[checkout-session]", d)).catch(() => {}) })
+      .then((r) => {
+        if (!r.ok) { r.json().then((d) => console.error("[checkout-session]", d)).catch(() => {}); return }
+        r.json().then((d) => {
+          if (d.recovery_token) recoveryTokenRef.current = d.recovery_token
+        }).catch(() => {})
+      })
       .catch((err) => console.error("[checkout-session] network error:", err))
   }, [slug, form, items, getTotal, getDiscountedTotal, market, appliedDiscount, deliveryFee])
 

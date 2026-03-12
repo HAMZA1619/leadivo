@@ -835,9 +835,8 @@ CREATE TABLE abandoned_checkouts (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE UNIQUE INDEX idx_abandoned_checkouts_store_phone
-  ON abandoned_checkouts(store_id, customer_phone)
-  WHERE status = 'pending' OR status = 'sent';
+CREATE UNIQUE INDEX idx_abandoned_checkouts_token
+  ON abandoned_checkouts(recovery_token);
 
 CREATE INDEX idx_abandoned_checkouts_store ON abandoned_checkouts(store_id);
 CREATE INDEX idx_abandoned_checkouts_status ON abandoned_checkouts(status, created_at)
@@ -874,10 +873,36 @@ CREATE OR REPLACE FUNCTION public.upsert_abandoned_checkout(
   p_delivery_fee DECIMAL DEFAULT 0,
   p_discount_code TEXT DEFAULT NULL,
   p_discount_amount DECIMAL DEFAULT 0,
-  p_market_id UUID DEFAULT NULL
-) RETURNS UUID AS $$
-DECLARE v_id UUID;
+  p_market_id UUID DEFAULT NULL,
+  p_recovery_token TEXT DEFAULT NULL
+) RETURNS TABLE(checkout_id UUID, checkout_token TEXT) AS $$
 BEGIN
+  IF p_recovery_token IS NOT NULL THEN
+    UPDATE public.abandoned_checkouts SET
+      customer_phone = p_customer_phone,
+      customer_name = COALESCE(p_customer_name, abandoned_checkouts.customer_name),
+      customer_email = COALESCE(p_customer_email, abandoned_checkouts.customer_email),
+      customer_country = COALESCE(p_customer_country, abandoned_checkouts.customer_country),
+      customer_city = COALESCE(p_customer_city, abandoned_checkouts.customer_city),
+      customer_address = COALESCE(p_customer_address, abandoned_checkouts.customer_address),
+      cart_items = p_cart_items,
+      subtotal = p_subtotal,
+      delivery_fee = p_delivery_fee,
+      discount_code = p_discount_code,
+      discount_amount = p_discount_amount,
+      total = p_total,
+      currency = p_currency,
+      market_id = p_market_id,
+      status = 'pending',
+      updated_at = now()
+    WHERE recovery_token = p_recovery_token
+      AND store_id = p_store_id
+      AND status IN ('pending', 'sent')
+    RETURNING id, recovery_token INTO checkout_id, checkout_token;
+
+    IF FOUND THEN RETURN NEXT; RETURN; END IF;
+  END IF;
+
   INSERT INTO public.abandoned_checkouts (
     store_id, customer_phone, customer_name, customer_email,
     customer_country, customer_city, customer_address,
@@ -889,26 +914,8 @@ BEGIN
     p_cart_items, p_subtotal, p_delivery_fee, p_discount_code, p_discount_amount,
     p_total, p_currency, p_market_id, 'pending', now()
   )
-  ON CONFLICT (store_id, customer_phone)
-    WHERE status = 'pending' OR status = 'sent'
-  DO UPDATE SET
-    customer_name = COALESCE(EXCLUDED.customer_name, abandoned_checkouts.customer_name),
-    customer_email = COALESCE(EXCLUDED.customer_email, abandoned_checkouts.customer_email),
-    customer_country = COALESCE(EXCLUDED.customer_country, abandoned_checkouts.customer_country),
-    customer_city = COALESCE(EXCLUDED.customer_city, abandoned_checkouts.customer_city),
-    customer_address = COALESCE(EXCLUDED.customer_address, abandoned_checkouts.customer_address),
-    cart_items = EXCLUDED.cart_items,
-    subtotal = EXCLUDED.subtotal,
-    delivery_fee = EXCLUDED.delivery_fee,
-    discount_code = EXCLUDED.discount_code,
-    discount_amount = EXCLUDED.discount_amount,
-    total = EXCLUDED.total,
-    currency = EXCLUDED.currency,
-    market_id = EXCLUDED.market_id,
-    status = 'pending',
-    updated_at = now()
-  RETURNING id INTO v_id;
-  RETURN v_id;
+  RETURNING id, recovery_token INTO checkout_id, checkout_token;
+  RETURN NEXT;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
 

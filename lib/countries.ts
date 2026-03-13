@@ -21,7 +21,7 @@ export const COUNTRIES: Record<string, CountryConfig> = {
     hreflang: "fr",
     currency: "",
     currencySymbol: "",
-    metaTitle: "Créez votre boutique en ligne gratuitement | Leadivo",
+    metaTitle: "Créez votre boutique en ligne gratuitement",
     metaDescription:
       "Créez une vitrine en quelques secondes. Partagez un lien dans votre bio. Recevez des commandes via WhatsApp ou paiement à la livraison — sans code. Essai gratuit inclus.",
     keywords: [
@@ -73,7 +73,7 @@ export const COUNTRIES: Record<string, CountryConfig> = {
     hreflang: "ar",
     currency: "",
     currencySymbol: "",
-    metaTitle: "أنشئ متجرك الإلكتروني مجاناً | Leadivo",
+    metaTitle: "أنشئ متجرك الإلكتروني مجاناً",
     metaDescription:
       "أنشئ واجهة متجر جميلة في ثوانٍ. شارك رابطاً واحداً في البايو. استقبل الطلبات عبر واتساب أو الدفع عند الاستلام — بدون برمجة. تجربة مجانية.",
     keywords: [
@@ -125,7 +125,7 @@ export const COUNTRIES: Record<string, CountryConfig> = {
     hreflang: "fr-DZ",
     currency: "DZD",
     currencySymbol: "د.ج",
-    metaTitle: "Créer une boutique en ligne en Algérie — COD & Analytics | Leadivo",
+    metaTitle: "Créer une boutique en ligne en Algérie — COD & Analytics",
     metaDescription:
       "Lancez votre boutique e-commerce en Algérie en 2 minutes. COD, analytics par wilaya, prix en DZD, multi-langue. Essai gratuit 14 jours.",
     keywords: [
@@ -184,7 +184,7 @@ export const COUNTRIES: Record<string, CountryConfig> = {
     hreflang: "fr-MA",
     currency: "MAD",
     currencySymbol: "د.م.",
-    metaTitle: "Créer une boutique en ligne au Maroc — COD & Multi-langue | Leadivo",
+    metaTitle: "Créer une boutique en ligne au Maroc — COD & Multi-langue",
     metaDescription:
       "Créez votre boutique e-commerce au Maroc en 2 minutes. Paiement à la livraison, analytics COD par ville, prix en MAD, notifications WhatsApp. Essai gratuit 14 jours.",
     keywords: [
@@ -242,7 +242,7 @@ export const COUNTRIES: Record<string, CountryConfig> = {
     hreflang: "fr-TN",
     currency: "TND",
     currencySymbol: "د.ت",
-    metaTitle: "Créer une boutique en ligne en Tunisie — COD & Analytics | Leadivo",
+    metaTitle: "Créer une boutique en ligne en Tunisie — COD & Analytics",
     metaDescription:
       "Lancez votre boutique e-commerce en Tunisie en 2 minutes. COD, analytics par gouvernorat, prix en TND, WhatsApp automatisé. 14 jours d'essai gratuit.",
     keywords: [
@@ -299,7 +299,7 @@ export const COUNTRIES: Record<string, CountryConfig> = {
     hreflang: "ar-SA",
     currency: "SAR",
     currencySymbol: "ر.س",
-    metaTitle: "أنشئ متجرك الإلكتروني في السعودية — الدفع عند الاستلام | Leadivo",
+    metaTitle: "أنشئ متجرك الإلكتروني في السعودية — الدفع عند الاستلام",
     metaDescription:
       "أنشئ متجرك الإلكتروني في السعودية في دقيقتين. الدفع عند الاستلام، تحليلات COD، أسعار بالريال، واتساب. تجربة مجانية.",
     keywords: [
@@ -356,7 +356,7 @@ export const COUNTRIES: Record<string, CountryConfig> = {
     hreflang: "ar-EG",
     currency: "EGP",
     currencySymbol: "ج.م",
-    metaTitle: "أنشئ متجرك الإلكتروني في مصر — COD و تحليلات متقدمة | Leadivo",
+    metaTitle: "أنشئ متجرك الإلكتروني في مصر — COD و تحليلات متقدمة",
     metaDescription:
       "أنشئ متجرك الإلكتروني في مصر في دقيقتين. الدفع عند الاستلام، تحليلات COD بالمحافظة، أسعار بالجنيه المصري، استرداد السلات عبر واتساب. تجربة مجانية.",
     keywords: [
@@ -413,7 +413,7 @@ export const COUNTRIES: Record<string, CountryConfig> = {
     hreflang: "ar-AE",
     currency: "AED",
     currencySymbol: "د.إ",
-    metaTitle: "أنشئ متجرك الإلكتروني في الإمارات — COD و متعدد اللغات | Leadivo",
+    metaTitle: "أنشئ متجرك الإلكتروني في الإمارات — COD و متعدد اللغات",
     metaDescription:
       "أنشئ متجرك الإلكتروني في الإمارات ودبي في دقيقتين. الدفع عند الاستلام، أسعار بالدرهم، دعم 20+ لغة، تحليلات COD. تجربة مجانية 14 يوم.",
     keywords: [

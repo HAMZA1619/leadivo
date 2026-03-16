@@ -64,6 +64,7 @@
     "additionalLanguages": "अतिरिक्त भाषाएं",
     "collections": "संग्रह",
     "description": "विवरण",
+    "faq": "अक्सर पूछे जाने वाले प्रश्न",
     "browseAt": "{{store}} पर {{collection}} ब्राउज़ करें",
     "shopAt": "{{store}} पर खरीदारी करें"
   },

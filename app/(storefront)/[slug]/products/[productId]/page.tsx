@@ -205,6 +205,8 @@ export default async function ProductPage({
           : "https://schema.org/OutOfStock",
       }
 
+  const faqs: { question: string; answer: string }[] = Array.isArray(product.faqs) ? product.faqs : []
+
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -215,6 +217,18 @@ export default async function ProductPage({
     ...(product.sku && !hasOptions ? { sku: product.sku } : {}),
     offers: offersSchema,
   }
+
+  const faqJsonLd = faqs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -237,6 +251,12 @@ export default async function ProductPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <PixelViewContent productName={product.name} productId={product.id} price={resolvedProduct.price} currency={displayCurrency} />
       <TiktokPixelViewContent productName={product.name} productId={product.id} price={resolvedProduct.price} currency={displayCurrency} />
       <ProductImageGallery images={resolvedImageUrls} productName={product.name} />
@@ -292,6 +312,40 @@ export default async function ProductPage({
           />
         )}
       </div>
+
+      {faqs.length > 0 && (
+        <section className="space-y-4 border-t pt-6">
+          <h2
+            className="text-lg font-semibold"
+            style={{ fontFamily: "var(--store-heading-font)" }}
+          >
+            {t("storefront.faq")}
+          </h2>
+          <div style={{ display: "grid", gap: "var(--store-grid-gap, 0.75rem)" }}>
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                className="store-card"
+                style={{
+                  borderRadius: "var(--store-radius)",
+                  boxShadow: "var(--store-card-shadow)",
+                  padding: "var(--store-card-padding)",
+                }}
+              >
+                <h3
+                  className="text-sm font-semibold leading-snug"
+                  style={{ fontFamily: "var(--store-heading-font)" }}
+                >
+                  {faq.question}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }

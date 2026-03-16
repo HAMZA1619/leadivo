@@ -242,9 +242,10 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 
 ### Dashboard — Product Management
 - Full CRUD for products (`app/api/products/`).
-- Product fields: name, SKU, description, price, compare-at price, stock (0–1000), status (active/draft), availability toggle.
+- Product fields: name, SKU, description, price, compare-at price, stock (0–1000), status (active/draft), availability toggle, FAQs (question/answer pairs).
 - Multiple image upload with gallery management (`app/api/upload-images/`).
 - Product search by name/SKU.
+- CSV import: Shopify-compatible CSV format, bulk product creation with variant support, image URL upload, collection matching, tier limit enforcement, downloadable template (`app/api/products/import/`, `components/dashboard/csv-import-dialog.tsx`).
 - Bulk operations: bulk delete, bulk status updates.
 
 ### Dashboard — Product Variants
@@ -254,7 +255,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 ### Dashboard — Collections
 - Create, edit, delete collections.
 - Assign products to collections.
-- Collection slug, description, position ordering, featured flag.
+- Collection name, auto-generated slug, sort order, product assignment.
 
 ### Dashboard — Discounts & Coupons
 - Discount types: percentage or fixed amount.
@@ -326,7 +327,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 
 ### Storefront — Pages
 - **Home page**: product grid with collection tab filtering.
-- **Product page**: image gallery, variant selector, reviews, add-to-cart.
+- **Product page**: image gallery, variant selector, reviews, add-to-cart, FAQ accordion (with FAQPage JSON-LD schema for SEO).
 - **Collection page**: products filtered by collection (`app/(storefront)/[slug]/collections/[collectionSlug]/`).
 - **Cart page**: quantity management, coupon input, shipping/discount/total summary.
 - **Order confirmation page**: order details, QR code, copy order number.
@@ -403,6 +404,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `POST/GET/PATCH/DELETE /api/products` — product CRUD.
 - `GET /api/products/list` — list with pagination.
 - `POST /api/products/reprice` — bulk reprice for market changes.
+- `POST /api/products/import` — CSV bulk import (Shopify-compatible format).
 
 ### Orders
 - `POST /api/orders` — create order.
@@ -468,7 +470,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 
 ### products
 - `id`, `store_id`, `collection_id`, `name`, `description`, `price`, `compare_at_price`, `sku`, `stock` (0–1000).
-- `status` (active/draft), `is_available`.
+- `status` (active/draft), `is_available`, `faqs` (JSONB array of `{ question, answer }`).
 
 ### product_images
 - `id`, `product_id`, `url`, `position`.
@@ -477,7 +479,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `id`, `product_id`, `options` (JSON), `price`, `compare_at_price`, `sku`, `stock`, `is_available`.
 
 ### collections
-- `id`, `store_id`, `name`, `slug`, `description`, `position`, `featured`.
+- `id`, `store_id`, `name`, `slug`, `sort_order`.
 
 ### orders
 - `id`, `store_id`, `order_number`, `status`, `status_history` (JSON timeline).

@@ -64,6 +64,7 @@
     "additionalLanguages": "その他の言語",
     "collections": "コレクション",
     "description": "説明",
+    "faq": "よくある質問",
     "browseAt": "{{store}}の{{collection}}を閲覧",
     "shopAt": "{{store}}でお買い物"
   },

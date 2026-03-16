@@ -57,6 +57,7 @@ CREATE TABLE products (
   compare_at_price DECIMAL(10,2),
   image_urls TEXT[] DEFAULT '{}' CHECK (array_length(image_urls, 1) IS NULL OR array_length(image_urls, 1) <= 20),
   options JSONB NOT NULL DEFAULT '[]',
+  faqs JSONB NOT NULL DEFAULT '[]',
   status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'draft')),
   stock INTEGER,
   is_available BOOLEAN NOT NULL DEFAULT true,

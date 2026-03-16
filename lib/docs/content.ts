@@ -172,9 +172,9 @@ export const ARTICLES: DocArticle[] = [
       {
         title: { en: "Fill in your details", ar: "أدخل بياناتك", fr: "Remplissez vos informations" },
         description: {
-          en: "Enter your full name, email address, and create a strong password (at least 8 characters). Alternatively, click \"Sign up with Google\" to register instantly using your Google account — no password needed. Your name and email will be used for order notifications and account recovery.",
-          ar: "أدخل اسمك الكامل وبريدك الإلكتروني وأنشئ كلمة مرور قوية (8 أحرف على الأقل). بدلاً من ذلك، انقر على \"التسجيل عبر جوجل\" للتسجيل فوريًا باستخدام حسابك في جوجل — بدون حاجة لكلمة مرور. سيُستخدم اسمك وبريدك الإلكتروني لإشعارات الطلبات واستعادة الحساب.",
-          fr: "Entrez votre nom complet, adresse email et créez un mot de passe solide (au moins 8 caractères). Vous pouvez aussi cliquer sur « S'inscrire avec Google » pour vous inscrire instantanément avec votre compte Google — sans mot de passe. Votre nom et email seront utilisés pour les notifications de commandes et la récupération du compte.",
+          en: "Enter your full name, email address, and create a password (at least 6 characters). Alternatively, click \"Continue with Google\" to register instantly using your Google account — no password needed. Your name and email will be used for order notifications and account recovery.",
+          ar: "أدخل اسمك الكامل وبريدك الإلكتروني وأنشئ كلمة مرور (6 أحرف على الأقل). بدلاً من ذلك، انقر على \"المتابعة عبر جوجل\" للتسجيل فوريًا باستخدام حسابك في جوجل — بدون حاجة لكلمة مرور. سيُستخدم اسمك وبريدك الإلكتروني لإشعارات الطلبات واستعادة الحساب.",
+          fr: "Entrez votre nom complet, adresse email et créez un mot de passe (au moins 6 caractères). Vous pouvez aussi cliquer sur « Continuer avec Google » pour vous inscrire instantanément avec votre compte Google — sans mot de passe. Votre nom et email seront utilisés pour les notifications de commandes et la récupération du compte.",
         },
         image: "/docs/getting-started/create-account-2.svg",
       },
@@ -195,7 +195,7 @@ export const ARTICLES: DocArticle[] = [
       },
       {
         question: { en: "Can I sign up with my Google account?", ar: "هل يمكنني التسجيل بحساب جوجل؟", fr: "Puis-je m'inscrire avec mon compte Google ?" },
-        answer: { en: "Yes, you can sign up instantly using your Google account by clicking the \"Sign up with Google\" button on the registration page. No password is needed — your Google credentials are used securely.", ar: "نعم، يمكنك التسجيل فورًا باستخدام حسابك في جوجل بالنقر على زر \"التسجيل عبر جوجل\" في صفحة التسجيل. لا حاجة لكلمة مرور — يتم استخدام بيانات جوجل الخاصة بك بشكل آمن.", fr: "Oui, vous pouvez vous inscrire instantanément avec votre compte Google en cliquant sur le bouton « S'inscrire avec Google » sur la page d'inscription. Aucun mot de passe n'est nécessaire." },
+        answer: { en: "Yes, you can sign up instantly using your Google account by clicking the \"Continue with Google\" button on the registration page. No password is needed — your Google credentials are used securely.", ar: "نعم، يمكنك التسجيل فورًا باستخدام حسابك في جوجل بالنقر على زر \"المتابعة عبر جوجل\" في صفحة التسجيل. لا حاجة لكلمة مرور — يتم استخدام بيانات جوجل الخاصة بك بشكل آمن.", fr: "Oui, vous pouvez vous inscrire instantanément avec votre compte Google en cliquant sur le bouton « Continuer avec Google » sur la page d'inscription. Aucun mot de passe n'est nécessaire." },
       },
       {
         question: { en: "Can I change my email address later?", ar: "هل يمكنني تغيير بريدي الإلكتروني لاحقًا؟", fr: "Puis-je changer mon adresse email plus tard ?" },
@@ -229,18 +229,18 @@ export const ARTICLES: DocArticle[] = [
       {
         title: { en: "Fill in store details", ar: "أدخل تفاصيل المتجر", fr: "Remplissez les détails de la boutique" },
         description: {
-          en: "Enter your store name (this appears in the header of your storefront). Choose a URL slug — this is the unique link customers will use to visit your store (e.g., leadivo.app/your-slug). Select your primary currency for product pricing, and write a short description that tells customers what you sell. You can also set the store language to match your target audience.",
-          ar: "أدخل اسم المتجر (يظهر في رأس واجهة المتجر). اختر رابط URL — هذا هو الرابط الفريد الذي سيستخدمه العملاء لزيارة متجرك (مثلاً leadivo.app/رابطك). حدد العملة الرئيسية لتسعير المنتجات، واكتب وصفًا قصيرًا يخبر العملاء بما تبيعه. يمكنك أيضًا تحديد لغة المتجر لتتناسب مع جمهورك المستهدف.",
-          fr: "Entrez le nom de votre boutique (il apparaît dans l'en-tête de votre vitrine). Choisissez un slug URL — c'est le lien unique que les clients utiliseront pour visiter votre boutique (ex : leadivo.app/votre-slug). Sélectionnez votre devise principale pour les prix, et rédigez une courte description indiquant aux clients ce que vous vendez. Vous pouvez aussi définir la langue de la boutique pour correspondre à votre audience cible.",
+          en: "Enter your store name (this appears in the header of your storefront). Choose a URL slug — this is the unique link customers will use to visit your store (e.g., leadivo.app/your-slug). Select your primary currency for product pricing. These are the core settings that define your store.",
+          ar: "أدخل اسم المتجر (يظهر في رأس واجهة المتجر). اختر رابط URL — هذا هو الرابط الفريد الذي سيستخدمه العملاء لزيارة متجرك (مثلاً leadivo.app/رابطك). حدد العملة الرئيسية لتسعير المنتجات. هذه هي الإعدادات الأساسية التي تحدد متجرك.",
+          fr: "Entrez le nom de votre boutique (il apparaît dans l'en-tête de votre vitrine). Choisissez un slug URL — c'est le lien unique que les clients utiliseront pour visiter votre boutique (ex : leadivo.app/votre-slug). Sélectionnez votre devise principale pour les prix. Ce sont les paramètres de base qui définissent votre boutique.",
         },
         image: "/docs/getting-started/setup-store-2.svg",
       },
       {
         title: { en: "Save your settings", ar: "احفظ إعداداتك", fr: "Enregistrez vos paramètres" },
         description: {
-          en: "Click the \"Save\" button at the bottom of the page to apply your changes. Your store is now configured and ready — the next step is adding your first products. You can always come back to this page to update your store details later.",
-          ar: "انقر على زر \"حفظ\" في أسفل الصفحة لتطبيق التغييرات. متجرك الآن مُعد وجاهز — الخطوة التالية هي إضافة منتجاتك الأولى. يمكنك دائمًا العودة إلى هذه الصفحة لتحديث تفاصيل المتجر لاحقًا.",
-          fr: "Cliquez sur le bouton « Enregistrer » en bas de la page pour appliquer vos modifications. Votre boutique est maintenant configurée et prête — l'étape suivante est d'ajouter vos premiers produits. Vous pourrez toujours revenir sur cette page pour mettre à jour les détails plus tard.",
+          en: "Click \"Create Store\" to save your settings. Your store is now configured and ready — the next step is adding your first products. You can always come back to this page to update your store details later using the \"Update Store\" button.",
+          ar: "انقر على \"إنشاء المتجر\" لحفظ إعداداتك. متجرك الآن مُعد وجاهز — الخطوة التالية هي إضافة منتجاتك الأولى. يمكنك دائمًا العودة إلى هذه الصفحة لتحديث تفاصيل المتجر لاحقًا باستخدام زر \"تحديث المتجر\".",
+          fr: "Cliquez sur « Créer la boutique » pour enregistrer vos paramètres. Votre boutique est maintenant configurée et prête — l'étape suivante est d'ajouter vos premiers produits. Vous pourrez toujours revenir sur cette page pour mettre à jour les détails avec le bouton « Mettre à jour ».",
         },
         image: "/docs/getting-started/setup-store-3.svg",
       },
@@ -283,11 +283,11 @@ export const ARTICLES: DocArticle[] = [
         },
       },
       {
-        title: { en: "Toggle the Published switch", ar: "فعّل زر النشر", fr: "Activez le bouton Publier" },
+        title: { en: "Set your store to Published", ar: "اجعل متجرك منشوراً", fr: "Mettez votre boutique en Publié" },
         description: {
-          en: "Find the \"Published\" toggle at the top of the store settings and turn it on. Your store will immediately become visible to anyone with the link. You can share your store URL (shown at the top of the page) with customers via social media, WhatsApp, or any other channel. You can unpublish at any time by turning the toggle off.",
-          ar: "ابحث عن زر \"منشور\" في أعلى إعدادات المتجر وفعّله. سيصبح متجرك مرئيًا فورًا لأي شخص لديه الرابط. يمكنك مشاركة رابط متجرك (الظاهر في أعلى الصفحة) مع العملاء عبر وسائل التواصل الاجتماعي أو واتساب أو أي قناة أخرى. يمكنك إلغاء النشر في أي وقت بإيقاف الزر.",
-          fr: "Trouvez le bouton « Publié » en haut des paramètres de la boutique et activez-le. Votre boutique deviendra immédiatement visible pour toute personne ayant le lien. Vous pouvez partager l'URL de votre boutique (affichée en haut de la page) avec vos clients via les réseaux sociaux, WhatsApp ou tout autre canal. Vous pouvez dépublier à tout moment en désactivant le bouton.",
+          en: "At the top of the Store page, next to the page title, you'll see a status dropdown. Click it and change it from \"Draft\" to \"Published\". Your store will immediately become visible to anyone with the link. You can share your store URL with customers via social media, WhatsApp, or any other channel. You can switch back to \"Draft\" at any time to hide your store.",
+          ar: "في أعلى صفحة المتجر، بجوار عنوان الصفحة، سترى قائمة منسدلة للحالة. انقر عليها وغيّرها من \"مسودة\" إلى \"منشور\". سيصبح متجرك مرئيًا فورًا لأي شخص لديه الرابط. يمكنك مشاركة رابط متجرك مع العملاء عبر وسائل التواصل الاجتماعي أو واتساب أو أي قناة أخرى. يمكنك التبديل إلى \"مسودة\" في أي وقت لإخفاء متجرك.",
+          fr: "En haut de la page Boutique, à côté du titre, vous verrez un menu déroulant de statut. Cliquez dessus et changez-le de « Brouillon » à « Publié ». Votre boutique deviendra immédiatement visible pour toute personne ayant le lien. Vous pouvez partager l'URL de votre boutique via les réseaux sociaux, WhatsApp ou tout autre canal. Vous pouvez repasser en « Brouillon » à tout moment pour masquer votre boutique.",
         },
         image: "/docs/getting-started/publish-store-1.svg",
       },
@@ -314,9 +314,9 @@ export const ARTICLES: DocArticle[] = [
       fr: "Gérer les paramètres de la boutique",
     },
     description: {
-      en: "Update your store name, description, currency, and more.",
-      ar: "حدّث اسم متجرك ووصفه وعملته والمزيد.",
-      fr: "Mettez à jour le nom, la description, la devise et plus encore.",
+      en: "Update your store name, URL slug, and currency.",
+      ar: "حدّث اسم متجرك ورابط URL والعملة.",
+      fr: "Mettez à jour le nom, le slug URL et la devise de votre boutique.",
     },
     steps: [
       {
@@ -331,9 +331,9 @@ export const ARTICLES: DocArticle[] = [
       {
         title: { en: "Edit your information", ar: "عدّل معلوماتك", fr: "Modifiez vos informations" },
         description: {
-          en: "Here you can update: Store name (displayed in the header and browser tab), URL slug (the unique link to your store), currency (used for all product prices), language (for the storefront interface), and description (shown to visitors on your homepage). You can also upload a store logo and cover image to strengthen your brand identity. Make sure to click \"Save\" after making changes.",
-          ar: "هنا يمكنك تحديث: اسم المتجر (يظهر في الرأس وعلامة التبويب)، رابط URL (الرابط الفريد لمتجرك)، العملة (تُستخدم لجميع أسعار المنتجات)، اللغة (لواجهة المتجر)، والوصف (يظهر للزوار في الصفحة الرئيسية). يمكنك أيضًا رفع شعار المتجر وصورة الغلاف لتعزيز هوية علامتك التجارية. تأكد من النقر على \"حفظ\" بعد إجراء التغييرات.",
-          fr: "Ici vous pouvez mettre à jour : le nom de la boutique (affiché dans l'en-tête et l'onglet du navigateur), le slug URL (le lien unique vers votre boutique), la devise (utilisée pour tous les prix), la langue (pour l'interface de la vitrine) et la description (visible par les visiteurs sur votre page d'accueil). Vous pouvez aussi télécharger un logo et une image de couverture pour renforcer votre identité de marque. N'oubliez pas de cliquer sur « Enregistrer » après vos modifications.",
+          en: "Here you can update: Store name (displayed in the header and browser tab), URL slug (the unique link to your store), and currency (used for all product prices). The custom domain section below lets you connect your own domain. For visual customization like logos, colors, and fonts, head to the Design page. Click \"Update Store\" after making changes.",
+          ar: "هنا يمكنك تحديث: اسم المتجر (يظهر في الرأس وعلامة التبويب)، رابط URL (الرابط الفريد لمتجرك)، والعملة (تُستخدم لجميع أسعار المنتجات). قسم النطاق المخصص أدناه يتيح لك ربط نطاقك الخاص. للتخصيص المرئي مثل الشعارات والألوان والخطوط، انتقل إلى صفحة التصميم. انقر على \"تحديث المتجر\" بعد إجراء التغييرات.",
+          fr: "Ici vous pouvez mettre à jour : le nom de la boutique (affiché dans l'en-tête et l'onglet), le slug URL (le lien unique vers votre boutique) et la devise (utilisée pour tous les prix). La section domaine personnalisé ci-dessous vous permet de connecter votre propre domaine. Pour la personnalisation visuelle comme les logos, couleurs et polices, rendez-vous sur la page Design. Cliquez sur « Mettre à jour » après vos modifications.",
         },
         image: "/docs/store/store-settings-2.svg",
       },
@@ -345,7 +345,7 @@ export const ARTICLES: DocArticle[] = [
       },
       {
         question: { en: "Can I upload a store logo?", ar: "هل يمكنني رفع شعار للمتجر؟", fr: "Puis-je télécharger un logo de boutique ?" },
-        answer: { en: "Yes, you can upload both a store logo and a cover image from the Store settings page. The logo appears in your storefront header and the cover image is shown on your homepage.", ar: "نعم، يمكنك رفع شعار المتجر وصورة الغلاف من صفحة إعدادات المتجر. يظهر الشعار في رأس واجهة المتجر وتظهر صورة الغلاف في الصفحة الرئيسية.", fr: "Oui, vous pouvez télécharger un logo et une image de couverture depuis les paramètres de la boutique. Le logo apparaît dans l'en-tête et l'image de couverture sur votre page d'accueil." },
+        answer: { en: "Yes, you can upload a store logo and banner from the Design page. Go to Design in the sidebar and look for the Branding section where you can upload your logo and customize your store's visual identity.", ar: "نعم، يمكنك رفع شعار وبانر للمتجر من صفحة التصميم. انتقل إلى التصميم في الشريط الجانبي وابحث عن قسم العلامة التجارية حيث يمكنك رفع شعارك وتخصيص الهوية البصرية لمتجرك.", fr: "Oui, vous pouvez télécharger un logo et une bannière depuis la page Design. Allez dans Design dans la barre latérale et cherchez la section Marque où vous pouvez télécharger votre logo et personnaliser l'identité visuelle de votre boutique." },
       },
     ],
   },
@@ -364,11 +364,11 @@ export const ARTICLES: DocArticle[] = [
     },
     steps: [
       {
-        title: { en: "Go to Settings", ar: "انتقل إلى الإعدادات", fr: "Allez dans les Paramètres" },
+        title: { en: "Go to Store page", ar: "انتقل إلى صفحة المتجر", fr: "Allez sur la page Boutique" },
         description: {
-          en: "Navigate to Settings from the sidebar and scroll down to find the \"Custom Domain\" section. A custom domain lets customers visit your store using your own brand name (e.g., shop.yourbrand.com) instead of the default leadivo.app link.",
-          ar: "انتقل إلى الإعدادات من الشريط الجانبي وانزل للأسفل للعثور على قسم \"النطاق المخصص\". النطاق المخصص يتيح للعملاء زيارة متجرك باستخدام اسم علامتك التجارية (مثلاً shop.yourbrand.com) بدلاً من رابط leadivo.app الافتراضي.",
-          fr: "Allez dans Paramètres depuis la barre latérale et descendez pour trouver la section « Domaine personnalisé ». Un domaine personnalisé permet à vos clients de visiter votre boutique avec votre propre nom de marque (ex : shop.votrebrand.com) au lieu du lien leadivo.app par défaut.",
+          en: "Navigate to Store from the sidebar and scroll down below the store settings form to find the \"Custom Domain\" section. A custom domain lets customers visit your store using your own brand name (e.g., shop.yourbrand.com) instead of the default leadivo.app link.",
+          ar: "انتقل إلى المتجر من الشريط الجانبي وانزل للأسفل أسفل نموذج إعدادات المتجر للعثور على قسم \"النطاق المخصص\". النطاق المخصص يتيح للعملاء زيارة متجرك باستخدام اسم علامتك التجارية (مثلاً shop.yourbrand.com) بدلاً من رابط leadivo.app الافتراضي.",
+          fr: "Allez dans Boutique depuis la barre latérale et descendez sous le formulaire des paramètres pour trouver la section « Domaine personnalisé ». Un domaine personnalisé permet à vos clients de visiter votre boutique avec votre propre nom de marque (ex : shop.votrebrand.com) au lieu du lien leadivo.app par défaut.",
         },
         image: "/docs/store/custom-domain-1.svg",
       },
@@ -444,7 +444,7 @@ export const ARTICLES: DocArticle[] = [
     faqs: [
       {
         question: { en: "What design options can I customize?", ar: "ما خيارات التصميم التي يمكنني تخصيصها؟", fr: "Quelles options de design puis-je personnaliser ?" },
-        answer: { en: "You can customize colors (20+ presets or custom), fonts (50+ Google Fonts), border radius, button styles (filled, outline, pill), button sizes, card shadow intensity, product image ratio (square, portrait, landscape), layout spacing (compact, normal, spacious), and toggle dark mode support.", ar: "يمكنك تخصيص الألوان (20+ نمط مسبق أو مخصص)، الخطوط (50+ خط من Google Fonts)، نصف قطر الحدود، أنماط الأزرار (ممتلئ، محيط، حبة)، أحجام الأزرار، شدة ظل البطاقات، نسبة صور المنتجات (مربع، عمودي، أفقي)، تباعد التخطيط (مضغوط، عادي، فسيح)، ودعم الوضع الداكن.", fr: "Vous pouvez personnaliser les couleurs (20+ préréglages ou personnalisé), les polices (50+ Google Fonts), le rayon des bordures, les styles de boutons (rempli, contour, pilule), les tailles de boutons, l'intensité des ombres, le ratio d'images produits (carré, portrait, paysage), l'espacement (compact, normal, spacieux) et le mode sombre." },
+        answer: { en: "You can customize colors (18 presets or custom), fonts (80+ Google Fonts), border radius, button styles (filled, outline, pill), button sizes, card shadow intensity, product image ratio (square, portrait, landscape), layout spacing (compact, normal, spacious), and toggle dark mode support.", ar: "يمكنك تخصيص الألوان (18 نمط مسبق أو مخصص)، الخطوط (80+ خط من Google Fonts)، نصف قطر الحدود، أنماط الأزرار (ممتلئ، محيط، حبة)، أحجام الأزرار، شدة ظل البطاقات، نسبة صور المنتجات (مربع، عمودي، أفقي)، تباعد التخطيط (مضغوط، عادي، فسيح)، ودعم الوضع الداكن.", fr: "Vous pouvez personnaliser les couleurs (18 préréglages ou personnalisé), les polices (80+ Google Fonts), le rayon des bordures, les styles de boutons (rempli, contour, pilule), les tailles de boutons, l'intensité des ombres, le ratio d'images produits (carré, portrait, paysage), l'espacement (compact, normal, spacieux) et le mode sombre." },
       },
       {
         question: { en: "Can I preview changes before saving?", ar: "هل يمكنني معاينة التغييرات قبل الحفظ؟", fr: "Puis-je prévisualiser les changements avant d'enregistrer ?" },
@@ -484,9 +484,9 @@ export const ARTICLES: DocArticle[] = [
       {
         title: { en: "Fill in product details", ar: "أدخل تفاصيل المنتج", fr: "Remplissez les détails du produit" },
         description: {
-          en: "Enter the product name and a description that helps customers understand what they're buying. Set the selling price, and optionally a \"compare-at\" price (the original price before discount — it will be shown crossed out next to the actual price). Choose which collection this product belongs to, and set the stock quantity if you want to track inventory.",
-          ar: "أدخل اسم المنتج ووصفًا يساعد العملاء على فهم ما يشترونه. حدد سعر البيع، واختياريًا \"سعر المقارنة\" (السعر الأصلي قبل الخصم — سيظهر مشطوبًا بجانب السعر الفعلي). اختر المجموعة التي ينتمي إليها هذا المنتج، وحدد كمية المخزون إذا كنت تريد تتبع المخزون.",
-          fr: "Entrez le nom du produit et une description qui aide les clients à comprendre ce qu'ils achètent. Définissez le prix de vente, et optionnellement un « prix barré » (le prix original avant réduction — il sera affiché barré à côté du prix réel). Choisissez à quelle collection appartient ce produit, et définissez la quantité en stock si vous souhaitez suivre l'inventaire.",
+          en: "Enter the product name and a description that helps customers understand what they're buying. Add an optional SKU for your own tracking. Set the selling price, and optionally a \"compare-at\" price (the original price before discount — it will be shown crossed out next to the actual price). Toggle stock tracking on and set the quantity if you want to track inventory.",
+          ar: "أدخل اسم المنتج ووصفًا يساعد العملاء على فهم ما يشترونه. أضف رمز SKU اختياري لتتبعك الخاص. حدد سعر البيع، واختياريًا \"سعر المقارنة\" (السعر الأصلي قبل الخصم — سيظهر مشطوبًا بجانب السعر الفعلي). فعّل تتبع المخزون وحدد الكمية إذا كنت تريد تتبع المخزون.",
+          fr: "Entrez le nom du produit et une description qui aide les clients à comprendre ce qu'ils achètent. Ajoutez un SKU optionnel pour votre propre suivi. Définissez le prix de vente, et optionnellement un « prix barré » (le prix original avant réduction — il sera affiché barré à côté du prix réel). Activez le suivi de stock et définissez la quantité si vous souhaitez suivre l'inventaire.",
         },
         image: "/docs/products/add-product-2.svg",
       },
@@ -583,6 +583,110 @@ export const ARTICLES: DocArticle[] = [
       },
     ],
   },
+  {
+    slug: "product-faqs",
+    category: "products",
+    title: {
+      en: "Adding FAQs to products",
+      ar: "إضافة الأسئلة الشائعة للمنتجات",
+      fr: "Ajouter des FAQ aux produits",
+    },
+    description: {
+      en: "Add frequently asked questions to your products to help customers and boost SEO.",
+      ar: "أضف أسئلة شائعة لمنتجاتك لمساعدة العملاء وتحسين محركات البحث.",
+      fr: "Ajoutez des questions fréquentes à vos produits pour aider vos clients et améliorer le SEO.",
+    },
+    steps: [
+      {
+        title: { en: "Open the product editor", ar: "افتح محرر المنتج", fr: "Ouvrez l'éditeur de produit" },
+        description: {
+          en: "Go to Products in the sidebar and click on any product to edit it, or create a new product. Scroll down to the \"Product FAQs\" section — you'll see it between the stock settings and product options.",
+          ar: "انتقل إلى المنتجات في الشريط الجانبي وانقر على أي منتج لتعديله، أو أنشئ منتجاً جديداً. انزل لأسفل إلى قسم \"الأسئلة الشائعة للمنتج\" — ستجده بين إعدادات المخزون وخيارات المنتج.",
+          fr: "Allez dans Produits dans la barre latérale et cliquez sur un produit pour le modifier, ou créez un nouveau produit. Descendez jusqu'à la section « FAQ du produit » — elle se trouve entre les paramètres de stock et les options produit.",
+        },
+      },
+      {
+        title: { en: "Add questions and answers", ar: "أضف الأسئلة والإجابات", fr: "Ajoutez des questions et réponses" },
+        description: {
+          en: "Click \"+ Add FAQ\" to add a new question-answer pair. Enter a clear, concise question (up to 200 characters) and a helpful answer (up to 1000 characters). You can add as many FAQs as you need. Common product FAQs include shipping times, return policies, sizing guides, care instructions, and product materials.",
+          ar: "انقر على \"+ إضافة سؤال\" لإضافة زوج سؤال وجواب جديد. أدخل سؤالاً واضحاً ومختصراً (حتى 200 حرف) وإجابة مفيدة (حتى 1000 حرف). يمكنك إضافة أي عدد من الأسئلة الشائعة. تشمل الأسئلة الشائعة للمنتجات أوقات الشحن وسياسات الإرجاع وأدلة المقاسات وتعليمات العناية والمواد.",
+          fr: "Cliquez sur « + Ajouter une FAQ » pour ajouter une paire question-réponse. Entrez une question claire et concise (jusqu'à 200 caractères) et une réponse utile (jusqu'à 1000 caractères). Vous pouvez ajouter autant de FAQ que nécessaire. Les FAQ produit courantes incluent les délais de livraison, les politiques de retour, les guides de tailles, les instructions d'entretien et les matériaux.",
+        },
+        image: "/docs/products/product-faqs-1.svg",
+      },
+      {
+        title: { en: "Save and preview", ar: "احفظ وعاين", fr: "Enregistrez et prévisualisez" },
+        description: {
+          en: "Click \"Save\" to publish your FAQs. They will appear as an expandable accordion section on your product page. Each FAQ is also automatically marked up with FAQ schema (JSON-LD), which helps search engines display your questions and answers directly in search results — giving your product page more visibility.",
+          ar: "انقر على \"حفظ\" لنشر الأسئلة الشائعة. ستظهر كقسم أكورديون قابل للتوسيع في صفحة منتجك. يتم أيضاً ترميز كل سؤال تلقائياً بمخطط FAQ (JSON-LD)، مما يساعد محركات البحث على عرض أسئلتك وإجاباتك مباشرة في نتائج البحث — مما يمنح صفحة منتجك مزيداً من الظهور.",
+          fr: "Cliquez sur « Enregistrer » pour publier vos FAQ. Elles apparaîtront comme une section accordéon dépliable sur votre page produit. Chaque FAQ est aussi automatiquement balisée avec le schéma FAQ (JSON-LD), ce qui aide les moteurs de recherche à afficher vos questions et réponses directement dans les résultats — offrant plus de visibilité à votre page produit.",
+        },
+        image: "/docs/products/product-faqs-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "Do product FAQs help with SEO?", ar: "هل تساعد الأسئلة الشائعة للمنتج في تحسين محركات البحث؟", fr: "Les FAQ produit aident-elles le SEO ?" },
+        answer: { en: "Yes. Each product's FAQs are automatically marked up with FAQ schema (JSON-LD). This structured data helps search engines understand and display your Q&A content as rich snippets in search results, which improves visibility and click-through rates.", ar: "نعم. يتم ترميز الأسئلة الشائعة لكل منتج تلقائياً بمخطط FAQ (JSON-LD). تساعد هذه البيانات المنظمة محركات البحث على فهم وعرض محتوى الأسئلة والأجوبة كمقتطفات منسقة في نتائج البحث، مما يحسن الظهور ومعدل النقر.", fr: "Oui. Les FAQ de chaque produit sont automatiquement balisées avec le schéma FAQ (JSON-LD). Ces données structurées aident les moteurs de recherche à comprendre et afficher votre contenu Q&R comme des extraits enrichis dans les résultats de recherche, améliorant la visibilité et le taux de clics." },
+      },
+      {
+        question: { en: "How many FAQs can I add per product?", ar: "كم عدد الأسئلة الشائعة التي يمكنني إضافتها لكل منتج؟", fr: "Combien de FAQ puis-je ajouter par produit ?" },
+        answer: { en: "You can add as many FAQs as you need per product. Each question can be up to 200 characters and each answer up to 1000 characters. Focus on the most common customer questions to keep the section useful and easy to browse.", ar: "يمكنك إضافة أي عدد من الأسئلة الشائعة لكل منتج. يمكن أن يصل كل سؤال إلى 200 حرف وكل إجابة إلى 1000 حرف. ركز على أكثر أسئلة العملاء شيوعاً للحفاظ على القسم مفيداً وسهل التصفح.", fr: "Vous pouvez ajouter autant de FAQ que nécessaire par produit. Chaque question peut faire jusqu'à 200 caractères et chaque réponse jusqu'à 1000 caractères. Concentrez-vous sur les questions les plus fréquentes pour garder la section utile et facile à parcourir." },
+      },
+    ],
+  },
+  {
+    slug: "csv-import",
+    category: "products",
+    title: {
+      en: "Importing products from CSV",
+      ar: "استيراد المنتجات من CSV",
+      fr: "Importer des produits depuis un CSV",
+    },
+    description: {
+      en: "Bulk-import products into your store using a CSV file — Shopify-compatible format supported.",
+      ar: "استيراد المنتجات بشكل جماعي إلى متجرك باستخدام ملف CSV — يدعم تنسيق Shopify.",
+      fr: "Importez vos produits en masse dans votre boutique avec un fichier CSV — format Shopify compatible.",
+    },
+    steps: [
+      {
+        title: { en: "Download the template", ar: "حمّل القالب", fr: "Téléchargez le modèle" },
+        description: {
+          en: "Go to Products in the sidebar and click \"Import CSV\". In the dialog, click \"Download CSV template\" to get a sample file with the correct column format. You can also use an exported CSV from Shopify — Leadivo supports the same format.",
+          ar: "انتقل إلى المنتجات في الشريط الجانبي وانقر على \"استيراد CSV\". في النافذة، انقر على \"تحميل قالب CSV\" للحصول على ملف نموذجي بالتنسيق الصحيح. يمكنك أيضاً استخدام ملف CSV مُصدَّر من Shopify — يدعم Leadivo نفس التنسيق.",
+          fr: "Allez dans Produits dans la barre latérale et cliquez sur « Importer CSV ». Dans la boîte de dialogue, cliquez sur « Télécharger le modèle CSV » pour obtenir un fichier exemple avec le bon format. Vous pouvez aussi utiliser un CSV exporté depuis Shopify — Leadivo supporte le même format.",
+        },
+        image: "/docs/products/csv-import-1.svg",
+      },
+      {
+        title: { en: "Fill in your products", ar: "أضف منتجاتك", fr: "Remplissez vos produits" },
+        description: {
+          en: "Open the CSV in any spreadsheet app (Excel, Google Sheets). Each row is one product or variant. Required columns: Title and Price. Optional columns include Description, SKU, Stock, Status, Image URL, Collection, and variant options (Option1 Name, Option1 Value, etc.). For products with variants, use the same Title for each variant row and fill in different option values.",
+          ar: "افتح ملف CSV في أي تطبيق جداول بيانات (إكسل، جوجل شيتس). كل صف هو منتج أو متغير واحد. الأعمدة المطلوبة: العنوان والسعر. الأعمدة الاختيارية تشمل الوصف، SKU، المخزون، الحالة، رابط الصورة، المجموعة، وخيارات المتغيرات. للمنتجات ذات المتغيرات، استخدم نفس العنوان لكل صف متغير مع قيم خيارات مختلفة.",
+          fr: "Ouvrez le CSV dans n'importe quel tableur (Excel, Google Sheets). Chaque ligne est un produit ou une variante. Colonnes requises : Title et Price. Les colonnes optionnelles incluent Description, SKU, Stock, Status, Image URL, Collection et les options de variantes. Pour les produits avec variantes, utilisez le même Title pour chaque ligne de variante avec des valeurs d'options différentes.",
+        },
+      },
+      {
+        title: { en: "Upload and import", ar: "ارفع واستورد", fr: "Téléchargez et importez" },
+        description: {
+          en: "Click \"Import CSV\" on the Products page and select your CSV file. You'll see a preview of your data with the number of products detected. Review the preview, then click \"Import\" to start. The system will create all products, upload images from URLs, match collections by name, and generate variants automatically. You'll see a summary when it's done.",
+          ar: "انقر على \"استيراد CSV\" في صفحة المنتجات واختر ملف CSV. سترى معاينة لبياناتك مع عدد المنتجات المكتشفة. راجع المعاينة ثم انقر على \"استيراد\" للبدء. سيقوم النظام بإنشاء جميع المنتجات ورفع الصور من الروابط ومطابقة المجموعات بالاسم وإنشاء المتغيرات تلقائياً. سترى ملخصاً عند الانتهاء.",
+          fr: "Cliquez sur « Importer CSV » sur la page Produits et sélectionnez votre fichier CSV. Vous verrez un aperçu de vos données avec le nombre de produits détectés. Vérifiez l'aperçu, puis cliquez sur « Importer » pour commencer. Le système créera tous les produits, téléchargera les images depuis les URLs, associera les collections par nom et générera les variantes automatiquement. Vous verrez un résumé une fois terminé.",
+        },
+        image: "/docs/products/csv-import-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "Can I import products from Shopify?", ar: "هل يمكنني استيراد المنتجات من Shopify؟", fr: "Puis-je importer des produits depuis Shopify ?" },
+        answer: { en: "Yes. Leadivo supports the Shopify CSV format. Export your products from Shopify as a CSV file, then upload it directly to Leadivo. Product names, descriptions, prices, SKUs, stock, images, and variants will all be imported.", ar: "نعم. يدعم Leadivo تنسيق CSV الخاص بـ Shopify. صدّر منتجاتك من Shopify كملف CSV ثم ارفعه مباشرة إلى Leadivo. سيتم استيراد أسماء المنتجات والأوصاف والأسعار وSKU والمخزون والصور والمتغيرات.", fr: "Oui. Leadivo supporte le format CSV de Shopify. Exportez vos produits depuis Shopify en CSV, puis téléchargez-le directement dans Leadivo. Les noms, descriptions, prix, SKU, stocks, images et variantes seront tous importés." },
+      },
+      {
+        question: { en: "Is there a limit to how many products I can import?", ar: "هل هناك حد لعدد المنتجات التي يمكنني استيرادها؟", fr: "Y a-t-il une limite au nombre de produits que je peux importer ?" },
+        answer: { en: "The import respects your plan's product limit. Pro plan users can import unlimited products. The system checks your remaining product slots before starting the import and lets you know if you need to upgrade.", ar: "يحترم الاستيراد حد المنتجات في خطتك. مستخدمو خطة Pro يمكنهم استيراد منتجات غير محدودة. يتحقق النظام من فتحات المنتجات المتبقية قبل بدء الاستيراد ويعلمك إذا كنت بحاجة للترقية.", fr: "L'importation respecte la limite de produits de votre plan. Les utilisateurs Pro peuvent importer des produits illimités. Le système vérifie vos places de produits restantes avant de commencer et vous informe si vous devez passer au plan supérieur." },
+      },
+    ],
+  },
 
   // ── Collections ──────────────────────────────────────────────────────
   {
@@ -609,11 +713,11 @@ export const ARTICLES: DocArticle[] = [
         image: "/docs/collections/create-collection-1.svg",
       },
       {
-        title: { en: "Name and describe your collection", ar: "سمّ مجموعتك ووصفها", fr: "Nommez et décrivez votre collection" },
+        title: { en: "Name your collection", ar: "سمّ مجموعتك", fr: "Nommez votre collection" },
         description: {
-          en: "Enter a clear, descriptive name for your collection. Add an optional description to explain what products it contains. The URL slug is auto-generated from the name — it's what appears in the link when customers visit this collection (e.g., /collections/summer-2025). You can edit the slug if needed.",
-          ar: "أدخل اسمًا واضحًا ووصفيًا لمجموعتك. أضف وصفًا اختياريًا لشرح المنتجات التي تحتويها. يُنشأ رابط URL تلقائيًا من الاسم — وهو ما يظهر في الرابط عندما يزور العملاء هذه المجموعة (مثلاً /collections/summer-2025). يمكنك تعديل الرابط إذا لزم الأمر.",
-          fr: "Entrez un nom clair et descriptif pour votre collection. Ajoutez une description optionnelle pour expliquer quels produits elle contient. Le slug URL est généré automatiquement à partir du nom — c'est ce qui apparaît dans le lien quand les clients visitent cette collection (ex : /collections/ete-2025). Vous pouvez modifier le slug si nécessaire.",
+          en: "Enter a clear name for your collection (e.g., \"New Arrivals\", \"Summer 2025\"). The URL slug is auto-generated from the name — it's what appears in the link when customers visit this collection (e.g., /collections/summer-2025). Then select which products belong to this collection using the product checkboxes below the name field.",
+          ar: "أدخل اسمًا واضحًا لمجموعتك (مثلاً \"وصل حديثًا\" أو \"صيف 2025\"). يُنشأ رابط URL تلقائيًا من الاسم — وهو ما يظهر في الرابط عندما يزور العملاء هذه المجموعة (مثلاً /collections/summer-2025). ثم اختر المنتجات التي تنتمي لهذه المجموعة باستخدام مربعات الاختيار أسفل حقل الاسم.",
+          fr: "Entrez un nom clair pour votre collection (ex : « Nouveautés », « Été 2025 »). Le slug URL est généré automatiquement à partir du nom — c'est ce qui apparaît dans le lien quand les clients visitent cette collection (ex : /collections/ete-2025). Sélectionnez ensuite les produits qui appartiennent à cette collection avec les cases à cocher sous le champ de nom.",
         },
         image: "/docs/collections/create-collection-2.svg",
       },
@@ -717,21 +821,22 @@ export const ARTICLES: DocArticle[] = [
           ar: "تعرض لوحة التحكم ثلاثة مؤشرات خاصة بـ COD: معدل التأكيد (نسبة الطلبات المؤكدة من الإجمالي)، ومعدل التسليم (نسبة الطلبات المشحونة التي تم تسليمها)، ومعدل الإرجاع (نسبة الطلبات المشحونة التي تم إرجاعها). كل مؤشر يتضمن رسماً بيانياً مصغراً يُظهر الاتجاه خلال النطاق الزمني المحدد ومقارنة مع الفترة السابقة.",
           fr: "Votre tableau de bord affiche trois métriques spécifiques au COD : le taux de confirmation (pourcentage de commandes confirmées sur le total), le taux de livraison (pourcentage de commandes expédiées qui ont été livrées) et le taux de retour (pourcentage de commandes expédiées qui ont été retournées). Chaque métrique inclut un mini graphique montrant la tendance sur la période sélectionnée et une comparaison avec la période précédente.",
         },
+        image: "/docs/orders/cod-analytics-1.svg",
       },
       {
-        title: { en: "Read the order funnel", ar: "اقرأ قمع الطلبات", fr: "Lire l'entonnoir de commandes" },
+        title: { en: "Explore the donut charts", ar: "استكشف المخططات الدائرية", fr: "Explorez les graphiques circulaires" },
         description: {
-          en: "The order funnel shows how orders flow through each stage: All Orders → Confirmed → Shipped → Delivered. Each bar shows the count and percentage, with dropout annotations showing how many orders were lost at each stage (canceled/pending, not shipped, returned). This helps you identify where your biggest losses are happening.",
-          ar: "يعرض قمع الطلبات كيف تتدفق الطلبات عبر كل مرحلة: جميع الطلبات → مؤكد → مشحون → مُسلّم. كل شريط يعرض العدد والنسبة المئوية، مع ملاحظات الانسحاب التي توضح عدد الطلبات المفقودة في كل مرحلة (ملغي/معلق، لم يُشحن، مُرجع). هذا يساعدك على تحديد أين تحدث أكبر خسائرك.",
-          fr: "L'entonnoir de commandes montre comment les commandes progressent à travers chaque étape : Toutes les commandes → Confirmées → Expédiées → Livrées. Chaque barre affiche le nombre et le pourcentage, avec des annotations d'abandon montrant combien de commandes ont été perdues à chaque étape (annulées/en attente, non expédiées, retournées). Cela vous aide à identifier où se produisent vos plus grandes pertes.",
+          en: "Below the KPIs, you'll find three donut charts. The Delivery Success chart shows the breakdown of delivered, returned, and canceled orders. The Order Status Distribution chart shows how your orders are split across all statuses (pending, confirmed, shipped, delivered, returned, canceled). These visual breakdowns help you spot patterns at a glance.",
+          ar: "أسفل المؤشرات، ستجد ثلاثة مخططات دائرية. مخطط نجاح التسليم يعرض توزيع الطلبات المُسلّمة والمُرجعة والملغية. مخطط توزيع حالات الطلبات يعرض كيف تتوزع طلباتك عبر جميع الحالات (معلقة، مؤكدة، مشحونة، مُسلّمة، مُرجعة، ملغية). تساعدك هذه الرسوم البيانية على اكتشاف الأنماط بنظرة سريعة.",
+          fr: "Sous les KPIs, vous trouverez trois graphiques circulaires. Le graphique de Succès de livraison montre la répartition des commandes livrées, retournées et annulées. Le graphique de Distribution des statuts montre comment vos commandes se répartissent entre tous les statuts (en attente, confirmée, expédiée, livrée, retournée, annulée). Ces visualisations vous aident à repérer les tendances en un coup d'œil.",
         },
       },
       {
         title: { en: "Analyze revenue by status", ar: "حلل الإيرادات حسب الحالة", fr: "Analyser les revenus par statut" },
         description: {
-          en: "The Revenue by Status section breaks down your revenue into four categories: Collected (delivered orders), In Transit (shipped orders), Pending (pending and confirmed orders), and Lost (canceled and returned orders). A stacked bar chart gives you a visual overview, and the legend shows the exact amount for each category. This tells you how much money you've actually collected versus what's still at risk.",
-          ar: "يقسم قسم الإيرادات حسب الحالة إيراداتك إلى أربع فئات: محصّلة (الطلبات المُسلّمة)، في الطريق (الطلبات المشحونة)، معلقة (الطلبات المعلقة والمؤكدة)، ومفقودة (الطلبات الملغية والمُرجعة). يمنحك الرسم البياني الشريطي المكدس نظرة عامة مرئية، ويعرض المفتاح المبلغ الدقيق لكل فئة. هذا يخبرك بالمبلغ الذي جمعته فعلاً مقابل ما هو لا يزال معرّضاً للخطر.",
-          fr: "La section Revenus par statut décompose vos revenus en quatre catégories : Collectés (commandes livrées), En transit (commandes expédiées), En attente (commandes en attente et confirmées) et Perdus (commandes annulées et retournées). Un graphique à barres empilées vous donne un aperçu visuel, et la légende affiche le montant exact pour chaque catégorie. Cela vous indique combien d'argent vous avez réellement collecté par rapport à ce qui est encore à risque.",
+          en: "The Revenue by Status donut chart breaks down your revenue into four categories: Collected (delivered orders — money you've received), In Transit (shipped orders), Pending (pending and confirmed orders), and Lost (canceled and returned orders). The center shows your total sales, and the legend displays the exact amount for each category. This tells you how much money you've actually collected versus what's still at risk.",
+          ar: "يقسم المخطط الدائري للإيرادات حسب الحالة إيراداتك إلى أربع فئات: محصّلة (الطلبات المُسلّمة — أموال استلمتها)، في الطريق (الطلبات المشحونة)، معلقة (الطلبات المعلقة والمؤكدة)، ومفقودة (الطلبات الملغية والمُرجعة). يعرض المركز إجمالي مبيعاتك، ويعرض المفتاح المبلغ الدقيق لكل فئة. هذا يخبرك بالمبلغ الذي جمعته فعلاً مقابل ما هو لا يزال معرّضاً للخطر.",
+          fr: "Le graphique circulaire Revenus par statut décompose vos revenus en quatre catégories : Collectés (commandes livrées — argent reçu), En transit (commandes expédiées), En attente (commandes en attente et confirmées) et Perdus (commandes annulées et retournées). Le centre affiche vos ventes totales, et la légende montre le montant exact pour chaque catégorie. Cela vous indique combien d'argent vous avez réellement collecté par rapport à ce qui est encore à risque.",
         },
       },
     ],
@@ -783,6 +888,7 @@ export const ARTICLES: DocArticle[] = [
           ar: "انتقل إلى صفحة السلات المتروكة من الشريط الجانبي للوحة التحكم لرؤية جميع السلات الملتقطة. يمكنك التصفية حسب الحالة (معلقة، مُرسلة، مستردة، منتهية الصلاحية) ونطاق التاريخ. يعرض كل صف اسم العميل ورقم الهاتف وعناصر السلة والقيمة الإجمالية والحالة وتاريخ الإنشاء. استخدم هذه البيانات لفهم أنماط ترك السلات وتحسين تدفق الدفع.",
           fr: "Accédez à la page Paniers abandonnés depuis la barre latérale du tableau de bord pour voir tous les paniers capturés. Vous pouvez filtrer par statut (en attente, envoyé, récupéré, expiré) et par plage de dates. Chaque ligne affiche le nom du client, son numéro de téléphone, les articles du panier, la valeur totale, le statut et la date de création. Utilisez ces données pour comprendre vos modèles d'abandon de panier et optimiser votre flux de paiement.",
         },
+        image: "/docs/orders/abandoned-checkout-1.svg",
       },
     ],
     faqs: [
@@ -1276,7 +1382,7 @@ export const ARTICLES: DocArticle[] = [
       {
         title: { en: "Install Google Sheets integration", ar: "ثبّت تكامل جوجل شيتس", fr: "Installez l'intégration Google Sheets" },
         description: {
-          en: "Go to Integrations and find the \"Google Sheets\" card under Automation. Click \"Install\" to add it to your store, then click \"Setup\" to configure the connection. This integration automatically adds a new row to your Google Spreadsheet every time a customer places an order — so you always have an up-to-date record of all your orders.",
+          en: "Go to Integrations and find the \"Google Sheets\" card under Productivity. Click \"Install\" to add it to your store, then click \"Setup\" to configure the connection. This integration automatically adds a new row to your Google Spreadsheet every time a customer places an order — so you always have an up-to-date record of all your orders.",
           ar: "انتقل إلى التكاملات وابحث عن بطاقة \"جوجل شيتس\" تحت الأتمتة. انقر \"تثبيت\" لإضافته إلى متجرك، ثم انقر \"إعداد\" لضبط الاتصال. هذا التكامل يضيف تلقائيًا صفًا جديدًا إلى جدول بيانات جوجل الخاص بك في كل مرة يقدم فيها عميل طلبًا — حتى يكون لديك دائمًا سجل محدث لجميع طلباتك.",
           fr: "Allez dans Intégrations et trouvez la carte « Google Sheets » sous Automatisation. Cliquez sur « Installer » pour l'ajouter, puis sur « Configurer » pour paramétrer la connexion. Cette intégration ajoute automatiquement une nouvelle ligne à votre feuille Google à chaque commande — vous avez ainsi toujours un enregistrement à jour de toutes vos commandes.",
         },
@@ -1332,22 +1438,23 @@ export const ARTICLES: DocArticle[] = [
         },
       },
       {
-        title: { en: "Enter your TikTok Pixel ID and Access Token", ar: "أدخل معرّف بيكسل تيك توك ورمز الوصول", fr: "Entrez votre Pixel ID et Access Token TikTok" },
+        title: { en: "Enter your Pixel Code and Access Token", ar: "أدخل كود البيكسل ورمز الوصول", fr: "Entrez votre Pixel Code et Access Token" },
         description: {
-          en: "You'll need your TikTok Pixel ID and an Access Token from TikTok Events Manager. Paste both into the corresponding fields. You can optionally add a Test Event Code to verify events are being sent correctly before going live. Events tracked include ViewContent, AddToCart, InitiateCheckout, and Purchase.",
-          ar: "ستحتاج لمعرّف بيكسل تيك توك ورمز وصول من TikTok Events Manager. الصق كليهما في الحقول المقابلة. يمكنك اختياريًا إضافة كود حدث اختبار للتحقق من إرسال الأحداث بشكل صحيح قبل الإطلاق. الأحداث المتتبعة تشمل ViewContent وAddToCart وInitiateCheckout وPurchase.",
-          fr: "Vous aurez besoin de votre Pixel ID TikTok et d'un Access Token de TikTok Events Manager. Collez les deux dans les champs correspondants. Vous pouvez optionnellement ajouter un Code d'événement test pour vérifier l'envoi avant le lancement. Les événements suivis incluent ViewContent, AddToCart, InitiateCheckout et Purchase.",
+          en: "You'll need your TikTok Pixel Code and an Access Token from TikTok Events Manager. Paste both into the corresponding fields. You can optionally add a Test Event Code to verify events are being sent correctly before going live. Events tracked include ViewContent, AddToCart, InitiateCheckout, and CompletePayment.",
+          ar: "ستحتاج لكود بيكسل تيك توك ورمز وصول من TikTok Events Manager. الصق كليهما في الحقول المقابلة. يمكنك اختياريًا إضافة كود حدث اختبار للتحقق من إرسال الأحداث بشكل صحيح قبل الإطلاق. الأحداث المتتبعة تشمل ViewContent وAddToCart وInitiateCheckout وCompletePayment.",
+          fr: "Vous aurez besoin de votre Pixel Code TikTok et d'un Access Token de TikTok Events Manager. Collez les deux dans les champs correspondants. Vous pouvez optionnellement ajouter un Code d'événement test pour vérifier l'envoi avant le lancement. Les événements suivis incluent ViewContent, AddToCart, InitiateCheckout et CompletePayment.",
         },
+        image: "/docs/integrations/tiktok-pixel-1.svg",
       },
     ],
     faqs: [
       {
         question: { en: "What events does TikTok Pixel track?", ar: "ما الأحداث التي يتتبعها تيك توك بيكسل؟", fr: "Quels événements le TikTok Pixel suit-il ?" },
-        answer: { en: "TikTok Pixel tracks four events: ViewContent (product page views), AddToCart (items added to cart), InitiateCheckout (cart page visits), and Purchase (completed orders). These events help TikTok optimize your ad delivery and measure conversions.", ar: "يتتبع تيك توك بيكسل أربعة أحداث: ViewContent (مشاهدات صفحات المنتجات)، AddToCart (إضافة عناصر للسلة)، InitiateCheckout (زيارات صفحة السلة)، وPurchase (طلبات مكتملة). تساعد هذه الأحداث تيك توك في تحسين عرض إعلاناتك وقياس التحويلات.", fr: "Le TikTok Pixel suit quatre événements : ViewContent (vues de pages produits), AddToCart (ajouts au panier), InitiateCheckout (visites du panier) et Purchase (commandes terminées). Ces événements aident TikTok à optimiser la diffusion de vos publicités et mesurer les conversions." },
+        answer: { en: "TikTok Event API tracks four events: ViewContent (product page views), AddToCart (items added to cart), InitiateCheckout (cart page visits), and CompletePayment (completed orders). These events help TikTok optimize your ad delivery and measure conversions.", ar: "يتتبع TikTok Event API أربعة أحداث: ViewContent (مشاهدات صفحات المنتجات)، AddToCart (إضافة عناصر للسلة)، InitiateCheckout (زيارات صفحة السلة)، وCompletePayment (طلبات مكتملة). تساعد هذه الأحداث تيك توك في تحسين عرض إعلاناتك وقياس التحويلات.", fr: "TikTok Event API suit quatre événements : ViewContent (vues de pages produits), AddToCart (ajouts au panier), InitiateCheckout (visites du panier) et CompletePayment (commandes terminées). Ces événements aident TikTok à optimiser la diffusion de vos publicités et mesurer les conversions." },
       },
       {
-        question: { en: "Where do I find my TikTok Pixel ID?", ar: "أين أجد معرّف بيكسل تيك توك؟", fr: "Où trouver mon Pixel ID TikTok ?" },
-        answer: { en: "Your TikTok Pixel ID can be found in TikTok Events Manager under your TikTok Ads Manager account. Navigate to Assets > Events and you'll see your Pixel ID listed there.", ar: "يمكنك إيجاد معرّف بيكسل تيك توك في TikTok Events Manager تحت حساب TikTok Ads Manager. انتقل إلى الأصول > الأحداث وسترى معرّف البيكسل مدرجًا هناك.", fr: "Votre Pixel ID TikTok se trouve dans TikTok Events Manager sous votre compte TikTok Ads Manager. Naviguez vers Actifs > Événements et vous verrez votre Pixel ID listé." },
+        question: { en: "Where do I find my TikTok Pixel Code?", ar: "أين أجد كود بيكسل تيك توك؟", fr: "Où trouver mon Pixel Code TikTok ?" },
+        answer: { en: "Your TikTok Pixel Code can be found in TikTok Events Manager under your TikTok Ads Manager account. Navigate to Assets > Events and you'll see your Pixel Code listed there.", ar: "يمكنك إيجاد كود بيكسل تيك توك في TikTok Events Manager تحت حساب TikTok Ads Manager. انتقل إلى الأصول > الأحداث وسترى كود البيكسل مدرجًا هناك.", fr: "Votre Pixel Code TikTok se trouve dans TikTok Events Manager sous votre compte TikTok Ads Manager. Naviguez vers Actifs > Événements et vous verrez votre Pixel Code listé." },
       },
     ],
   },
@@ -1380,6 +1487,7 @@ export const ARTICLES: DocArticle[] = [
           ar: "انقر \"إعداد\" وأدخل معرّف قياس Google Analytics 4 (يبدأ بـ \"G-\"، مثلاً G-XXXXXXXXXX). يمكنك إيجاده في حسابك في Google Analytics تحت المسؤول > تدفقات البيانات > الويب. بعد الحفظ، سيبدأ Google Analytics بتتبع جميع نشاط الزوار على واجهة متجرك تلقائيًا.",
           fr: "Cliquez sur « Configurer » et entrez votre ID de mesure Google Analytics 4 (commence par « G- », ex : G-XXXXXXXXXX). Vous le trouverez dans votre compte Google Analytics sous Admin > Flux de données > Web. Une fois enregistré, Google Analytics commencera à suivre automatiquement toute l'activité des visiteurs sur votre vitrine.",
         },
+        image: "/docs/integrations/google-analytics-1.svg",
       },
     ],
     faqs: [

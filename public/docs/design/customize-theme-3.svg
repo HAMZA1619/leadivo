@@ -1,12 +1,68 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
-<defs>
-  <style>
-    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-  </style>
-</defs>
-<rect width="800" height="450" fill="#f4f5f7" rx="8"/><rect x="0" y="0" width="180" height="450" fill="#ffffff" rx="0"/><line x1="180" y1="0" x2="180" y2="450" stroke="#e5e7eb" stroke-width="1"/><circle cx="28" cy="67" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="71" font-size="12" fill="#6b7280" font-weight="400">Overview</text><circle cx="28" cy="103" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="107" font-size="12" fill="#6b7280" font-weight="400">Store</text><rect x="8" y="124" width="164" height="30" rx="6" fill="#ecfdf5"/><circle cx="28" cy="139" r="4" fill="#10b981" opacity="0.5"/><text x="42" y="143" font-size="12" fill="#10b981" font-weight="600">Design</text><circle cx="28" cy="175" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="179" font-size="12" fill="#6b7280" font-weight="400">Products</text><circle cx="28" cy="211" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="215" font-size="12" fill="#6b7280" font-weight="400">Collections</text><circle cx="28" cy="247" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="251" font-size="12" fill="#6b7280" font-weight="400">Orders</text><circle cx="28" cy="283" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="287" font-size="12" fill="#6b7280" font-weight="400">Discounts</text><circle cx="28" cy="319" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="323" font-size="12" fill="#6b7280" font-weight="400">Markets</text><circle cx="28" cy="355" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="359" font-size="12" fill="#6b7280" font-weight="400">Integrations</text><circle cx="28" cy="391" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="395" font-size="12" fill="#6b7280" font-weight="400">Settings</text><rect x="180" y="0" width="620" height="44" fill="#ffffff"/><line x1="180" y1="44" x2="800" y2="44" stroke="#e5e7eb" stroke-width="1"/><text x="200" y="27" font-size="11" fill="#10b981">View store ↗</text><text x="710" y="27" font-size="10" fill="#6b7280">you@example.com</text><circle cx="776" cy="22" r="14" fill="#d1fae5"/><text x="776" y="26" font-size="9" fill="#059669" text-anchor="middle" font-weight="600">JD</text><text x="210" y="74" font-size="20" font-weight="700" fill="#1f2937">Design</text><rect x="210" y="92" width="140" height="200" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/><text x="226" y="117" font-size="10" fill="#6b7280">Branding</text><text x="226" y="147" font-size="10" fill="#6b7280">Colors</text><text x="226" y="177" font-size="10" fill="#6b7280">Typography</text><text x="226" y="207" font-size="10" fill="#6b7280">Layout &amp; Style</text><text x="226" y="237" font-size="10" fill="#6b7280">Checkout</text><text x="226" y="267" font-size="10" fill="#6b7280">Settings</text><text x="364" y="104" font-size="11" font-weight="500" fill="#1f2937">Logo</text><rect x="364" y="112" width="70" height="70" rx="6" fill="#f4f5f7" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4"/><text x="399" y="150" font-size="8" fill="#6b7280" text-anchor="middle">Upload</text><text x="454" y="104" font-size="11" font-weight="500" fill="#1f2937">Banner</text><rect x="454" y="112" width="100" height="70" rx="6" fill="#f4f5f7" stroke="#d1d5db" stroke-width="1" stroke-dasharray="4"/><text x="504" y="150" font-size="8" fill="#6b7280" text-anchor="middle">Upload</text><rect x="630" y="92" width="130" height="200" rx="14" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/><rect x="634" y="96" width="122" height="40" rx="10" fill="#10b981" opacity="0.15"/><text x="695" y="120" font-size="8" font-weight="600" fill="#059669" text-anchor="middle">My Store</text><rect x="640" y="144" width="50" height="50" rx="4" fill="#f4f5f7"/><rect x="698" y="144" width="50" height="50" rx="4" fill="#f4f5f7"/><text x="644" y="210" font-size="7" fill="#1f2937">Product</text><text x="702" y="210" font-size="7" fill="#1f2937">Product</text><rect x="640" y="216" width="50" height="16" rx="4" fill="#10b981"/><rect x="698" y="216" width="50" height="16" rx="4" fill="#10b981"/><rect x="210" y="312" width="120" height="32" rx="6" fill="#10b981" stroke="#10b981" stroke-width="1"/><text x="270" y="332" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="500">Save Changes</text>
+<defs><style>text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }</style></defs>
+<rect width="800" height="450" fill="#f4f5f7" rx="8"/>
+<!-- Sidebar -->
+<rect x="0" y="0" width="180" height="450" fill="#ffffff"/><line x1="180" y1="0" x2="180" y2="450" stroke="#e5e7eb"/>
+<rect x="8" y="124" width="164" height="30" rx="6" fill="#ecfdf5"/><circle cx="28" cy="139" r="4" fill="#10b981"/><text x="42" y="143" font-size="12" fill="#10b981" font-weight="600">Design</text>
+<!-- Header -->
+<rect x="180" y="0" width="620" height="44" fill="#ffffff"/><line x1="180" y1="44" x2="800" y2="44" stroke="#e5e7eb"/>
+<text x="210" y="74" font-size="20" font-weight="700" fill="#1f2937">Design</text>
+<rect x="700" y="56" width="70" height="28" rx="6" fill="#10b981"/><text x="735" y="74" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="500">Save</text>
+<!-- Design sections sidebar -->
+<rect x="196" y="90" width="140" height="340" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="216" y="116" font-size="10" fill="#6b7280">Branding</text>
+<text x="216" y="140" font-size="10" fill="#6b7280">Colors</text>
+<text x="216" y="164" font-size="10" fill="#6b7280">Typography</text>
+<rect x="200" y="174" width="132" height="28" rx="4" fill="#ecfdf5"/><text x="216" y="192" font-size="10" fill="#10b981" font-weight="500">Layout &amp; Style</text>
+<text x="216" y="218" font-size="10" fill="#6b7280">Checkout</text>
+<text x="216" y="242" font-size="10" fill="#6b7280">Thank You</text>
+<text x="216" y="266" font-size="10" fill="#6b7280">SEO</text>
+<text x="216" y="290" font-size="10" fill="#6b7280">Preferences</text>
+<!-- Layout & Style content -->
+<text x="350" y="108" font-size="12" font-weight="600" fill="#1f2937">Layout &amp; Style</text>
+<!-- Border radius -->
+<text x="350" y="134" font-size="10" fill="#6b7280">Border radius</text>
+<rect x="350" y="142" width="42" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="371" y="159" font-size="9" fill="#6b7280" text-anchor="middle">none</text>
+<rect x="398" y="142" width="32" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="414" y="159" font-size="9" fill="#6b7280" text-anchor="middle">sm</text>
+<rect x="436" y="142" width="32" height="26" rx="4" fill="#10b981" stroke="#10b981"/><text x="452" y="159" font-size="9" fill="#ffffff" text-anchor="middle">md</text>
+<rect x="474" y="142" width="30" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="489" y="159" font-size="9" fill="#6b7280" text-anchor="middle">lg</text>
+<rect x="510" y="142" width="30" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="525" y="159" font-size="9" fill="#6b7280" text-anchor="middle">xl</text>
+<!-- Button style -->
+<text x="350" y="190" font-size="10" fill="#6b7280">Button style</text>
+<rect x="350" y="198" width="52" height="26" rx="4" fill="#10b981" stroke="#10b981"/><text x="376" y="215" font-size="9" fill="#ffffff" text-anchor="middle">Filled</text>
+<rect x="410" y="198" width="56" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="438" y="215" font-size="9" fill="#6b7280" text-anchor="middle">Outline</text>
+<rect x="474" y="198" width="40" height="26" rx="13" fill="#ffffff" stroke="#d1d5db"/><text x="494" y="215" font-size="9" fill="#6b7280" text-anchor="middle">Pill</text>
+<!-- Button size -->
+<text x="350" y="248" font-size="10" fill="#6b7280">Button size</text>
+<rect x="350" y="256" width="46" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="373" y="273" font-size="9" fill="#6b7280" text-anchor="middle">Small</text>
+<rect x="404" y="256" width="56" height="26" rx="4" fill="#10b981" stroke="#10b981"/><text x="432" y="273" font-size="9" fill="#ffffff" text-anchor="middle">Medium</text>
+<rect x="468" y="256" width="46" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="491" y="273" font-size="9" fill="#6b7280" text-anchor="middle">Large</text>
+<!-- Product image ratio -->
+<text x="350" y="304" font-size="10" fill="#6b7280">Product image ratio</text>
+<rect x="350" y="312" width="50" height="26" rx="4" fill="#10b981" stroke="#10b981"/><text x="375" y="329" font-size="9" fill="#ffffff" text-anchor="middle">Square</text>
+<rect x="408" y="312" width="56" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="436" y="329" font-size="9" fill="#6b7280" text-anchor="middle">Portrait</text>
+<rect x="472" y="312" width="66" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="505" y="329" font-size="9" fill="#6b7280" text-anchor="middle">Landscape</text>
+<!-- Layout spacing -->
+<text x="350" y="360" font-size="10" fill="#6b7280">Layout spacing</text>
+<rect x="350" y="368" width="58" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="379" y="385" font-size="9" fill="#6b7280" text-anchor="middle">Compact</text>
+<rect x="416" y="368" width="54" height="26" rx="4" fill="#10b981" stroke="#10b981"/><text x="443" y="385" font-size="9" fill="#ffffff" text-anchor="middle">Normal</text>
+<rect x="478" y="368" width="58" height="26" rx="4" fill="#ffffff" stroke="#d1d5db"/><text x="507" y="385" font-size="9" fill="#6b7280" text-anchor="middle">Spacious</text>
+<!-- Phone preview -->
+<rect x="630" y="90" width="140" height="270" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+<rect x="675" y="96" width="50" height="10" rx="5" fill="#e5e7eb"/>
+<rect x="636" y="112" width="128" height="28" rx="0" fill="#10b981" opacity="0.15"/>
+<text x="700" y="130" font-size="7" font-weight="600" fill="#059669" text-anchor="middle">My Store</text>
+<rect x="642" y="148" width="56" height="56" rx="8" fill="#f4f5f7"/>
+<rect x="704" y="148" width="56" height="56" rx="8" fill="#f4f5f7"/>
+<text x="670" y="220" font-size="6" fill="#1f2937" text-anchor="middle">Product 1</text>
+<text x="732" y="220" font-size="6" fill="#1f2937" text-anchor="middle">Product 2</text>
+<rect x="642" y="228" width="56" height="16" rx="4" fill="#10b981"/>
+<rect x="704" y="228" width="56" height="16" rx="4" fill="#10b981"/>
+<text x="670" y="239" font-size="5" fill="#ffffff" text-anchor="middle">Add to cart</text>
+<text x="732" y="239" font-size="5" fill="#ffffff" text-anchor="middle">Add to cart</text>
 <!-- Annotations -->
 <g class="doc-annotations">
-<circle cx="270" cy="328" r="16" fill="#ef4444" opacity="0.10"/><circle cx="270" cy="328" r="16" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/><g transform="translate(276, 330)"><path d="M0,0 L0,14 L4,10 L7,16 L9,15 L6,9 L11,9 Z" fill="#ef4444" stroke="#fff" stroke-width="0.7"/></g><rect x="290" y="319" width="37.5" height="17" rx="4" fill="#ef4444"/><text x="295" y="331" font-size="9" fill="#fff" font-weight="600">Click</text>
+<circle cx="780" cy="70" r="10" fill="#ef4444"/><text x="780" y="74" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">1</text>
+<rect x="698" y="54" width="74" height="32" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 3" rx="8"/>
 </g>
 </svg>

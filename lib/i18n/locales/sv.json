@@ -64,6 +64,7 @@
     "additionalLanguages": "Ytterligare språk",
     "collections": "Kollektioner",
     "description": "Beskrivning",
+    "faq": "Vanliga frågor",
     "browseAt": "Bläddra i {{collection}} hos {{store}}",
     "shopAt": "Handla hos {{store}}"
   },

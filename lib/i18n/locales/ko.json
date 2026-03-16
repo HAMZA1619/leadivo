@@ -64,6 +64,7 @@
     "additionalLanguages": "추가 언어",
     "collections": "컬렉션",
     "description": "설명",
+    "faq": "자주 묻는 질문",
     "browseAt": "{{store}}에서 {{collection}} 둘러보기",
     "shopAt": "{{store}}에서 쇼핑하기"
   },

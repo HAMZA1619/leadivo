@@ -1,12 +1,55 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
-<defs>
-  <style>
-    text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-  </style>
-</defs>
-<rect width="800" height="450" fill="#f4f5f7" rx="8"/><rect x="0" y="0" width="180" height="450" fill="#ffffff" rx="0"/><line x1="180" y1="0" x2="180" y2="450" stroke="#e5e7eb" stroke-width="1"/><circle cx="28" cy="67" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="71" font-size="12" fill="#6b7280" font-weight="400">Overview</text><circle cx="28" cy="103" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="107" font-size="12" fill="#6b7280" font-weight="400">Store</text><circle cx="28" cy="139" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="143" font-size="12" fill="#6b7280" font-weight="400">Design</text><circle cx="28" cy="175" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="179" font-size="12" fill="#6b7280" font-weight="400">Products</text><circle cx="28" cy="211" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="215" font-size="12" fill="#6b7280" font-weight="400">Collections</text><circle cx="28" cy="247" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="251" font-size="12" fill="#6b7280" font-weight="400">Orders</text><circle cx="28" cy="283" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="287" font-size="12" fill="#6b7280" font-weight="400">Discounts</text><circle cx="28" cy="319" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="323" font-size="12" fill="#6b7280" font-weight="400">Markets</text><rect x="8" y="340" width="164" height="30" rx="6" fill="#ecfdf5"/><circle cx="28" cy="355" r="4" fill="#10b981" opacity="0.5"/><text x="42" y="359" font-size="12" fill="#10b981" font-weight="600">Integrations</text><circle cx="28" cy="391" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="395" font-size="12" fill="#6b7280" font-weight="400">Settings</text><rect x="180" y="0" width="620" height="44" fill="#ffffff"/><line x1="180" y1="44" x2="800" y2="44" stroke="#e5e7eb" stroke-width="1"/><text x="200" y="27" font-size="11" fill="#10b981">View store ↗</text><text x="710" y="27" font-size="10" fill="#6b7280">you@example.com</text><circle cx="776" cy="22" r="14" fill="#d1fae5"/><text x="776" y="26" font-size="9" fill="#059669" text-anchor="middle" font-weight="600">JD</text><text x="210" y="74" font-size="20" font-weight="700" fill="#1f2937">Integrations</text><text x="210" y="88" font-size="11" font-weight="600" fill="#6b7280">NOTIFICATIONS</text><rect x="210" y="100" width="260" height="100" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/><circle cx="234" cy="128" r="14" fill="#dcfce7"/><text x="256" y="126" font-size="12" font-weight="600" fill="#1f2937">WhatsApp</text><text x="226" y="152" font-size="9" fill="#6b7280">Send order confirmations via WhatsApp...</text><rect x="226" y="162" width="60" height="32" rx="6" fill="#10b981" stroke="#10b981" stroke-width="1"/><text x="256" y="182" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="500">Install</text><rect x="484" y="100" width="260" height="100" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/><circle cx="508" cy="128" r="14" fill="#eff6ff"/><text x="530" y="126" font-size="12" font-weight="600" fill="#1f2937">Email</text><text x="500" y="152" font-size="9" fill="#6b7280">Send email notifications to customers...</text><rect x="500" y="162" width="60" height="32" rx="6" fill="#10b981" stroke="#10b981" stroke-width="1"/><text x="530" y="182" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="500">Install</text><text x="210" y="222" font-size="11" font-weight="600" fill="#6b7280">AUTOMATION</text><rect x="210" y="234" width="260" height="100" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/><circle cx="234" cy="262" r="14" fill="#dcfce7"/><text x="256" y="260" font-size="12" font-weight="600" fill="#1f2937">Google Sheets</text><text x="226" y="286" font-size="9" fill="#6b7280">Export orders to a Google Spreadsheet...</text><rect x="226" y="296" width="60" height="32" rx="6" fill="#10b981" stroke="#10b981" stroke-width="1"/><text x="256" y="316" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="500">Install</text>
+<defs><style>text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }</style></defs>
+<rect width="800" height="450" fill="#f4f5f7" rx="8"/>
+<!-- Sidebar -->
+<rect x="0" y="0" width="180" height="450" fill="#ffffff"/><line x1="180" y1="0" x2="180" y2="450" stroke="#e5e7eb"/>
+<rect x="8" y="340" width="164" height="30" rx="6" fill="#ecfdf5"/><circle cx="28" cy="355" r="4" fill="#10b981"/><text x="42" y="359" font-size="12" fill="#10b981" font-weight="600">Integrations</text>
+<!-- Header -->
+<rect x="180" y="0" width="620" height="44" fill="#ffffff"/><line x1="180" y1="44" x2="800" y2="44" stroke="#e5e7eb"/>
+<!-- Google Sheets setup page -->
+<text x="210" y="74" font-size="20" font-weight="700" fill="#1f2937">Google Sheets</text>
+<text x="210" y="94" font-size="11" fill="#6b7280">Automatically sync new orders to a Google Spreadsheet in real time.</text>
+<!-- Connected state -->
+<rect x="210" y="114" width="560" height="46" rx="8" fill="#dcfce7" stroke="#bbf7d0"/>
+<circle cx="232" cy="137" r="6" fill="#16a34a"/>
+<text x="248" y="133" font-size="11" fill="#166534" font-weight="500">Connected to Google Account</text>
+<text x="248" y="149" font-size="9" fill="#166534">you@gmail.com</text>
+<rect x="650" y="126" width="100" height="24" rx="5" fill="#ffffff" stroke="#d1d5db"/><text x="700" y="142" font-size="9" fill="#dc2626" text-anchor="middle">Disconnect</text>
+<!-- Spreadsheet info -->
+<rect x="210" y="172" width="560" height="46" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<circle cx="232" cy="195" r="10" fill="#dbeafe"/><text x="232" y="199" font-size="8" fill="#2563eb" text-anchor="middle" font-weight="700">S</text>
+<text x="250" y="191" font-size="11" fill="#1f2937" font-weight="500">My Store Orders</text>
+<text x="250" y="207" font-size="9" fill="#6b7280">Spreadsheet in Google Drive</text>
+<rect x="660" y="184" width="90" height="22" rx="5" fill="#ffffff" stroke="#d1d5db"/><text x="705" y="199" font-size="9" fill="#3b82f6" text-anchor="middle">Open ↗</text>
+<!-- Field mapping section -->
+<rect x="210" y="230" width="560" height="200" rx="10" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="234" y="258" font-size="13" font-weight="600" fill="#1f2937">Column Mapping</text>
+<text x="234" y="276" font-size="10" fill="#6b7280">Choose which order fields appear in your spreadsheet</text>
+<!-- Field list with drag handles -->
+<rect x="234" y="290" width="512" height="28" rx="5" fill="#f9fafb" stroke="#e5e7eb"/>
+<text x="254" y="308" font-size="8" fill="#9ca3af">⋮⋮</text>
+<rect x="270" y="296" width="14" height="14" rx="3" fill="#10b981" stroke="#10b981"/><text x="279" y="306" font-size="8" fill="#fff" text-anchor="middle" font-weight="700">✓</text>
+<text x="292" y="308" font-size="10" fill="#1f2937">Order Number</text>
+
+<rect x="234" y="322" width="512" height="28" rx="5" fill="#f9fafb" stroke="#e5e7eb"/>
+<text x="254" y="340" font-size="8" fill="#9ca3af">⋮⋮</text>
+<rect x="270" y="328" width="14" height="14" rx="3" fill="#10b981" stroke="#10b981"/><text x="279" y="338" font-size="8" fill="#fff" text-anchor="middle" font-weight="700">✓</text>
+<text x="292" y="340" font-size="10" fill="#1f2937">Customer Name</text>
+
+<rect x="234" y="354" width="512" height="28" rx="5" fill="#f9fafb" stroke="#e5e7eb"/>
+<text x="254" y="372" font-size="8" fill="#9ca3af">⋮⋮</text>
+<rect x="270" y="360" width="14" height="14" rx="3" fill="#10b981" stroke="#10b981"/><text x="279" y="370" font-size="8" fill="#fff" text-anchor="middle" font-weight="700">✓</text>
+<text x="292" y="372" font-size="10" fill="#1f2937">Phone</text>
+
+<rect x="234" y="386" width="512" height="28" rx="5" fill="#f9fafb" stroke="#e5e7eb"/>
+<text x="254" y="404" font-size="8" fill="#9ca3af">⋮⋮</text>
+<rect x="270" y="392" width="14" height="14" rx="3" fill="#10b981" stroke="#10b981"/><text x="279" y="402" font-size="8" fill="#fff" text-anchor="middle" font-weight="700">✓</text>
+<text x="292" y="404" font-size="10" fill="#1f2937">Total</text>
+<text x="500" y="404" font-size="10" fill="#6b7280">+16 more fields</text>
 <!-- Annotations -->
 <g class="doc-annotations">
-<circle cx="256" cy="312" r="16" fill="#ef4444" opacity="0.10"/><circle cx="256" cy="312" r="16" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/><g transform="translate(262, 314)"><path d="M0,0 L0,14 L4,10 L7,16 L9,15 L6,9 L11,9 Z" fill="#ef4444" stroke="#fff" stroke-width="0.7"/></g><rect x="276" y="303" width="48.5" height="17" rx="4" fill="#ef4444"/><text x="281" y="315" font-size="9" fill="#fff" font-weight="600">Connect</text>
+<circle cx="197" cy="137" r="10" fill="#ef4444"/><text x="197" y="141" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">1</text>
+<rect x="232" y="288" width="516" height="130" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 3" rx="8"/>
+<circle cx="197" cy="353" r="10" fill="#ef4444"/><text x="197" y="357" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">2</text>
 </g>
 </svg>

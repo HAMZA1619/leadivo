@@ -64,6 +64,7 @@
     "additionalLanguages": "Bahasa tambahan",
     "collections": "Koleksi",
     "description": "Penerangan",
+    "faq": "Soalan lazim",
     "browseAt": "Layari {{collection}} di {{store}}",
     "shopAt": "Beli-belah di {{store}}"
   },

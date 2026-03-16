@@ -64,6 +64,7 @@
     "additionalLanguages": "更多语言",
     "collections": "系列",
     "description": "描述",
+    "faq": "常见问题",
     "browseAt": "浏览 {{store}} 的 {{collection}}",
     "shopAt": "在 {{store}} 购物"
   },

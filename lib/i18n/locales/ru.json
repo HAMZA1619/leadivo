@@ -64,6 +64,7 @@
     "additionalLanguages": "Дополнительные языки",
     "collections": "Коллекции",
     "description": "Описание",
+    "faq": "Часто задаваемые вопросы",
     "browseAt": "Просмотреть {{collection}} в {{store}}",
     "shopAt": "Покупайте в {{store}}"
   },

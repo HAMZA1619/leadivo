@@ -64,6 +64,7 @@
     "additionalLanguages": "Dodatkowe języki",
     "collections": "Kolekcje",
     "description": "Opis",
+    "faq": "Często zadawane pytania",
     "browseAt": "Przeglądaj {{collection}} w {{store}}",
     "shopAt": "Kupuj w {{store}}"
   },

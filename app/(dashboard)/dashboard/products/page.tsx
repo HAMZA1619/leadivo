@@ -8,6 +8,7 @@ import { ProductsTable } from "@/components/dashboard/products-table"
 import { T } from "@/components/dashboard/translated-text"
 import { checkResourceLimit } from "@/lib/check-limit"
 import { UpgradeBanner } from "@/components/dashboard/upgrade-banner"
+import { CsvImportDialog } from "@/components/dashboard/csv-import-dialog"
 
 const PAGE_SIZE = 20
 
@@ -56,16 +57,19 @@ export default async function ProductsPage({
           variant={limit.allowed ? "warning" : "blocked"}
         />
       )}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-bold"><T k="products.title" /></h1>
-        {limit.allowed && (
-          <Button asChild>
-            <Link href="/dashboard/products/new">
-              <Plus className="me-2 h-4 w-4" />
-              <T k="products.addProduct" />
-            </Link>
-          </Button>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          <CsvImportDialog allowed={limit.allowed} />
+          {limit.allowed && (
+            <Button asChild>
+              <Link href="/dashboard/products/new">
+                <Plus className="me-2 h-4 w-4" />
+                <T k="products.addProduct" />
+              </Link>
+            </Button>
+          )}
+        </div>
       </div>
 
       <ProductSearch />

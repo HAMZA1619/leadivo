@@ -64,6 +64,7 @@
     "additionalLanguages": "ภาษาเพิ่มเติม",
     "collections": "คอลเลกชัน",
     "description": "รายละเอียด",
+    "faq": "คำถามที่พบบ่อย",
     "browseAt": "เรียกดู {{collection}} ที่ {{store}}",
     "shopAt": "ช้อปที่ {{store}}"
   },

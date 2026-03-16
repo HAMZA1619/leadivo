@@ -64,6 +64,7 @@
     "additionalLanguages": "Ngôn ngữ bổ sung",
     "collections": "Bộ sưu tập",
     "description": "Mô tả",
+    "faq": "Câu hỏi thường gặp",
     "browseAt": "Xem {{collection}} tại {{store}}",
     "shopAt": "Mua sắm tại {{store}}"
   },

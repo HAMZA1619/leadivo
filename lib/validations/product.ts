@@ -1,5 +1,10 @@
 import { z } from "zod"
 
+export const productFaqSchema = z.object({
+  question: z.string().min(1).max(200),
+  answer: z.string().min(1).max(1000),
+})
+
 export const productOptionSchema = z.object({
   name: z.string().min(1, "validation.optionNameRequired"),
   values: z.array(z.string().min(1)).min(1, "validation.atLeastOneValue"),
@@ -39,6 +44,33 @@ export const productSchema = z.object({
   is_available: z.boolean(),
 })
 
+export const csvRowSchema = z.object({
+  title: z.string().min(1),
+  handle: z.string().optional(),
+  description: z.string().max(1000).optional(),
+  sku: z.string().max(100).optional(),
+  price: z.number().min(0),
+  compare_at_price: z.number().min(0).optional(),
+  status: z.enum(["active", "draft"]).optional(),
+  available: z.boolean().optional(),
+  stock: z.number().int().min(0).max(1000).optional(),
+  image_url: z.string().url().optional(),
+  collection: z.string().optional(),
+  option1_name: z.string().optional(),
+  option1_value: z.string().optional(),
+  option2_name: z.string().optional(),
+  option2_value: z.string().optional(),
+  option3_name: z.string().optional(),
+  option3_value: z.string().optional(),
+  variant_price: z.number().min(0).optional(),
+  variant_sku: z.string().max(100).optional(),
+  variant_stock: z.number().int().min(0).max(1000).optional(),
+  variant_compare_at_price: z.number().min(0).optional(),
+})
+
+export type CsvRow = z.infer<typeof csvRowSchema>
+
+export type ProductFaq = z.infer<typeof productFaqSchema>
 export type ProductOption = z.infer<typeof productOptionSchema>
 export type ProductVariant = z.infer<typeof productVariantSchema>
 export type ProductFormData = z.infer<typeof productSchema>

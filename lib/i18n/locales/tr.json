@@ -64,6 +64,7 @@
     "additionalLanguages": "Ek diller",
     "collections": "Koleksiyonlar",
     "description": "Açıklama",
+    "faq": "Sıkça sorulan sorular",
     "browseAt": "{{store}} mağazasında {{collection}} koleksiyonuna göz atın",
     "shopAt": "{{store}} mağazasında alışveriş yapın"
   },

@@ -64,6 +64,7 @@
     "additionalLanguages": "Extra talen",
     "collections": "Collecties",
     "description": "Beschrijving",
+    "faq": "Veelgestelde vragen",
     "browseAt": "Bekijk {{collection}} bij {{store}}",
     "shopAt": "Winkel bij {{store}}"
   },

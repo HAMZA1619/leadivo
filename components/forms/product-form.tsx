@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { productSchema } from "@/lib/validations/product"
-import type { ProductOption, ProductVariant } from "@/lib/validations/product"
+import type { ProductOption, ProductVariant, ProductFaq } from "@/lib/validations/product"
 import type { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation"
 import { useState, useCallback } from "react"
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ArrowLeft, Globe, Loader2, Plus, Trash2, Wand2 } from "lucide-react"
+import { ArrowLeft, Globe, Loader2, Plus, Trash2, Wand2, MessageCircleQuestion } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
 
@@ -39,6 +39,7 @@ interface ProductFormProps {
     stock: number | null
     images: ImageItem[]
     options: ProductOption[]
+    faqs?: ProductFaq[]
     status: "active" | "draft"
     is_available: boolean
   } | null
@@ -93,6 +94,8 @@ export function ProductForm({ storeId, currency, title, initialData, initialVari
   const [options, setOptions] = useState<ProductOption[]>(initialData?.options || [])
   const [variants, setVariants] = useState<ProductVariant[]>(initialVariants)
   const [optionsChanged, setOptionsChanged] = useState(false)
+  const [faqs, setFaqs] = useState<ProductFaq[]>(initialData?.faqs || [])
+  const [faqsChanged, setFaqsChanged] = useState(false)
   const [trackStock, setTrackStock] = useState(initialData?.stock != null || initialVariants.some((v) => v.stock != null))
   const router = useRouter()
   const supabase = createClient()
@@ -268,6 +271,8 @@ export function ProductForm({ storeId, currency, title, initialData, initialVari
 
     const validOptions = options.filter((o) => o.name.trim() && o.values.length > 0)
 
+    const validFaqs = faqs.filter((f) => f.question.trim() && f.answer.trim())
+
     const payload = {
       ...data,
       store_id: storeId,
@@ -276,6 +281,7 @@ export function ProductForm({ storeId, currency, title, initialData, initialVari
       compare_at_price: data.compare_at_price || null,
       stock: data.stock ?? null,
       options: validOptions,
+      faqs: validFaqs,
     }
 
     let productId = initialData?.id
@@ -351,7 +357,7 @@ export function ProductForm({ storeId, currency, title, initialData, initialVari
     router.push("/dashboard/products")
   }
 
-  const hasChanges = isDirty || imagesChanged || optionsChanged || pendingImageUrls.length > 0
+  const hasChanges = isDirty || imagesChanged || optionsChanged || faqsChanged || pendingImageUrls.length > 0
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 px-1 sm:px-0">
@@ -547,6 +553,72 @@ export function ProductForm({ storeId, currency, title, initialData, initialVari
               />
             </div>
           )}
+        </div>
+
+        {/* FAQs */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <MessageCircleQuestion className="h-4 w-4 text-muted-foreground" />
+              <Label>{t("productForm.faqs")}</Label>
+            </div>
+            <button
+              type="button"
+              className="text-sm font-medium text-primary hover:underline"
+              onClick={() => { setFaqs([...faqs, { question: "", answer: "" }]); setFaqsChanged(true) }}
+            >
+              {t("productForm.addFaq")}
+            </button>
+          </div>
+
+          {faqs.length === 0 && (
+            <p className="text-sm text-muted-foreground">{t("productForm.noFaqs")}</p>
+          )}
+
+          {faqs.map((faq, i) => (
+            <div key={i} className="rounded-lg border p-3 space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1 space-y-3">
+                  <div className="space-y-1">
+                    <Label className="text-xs text-muted-foreground">{t("productForm.faqQuestion")}</Label>
+                    <Input
+                      value={faq.question}
+                      onChange={(e) => {
+                        const updated = faqs.map((f, j) => j === i ? { ...f, question: e.target.value } : f)
+                        setFaqs(updated)
+                        setFaqsChanged(true)
+                      }}
+                      placeholder={t("productForm.faqQuestionPlaceholder")}
+                      maxLength={200}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs text-muted-foreground">{t("productForm.faqAnswer")}</Label>
+                    <Textarea
+                      value={faq.answer}
+                      onChange={(e) => {
+                        const updated = faqs.map((f, j) => j === i ? { ...f, answer: e.target.value } : f)
+                        setFaqs(updated)
+                        setFaqsChanged(true)
+                      }}
+                      placeholder={t("productForm.faqAnswerPlaceholder")}
+                      rows={2}
+                      maxLength={1000}
+                    />
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="mt-5 shrink-0"
+                  onClick={() => { setFaqs(faqs.filter((_, j) => j !== i)); setFaqsChanged(true) }}
+                >
+                  <Trash2 className="h-4 w-4 text-muted-foreground" />
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Product Options */}

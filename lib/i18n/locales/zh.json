@@ -61,7 +61,11 @@
     "freeDelivery": "免运费",
     "scanToShop": "扫码在手机上购物",
     "continueOnDesktop": "在电脑上继续",
-    "additionalLanguages": "更多语言"
+    "additionalLanguages": "更多语言",
+    "collections": "系列",
+    "description": "描述",
+    "browseAt": "浏览 {{store}} 的 {{collection}}",
+    "shopAt": "在 {{store}} 购物"
   },
   "search": {
     "searchProducts": "搜索商品..."

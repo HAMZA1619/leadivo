@@ -138,7 +138,7 @@ export function getProduct(productId: string, storeId: string) {
       const supabase = createStaticClient()
       const { data } = await supabase
         .from("products")
-        .select("*, collections(name)")
+        .select("*, collections(name, slug)")
         .eq("id", productId)
         .eq("store_id", storeId)
         .single()

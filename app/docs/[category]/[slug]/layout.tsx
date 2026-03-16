@@ -55,12 +55,34 @@ export default async function ArticleLayout({
     ],
   }
 
+  const faqJsonLd =
+    article?.faqs && article.faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: article.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question.en,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer.en,
+            },
+          })),
+        }
+      : null
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       {children}
     </>
   )

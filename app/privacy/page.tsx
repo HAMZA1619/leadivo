@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { I18nProvider } from "@/components/dashboard/i18n-provider"
 import { LanguageSwitcher } from "@/components/dashboard/language-switcher"
+import { MarketingHeader } from "@/components/marketing/marketing-header"
 import { useTranslation } from "react-i18next"
 import { ArrowLeft } from "lucide-react"
 import { LeadivoLogo } from "@/components/icons/leadivo-logo"
@@ -34,17 +34,7 @@ function PrivacyContent() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex h-14 items-center justify-between border-b px-6">
-        <LeadivoLogo className="h-7" />
-        <div className="flex items-center gap-3">
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/login">{t("landing.signIn")}</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link href="/signup">{t("landing.getStarted")}</Link>
-          </Button>
-        </div>
-      </header>
+      <MarketingHeader />
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-12">
         <Link href="/" className="mb-8 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">

@@ -26,7 +26,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
   if (images.length === 1) {
     return (
       <div className="relative overflow-hidden bg-muted" style={{ aspectRatio: "var(--store-image-ratio)", borderRadius: "var(--store-radius)" }}>
-        <Image src={images[0]} alt={productName} fill sizes="(max-width: 672px) 100vw, 672px" className="object-cover" />
+        <Image src={images[0]} alt={productName} fill sizes="(max-width: 672px) 100vw, 672px" className="object-cover" priority />
       </div>
     )
   }
@@ -41,6 +41,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
           fill
           sizes="(max-width: 672px) 100vw, 672px"
           className="object-cover"
+          priority={current === 0}
         />
 
         <button

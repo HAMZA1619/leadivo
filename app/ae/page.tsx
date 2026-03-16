@@ -6,6 +6,6 @@ const country = COUNTRIES.ae
 
 export const metadata: Metadata = generateCountryMetadata(country)
 
-export default function UAEPage({ searchParams }: { searchParams: Promise<{ landing?: string }> }) {
-  return <CountryPage country={country} searchParams={searchParams} />
+export default function UAEPage() {
+  return <CountryPage country={country} />
 }

@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { MarketingHeader } from "@/components/marketing/marketing-header"
 import dynamic from "next/dynamic"
 import { useEffect, useRef, useState, type ReactNode } from "react"
 
@@ -131,17 +132,7 @@ function LandingContent({ countryName }: { countryName?: string }) {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-md sm:px-6">
-        <LeadivoLogo className="h-8" />
-        <div className="flex items-center gap-3">
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/login">{t("landing.signIn")}</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link href="/signup">{t("landing.getStarted")}</Link>
-          </Button>
-        </div>
-      </header>
+      <MarketingHeader />
 
       {/* Hero */}
       <section className="relative overflow-hidden px-4 pb-0 pt-16 sm:pt-24 md:pt-32">
@@ -554,9 +545,12 @@ function LandingContent({ countryName }: { countryName?: string }) {
               <LeadivoLogo className="mx-auto h-8 md:mx-0" />
               <p className="mt-2 text-sm text-muted-foreground">{t("landing.footerTagline")}</p>
             </div>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <Link href="/docs" className="transition-colors hover:text-foreground">
                 {t("docs.title")}
+              </Link>
+              <Link href="/compare" className="transition-colors hover:text-foreground">
+                {t("compare.backToAll")}
               </Link>
               <Link href="/privacy" className="transition-colors hover:text-foreground">
                 {t("landing.privacyPolicy")}

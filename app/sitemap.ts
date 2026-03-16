@@ -2,6 +2,7 @@ import urlJoin from "url-join"
 import type { MetadataRoute } from "next"
 import { CATEGORIES, ARTICLES } from "@/lib/docs/content"
 import { getAllPosts } from "@/lib/blog/content"
+import { getAllCompareSlugs } from "@/lib/compare"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN
@@ -48,6 +49,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...docArticlePages,
     { url: urlJoin(baseUrl, "blog"), lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
     ...blogPosts,
+    { url: urlJoin(baseUrl, "compare"), lastModified: new Date("2026-03-16"), changeFrequency: "monthly" as const, priority: 0.7 },
+    ...getAllCompareSlugs().map((slug) => ({
+      url: urlJoin(baseUrl, "compare", slug),
+      lastModified: new Date("2026-03-16"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     { url: urlJoin(baseUrl, "privacy"), lastModified: new Date("2026-01-01"), changeFrequency: "yearly" as const, priority: 0.3 },
     { url: urlJoin(baseUrl, "terms"), lastModified: new Date("2026-01-01"), changeFrequency: "yearly" as const, priority: 0.3 },
   ]

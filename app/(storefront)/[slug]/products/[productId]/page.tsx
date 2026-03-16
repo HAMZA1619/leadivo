@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import { cookies } from "next/headers"
-import { formatPriceSymbol, getImageUrl, getStoreUrl } from "@/lib/utils"
+import { formatPriceSymbol, getStoreUrl } from "@/lib/utils"
 import { AddToCartButton } from "@/components/store/add-to-cart-button"
 import { ProductImageGallery } from "@/components/store/product-image-gallery"
 import { VariantSelector } from "@/components/store/variant-selector"
@@ -48,13 +48,18 @@ export async function generateMetadata({
       description,
       type: "website",
       url: canonical,
-      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+      ...(ogImage ? { images: [{ url: ogImage, alt: title }] } : {}),
     },
     twitter: {
       card: ogImage ? "summary_large_image" : "summary",
       title,
       description,
       ...(ogImage ? { images: [ogImage] } : {}),
+    },
+    other: {
+      "product:price:amount": String(product.price),
+      "product:price:currency": store.currency,
+      "product:availability": product.is_available && (product.stock === null || product.stock === undefined || product.stock > 0) ? "instock" : "oos",
     },
   }
 }
@@ -66,7 +71,7 @@ export default async function ProductPage({
 }) {
   const { slug, productId } = await params
 
-  const store = await getStoreBySlug(slug, "id, language, currency")
+  const store = await getStoreBySlug(slug, "id, name, language, currency")
 
   if (!store) notFound()
 
@@ -159,7 +164,47 @@ export default async function ProductPage({
   const productInStock = product.is_available && (product.stock === null || product.stock === undefined || product.stock > 0)
   const t = getT(store.language || "en")
 
-  const productUrl = `${getStoreUrl(slug)}/products/${product.id}`
+  const storeUrl = getStoreUrl(slug)
+  const productUrl = `${storeUrl}/products/${product.id}`
+  const collectionData = (product as Record<string, unknown>).collections as { name: string; slug?: string } | null
+  const collectionName = collectionData?.name || null
+  const collectionSlug = collectionData?.slug || null
+  const priceValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
+
+  const offersSchema = hasOptions && variants.length > 0
+    ? {
+        "@type": "AggregateOffer",
+        url: productUrl,
+        lowPrice: Math.min(...variants.map((v) => v.price)),
+        highPrice: Math.max(...variants.map((v) => v.price)),
+        priceCurrency: displayCurrency,
+        offerCount: variants.length,
+        availability: variants.some((v) => v.is_available)
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+        offers: variants.map((v) => ({
+          "@type": "Offer",
+          url: productUrl,
+          price: v.price,
+          priceCurrency: displayCurrency,
+          priceValidUntil,
+          availability: v.is_available
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+          ...(v.sku ? { sku: v.sku } : {}),
+        })),
+      }
+    : {
+        "@type": "Offer",
+        url: productUrl,
+        price: resolvedProduct.price,
+        priceCurrency: displayCurrency,
+        priceValidUntil,
+        availability: productInStock
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+      }
+
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -168,15 +213,18 @@ export default async function ProductPage({
     ...(product.description ? { description: product.description } : {}),
     ...(resolvedImageUrls.length > 0 ? { image: resolvedImageUrls } : {}),
     ...(product.sku && !hasOptions ? { sku: product.sku } : {}),
-    offers: {
-      "@type": "Offer",
-      url: productUrl,
-      price: resolvedProduct.price,
-      priceCurrency: displayCurrency,
-      availability: productInStock
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
-    },
+    offers: offersSchema,
+  }
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: store.name || "Store", item: storeUrl },
+      ...(collectionName
+        ? [{ "@type": "ListItem", position: 2, name: collectionName, item: collectionSlug ? `${storeUrl}/collections/${collectionSlug}` : storeUrl }]
+        : []),
+      { "@type": "ListItem", position: collectionName ? 3 : 2, name: product.name },
+    ],
   }
 
   return (
@@ -184,6 +232,10 @@ export default async function ProductPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <PixelViewContent productName={product.name} productId={product.id} price={resolvedProduct.price} currency={displayCurrency} />
       <TiktokPixelViewContent productName={product.name} productId={product.id} price={resolvedProduct.price} currency={displayCurrency} />
@@ -209,7 +261,10 @@ export default async function ProductPage({
         )}
 
         {product.description && (
-          <p className="text-muted-foreground whitespace-pre-line">{product.description}</p>
+          <section>
+            <h2 className="sr-only">{t("storefront.description")}</h2>
+            <p className="text-muted-foreground whitespace-pre-line">{product.description}</p>
+          </section>
         )}
 
         {hasOptions ? (

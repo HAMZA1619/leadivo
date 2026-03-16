@@ -61,7 +61,11 @@
     "freeDelivery": "ฟรี",
     "scanToShop": "สแกนเพื่อช้อปบนมือถือ",
     "continueOnDesktop": "ดำเนินการต่อบนคอมพิวเตอร์",
-    "additionalLanguages": "ภาษาเพิ่มเติม"
+    "additionalLanguages": "ภาษาเพิ่มเติม",
+    "collections": "คอลเลกชัน",
+    "description": "รายละเอียด",
+    "browseAt": "เรียกดู {{collection}} ที่ {{store}}",
+    "shopAt": "ช้อปที่ {{store}}"
   },
   "search": {
     "searchProducts": "ค้นหาสินค้า..."

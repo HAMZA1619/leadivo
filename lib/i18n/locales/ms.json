@@ -61,7 +61,11 @@
     "freeDelivery": "Percuma",
     "scanToShop": "Imbas untuk membeli-belah di telefon anda",
     "continueOnDesktop": "Teruskan di desktop",
-    "additionalLanguages": "Bahasa tambahan"
+    "additionalLanguages": "Bahasa tambahan",
+    "collections": "Koleksi",
+    "description": "Penerangan",
+    "browseAt": "Layari {{collection}} di {{store}}",
+    "shopAt": "Beli-belah di {{store}}"
   },
   "search": {
     "searchProducts": "Cari produk..."

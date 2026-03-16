@@ -17,7 +17,7 @@ import {
   Settings,
   Menu,
   ChevronDown,
-  Home,
+  BookOpen,
   CircleHelp,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -98,7 +98,7 @@ function SidebarContent({ pathname, onNavigate }: {
     <>
       <div className="flex h-14 items-center border-b px-4">
         <Link href="/dashboard" onClick={onNavigate}>
-          <LeadivoLogo className="h-6" />
+          <LeadivoLogo className="h-7" />
         </Link>
       </div>
       <nav className="flex-1 space-y-1 overflow-y-auto p-3">
@@ -164,12 +164,12 @@ function SidebarContent({ pathname, onNavigate }: {
       </nav>
       <div className="flex items-center justify-between border-t px-4 py-3">
         <Link
-          href="/?landing=true"
+          href="/blog"
           onClick={onNavigate}
           className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          title={t("landing.home")}
+          title={t("blog.title")}
         >
-          <Home className="h-5 w-5" />
+          <BookOpen className="h-5 w-5" />
         </Link>
         <Popover open={langOpen} onOpenChange={setLangOpen}>
           <PopoverTrigger asChild>
@@ -240,7 +240,7 @@ export function MobileNav() {
         </SheetContent>
       </Sheet>
       <Link href="/dashboard" className="ms-2">
-        <LeadivoLogo className="h-6" />
+        <LeadivoLogo className="h-7" />
       </Link>
     </div>
   )

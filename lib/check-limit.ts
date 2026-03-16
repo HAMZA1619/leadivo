@@ -50,5 +50,5 @@ export async function checkResourceLimit(
 
 export function limitErrorMessage(resource: string, limit: number): string {
   const label = resource.replace(/_/g, " ").replace("store ", "")
-  return `You've reached the free tier limit of ${limit} ${label}. Upgrade to Pro for unlimited ${label}.`
+  return `You've reached the limit of ${limit} ${label}. Upgrade to Pro for unlimited ${label}.`
 }

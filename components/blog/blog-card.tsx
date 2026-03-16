@@ -17,8 +17,8 @@ export function BlogCard({ post }: { post: BlogPostMeta }) {
   const locale = i18n.language || "en"
 
   return (
-    <Link href={`/blog/${post.slug}`} className="group block">
-      <article className="overflow-hidden rounded-lg border bg-card transition-colors hover:bg-muted/50">
+    <Link href={`/blog/${post.slug}`} className="group block h-full">
+      <article className="flex h-full flex-col overflow-hidden rounded-xl border bg-card transition-all hover:border-primary/50 hover:shadow-sm">
         <div className="relative aspect-[16/9] bg-muted">
           {post.image ? (
             <Image
@@ -40,15 +40,15 @@ export function BlogCard({ post }: { post: BlogPostMeta }) {
             </Badge>
           )}
         </div>
-        <div className="p-4">
-          <Badge variant="secondary" className="mb-2 text-xs capitalize">
+        <div className="flex flex-1 flex-col p-4 sm:p-5">
+          <Badge variant="secondary" className="mb-2 w-fit text-xs capitalize">
             {t(`blog.categories.${post.category}`, post.category.replace("-", " "))}
           </Badge>
           <h3 className="mb-1 line-clamp-2 font-semibold leading-tight group-hover:text-primary">
             {post.title}
           </h3>
           <p className="mb-3 line-clamp-2 text-sm text-muted-foreground">{post.description}</p>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="mt-auto flex items-center gap-3 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <Calendar className="h-3 w-3" />
               {new Date(post.date).toLocaleDateString(locale, {
@@ -75,7 +75,7 @@ export function BlogCardFeatured({ post }: { post: BlogPostMeta }) {
 
   return (
     <Link href={`/blog/${post.slug}`} className="group block h-full">
-      <article className="flex h-full flex-col overflow-hidden rounded-lg border bg-card transition-colors hover:bg-muted/50">
+      <article className="flex h-full flex-col overflow-hidden rounded-xl border bg-card transition-all hover:border-primary/50 hover:shadow-md">
         <div className="relative aspect-[2/1] bg-muted">
           {post.image ? (
             <Image
@@ -97,7 +97,7 @@ export function BlogCardFeatured({ post }: { post: BlogPostMeta }) {
             </Badge>
           )}
         </div>
-        <div className="flex flex-1 flex-col p-5">
+        <div className="flex flex-1 flex-col p-5 sm:p-6">
           <div className="mb-2 flex items-center gap-2">
             <Badge variant="secondary" className="text-xs capitalize">
               {t(`blog.categories.${post.category}`, post.category.replace("-", " "))}
@@ -106,7 +106,7 @@ export function BlogCardFeatured({ post }: { post: BlogPostMeta }) {
               {t("blog.featured")}
             </Badge>
           </div>
-          <h3 className="mb-2 line-clamp-2 text-lg font-bold leading-snug group-hover:text-primary sm:text-xl">
+          <h3 className="mb-2 line-clamp-2 text-lg font-semibold leading-snug group-hover:text-primary sm:text-xl">
             {post.title}
           </h3>
           <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">

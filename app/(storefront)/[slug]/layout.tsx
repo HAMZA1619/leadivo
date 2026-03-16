@@ -11,6 +11,7 @@ import { CartRepricer } from "@/components/store/cart-repricer"
 import { AnnouncementCountdown } from "@/components/store/announcement-countdown"
 import { StoreConfigProvider } from "@/lib/store/store-config"
 import { cn, parseDesignSettings, getImageUrl, sanitizeCss, isValidHttpUrl, getStoreUrl } from "@/lib/utils"
+import { getT } from "@/lib/i18n/storefront"
 import { BORDER_RADIUS_OPTIONS, CARD_SHADOW_OPTIONS, PRODUCT_IMAGE_RATIO_OPTIONS, LAYOUT_SPACING_OPTIONS } from "@/lib/constants"
 import { getStoreBySlug, getStoreIntegration, getStoreOwnerAccess, getStoreMarkets } from "@/lib/storefront/cache"
 import { detectMarketByCountry } from "@/lib/market/detect-market"
@@ -23,14 +24,15 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const store = await getStoreBySlug(slug, "name, description, design_settings")
+  const store = await getStoreBySlug(slug, "name, language, description, design_settings")
 
   if (!store) return {}
 
   const ds = parseDesignSettings((store.design_settings || {}) as Record<string, unknown>)
 
+  const t = getT(ds.language || store.language || "en")
   const title = ds.seoTitle || store.name
-  const description = ds.seoDescription || store.description || `Shop at ${store.name}`
+  const description = ds.seoDescription || store.description || t("storefront.shopAt", { store: store.name })
   const logoUrl = ds.logoPath ? getImageUrl(ds.logoPath) : null
   const seoImageUrl = ds.seoImagePath ? getImageUrl(ds.seoImagePath) : null
   const iconUrl = seoImageUrl || logoUrl
@@ -38,10 +40,23 @@ export async function generateMetadata({
 
   const canonical = getStoreUrl(slug)
 
+  // Build hreflang alternates for multi-language stores
+  const primaryLang = ds.language || store.language || "en"
+  const enabledLangs: string[] = ds.enabledLanguages?.length > 0
+    ? [primaryLang, ...ds.enabledLanguages.filter((l: string) => l !== primaryLang)]
+    : [primaryLang]
+
+  const languages: Record<string, string> | undefined = enabledLangs.length > 1
+    ? Object.fromEntries([
+        ...enabledLangs.map((lang: string) => [lang, canonical]),
+        ["x-default", canonical],
+      ])
+    : undefined
+
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: { canonical, languages },
     ...(ds.seoKeywords ? { keywords: ds.seoKeywords.split(",").map((k) => k.trim()).filter(Boolean) } : {}),
     ...(iconUrl ? { icons: { icon: iconUrl, apple: iconUrl } } : {}),
     openGraph: {
@@ -49,7 +64,7 @@ export async function generateMetadata({
       description,
       type: "website",
       url: canonical,
-      ...(ogImageUrl ? { images: [{ url: ogImageUrl }] } : {}),
+      ...(ogImageUrl ? { images: [{ url: ogImageUrl, alt: title }] } : {}),
     },
     twitter: {
       card: ogImageUrl ? "summary_large_image" : "summary",
@@ -232,6 +247,8 @@ export default async function StoreLayout({
         .store-card .text-sm { font-size: clamp(0.72rem, 6.5cqw, 0.9375rem); }
         .store-card button svg { width: 1em; height: 1em; }
       `}} />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="stylesheet" href={fontHref} />
       {ds.customCss && (
         <style dangerouslySetInnerHTML={{ __html: sanitizeCss(ds.customCss) }} />

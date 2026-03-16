@@ -61,7 +61,11 @@
     "freeDelivery": "Miễn phí",
     "scanToShop": "Quét để mua sắm trên điện thoại",
     "continueOnDesktop": "Tiếp tục trên máy tính",
-    "additionalLanguages": "Ngôn ngữ bổ sung"
+    "additionalLanguages": "Ngôn ngữ bổ sung",
+    "collections": "Bộ sưu tập",
+    "description": "Mô tả",
+    "browseAt": "Xem {{collection}} tại {{store}}",
+    "shopAt": "Mua sắm tại {{store}}"
   },
   "search": {
     "searchProducts": "Tìm kiếm sản phẩm..."

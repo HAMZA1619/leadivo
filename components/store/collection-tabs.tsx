@@ -10,13 +10,14 @@ import "@/lib/i18n"
 interface CollectionTabsProps {
   storeSlug: string
   collections: { id: string; name: string; slug: string }[]
+  activeSlug?: string
 }
 
-export function CollectionTabs({ storeSlug, collections }: CollectionTabsProps) {
+export function CollectionTabs({ storeSlug, collections, activeSlug }: CollectionTabsProps) {
   const { t } = useTranslation()
   const searchParams = useSearchParams()
   const baseHref = useBaseHref()
-  const activeCollection = searchParams.get("collection")
+  const activeCollection = activeSlug ?? searchParams.get("collection")
 
   if (collections.length === 0) return null
 
@@ -39,7 +40,7 @@ export function CollectionTabs({ storeSlug, collections }: CollectionTabsProps) 
       {collections.map((c) => (
         <Link
           key={c.id}
-          href={`${baseHref || "/"}?collection=${c.slug}`}
+          href={`${baseHref}/collections/${c.slug}`}
           className={cn(
             "shrink-0 rounded-full border px-4 py-1.5 text-sm transition-colors",
             activeCollection === c.slug

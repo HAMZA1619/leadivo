@@ -61,7 +61,11 @@
     "freeDelivery": "無料",
     "scanToShop": "スマホでスキャンして買い物",
     "continueOnDesktop": "パソコンで続ける",
-    "additionalLanguages": "その他の言語"
+    "additionalLanguages": "その他の言語",
+    "collections": "コレクション",
+    "description": "説明",
+    "browseAt": "{{store}}の{{collection}}を閲覧",
+    "shopAt": "{{store}}でお買い物"
   },
   "search": {
     "searchProducts": "商品を検索..."

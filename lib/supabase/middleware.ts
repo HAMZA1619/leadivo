@@ -55,8 +55,21 @@ async function resolveStoreBySlug(slug: string): Promise<boolean> {
   return !!data
 }
 
+function createStoreRobotsTxt(request: NextRequest): NextResponse {
+  const origin = `${request.nextUrl.protocol}//${request.headers.get("host")}`
+  const body = `User-agent: *\nAllow: /\nDisallow: /cart\nDisallow: /order-confirmed\n\nSitemap: ${origin}/sitemap.xml\n`
+  return new NextResponse(body, {
+    headers: { "Content-Type": "text/plain" },
+  })
+}
+
 function createSubdomainRewrite(request: NextRequest, slug: string): NextResponse {
   const pathname = request.nextUrl.pathname
+
+  // Serve store-specific robots.txt for subdomains/custom domains
+  if (pathname === "/robots.txt") {
+    return createStoreRobotsTxt(request)
+  }
 
   // If path already starts with the slug, redirect to clean version
   if (pathname.startsWith(`/${slug}`)) {

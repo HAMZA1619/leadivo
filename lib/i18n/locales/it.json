@@ -61,7 +61,11 @@
     "freeDelivery": "Gratuita",
     "scanToShop": "Scansiona per acquistare dal telefono",
     "continueOnDesktop": "Continua su desktop",
-    "additionalLanguages": "Altre lingue"
+    "additionalLanguages": "Altre lingue",
+    "collections": "Collezioni",
+    "description": "Descrizione",
+    "browseAt": "Sfoglia {{collection}} su {{store}}",
+    "shopAt": "Acquista su {{store}}"
   },
   "search": {
     "searchProducts": "Cerca prodotti..."

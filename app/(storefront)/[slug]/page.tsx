@@ -1,5 +1,6 @@
-import { parseDesignSettings } from "@/lib/utils"
-import { notFound } from "next/navigation"
+import { parseDesignSettings, getStoreUrl, getImageUrl } from "@/lib/utils"
+import { getT } from "@/lib/i18n/storefront"
+import { notFound, redirect } from "next/navigation"
 import { cookies } from "next/headers"
 import { CollectionTabs } from "@/components/store/collection-tabs"
 import { SearchInput } from "@/components/store/search-input"
@@ -17,22 +18,21 @@ export default async function StorePage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ collection?: string; search?: string }>
+  searchParams: Promise<{ search?: string; collection?: string }>
 }) {
   const { slug } = await params
-  const { collection, search } = await searchParams
+  const { search, collection } = await searchParams
 
-  const store = await getStoreBySlug(slug, "id, name, currency, description, design_settings")
+  // 301 redirect old ?collection= URLs to new /collections/ pages
+  if (collection) {
+    redirect(`/${slug}/collections/${collection}`)
+  }
+
+  const store = await getStoreBySlug(slug, "id, name, language, currency, description, design_settings")
 
   if (!store) notFound()
 
   const collections = await getStoreCollections(store.id)
-
-  let activeCollectionId: string | null = null
-  if (collection) {
-    const activeCollection = collections?.find((c) => c.slug === collection)
-    if (activeCollection) activeCollectionId = activeCollection.id
-  }
 
   // Market resolution (before product fetch so we can apply exclusions)
   const cookieStore = await cookies()
@@ -57,7 +57,7 @@ export default async function StorePage({
   }
 
   const excludedProductIds = activeMarket ? await getMarketExclusions(activeMarket.id) : []
-  const rawProducts = await getStoreProducts(store.id, 0, PAGE_SIZE, activeCollectionId, search, excludedProductIds.length > 0 ? excludedProductIds : null)
+  const rawProducts = await getStoreProducts(store.id, 0, PAGE_SIZE, null, search, excludedProductIds.length > 0 ? excludedProductIds : null)
 
   let marketPricesMap = new Map<string, { price: number; compare_at_price: number | null }>()
   if (activeMarket?.pricing_mode === "fixed" && rawProducts && rawProducts.length > 0) {
@@ -97,25 +97,83 @@ export default async function StorePage({
   })
 
   const ds = parseDesignSettings((store.design_settings || {}) as Record<string, unknown>)
+  const t = getT(store.language || "en")
   const storeName = ds.seoTitle || store.name
+  const storeUrl = getStoreUrl(slug)
+  const logoUrl = ds.logoPath ? getImageUrl(ds.logoPath) : null
+
+  const storeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: store.name,
+    url: storeUrl,
+    ...(logoUrl ? { logo: logoUrl } : {}),
+    ...(store.description ? { description: store.description } : {}),
+  }
+
+  const searchJsonLd = ds.showSearch ? {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    url: storeUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: { "@type": "EntryPoint", urlTemplate: `${storeUrl}?search={search_term_string}` },
+      "query-input": "required name=search_term_string",
+    },
+  } : null
+
+  const itemListJsonLd = products.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: storeName,
+    numberOfItems: products.length,
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${storeUrl}/products/${p.id}`,
+      name: p.name,
+    })),
+  } : null
 
   return (
     <div className="space-y-6">
-      <ViewTracker storeId={store.id} marketId={activeMarket?.id} />
-      <h1 className="sr-only">{storeName}</h1>
-      {store.description && (
-        <p className="text-muted-foreground">{store.description}</p>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(storeJsonLd) }}
+      />
+      {searchJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(searchJsonLd) }}
+        />
       )}
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
+      <ViewTracker storeId={store.id} marketId={activeMarket?.id} />
+      <div>
+        <h1 className="text-xl font-bold sm:text-2xl" style={{ fontFamily: "var(--store-heading-font)" }}>{storeName}</h1>
+        {store.description && (
+          <p className="mt-1 text-muted-foreground">{store.description}</p>
+        )}
+      </div>
 
       {parseDesignSettings((store.design_settings || {}) as Record<string, unknown>).showSearch && <SearchInput storeSlug={slug} />}
 
-      {!search && <CollectionTabs storeSlug={slug} collections={collections || []} />}
+      {!search && collections && collections.length > 0 && (
+        <section>
+          <h2 className="sr-only">{t("storefront.collections")}</h2>
+          <CollectionTabs storeSlug={slug} collections={collections} />
+        </section>
+      )}
 
       <ProductGrid
         initialProducts={products || []}
         storeId={store.id}
         storeSlug={slug}
-        collectionId={activeCollectionId}
         search={search || null}
         hasMore={(products?.length || 0) === PAGE_SIZE}
         marketId={activeMarket?.id}

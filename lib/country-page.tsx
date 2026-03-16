@@ -1,6 +1,4 @@
 import type { Metadata } from "next"
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
 import { LandingPage } from "@/components/marketing/landing-page"
 import type { CountryConfig } from "@/lib/countries"
 
@@ -85,23 +83,11 @@ export function generateCountryJsonLd(country: CountryConfig) {
   return { jsonLd, orgJsonLd, faqJsonLd }
 }
 
-export async function CountryPage({
+export function CountryPage({
   country,
-  searchParams,
 }: {
   country: CountryConfig
-  searchParams: Promise<{ landing?: string }>
 }) {
-  const { landing } = await searchParams
-
-  if (!landing) {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    if (user) redirect("/dashboard")
-  }
-
   const { jsonLd, orgJsonLd, faqJsonLd } = generateCountryJsonLd(country)
 
   return (

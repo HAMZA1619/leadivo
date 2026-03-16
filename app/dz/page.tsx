@@ -6,6 +6,6 @@ const country = COUNTRIES.dz
 
 export const metadata: Metadata = generateCountryMetadata(country)
 
-export default function AlgeriaPage({ searchParams }: { searchParams: Promise<{ landing?: string }> }) {
-  return <CountryPage country={country} searchParams={searchParams} />
+export default function AlgeriaPage() {
+  return <CountryPage country={country} />
 }

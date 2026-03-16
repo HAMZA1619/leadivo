@@ -61,7 +61,11 @@
     "freeDelivery": "मुफ़्त",
     "scanToShop": "फ़ोन पर खरीदारी करने के लिए स्कैन करें",
     "continueOnDesktop": "डेस्कटॉप पर जारी रखें",
-    "additionalLanguages": "अतिरिक्त भाषाएं"
+    "additionalLanguages": "अतिरिक्त भाषाएं",
+    "collections": "संग्रह",
+    "description": "विवरण",
+    "browseAt": "{{store}} पर {{collection}} ब्राउज़ करें",
+    "shopAt": "{{store}} पर खरीदारी करें"
   },
   "search": {
     "searchProducts": "उत्पाद खोजें..."

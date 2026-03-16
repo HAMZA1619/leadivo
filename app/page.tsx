@@ -1,6 +1,4 @@
 import type { Metadata } from "next"
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
 import { LandingPage } from "@/components/marketing/landing-page"
 
 const APP_URL = process.env.NEXT_PUBLIC_ROOT_DOMAIN
@@ -116,15 +114,7 @@ const faqJsonLd = {
   ],
 }
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ landing?: string }> }) {
-  const { landing } = await searchParams
-
-  if (!landing) {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (user) redirect("/dashboard")
-  }
-
+export default function Page() {
   return (
     <>
       <script

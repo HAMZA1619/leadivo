@@ -61,7 +61,11 @@
     "freeDelivery": "Бесплатно",
     "scanToShop": "Отсканируйте, чтобы открыть на телефоне",
     "continueOnDesktop": "Продолжить на компьютере",
-    "additionalLanguages": "Дополнительные языки"
+    "additionalLanguages": "Дополнительные языки",
+    "collections": "Коллекции",
+    "description": "Описание",
+    "browseAt": "Просмотреть {{collection}} в {{store}}",
+    "shopAt": "Покупайте в {{store}}"
   },
   "search": {
     "searchProducts": "Поиск товаров..."

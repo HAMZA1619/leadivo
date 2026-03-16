@@ -128,7 +128,7 @@ export async function POST(request: Request) {
         .in("product_id", productIds)
 
       if (exclusions && exclusions.length > 0) {
-        return NextResponse.json({ error: "Some products are not available in this market" }, { status: 400 })
+        return NextResponse.json({ error: "Some products are only available in select markets. Please review your market settings." }, { status: 400 })
       }
     }
 
@@ -355,7 +355,7 @@ export async function POST(request: Request) {
 
           if (cityRate) {
             if (cityRate.is_excluded) {
-              return NextResponse.json({ error: "Delivery is not available to this city" }, { status: 400 })
+              return NextResponse.json({ error: "This city is outside the current delivery coverage. Please check your shipping zones." }, { status: 400 })
             }
             deliveryFee = Number(cityRate.rate)
           }

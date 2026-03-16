@@ -10,6 +10,8 @@ interface TocItem {
   level: number
 }
 
+const TOC_EXCLUDE = /^(table of contents|جدول المحتويات|table des matières|sommaire)$/i
+
 function extractHeadings(content: string): TocItem[] {
   const headings: TocItem[] = []
   const regex = /^(#{2,3})\s+(.+)/gm
@@ -18,6 +20,7 @@ function extractHeadings(content: string): TocItem[] {
   while ((match = regex.exec(content)) !== null) {
     const level = match[1].length
     const text = match[2].replace(/\*\*/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    if (TOC_EXCLUDE.test(text.trim())) continue
     const id = text
       .toLowerCase()
       .replace(/[^\w\s-]/g, "")
@@ -57,19 +60,22 @@ export function TableOfContents({ content }: { content: string }) {
   if (headings.length < 3) return null
 
   return (
-    <nav className="mb-8 rounded-lg border bg-muted/30 p-4">
-      <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
-        <List className="h-4 w-4" />
+    <nav className="mb-10 overflow-hidden rounded-xl border bg-muted/30">
+      <div className="flex items-center gap-2 border-b bg-muted/50 px-5 py-3 text-sm font-semibold">
+        <List className="h-4 w-4 text-primary" />
         Table of Contents
       </div>
-      <ul className="space-y-1.5 text-sm">
+      <ul className="space-y-0.5 p-4">
         {headings.map((heading) => (
-          <li key={heading.id} style={{ paddingInlineStart: heading.level === 3 ? "1rem" : 0 }}>
+          <li key={heading.id}>
             <a
               href={`#${heading.id}`}
               className={cn(
-                "line-clamp-1 text-muted-foreground transition-colors hover:text-foreground",
-                activeId === heading.id && "font-medium text-primary"
+                "block rounded-md px-3 py-1.5 text-sm transition-colors hover:bg-muted",
+                heading.level === 3 && "ms-4",
+                activeId === heading.id
+                  ? "font-medium text-primary bg-primary/5"
+                  : "text-muted-foreground"
               )}
             >
               {heading.text}

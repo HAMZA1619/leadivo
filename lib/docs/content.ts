@@ -13,12 +13,18 @@ export interface DocStep {
   image?: string
 }
 
+export interface DocFaq {
+  question: Localized
+  answer: Localized
+}
+
 export interface DocArticle {
   slug: string
   category: string
   title: Localized
   description: Localized
   steps: DocStep[]
+  faqs?: DocFaq[]
 }
 
 export const CATEGORIES: DocCategory[] = [
@@ -182,6 +188,20 @@ export const ARTICLES: DocArticle[] = [
         image: "/docs/getting-started/create-account-3.svg",
       },
     ],
+    faqs: [
+      {
+        question: { en: "Can I try Leadivo before subscribing?", ar: "هل يمكنني تجربة Leadivo قبل الاشتراك؟", fr: "Puis-je essayer Leadivo avant de m'abonner ?" },
+        answer: { en: "Yes! Leadivo offers a 14-day free trial with full access to all features. You can create your store, add products, set up integrations, and start selling right away. After the trial, subscribe to the Pro plan to continue.", ar: "نعم! يوفر Leadivo فترة تجريبية مجانية لمدة 14 يومًا مع وصول كامل لجميع الميزات. يمكنك إنشاء متجرك وإضافة المنتجات وإعداد التكاملات والبدء في البيع فورًا. بعد الفترة التجريبية، اشترك في خطة Pro للاستمرار.", fr: "Oui ! Leadivo offre un essai gratuit de 14 jours avec accès complet à toutes les fonctionnalités. Vous pouvez créer votre boutique, ajouter des produits, configurer les intégrations et commencer à vendre immédiatement. Après l'essai, abonnez-vous au plan Pro pour continuer." },
+      },
+      {
+        question: { en: "Can I sign up with my Google account?", ar: "هل يمكنني التسجيل بحساب جوجل؟", fr: "Puis-je m'inscrire avec mon compte Google ?" },
+        answer: { en: "Yes, you can sign up instantly using your Google account by clicking the \"Sign up with Google\" button on the registration page. No password is needed — your Google credentials are used securely.", ar: "نعم، يمكنك التسجيل فورًا باستخدام حسابك في جوجل بالنقر على زر \"التسجيل عبر جوجل\" في صفحة التسجيل. لا حاجة لكلمة مرور — يتم استخدام بيانات جوجل الخاصة بك بشكل آمن.", fr: "Oui, vous pouvez vous inscrire instantanément avec votre compte Google en cliquant sur le bouton « S'inscrire avec Google » sur la page d'inscription. Aucun mot de passe n'est nécessaire." },
+      },
+      {
+        question: { en: "Can I change my email address later?", ar: "هل يمكنني تغيير بريدي الإلكتروني لاحقًا؟", fr: "Puis-je changer mon adresse email plus tard ?" },
+        answer: { en: "Yes, you can update your email address at any time from the Settings page in your dashboard.", ar: "نعم، يمكنك تحديث بريدك الإلكتروني في أي وقت من صفحة الإعدادات في لوحة التحكم.", fr: "Oui, vous pouvez mettre à jour votre adresse email à tout moment depuis la page Paramètres de votre tableau de bord." },
+      },
+    ],
   },
   {
     slug: "setup-store",
@@ -225,6 +245,20 @@ export const ARTICLES: DocArticle[] = [
         image: "/docs/getting-started/setup-store-3.svg",
       },
     ],
+    faqs: [
+      {
+        question: { en: "Can I change my store name after creating it?", ar: "هل يمكنني تغيير اسم المتجر بعد إنشائه؟", fr: "Puis-je changer le nom de ma boutique après l'avoir créée ?" },
+        answer: { en: "Yes, you can update your store name, slug, currency, language, and description at any time from the Store settings page. Changes are applied immediately after saving.", ar: "نعم، يمكنك تحديث اسم المتجر والرابط والعملة واللغة والوصف في أي وقت من صفحة إعدادات المتجر. تُطبق التغييرات فورًا بعد الحفظ.", fr: "Oui, vous pouvez modifier le nom, le slug, la devise, la langue et la description de votre boutique à tout moment. Les modifications sont appliquées immédiatement après l'enregistrement." },
+      },
+      {
+        question: { en: "What currencies are supported?", ar: "ما العملات المدعومة؟", fr: "Quelles devises sont prises en charge ?" },
+        answer: { en: "Leadivo supports a wide range of currencies including USD, EUR, GBP, DZD, MAD, TND, SAR, AED, EGP, and many more. You can also set up multiple markets to sell in different currencies simultaneously.", ar: "يدعم Leadivo مجموعة واسعة من العملات بما في ذلك USD وEUR وGBP وDZD وMAD وTND وSAR وAED وEGP وغيرها الكثير. يمكنك أيضًا إعداد أسواق متعددة للبيع بعملات مختلفة في نفس الوقت.", fr: "Leadivo prend en charge un large éventail de devises dont USD, EUR, GBP, DZD, MAD, TND, SAR, AED, EGP et bien d'autres. Vous pouvez aussi configurer plusieurs marchés pour vendre en différentes devises simultanément." },
+      },
+      {
+        question: { en: "What languages can my storefront display?", ar: "ما اللغات التي يمكن لواجهة المتجر عرضها؟", fr: "Quelles langues ma vitrine peut-elle afficher ?" },
+        answer: { en: "Your storefront supports 20 languages including English, Arabic (with RTL support), French, Spanish, Portuguese, German, Italian, Dutch, Turkish, Russian, Chinese, Japanese, Korean, Hindi, Indonesian, Malay, Polish, Swedish, Thai, and Vietnamese.", ar: "تدعم واجهة متجرك 20 لغة بما في ذلك الإنجليزية والعربية (مع دعم RTL) والفرنسية والإسبانية والبرتغالية والألمانية والإيطالية والهولندية والتركية والروسية والصينية واليابانية والكورية والهندية والإندونيسية والماليزية والبولندية والسويدية والتايلاندية والفيتنامية.", fr: "Votre vitrine prend en charge 20 langues dont l'anglais, l'arabe (avec support RTL), le français, l'espagnol, le portugais, l'allemand, l'italien, le néerlandais, le turc, le russe, le chinois, le japonais, le coréen, le hindi, l'indonésien, le malais, le polonais, le suédois, le thaïlandais et le vietnamien." },
+      },
+    ],
   },
   {
     slug: "publish-store",
@@ -256,6 +290,16 @@ export const ARTICLES: DocArticle[] = [
           fr: "Trouvez le bouton « Publié » en haut des paramètres de la boutique et activez-le. Votre boutique deviendra immédiatement visible pour toute personne ayant le lien. Vous pouvez partager l'URL de votre boutique (affichée en haut de la page) avec vos clients via les réseaux sociaux, WhatsApp ou tout autre canal. Vous pouvez dépublier à tout moment en désactivant le bouton.",
         },
         image: "/docs/getting-started/publish-store-1.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "Can customers see my store before I publish it?", ar: "هل يمكن للعملاء رؤية متجري قبل نشره؟", fr: "Les clients peuvent-ils voir ma boutique avant que je la publie ?" },
+        answer: { en: "No. While your store is unpublished, visiting its URL will show a \"Store not found\" page. Only after you toggle the Published switch will your store be accessible to customers.", ar: "لا. أثناء إلغاء نشر متجرك، زيارة رابطه ستعرض صفحة \"المتجر غير موجود\". فقط بعد تفعيل زر النشر سيكون متجرك متاحًا للعملاء.", fr: "Non. Tant que votre boutique n'est pas publiée, son URL affichera une page « Boutique non trouvée ». Ce n'est qu'après avoir activé le bouton Publier que votre boutique sera accessible aux clients." },
+      },
+      {
+        question: { en: "Can I unpublish my store temporarily?", ar: "هل يمكنني إلغاء نشر متجري مؤقتًا؟", fr: "Puis-je dépublier ma boutique temporairement ?" },
+        answer: { en: "Yes, you can toggle the Published switch off at any time. This will hide your store from customers without deleting any of your data, products, or orders. Turn it back on whenever you're ready.", ar: "نعم، يمكنك إيقاف زر النشر في أي وقت. سيؤدي ذلك إلى إخفاء متجرك عن العملاء دون حذف أي من بياناتك أو منتجاتك أو طلباتك. أعد تفعيله عندما تكون جاهزًا.", fr: "Oui, vous pouvez désactiver le bouton Publier à tout moment. Cela masquera votre boutique sans supprimer vos données, produits ou commandes. Réactivez-le quand vous êtes prêt." },
       },
     ],
   },
@@ -294,6 +338,16 @@ export const ARTICLES: DocArticle[] = [
         image: "/docs/store/store-settings-2.svg",
       },
     ],
+    faqs: [
+      {
+        question: { en: "Will changing my store slug break existing links?", ar: "هل سيؤدي تغيير رابط المتجر إلى كسر الروابط الحالية؟", fr: "Changer mon slug de boutique va-t-il casser les liens existants ?" },
+        answer: { en: "Yes, changing your URL slug will update your store's link. Any previously shared links using the old slug will stop working. Make sure to update your links on social media and marketing materials after changing the slug.", ar: "نعم، تغيير رابط URL سيحدّث رابط متجرك. أي روابط تمت مشاركتها سابقًا باستخدام الرابط القديم ستتوقف عن العمل. تأكد من تحديث روابطك على وسائل التواصل الاجتماعي ومواد التسويق بعد تغيير الرابط.", fr: "Oui, changer votre slug URL mettra à jour le lien de votre boutique. Les anciens liens partagés ne fonctionneront plus. Pensez à mettre à jour vos liens sur les réseaux sociaux et supports marketing." },
+      },
+      {
+        question: { en: "Can I upload a store logo?", ar: "هل يمكنني رفع شعار للمتجر؟", fr: "Puis-je télécharger un logo de boutique ?" },
+        answer: { en: "Yes, you can upload both a store logo and a cover image from the Store settings page. The logo appears in your storefront header and the cover image is shown on your homepage.", ar: "نعم، يمكنك رفع شعار المتجر وصورة الغلاف من صفحة إعدادات المتجر. يظهر الشعار في رأس واجهة المتجر وتظهر صورة الغلاف في الصفحة الرئيسية.", fr: "Oui, vous pouvez télécharger un logo et une image de couverture depuis les paramètres de la boutique. Le logo apparaît dans l'en-tête et l'image de couverture sur votre page d'accueil." },
+      },
+    ],
   },
   {
     slug: "custom-domain",
@@ -326,6 +380,20 @@ export const ARTICLES: DocArticle[] = [
           fr: "Tapez votre nom de domaine dans le champ (ex : shop.votrebrand.com) et cliquez sur « Enregistrer le domaine ». Vous devrez ajouter un enregistrement CNAME dans les paramètres DNS de votre registraire de domaine pointant vers leadivo.app. Les changements DNS peuvent prendre jusqu'à 24 heures pour se propager, donc votre domaine peut ne pas fonctionner immédiatement.",
         },
         image: "/docs/store/custom-domain-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "What type of DNS record do I need?", ar: "ما نوع سجل DNS الذي أحتاجه؟", fr: "Quel type d'enregistrement DNS dois-je utiliser ?" },
+        answer: { en: "You need to add a CNAME record pointing your custom domain (e.g., shop.yourbrand.com) to leadivo.app. This is done in your domain registrar's DNS settings (GoDaddy, Namecheap, Cloudflare, etc.).", ar: "تحتاج إلى إضافة سجل CNAME يوجه نطاقك المخصص (مثلاً shop.yourbrand.com) إلى leadivo.app. يتم ذلك في إعدادات DNS لمسجّل النطاق الخاص بك (GoDaddy، Namecheap، Cloudflare، إلخ).", fr: "Vous devez ajouter un enregistrement CNAME pointant votre domaine personnalisé (ex : shop.votrebrand.com) vers leadivo.app. Cela se fait dans les paramètres DNS de votre registraire (GoDaddy, Namecheap, Cloudflare, etc.)." },
+      },
+      {
+        question: { en: "How long does DNS propagation take?", ar: "كم يستغرق انتشار DNS؟", fr: "Combien de temps prend la propagation DNS ?" },
+        answer: { en: "DNS changes can take anywhere from a few minutes to 24 hours to propagate worldwide. Most changes are visible within 1-2 hours. During this time, your custom domain may not work immediately.", ar: "يمكن أن تستغرق تغييرات DNS من بضع دقائق إلى 24 ساعة للانتشار عالميًا. معظم التغييرات تكون مرئية خلال 1-2 ساعة. خلال هذا الوقت، قد لا يعمل نطاقك المخصص فورًا.", fr: "Les changements DNS peuvent prendre de quelques minutes à 24 heures pour se propager. La plupart des changements sont visibles en 1-2 heures. Pendant ce temps, votre domaine personnalisé peut ne pas fonctionner immédiatement." },
+      },
+      {
+        question: { en: "When can I connect a custom domain?", ar: "متى يمكنني ربط نطاق مخصص؟", fr: "Quand puis-je connecter un domaine personnalisé ?" },
+        answer: { en: "You can connect a custom domain as part of your Pro subscription. During your 14-day free trial, you have full access to this feature so you can set everything up before going live.", ar: "يمكنك ربط نطاق مخصص كجزء من اشتراك Pro. خلال الفترة التجريبية المجانية لمدة 14 يومًا، لديك وصول كامل لهذه الميزة حتى تتمكن من إعداد كل شيء قبل الإطلاق.", fr: "Vous pouvez connecter un domaine personnalisé dans le cadre de votre abonnement Pro. Pendant votre essai gratuit de 14 jours, vous avez accès complet à cette fonctionnalité pour tout configurer avant le lancement." },
       },
     ],
   },
@@ -371,6 +439,20 @@ export const ARTICLES: DocArticle[] = [
           fr: "Vos modifications sont prévisualisées en temps réel, vous pouvez donc voir exactement à quoi ressemblera votre boutique avant d'enregistrer. Une fois satisfait du design, cliquez sur « Enregistrer » pour appliquer les changements. Les clients verront le nouveau design immédiatement.",
         },
         image: "/docs/design/customize-theme-3.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "What design options can I customize?", ar: "ما خيارات التصميم التي يمكنني تخصيصها؟", fr: "Quelles options de design puis-je personnaliser ?" },
+        answer: { en: "You can customize colors (20+ presets or custom), fonts (50+ Google Fonts), border radius, button styles (filled, outline, pill), button sizes, card shadow intensity, product image ratio (square, portrait, landscape), layout spacing (compact, normal, spacious), and toggle dark mode support.", ar: "يمكنك تخصيص الألوان (20+ نمط مسبق أو مخصص)، الخطوط (50+ خط من Google Fonts)، نصف قطر الحدود، أنماط الأزرار (ممتلئ، محيط، حبة)، أحجام الأزرار، شدة ظل البطاقات، نسبة صور المنتجات (مربع، عمودي، أفقي)، تباعد التخطيط (مضغوط، عادي، فسيح)، ودعم الوضع الداكن.", fr: "Vous pouvez personnaliser les couleurs (20+ préréglages ou personnalisé), les polices (50+ Google Fonts), le rayon des bordures, les styles de boutons (rempli, contour, pilule), les tailles de boutons, l'intensité des ombres, le ratio d'images produits (carré, portrait, paysage), l'espacement (compact, normal, spacieux) et le mode sombre." },
+      },
+      {
+        question: { en: "Can I preview changes before saving?", ar: "هل يمكنني معاينة التغييرات قبل الحفظ؟", fr: "Puis-je prévisualiser les changements avant d'enregistrer ?" },
+        answer: { en: "Yes, the design editor includes a live preview that updates in real-time as you make changes. You can preview both desktop and mobile views before saving.", ar: "نعم، يتضمن محرر التصميم معاينة حية تتحدث في الوقت الفعلي أثناء إجراء التغييرات. يمكنك معاينة عرض سطح المكتب والجوال قبل الحفظ.", fr: "Oui, l'éditeur de design inclut un aperçu en direct qui se met à jour en temps réel. Vous pouvez prévisualiser les vues bureau et mobile avant d'enregistrer." },
+      },
+      {
+        question: { en: "Does my store support dark mode?", ar: "هل يدعم متجري الوضع الداكن؟", fr: "Ma boutique supporte-t-elle le mode sombre ?" },
+        answer: { en: "Yes, Leadivo storefronts have built-in dark mode support. Customers can toggle between light and dark mode when browsing your store.", ar: "نعم، واجهات متاجر Leadivo تدعم الوضع الداكن مدمجًا. يمكن للعملاء التبديل بين الوضع الفاتح والداكن عند تصفح متجرك.", fr: "Oui, les vitrines Leadivo ont un support intégré du mode sombre. Les clients peuvent basculer entre le mode clair et sombre en naviguant dans votre boutique." },
       },
     ],
   },
@@ -426,6 +508,24 @@ export const ARTICLES: DocArticle[] = [
         },
       },
     ],
+    faqs: [
+      {
+        question: { en: "What is the maximum stock I can set?", ar: "ما هو الحد الأقصى للمخزون الذي يمكنني تحديده؟", fr: "Quel est le stock maximum que je peux définir ?" },
+        answer: { en: "The maximum stock quantity per product or variant is 1,000 units. If you need to track larger quantities, you can manage inventory externally and update stock levels in Leadivo as needed.", ar: "الحد الأقصى لكمية المخزون لكل منتج أو متغير هو 1,000 وحدة. إذا كنت بحاجة لتتبع كميات أكبر، يمكنك إدارة المخزون خارجيًا وتحديث مستويات المخزون في Leadivo حسب الحاجة.", fr: "La quantité maximale de stock par produit ou variante est de 1 000 unités. Si vous avez besoin de suivre de plus grandes quantités, vous pouvez gérer l'inventaire en externe et mettre à jour les niveaux de stock dans Leadivo." },
+      },
+      {
+        question: { en: "What is the compare-at price?", ar: "ما هو سعر المقارنة؟", fr: "Qu'est-ce que le prix barré ?" },
+        answer: { en: "The compare-at price is the original price before a discount. When set, it appears crossed out next to the selling price on your storefront, showing customers they're getting a deal. Leave it empty if the product isn't on sale.", ar: "سعر المقارنة هو السعر الأصلي قبل الخصم. عند تحديده، يظهر مشطوبًا بجانب سعر البيع في واجهة المتجر، مما يُظهر للعملاء أنهم يحصلون على صفقة. اتركه فارغًا إذا لم يكن المنتج في تخفيض.", fr: "Le prix barré est le prix original avant réduction. Lorsqu'il est défini, il apparaît barré à côté du prix de vente, montrant aux clients qu'ils font une bonne affaire. Laissez-le vide si le produit n'est pas en promotion." },
+      },
+      {
+        question: { en: "Can I delete products in bulk?", ar: "هل يمكنني حذف المنتجات بالجملة؟", fr: "Puis-je supprimer des produits en masse ?" },
+        answer: { en: "Yes, you can select multiple products using the checkboxes on the Products page and use the bulk actions menu to delete or change their status (active/draft) all at once.", ar: "نعم، يمكنك تحديد عدة منتجات باستخدام مربعات الاختيار في صفحة المنتجات واستخدام قائمة الإجراءات الجماعية لحذفها أو تغيير حالتها (نشط/مسودة) دفعة واحدة.", fr: "Oui, vous pouvez sélectionner plusieurs produits avec les cases à cocher et utiliser le menu d'actions groupées pour les supprimer ou changer leur statut (actif/brouillon) en une seule fois." },
+      },
+      {
+        question: { en: "What image size should I use for products?", ar: "ما حجم الصورة الذي يجب استخدامه للمنتجات؟", fr: "Quelle taille d'image dois-je utiliser pour les produits ?" },
+        answer: { en: "We recommend at least 800x800 pixels for product images. Use high-quality, well-lit photos. The first image uploaded will be used as the main product image shown in grids and search results.", ar: "نوصي بحد أدنى 800×800 بيكسل لصور المنتجات. استخدم صورًا عالية الجودة وجيدة الإضاءة. ستُستخدم أول صورة يتم رفعها كصورة رئيسية للمنتج تظهر في الشبكات ونتائج البحث.", fr: "Nous recommandons au moins 800x800 pixels pour les images de produits. Utilisez des photos de haute qualité et bien éclairées. La première image téléchargée sera l'image principale visible dans les grilles et résultats de recherche." },
+      },
+    ],
   },
   {
     slug: "product-variants",
@@ -466,6 +566,20 @@ export const ARTICLES: DocArticle[] = [
           fr: "Chaque combinaison de variantes a sa propre ligne dans le tableau des variantes sous les options. Vous pouvez définir un prix et une quantité de stock différents pour chaque variante. Par exemple, un t-shirt XL pourrait coûter plus qu'un S. Si vous laissez le prix d'une variante vide, il utilisera le prix de base du produit. N'oubliez pas de cliquer sur « Enregistrer » après avoir modifié les variantes.",
         },
         image: "/docs/products/product-variants-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "How many variant options can I add?", ar: "كم عدد خيارات المتغيرات التي يمكنني إضافتها؟", fr: "Combien d'options de variantes puis-je ajouter ?" },
+        answer: { en: "You can add multiple option types (e.g., Size, Color, Material) with as many values as you need. The system automatically generates all possible combinations. Each combination becomes its own variant with individual price, stock, and SKU.", ar: "يمكنك إضافة أنواع خيارات متعددة (مثلاً المقاس، اللون، الخامة) بأي عدد من القيم. يقوم النظام تلقائيًا بإنشاء جميع التركيبات الممكنة. كل تركيبة تصبح متغيرًا خاصًا بسعر ومخزون ورمز SKU فردي.", fr: "Vous pouvez ajouter plusieurs types d'options (ex : Taille, Couleur, Matière) avec autant de valeurs que nécessaire. Le système génère automatiquement toutes les combinaisons possibles. Chaque combinaison devient une variante avec son propre prix, stock et SKU." },
+      },
+      {
+        question: { en: "What happens if I leave a variant price empty?", ar: "ماذا يحدث إذا تركت سعر المتغير فارغًا؟", fr: "Que se passe-t-il si je laisse le prix d'une variante vide ?" },
+        answer: { en: "If you leave a variant's price empty, it will automatically use the product's base price. This is convenient when most variants share the same price and only a few need different pricing.", ar: "إذا تركت سعر المتغير فارغًا، سيستخدم تلقائيًا السعر الأساسي للمنتج. هذا مناسب عندما تشترك معظم المتغيرات في نفس السعر ويحتاج القليل منها فقط لتسعير مختلف.", fr: "Si vous laissez le prix d'une variante vide, il utilisera automatiquement le prix de base du produit. C'est pratique quand la plupart des variantes partagent le même prix et que seules quelques-unes nécessitent un prix différent." },
+      },
+      {
+        question: { en: "Can I disable a specific variant without deleting it?", ar: "هل يمكنني تعطيل متغير محدد دون حذفه؟", fr: "Puis-je désactiver une variante sans la supprimer ?" },
+        answer: { en: "Yes, each variant has an availability toggle. Turning it off hides that specific variant from customers while keeping the other variants visible. This is useful for temporarily out-of-stock sizes or colors.", ar: "نعم، كل متغير لديه زر توفر. إيقافه يخفي ذلك المتغير المحدد عن العملاء مع الحفاظ على ظهور المتغيرات الأخرى. هذا مفيد للمقاسات أو الألوان غير المتوفرة مؤقتًا.", fr: "Oui, chaque variante a un bouton de disponibilité. Le désactiver masque cette variante spécifique tout en gardant les autres visibles. C'est utile pour les tailles ou couleurs temporairement en rupture de stock." },
       },
     ],
   },
@@ -512,6 +626,16 @@ export const ARTICLES: DocArticle[] = [
         },
       },
     ],
+    faqs: [
+      {
+        question: { en: "Can a product belong to multiple collections?", ar: "هل يمكن أن ينتمي المنتج لعدة مجموعات؟", fr: "Un produit peut-il appartenir à plusieurs collections ?" },
+        answer: { en: "No, a product can only belong to one collection at a time. If you need to reorganize, simply edit the product and change its collection assignment.", ar: "لا، يمكن أن ينتمي المنتج لمجموعة واحدة فقط في كل مرة. إذا كنت بحاجة لإعادة التنظيم، ببساطة عدّل المنتج وغيّر مجموعته.", fr: "Non, un produit ne peut appartenir qu'à une seule collection à la fois. Pour réorganiser, modifiez simplement le produit et changez sa collection." },
+      },
+      {
+        question: { en: "How do collections appear on my storefront?", ar: "كيف تظهر المجموعات في واجهة المتجر؟", fr: "Comment les collections apparaissent-elles sur ma vitrine ?" },
+        answer: { en: "Collections appear as filterable tabs on your storefront homepage. Customers can click a collection tab to see only products in that category. Collections with no products are hidden automatically.", ar: "تظهر المجموعات كعلامات تبويب قابلة للتصفية في الصفحة الرئيسية لواجهة المتجر. يمكن للعملاء النقر على علامة مجموعة لرؤية المنتجات في تلك الفئة فقط. تُخفى المجموعات بدون منتجات تلقائيًا.", fr: "Les collections apparaissent comme des onglets filtrables sur la page d'accueil de votre vitrine. Les clients peuvent cliquer sur un onglet pour voir uniquement les produits de cette catégorie. Les collections sans produits sont masquées automatiquement." },
+      },
+    ],
   },
 
   // ── Orders ───────────────────────────────────────────────────────────
@@ -550,11 +674,25 @@ export const ARTICLES: DocArticle[] = [
       {
         title: { en: "Update order status", ar: "حدّث حالة الطلب", fr: "Mettez à jour le statut de la commande" },
         description: {
-          en: "Use the status dropdown on the order detail page to track your fulfillment progress. The available statuses are: Pending (new order, not yet processed), Confirmed (you've accepted and are preparing the order), Shipped (the order is on its way to the customer), Delivered (the customer has received their order), Returned (the customer sent the order back), and Canceled (the order was canceled). Only valid transitions are allowed — for example, you can't mark a delivered order as pending. You can also select multiple orders using the checkboxes and use bulk actions to update their status at once. Updating statuses helps you stay organized, feeds the COD analytics dashboard, and keeps customers informed if WhatsApp notifications are enabled.",
-          ar: "استخدم قائمة الحالة في صفحة تفاصيل الطلب لتتبع تقدم التنفيذ. الحالات المتاحة هي: معلق (طلب جديد، لم يُعالج بعد)، مؤكد (قبلت الطلب وتجهزه)، مشحون (الطلب في الطريق إلى العميل)، مُسلّم (استلم العميل طلبه)، مُرجع (أرجع العميل الطلب)، وملغي (تم إلغاء الطلب). يُسمح فقط بالانتقالات الصحيحة — مثلاً لا يمكنك تحويل طلب مُسلّم إلى معلق. يمكنك أيضاً تحديد عدة طلبات باستخدام مربعات الاختيار واستخدام الإجراءات الجماعية لتحديث حالتها دفعة واحدة. تحديث الحالات يساعدك على البقاء منظماً ويغذي لوحة تحليلات COD ويُبقي العملاء على اطلاع إذا كانت إشعارات واتساب مفعلة.",
-          fr: "Utilisez le menu déroulant de statut sur la page de détails pour suivre la progression du traitement. Les statuts disponibles sont : En attente (nouvelle commande, pas encore traitée), Confirmée (vous avez accepté et préparez la commande), Expédiée (la commande est en route vers le client), Livrée (le client a reçu sa commande), Retournée (le client a renvoyé la commande) et Annulée (la commande a été annulée). Seules les transitions valides sont autorisées — par exemple, vous ne pouvez pas remettre une commande livrée en attente. Vous pouvez aussi sélectionner plusieurs commandes avec les cases à cocher et utiliser les actions groupées pour mettre à jour leur statut d'un coup. La mise à jour des statuts vous aide à rester organisé, alimente le tableau de bord analytique COD et tient les clients informés si les notifications WhatsApp sont activées.",
+          en: "Use the status dropdown on the order detail page to track your fulfillment progress. The available statuses are: Pending (new order, not yet processed), Confirmed (you've accepted and are preparing the order), Shipped (the order is on its way to the customer), Delivered (the customer has received their order), Returned (the customer sent the order back), and Canceled (the order was canceled). The system guides you through the correct workflow by showing only valid status transitions at each step. You can also select multiple orders using the checkboxes and use bulk actions to update their status at once. Updating statuses helps you stay organized, feeds the COD analytics dashboard, and keeps customers informed if WhatsApp notifications are enabled.",
+          ar: "استخدم قائمة الحالة في صفحة تفاصيل الطلب لتتبع تقدم التنفيذ. الحالات المتاحة هي: معلق (طلب جديد، لم يُعالج بعد)، مؤكد (قبلت الطلب وتجهزه)، مشحون (الطلب في الطريق إلى العميل)، مُسلّم (استلم العميل طلبه)، مُرجع (أرجع العميل الطلب)، وملغي (تم إلغاء الطلب). يرشدك النظام عبر سير العمل الصحيح بعرض الانتقالات الصالحة فقط في كل خطوة. يمكنك أيضاً تحديد عدة طلبات باستخدام مربعات الاختيار واستخدام الإجراءات الجماعية لتحديث حالتها دفعة واحدة. تحديث الحالات يساعدك على البقاء منظماً ويغذي لوحة تحليلات COD ويُبقي العملاء على اطلاع إذا كانت إشعارات واتساب مفعلة.",
+          fr: "Utilisez le menu déroulant de statut sur la page de détails pour suivre la progression du traitement. Les statuts disponibles sont : En attente (nouvelle commande, pas encore traitée), Confirmée (vous avez accepté et préparez la commande), Expédiée (la commande est en route vers le client), Livrée (le client a reçu sa commande), Retournée (le client a renvoyé la commande) et Annulée (la commande a été annulée). Le système vous guide à travers le bon workflow en affichant uniquement les transitions valides à chaque étape. Vous pouvez aussi sélectionner plusieurs commandes avec les cases à cocher et utiliser les actions groupées pour mettre à jour leur statut d'un coup. La mise à jour des statuts vous aide à rester organisé, alimente le tableau de bord analytique COD et tient les clients informés si les notifications WhatsApp sont activées.",
         },
         image: "/docs/orders/view-orders-3.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "What order statuses are available?", ar: "ما حالات الطلب المتاحة؟", fr: "Quels statuts de commande sont disponibles ?" },
+        answer: { en: "The available statuses are: Pending (new order), Confirmed (accepted and being prepared), Shipped (on its way), Delivered (received by customer), Returned (sent back), and Canceled (order canceled). Delivered and Canceled are terminal statuses — no further changes are allowed.", ar: "الحالات المتاحة هي: معلق (طلب جديد)، مؤكد (مقبول قيد التجهيز)، مشحون (في الطريق)، مُسلّم (استلمه العميل)، مُرجع (أُعيد)، وملغي (تم الإلغاء). المُسلّم والملغي حالات نهائية — لا يُسمح بمزيد من التغييرات.", fr: "Les statuts disponibles sont : En attente (nouvelle commande), Confirmée (acceptée et en préparation), Expédiée (en route), Livrée (reçue par le client), Retournée (renvoyée) et Annulée. Livrée et Annulée sont des statuts terminaux — aucun changement n'est autorisé après." },
+      },
+      {
+        question: { en: "Can I update multiple orders at once?", ar: "هل يمكنني تحديث عدة طلبات دفعة واحدة؟", fr: "Puis-je mettre à jour plusieurs commandes à la fois ?" },
+        answer: { en: "Yes, select multiple orders using the checkboxes, then use the bulk actions menu to update their status simultaneously. This is useful when you ship a batch of orders or need to confirm several at once.", ar: "نعم، حدد عدة طلبات باستخدام مربعات الاختيار، ثم استخدم قائمة الإجراءات الجماعية لتحديث حالتها في وقت واحد. هذا مفيد عند شحن دفعة طلبات أو الحاجة لتأكيد عدة طلبات مرة واحدة.", fr: "Oui, sélectionnez plusieurs commandes avec les cases à cocher, puis utilisez le menu d'actions groupées pour mettre à jour leur statut simultanément. C'est utile pour expédier un lot de commandes ou en confirmer plusieurs à la fois." },
+      },
+      {
+        question: { en: "What payment methods are supported?", ar: "ما طرق الدفع المدعومة؟", fr: "Quels modes de paiement sont pris en charge ?" },
+        answer: { en: "Currently, Leadivo supports Cash on Delivery (COD) as the payment method. This is the most common payment method for e-commerce in many regions. The platform is optimized for COD workflows with dedicated analytics.", ar: "حاليًا، يدعم Leadivo الدفع عند الاستلام (COD) كطريقة دفع. هذه هي طريقة الدفع الأكثر شيوعًا للتجارة الإلكترونية في العديد من المناطق. المنصة مُحسّنة لسير عمل COD مع تحليلات مخصصة.", fr: "Actuellement, Leadivo prend en charge le paiement à la livraison (COD). C'est le mode de paiement le plus courant pour le e-commerce dans de nombreuses régions. La plateforme est optimisée pour les flux COD avec des analyses dédiées." },
       },
     ],
   },
@@ -597,6 +735,16 @@ export const ARTICLES: DocArticle[] = [
         },
       },
     ],
+    faqs: [
+      {
+        question: { en: "What is the confirmation rate?", ar: "ما هو معدل التأكيد؟", fr: "Qu'est-ce que le taux de confirmation ?" },
+        answer: { en: "The confirmation rate is the percentage of total orders that have been confirmed (moved from pending to confirmed status). A higher confirmation rate means you're successfully processing more of your incoming orders.", ar: "معدل التأكيد هو نسبة الطلبات الإجمالية التي تم تأكيدها (نقلها من حالة معلق إلى مؤكد). معدل تأكيد أعلى يعني أنك تعالج بنجاح المزيد من طلباتك الواردة.", fr: "Le taux de confirmation est le pourcentage de commandes totales qui ont été confirmées (passées de en attente à confirmée). Un taux plus élevé signifie que vous traitez avec succès davantage de commandes entrantes." },
+      },
+      {
+        question: { en: "How is revenue by status calculated?", ar: "كيف يتم حساب الإيرادات حسب الحالة؟", fr: "Comment les revenus par statut sont-ils calculés ?" },
+        answer: { en: "Revenue is grouped into four categories: Collected (delivered orders — money you've received), In Transit (shipped but not yet delivered), Pending (pending and confirmed orders — not yet shipped), and Lost (canceled and returned orders — revenue you won't collect).", ar: "تُجمع الإيرادات في أربع فئات: محصّلة (طلبات مُسلّمة — أموال استلمتها)، في الطريق (مشحونة لكن لم تُسلّم بعد)، معلقة (طلبات معلقة ومؤكدة — لم تُشحن بعد)، ومفقودة (طلبات ملغية ومُرجعة — إيرادات لن تحصلها).", fr: "Les revenus sont regroupés en quatre catégories : Collectés (commandes livrées — argent reçu), En transit (expédiées mais pas encore livrées), En attente (en attente et confirmées — pas encore expédiées) et Perdus (annulées et retournées — revenus non collectés)." },
+      },
+    ],
   },
   {
     slug: "abandoned-checkout-recovery",
@@ -635,6 +783,20 @@ export const ARTICLES: DocArticle[] = [
           ar: "انتقل إلى صفحة السلات المتروكة من الشريط الجانبي للوحة التحكم لرؤية جميع السلات الملتقطة. يمكنك التصفية حسب الحالة (معلقة، مُرسلة، مستردة، منتهية الصلاحية) ونطاق التاريخ. يعرض كل صف اسم العميل ورقم الهاتف وعناصر السلة والقيمة الإجمالية والحالة وتاريخ الإنشاء. استخدم هذه البيانات لفهم أنماط ترك السلات وتحسين تدفق الدفع.",
           fr: "Accédez à la page Paniers abandonnés depuis la barre latérale du tableau de bord pour voir tous les paniers capturés. Vous pouvez filtrer par statut (en attente, envoyé, récupéré, expiré) et par plage de dates. Chaque ligne affiche le nom du client, son numéro de téléphone, les articles du panier, la valeur totale, le statut et la date de création. Utilisez ces données pour comprendre vos modèles d'abandon de panier et optimiser votre flux de paiement.",
         },
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "When is a checkout considered abandoned?", ar: "متى تُعتبر السلة متروكة؟", fr: "Quand un panier est-il considéré comme abandonné ?" },
+        answer: { en: "A checkout is considered abandoned when a customer enters their phone number on the checkout page but does not complete the order within 30 minutes. The system then captures the cart and triggers recovery actions.", ar: "تُعتبر السلة متروكة عندما يدخل العميل رقم هاتفه في صفحة الدفع لكن لا يكمل الطلب خلال 30 دقيقة. يقوم النظام بعدها بالتقاط السلة وتفعيل إجراءات الاسترداد.", fr: "Un panier est considéré comme abandonné lorsqu'un client entre son numéro de téléphone mais ne finalise pas la commande dans les 30 minutes. Le système capture alors le panier et déclenche les actions de récupération." },
+      },
+      {
+        question: { en: "How many recovery messages are sent per checkout?", ar: "كم عدد رسائل الاسترداد المرسلة لكل سلة؟", fr: "Combien de messages de récupération sont envoyés par panier ?" },
+        answer: { en: "Only one recovery message is sent per abandoned checkout to avoid spamming customers. After 48 hours with no recovery, the checkout expires and the system stops trying.", ar: "يتم إرسال رسالة استرداد واحدة فقط لكل سلة متروكة لتجنب إزعاج العملاء. بعد 48 ساعة بدون استرداد، تنتهي صلاحية السلة ويتوقف النظام عن المحاولة.", fr: "Un seul message de récupération est envoyé par panier abandonné pour éviter de spammer les clients. Après 48 heures sans récupération, le panier expire et le système arrête d'essayer." },
+      },
+      {
+        question: { en: "Which integrations support abandoned checkout recovery?", ar: "ما التكاملات التي تدعم استرداد السلات المتروكة؟", fr: "Quelles intégrations supportent la récupération de paniers abandonnés ?" },
+        answer: { en: "WhatsApp and Google Sheets both support abandoned checkout recovery. WhatsApp sends a recovery message directly to the customer with a link to complete their purchase. Google Sheets logs the abandoned checkout for your records.", ar: "واتساب وGoogle Sheets يدعمان استرداد السلات المتروكة. واتساب يرسل رسالة استرداد مباشرة للعميل مع رابط لإتمام الشراء. Google Sheets يسجل السلة المتروكة لسجلاتك.", fr: "WhatsApp et Google Sheets supportent tous deux la récupération. WhatsApp envoie un message de récupération directement au client avec un lien pour finaliser l'achat. Google Sheets enregistre le panier abandonné dans vos dossiers." },
       },
     ],
   },
@@ -706,6 +868,16 @@ export const ARTICLES: DocArticle[] = [
         },
       },
     ],
+    faqs: [
+      {
+        question: { en: "What happens if I don't set up a shipping zone for a country?", ar: "ماذا يحدث إذا لم أعد منطقة شحن لبلد ما؟", fr: "Que se passe-t-il si je ne configure pas de zone de livraison pour un pays ?" },
+        answer: { en: "If no shipping zone exists for a customer's country, no delivery fee will be calculated at checkout. Customers from that country can still place orders, but shipping cost won't be added to their total.", ar: "إذا لم توجد منطقة شحن لبلد العميل، لن يتم حساب رسوم التوصيل عند الدفع. يمكن لعملاء ذلك البلد تقديم طلبات، لكن لن تُضاف تكلفة الشحن إلى إجماليهم.", fr: "Si aucune zone n'existe pour le pays du client, aucun frais de livraison ne sera calculé. Les clients de ce pays peuvent toujours commander, mais les frais de livraison ne seront pas ajoutés à leur total." },
+      },
+      {
+        question: { en: "Can I offer free shipping?", ar: "هل يمكنني تقديم شحن مجاني؟", fr: "Puis-je offrir la livraison gratuite ?" },
+        answer: { en: "Yes, in two ways: set the zone's default rate to 0 for free shipping on all orders from that country, or set a free shipping threshold — orders above that amount get free delivery automatically.", ar: "نعم، بطريقتين: اضبط السعر الافتراضي للمنطقة على 0 للشحن المجاني لجميع الطلبات من ذلك البلد، أو حدد حد شحن مجاني — الطلبات فوق ذلك المبلغ تحصل على توصيل مجاني تلقائيًا.", fr: "Oui, de deux façons : mettez le tarif par défaut à 0 pour une livraison gratuite sur toutes les commandes de ce pays, ou définissez un seuil de livraison gratuite — les commandes au-dessus de ce montant bénéficient automatiquement de la gratuité." },
+      },
+    ],
   },
   {
     slug: "city-rates",
@@ -753,9 +925,9 @@ export const ARTICLES: DocArticle[] = [
           fr: "Exclure une ville de la livraison",
         },
         description: {
-          en: "When adding a city, check the \"Exclude\" option instead of entering a rate. Excluded cities will show a \"Delivery not available\" message at checkout and customers won't be able to place an order. This is useful for remote areas or cities you don't serve yet.",
-          ar: "عند إضافة مدينة، حدد خيار \"استثناء\" بدلاً من إدخال سعر. المدن المستثناة ستظهر رسالة \"التوصيل غير متاح\" عند الدفع ولن يتمكن العملاء من إتمام الطلب. هذا مفيد للمناطق النائية أو المدن التي لا تخدمها بعد.",
-          fr: "Lors de l'ajout d'une ville, cochez l'option « Exclure » au lieu d'entrer un tarif. Les villes exclues afficheront un message « Livraison non disponible » et les clients ne pourront pas passer commande. C'est utile pour les zones éloignées ou les villes que vous ne desservez pas encore.",
+          en: "When adding a city, check the \"Exclude\" option instead of entering a rate. This lets you control your delivery coverage precisely — excluded cities will display a clear message at checkout, so customers always know your service area upfront.",
+          ar: "عند إضافة مدينة، حدد خيار \"استثناء\" بدلاً من إدخال سعر. يتيح لك ذلك التحكم الدقيق في نطاق التوصيل — ستعرض المدن المستثناة رسالة واضحة عند الدفع، ليعرف العملاء دائماً منطقة خدمتك مسبقاً.",
+          fr: "Lors de l'ajout d'une ville, cochez l'option « Exclure » au lieu d'entrer un tarif. Cela vous permet de contrôler précisément votre zone de livraison — les villes exclues afficheront un message clair au moment du paiement, pour que vos clients connaissent toujours votre zone de service.",
         },
       },
       {
@@ -782,6 +954,16 @@ export const ARTICLES: DocArticle[] = [
           fr: "Au moment du paiement, après que le client entre son pays et sa ville, les frais de livraison sont automatiquement calculés et affichés dans le récapitulatif. Si la boutique utilise la tarification multi-marché, les frais sont convertis dans la devise du marché au même taux de change que les prix des produits. Les frais sont inclus dans le total et vérifiés côté serveur lors de la commande.",
         },
         image: "/docs/shipping/city-rates-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "Are city names case-sensitive?", ar: "هل أسماء المدن حساسة لحالة الأحرف؟", fr: "Les noms de villes sont-ils sensibles à la casse ?" },
+        answer: { en: "No, city names are matched case-insensitively. \"New York\", \"new york\", and \"NEW YORK\" will all match the same city override.", ar: "لا، تتم مطابقة أسماء المدن بغض النظر عن حالة الأحرف. \"New York\" و\"new york\" و\"NEW YORK\" ستتطابق جميعها مع نفس تعديل المدينة.", fr: "Non, les noms de villes sont insensibles à la casse. « New York », « new york » et « NEW YORK » correspondront tous au même ajustement de ville." },
+      },
+      {
+        question: { en: "What does excluding a city mean for customers?", ar: "ماذا يعني استثناء مدينة للعملاء؟", fr: "Que signifie l'exclusion d'une ville pour les clients ?" },
+        answer: { en: "The exclusion feature gives you full control over your delivery zones. Customers in excluded cities will see a clear notification at checkout, helping you focus your delivery operations on the areas you serve best.", ar: "تمنحك ميزة الاستثناء تحكماً كاملاً في مناطق التوصيل. سيرى العملاء في المدن المستثناة إشعاراً واضحاً عند الدفع، مما يساعدك على تركيز عمليات التوصيل على المناطق التي تخدمها بشكل أفضل.", fr: "La fonctionnalité d'exclusion vous donne un contrôle total sur vos zones de livraison. Les clients des villes exclues verront une notification claire au moment du paiement, vous aidant à concentrer vos opérations de livraison sur les zones que vous desservez le mieux." },
       },
     ],
   },
@@ -829,6 +1011,20 @@ export const ARTICLES: DocArticle[] = [
         image: "/docs/markets/create-market-3.svg",
       },
     ],
+    faqs: [
+      {
+        question: { en: "What is the difference between Auto and Fixed pricing?", ar: "ما الفرق بين التسعير التلقائي والثابت؟", fr: "Quelle est la différence entre la tarification Auto et Fixe ?" },
+        answer: { en: "Auto pricing automatically converts your base prices using an exchange rate plus an optional percentage adjustment (e.g., +10%). Fixed pricing lets you set a specific price for each product in the market's currency. Auto is easier to manage for large catalogs, while Fixed gives you full control over individual product pricing.", ar: "التسعير التلقائي يحوّل أسعارك الأساسية تلقائيًا باستخدام سعر صرف مع نسبة تعديل اختيارية (مثلاً +10%). التسعير الثابت يتيح لك تحديد سعر محدد لكل منتج بعملة السوق. التلقائي أسهل في الإدارة لكتالوجات كبيرة، بينما الثابت يمنحك تحكمًا كاملاً في تسعير كل منتج.", fr: "Auto convertit automatiquement vos prix de base avec un taux de change et un pourcentage d'ajustement optionnel (ex : +10%). Fixe vous permet de définir un prix spécifique par produit dans la devise du marché. Auto est plus facile pour les grands catalogues, tandis que Fixe vous donne un contrôle total sur chaque prix." },
+      },
+      {
+        question: { en: "How are customers matched to a market?", ar: "كيف يتم مطابقة العملاء مع السوق؟", fr: "Comment les clients sont-ils associés à un marché ?" },
+        answer: { en: "Customers are automatically matched to a market based on the country they select during checkout. If their country isn't assigned to any market, the default market is used. Customers can also manually switch markets using the market picker on the storefront.", ar: "يتم مطابقة العملاء تلقائيًا مع السوق بناءً على البلد الذي يختارونه أثناء الدفع. إذا لم يكن بلدهم مخصصًا لأي سوق، يُستخدم السوق الافتراضي. يمكن للعملاء أيضًا التبديل يدويًا بين الأسواق باستخدام منتقي السوق في واجهة المتجر.", fr: "Les clients sont automatiquement associés à un marché en fonction du pays qu'ils sélectionnent lors du paiement. Si leur pays n'est assigné à aucun marché, le marché par défaut est utilisé. Les clients peuvent aussi changer de marché manuellement via le sélecteur sur la vitrine." },
+      },
+      {
+        question: { en: "What rounding rules are available?", ar: "ما قواعد التقريب المتاحة؟", fr: "Quelles règles d'arrondi sont disponibles ?" },
+        answer: { en: "Leadivo offers five rounding options for converted prices: None (no rounding), 0.99 (e.g., $9.99), 0.95 (e.g., $9.95), 0.00 (round to whole number, e.g., $10.00), and Nearest 5 (e.g., $10 or $15). This ensures your prices look clean after currency conversion.", ar: "يوفر Leadivo خمس خيارات تقريب للأسعار المحوّلة: بدون (لا تقريب)، 0.99 (مثلاً 9.99$)، 0.95 (مثلاً 9.95$)، 0.00 (تقريب لرقم صحيح مثلاً 10.00$)، وأقرب 5 (مثلاً 10$ أو 15$). هذا يضمن أن أسعارك تبدو نظيفة بعد تحويل العملة.", fr: "Leadivo propose cinq options d'arrondi : Aucun, 0,99 (ex : 9,99€), 0,95 (ex : 9,95€), 0,00 (arrondi à l'entier, ex : 10,00€) et Au 5 le plus proche (ex : 10€ ou 15€). Cela garantit des prix propres après la conversion de devise." },
+      },
+    ],
   },
   {
     slug: "market-pricing",
@@ -861,6 +1057,16 @@ export const ARTICLES: DocArticle[] = [
           fr: "Entrez le prix spécifique au marché pour chaque produit dans la devise locale. Vous pouvez aussi définir un « prix barré » (le prix original/barré) pour afficher les réductions. Pour gagner du temps, cliquez sur « Copier tout depuis la base » pour remplir tous les champs avec vos prix par défaut comme point de départ, puis ajustez selon vos besoins. Les produits sans prix défini n'apparaîtront pas dans ce marché. Cliquez sur « Enregistrer » quand c'est fait.",
         },
         image: "/docs/markets/market-pricing-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "What happens to products without a market price?", ar: "ماذا يحدث للمنتجات بدون سعر سوق؟", fr: "Que se passe-t-il pour les produits sans prix de marché ?" },
+        answer: { en: "In a fixed-pricing market, products without a market-specific price set will not appear on the storefront for customers in that market. Make sure to set prices for all products you want visible.", ar: "في سوق بتسعير ثابت، المنتجات بدون سعر سوق محدد لن تظهر في واجهة المتجر لعملاء ذلك السوق. تأكد من تحديد أسعار لجميع المنتجات التي تريد أن تكون مرئية.", fr: "Dans un marché à tarification fixe, les produits sans prix défini n'apparaîtront pas sur la vitrine pour les clients de ce marché. Assurez-vous de définir les prix pour tous les produits que vous voulez rendre visibles." },
+      },
+      {
+        question: { en: "Can I copy prices from my base currency as a starting point?", ar: "هل يمكنني نسخ الأسعار من عملتي الأساسية كنقطة بداية؟", fr: "Puis-je copier les prix de ma devise de base comme point de départ ?" },
+        answer: { en: "Yes, click \"Copy all from base\" in the pricing editor to populate all fields with your default store prices. You can then adjust individual prices as needed before saving.", ar: "نعم، انقر \"نسخ الكل من الأساس\" في محرر الأسعار لملء جميع الحقول بأسعار متجرك الافتراضية. يمكنك بعد ذلك تعديل الأسعار الفردية حسب الحاجة قبل الحفظ.", fr: "Oui, cliquez sur « Copier tout depuis la base » dans l'éditeur de prix pour remplir tous les champs avec vos prix par défaut. Vous pouvez ensuite ajuster les prix individuels avant d'enregistrer." },
       },
     ],
   },
@@ -897,6 +1103,12 @@ export const ARTICLES: DocArticle[] = [
         image: "/docs/markets/product-availability-2.svg",
       },
     ],
+    faqs: [
+      {
+        question: { en: "Is product availability per market different from the product's active status?", ar: "هل توفر المنتج حسب السوق مختلف عن حالة تفعيل المنتج؟", fr: "La disponibilité par marché est-elle différente du statut actif du produit ?" },
+        answer: { en: "Yes, they are independent. A product's active/inactive status controls global visibility. Market availability controls whether a visible (active) product appears in a specific market. A product must be active AND available in the market to be shown.", ar: "نعم، هما مستقلان. حالة تفعيل/إلغاء تفعيل المنتج تتحكم في الظهور العام. توفر السوق يتحكم في ما إذا كان المنتج المرئي (النشط) يظهر في سوق محدد. يجب أن يكون المنتج نشطًا ومتاحًا في السوق ليُعرض.", fr: "Oui, ils sont indépendants. Le statut actif/inactif contrôle la visibilité globale. La disponibilité de marché contrôle si un produit visible (actif) apparaît dans un marché spécifique. Un produit doit être actif ET disponible dans le marché pour être affiché." },
+      },
+    ],
   },
 
   // ── Discounts ────────────────────────────────────────────────────────
@@ -931,6 +1143,20 @@ export const ARTICLES: DocArticle[] = [
           fr: "Entrez un code mémorable que les clients saisiront lors du paiement (ex : SUMMER20, WELCOME10). Choisissez le type : « Pourcentage » retire un pourcentage du total (ex : 20% de réduction), tandis que « Montant fixe » soustrait une valeur spécifique (ex : 5€ de réduction). Définissez la valeur de la réduction, et configurez optionnellement : un montant minimum de commande (la réduction ne s'applique que si le total du panier atteint ce montant), et une limite d'utilisation (combien de fois le code peut être utilisé avant expiration). Cliquez sur « Créer » pour enregistrer la réduction.",
         },
         image: "/docs/discounts/create-discount-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "Can I limit a discount to specific markets?", ar: "هل يمكنني تقييد الخصم بأسواق محددة؟", fr: "Puis-je limiter une réduction à des marchés spécifiques ?" },
+        answer: { en: "Yes, when creating a discount you can select which markets it applies to. If no markets are selected, the discount applies to all markets. This lets you run region-specific promotions.", ar: "نعم، عند إنشاء خصم يمكنك تحديد الأسواق التي ينطبق عليها. إذا لم تُحدد أسواق، ينطبق الخصم على جميع الأسواق. هذا يتيح لك تشغيل عروض ترويجية خاصة بمنطقة.", fr: "Oui, lors de la création d'une réduction, vous pouvez sélectionner les marchés auxquels elle s'applique. Si aucun marché n'est sélectionné, la réduction s'applique à tous. Cela vous permet de lancer des promotions régionales." },
+      },
+      {
+        question: { en: "Can I set an expiration date for a discount?", ar: "هل يمكنني تحديد تاريخ انتهاء للخصم؟", fr: "Puis-je définir une date d'expiration pour une réduction ?" },
+        answer: { en: "Yes, you can set both a start date and an end date for any discount. The discount will only be valid during that time period. You can also set a maximum usage limit for additional control.", ar: "نعم، يمكنك تحديد تاريخ بداية وتاريخ انتهاء لأي خصم. سيكون الخصم صالحًا فقط خلال تلك الفترة الزمنية. يمكنك أيضًا تحديد حد أقصى للاستخدام لمزيد من التحكم.", fr: "Oui, vous pouvez définir une date de début et de fin pour toute réduction. La réduction ne sera valide que pendant cette période. Vous pouvez aussi définir une limite d'utilisation maximale." },
+      },
+      {
+        question: { en: "What happens if a customer tries to use an expired or maxed-out discount?", ar: "ماذا يحدث إذا حاول عميل استخدام خصم منتهي أو مستنفد؟", fr: "Que se passe-t-il si un client essaie d'utiliser une réduction expirée ou épuisée ?" },
+        answer: { en: "The system validates discount codes in real-time at checkout and provides clear feedback to customers. It checks expiration dates, usage limits, and minimum order requirements automatically, keeping the checkout experience smooth and transparent.", ar: "يتحقق النظام من أكواد الخصم في الوقت الفعلي عند الدفع ويقدم ملاحظات واضحة للعملاء. يتحقق تلقائياً من تواريخ الانتهاء وحدود الاستخدام ومتطلبات الحد الأدنى للطلب، مما يحافظ على تجربة دفع سلسة وشفافة.", fr: "Le système valide les codes de réduction en temps réel au moment du paiement et fournit des retours clairs aux clients. Il vérifie automatiquement les dates d'expiration, les limites d'utilisation et les montants minimum requis, garantissant une expérience de paiement fluide et transparente." },
       },
     ],
   },
@@ -978,6 +1204,16 @@ export const ARTICLES: DocArticle[] = [
         image: "/docs/integrations/whatsapp-3.svg",
       },
     ],
+    faqs: [
+      {
+        question: { en: "What kind of notifications will I receive on WhatsApp?", ar: "ما نوع الإشعارات التي سأتلقاها على واتساب؟", fr: "Quel type de notifications recevrai-je sur WhatsApp ?" },
+        answer: { en: "You'll receive detailed order notifications including customer name, items ordered, quantities, total amount, shipping address, phone number, and payment method. Notifications are AI-generated in the customer's language for a personalized touch.", ar: "ستتلقى إشعارات طلبات مفصلة تتضمن اسم العميل والعناصر المطلوبة والكميات والمبلغ الإجمالي وعنوان الشحن ورقم الهاتف وطريقة الدفع. الإشعارات تُنشأ بالذكاء الاصطناعي بلغة العميل للمسة شخصية.", fr: "Vous recevrez des notifications détaillées incluant le nom du client, les articles commandés, les quantités, le montant total, l'adresse de livraison, le numéro de téléphone et le mode de paiement. Les notifications sont générées par IA dans la langue du client." },
+      },
+      {
+        question: { en: "Does WhatsApp also send abandoned checkout recovery messages?", ar: "هل يرسل واتساب أيضًا رسائل استرداد السلات المتروكة؟", fr: "WhatsApp envoie-t-il aussi des messages de récupération de paniers abandonnés ?" },
+        answer: { en: "Yes, when a customer abandons their checkout, WhatsApp will automatically send them a recovery message with a link to complete their purchase. This happens 30 minutes after the checkout is abandoned.", ar: "نعم، عندما يترك عميل سلته، سيرسل واتساب تلقائيًا رسالة استرداد مع رابط لإتمام الشراء. يحدث هذا بعد 30 دقيقة من ترك السلة.", fr: "Oui, quand un client abandonne son panier, WhatsApp lui envoie automatiquement un message de récupération avec un lien pour finaliser l'achat. Cela se produit 30 minutes après l'abandon." },
+      },
+    ],
   },
   {
     slug: "meta-pixel",
@@ -1010,6 +1246,16 @@ export const ARTICLES: DocArticle[] = [
           fr: "Vous aurez besoin de deux informations de votre Meta Business Manager : votre Pixel ID (un numéro trouvé dans Gestionnaire d'événements > Sources de données) et un Token d'accès API Conversions (généré dans Gestionnaire d'événements > Paramètres). Collez les deux dans les champs correspondants. Optionnellement, ajoutez un Code d'événement test si vous voulez vérifier que les événements sont bien envoyés — vous le trouverez dans Gestionnaire d'événements > Tester les événements. Quand un code test est présent, les événements sont envoyés en mode test et n'affecteront pas vos données réelles.",
         },
         image: "/docs/integrations/meta-pixel-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "What events does Meta Pixel track?", ar: "ما الأحداث التي يتتبعها ميتا بيكسل؟", fr: "Quels événements le Meta Pixel suit-il ?" },
+        answer: { en: "Leadivo tracks four key events: ViewContent (when a customer views a product page), AddToCart (when they add an item to cart), InitiateCheckout (when they visit the cart page), and Purchase (when an order is placed — this one is sent server-side via the Conversions API for accuracy).", ar: "يتتبع Leadivo أربعة أحداث رئيسية: ViewContent (عندما يشاهد العميل صفحة منتج)، AddToCart (عند إضافة عنصر للسلة)، InitiateCheckout (عند زيارة صفحة السلة)، وPurchase (عند تقديم طلب — يُرسل هذا من الخادم عبر Conversions API للدقة).", fr: "Leadivo suit quatre événements clés : ViewContent (quand un client voit une page produit), AddToCart (quand il ajoute au panier), InitiateCheckout (quand il visite le panier) et Purchase (quand une commande est passée — envoyé côté serveur via l'API Conversions pour plus de précision)." },
+      },
+      {
+        question: { en: "What is a Test Event Code?", ar: "ما هو كود حدث الاختبار؟", fr: "Qu'est-ce qu'un code d'événement test ?" },
+        answer: { en: "A Test Event Code lets you verify that events are being sent correctly to Meta without affecting your real analytics data. You can find it in Meta Events Manager > Test Events. When present, events are sent in test mode. Remove it when you're ready to go live.", ar: "كود حدث الاختبار يتيح لك التحقق من إرسال الأحداث بشكل صحيح لميتا دون التأثير على بيانات التحليلات الحقيقية. يمكنك إيجاده في مدير الأحداث > اختبار الأحداث. عند وجوده، تُرسل الأحداث في وضع الاختبار. أزله عندما تكون جاهزًا للإطلاق.", fr: "Un code d'événement test vous permet de vérifier que les événements sont correctement envoyés à Meta sans affecter vos données réelles. Vous le trouverez dans Gestionnaire d'événements > Tester les événements. Quand il est présent, les événements sont en mode test. Retirez-le quand vous êtes prêt." },
       },
     ],
   },
@@ -1046,6 +1292,106 @@ export const ARTICLES: DocArticle[] = [
         image: "/docs/integrations/google-sheets-2.svg",
       },
     ],
+    faqs: [
+      {
+        question: { en: "What order fields can I export to Google Sheets?", ar: "ما حقول الطلب التي يمكنني تصديرها إلى Google Sheets؟", fr: "Quels champs de commande puis-je exporter vers Google Sheets ?" },
+        answer: { en: "You can choose from 20+ fields including: order number, customer name, email, phone, address, city, country, total, currency, items, status, date, payment method, delivery fee, discount amount, subtotal, and more. You select which fields to include during setup.", ar: "يمكنك الاختيار من 20+ حقل بما في ذلك: رقم الطلب، اسم العميل، البريد الإلكتروني، الهاتف، العنوان، المدينة، البلد، الإجمالي، العملة، العناصر، الحالة، التاريخ، طريقة الدفع، رسوم التوصيل، مبلغ الخصم، المجموع الفرعي، والمزيد. تختار الحقول التي تريد تضمينها أثناء الإعداد.", fr: "Vous pouvez choisir parmi plus de 20 champs dont : numéro de commande, nom du client, email, téléphone, adresse, ville, pays, total, devise, articles, statut, date, mode de paiement, frais de livraison, montant de réduction, sous-total et plus. Vous sélectionnez les champs à inclure lors de la configuration." },
+      },
+      {
+        question: { en: "Does Google Sheets also track abandoned checkouts?", ar: "هل يتتبع Google Sheets أيضًا السلات المتروكة؟", fr: "Google Sheets suit-il aussi les paniers abandonnés ?" },
+        answer: { en: "Yes, abandoned checkouts are also logged to your Google Spreadsheet when the Google Sheets integration is enabled. This gives you a complete record of both completed orders and abandoned carts.", ar: "نعم، السلات المتروكة تُسجل أيضًا في جدول بيانات جوجل عند تفعيل تكامل Google Sheets. هذا يمنحك سجلاً كاملاً للطلبات المكتملة والسلات المتروكة.", fr: "Oui, les paniers abandonnés sont aussi enregistrés dans votre feuille Google lorsque l'intégration est activée. Cela vous donne un enregistrement complet des commandes finalisées et des paniers abandonnés." },
+      },
+      {
+        question: { en: "Can I manually sync existing orders?", ar: "هل يمكنني مزامنة الطلبات الحالية يدويًا؟", fr: "Puis-je synchroniser manuellement les commandes existantes ?" },
+        answer: { en: "Yes, use the \"Sync\" button in the Google Sheets integration settings to manually sync all your existing orders to the spreadsheet at any time.", ar: "نعم، استخدم زر \"مزامنة\" في إعدادات تكامل Google Sheets لمزامنة جميع طلباتك الحالية يدويًا إلى جدول البيانات في أي وقت.", fr: "Oui, utilisez le bouton « Synchroniser » dans les paramètres de l'intégration pour synchroniser manuellement toutes vos commandes existantes vers le tableur à tout moment." },
+      },
+    ],
+  },
+
+  // ── Integrations (continued) ──────────────────────────────────────────
+  {
+    slug: "tiktok-pixel",
+    category: "integrations",
+    title: {
+      en: "Setting up TikTok Pixel",
+      ar: "إعداد تيك توك بيكسل",
+      fr: "Configurer le TikTok Pixel",
+    },
+    description: {
+      en: "Track conversions and optimize TikTok ads with the Event API.",
+      ar: "تتبع التحويلات وحسّن إعلانات تيك توك باستخدام Event API.",
+      fr: "Suivez les conversions et optimisez vos publicités TikTok avec l'Event API.",
+    },
+    steps: [
+      {
+        title: { en: "Install TikTok Event API integration", ar: "ثبّت تكامل TikTok Event API", fr: "Installez l'intégration TikTok Event API" },
+        description: {
+          en: "Go to Integrations and find the \"TikTok Event API\" card under the Tracking category. Click \"Install\" to add it, then click \"Configure\" to set it up. This integration sends customer actions (page views, add to cart, purchases) to TikTok for ad optimization and conversion tracking — similar to how Meta Pixel works for Facebook ads.",
+          ar: "انتقل إلى التكاملات وابحث عن بطاقة \"TikTok Event API\" تحت فئة التتبع. انقر \"تثبيت\" لإضافته، ثم انقر \"إعداد\" لضبطه. هذا التكامل يرسل إجراءات العملاء (مشاهدات الصفحات، الإضافة للسلة، المشتريات) إلى تيك توك لتحسين الإعلانات وتتبع التحويلات — بشكل مشابه لعمل ميتا بيكسل لإعلانات فيسبوك.",
+          fr: "Allez dans Intégrations et trouvez la carte « TikTok Event API » sous Suivi. Cliquez sur « Installer » puis « Configurer ». Cette intégration envoie les actions des clients (vues de pages, ajouts au panier, achats) à TikTok pour l'optimisation des publicités et le suivi des conversions — similaire au Meta Pixel pour les publicités Facebook.",
+        },
+      },
+      {
+        title: { en: "Enter your TikTok Pixel ID and Access Token", ar: "أدخل معرّف بيكسل تيك توك ورمز الوصول", fr: "Entrez votre Pixel ID et Access Token TikTok" },
+        description: {
+          en: "You'll need your TikTok Pixel ID and an Access Token from TikTok Events Manager. Paste both into the corresponding fields. You can optionally add a Test Event Code to verify events are being sent correctly before going live. Events tracked include ViewContent, AddToCart, InitiateCheckout, and Purchase.",
+          ar: "ستحتاج لمعرّف بيكسل تيك توك ورمز وصول من TikTok Events Manager. الصق كليهما في الحقول المقابلة. يمكنك اختياريًا إضافة كود حدث اختبار للتحقق من إرسال الأحداث بشكل صحيح قبل الإطلاق. الأحداث المتتبعة تشمل ViewContent وAddToCart وInitiateCheckout وPurchase.",
+          fr: "Vous aurez besoin de votre Pixel ID TikTok et d'un Access Token de TikTok Events Manager. Collez les deux dans les champs correspondants. Vous pouvez optionnellement ajouter un Code d'événement test pour vérifier l'envoi avant le lancement. Les événements suivis incluent ViewContent, AddToCart, InitiateCheckout et Purchase.",
+        },
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "What events does TikTok Pixel track?", ar: "ما الأحداث التي يتتبعها تيك توك بيكسل؟", fr: "Quels événements le TikTok Pixel suit-il ?" },
+        answer: { en: "TikTok Pixel tracks four events: ViewContent (product page views), AddToCart (items added to cart), InitiateCheckout (cart page visits), and Purchase (completed orders). These events help TikTok optimize your ad delivery and measure conversions.", ar: "يتتبع تيك توك بيكسل أربعة أحداث: ViewContent (مشاهدات صفحات المنتجات)، AddToCart (إضافة عناصر للسلة)، InitiateCheckout (زيارات صفحة السلة)، وPurchase (طلبات مكتملة). تساعد هذه الأحداث تيك توك في تحسين عرض إعلاناتك وقياس التحويلات.", fr: "Le TikTok Pixel suit quatre événements : ViewContent (vues de pages produits), AddToCart (ajouts au panier), InitiateCheckout (visites du panier) et Purchase (commandes terminées). Ces événements aident TikTok à optimiser la diffusion de vos publicités et mesurer les conversions." },
+      },
+      {
+        question: { en: "Where do I find my TikTok Pixel ID?", ar: "أين أجد معرّف بيكسل تيك توك؟", fr: "Où trouver mon Pixel ID TikTok ?" },
+        answer: { en: "Your TikTok Pixel ID can be found in TikTok Events Manager under your TikTok Ads Manager account. Navigate to Assets > Events and you'll see your Pixel ID listed there.", ar: "يمكنك إيجاد معرّف بيكسل تيك توك في TikTok Events Manager تحت حساب TikTok Ads Manager. انتقل إلى الأصول > الأحداث وسترى معرّف البيكسل مدرجًا هناك.", fr: "Votre Pixel ID TikTok se trouve dans TikTok Events Manager sous votre compte TikTok Ads Manager. Naviguez vers Actifs > Événements et vous verrez votre Pixel ID listé." },
+      },
+    ],
+  },
+  {
+    slug: "google-analytics",
+    category: "integrations",
+    title: {
+      en: "Setting up Google Analytics",
+      ar: "إعداد Google Analytics",
+      fr: "Configurer Google Analytics",
+    },
+    description: {
+      en: "Track visitor behavior and store performance with Google Analytics.",
+      ar: "تتبع سلوك الزوار وأداء المتجر باستخدام Google Analytics.",
+      fr: "Suivez le comportement des visiteurs et les performances de votre boutique avec Google Analytics.",
+    },
+    steps: [
+      {
+        title: { en: "Install Google Analytics integration", ar: "ثبّت تكامل Google Analytics", fr: "Installez l'intégration Google Analytics" },
+        description: {
+          en: "Go to Integrations and find the \"Google Analytics\" card under the Tracking category. Click \"Install\" to add it to your store. Google Analytics helps you understand how visitors interact with your store — where they come from, which pages they visit, and how they navigate your products.",
+          ar: "انتقل إلى التكاملات وابحث عن بطاقة \"Google Analytics\" تحت فئة التتبع. انقر \"تثبيت\" لإضافته إلى متجرك. يساعدك Google Analytics على فهم كيفية تفاعل الزوار مع متجرك — من أين يأتون، أي الصفحات يزورون، وكيف يتنقلون بين منتجاتك.",
+          fr: "Allez dans Intégrations et trouvez la carte « Google Analytics » sous Suivi. Cliquez sur « Installer ». Google Analytics vous aide à comprendre comment les visiteurs interagissent avec votre boutique — d'où ils viennent, quelles pages ils visitent et comment ils naviguent entre vos produits.",
+        },
+      },
+      {
+        title: { en: "Enter your Google Analytics Measurement ID", ar: "أدخل معرّف القياس في Google Analytics", fr: "Entrez votre ID de mesure Google Analytics" },
+        description: {
+          en: "Click \"Configure\" and enter your Google Analytics 4 Measurement ID (starts with \"G-\", e.g., G-XXXXXXXXXX). You can find this in your Google Analytics account under Admin > Data Streams > Web. Once saved, Google Analytics will start tracking all visitor activity on your storefront automatically.",
+          ar: "انقر \"إعداد\" وأدخل معرّف قياس Google Analytics 4 (يبدأ بـ \"G-\"، مثلاً G-XXXXXXXXXX). يمكنك إيجاده في حسابك في Google Analytics تحت المسؤول > تدفقات البيانات > الويب. بعد الحفظ، سيبدأ Google Analytics بتتبع جميع نشاط الزوار على واجهة متجرك تلقائيًا.",
+          fr: "Cliquez sur « Configurer » et entrez votre ID de mesure Google Analytics 4 (commence par « G- », ex : G-XXXXXXXXXX). Vous le trouverez dans votre compte Google Analytics sous Admin > Flux de données > Web. Une fois enregistré, Google Analytics commencera à suivre automatiquement toute l'activité des visiteurs sur votre vitrine.",
+        },
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "Which version of Google Analytics does Leadivo support?", ar: "أي إصدار من Google Analytics يدعمه Leadivo؟", fr: "Quelle version de Google Analytics Leadivo prend-il en charge ?" },
+        answer: { en: "Leadivo supports Google Analytics 4 (GA4). You'll need a GA4 Measurement ID that starts with \"G-\". The older Universal Analytics (UA-) is no longer supported by Google.", ar: "يدعم Leadivo Google Analytics 4 (GA4). ستحتاج لمعرّف قياس GA4 يبدأ بـ \"G-\". لم يعد Google يدعم Universal Analytics القديم (UA-).", fr: "Leadivo prend en charge Google Analytics 4 (GA4). Vous aurez besoin d'un ID de mesure GA4 commençant par « G- ». L'ancien Universal Analytics (UA-) n'est plus supporté par Google." },
+      },
+      {
+        question: { en: "What data does Google Analytics collect from my store?", ar: "ما البيانات التي يجمعها Google Analytics من متجري؟", fr: "Quelles données Google Analytics collecte-t-il de ma boutique ?" },
+        answer: { en: "Google Analytics tracks page views, session duration, traffic sources, device types, geographic data, and user behavior patterns. This helps you understand your audience and optimize your marketing efforts.", ar: "يتتبع Google Analytics مشاهدات الصفحات ومدة الجلسات ومصادر الزيارات وأنواع الأجهزة والبيانات الجغرافية وأنماط سلوك المستخدمين. يساعدك هذا على فهم جمهورك وتحسين جهودك التسويقية.", fr: "Google Analytics suit les pages vues, la durée des sessions, les sources de trafic, les types d'appareils, les données géographiques et les comportements des utilisateurs. Cela vous aide à comprendre votre audience et optimiser votre marketing." },
+      },
+    ],
   },
 
   // ── Settings ─────────────────────────────────────────────────────────
@@ -1080,6 +1426,20 @@ export const ARTICLES: DocArticle[] = [
           fr: "Dans la section Profil, vous pouvez mettre à jour votre nom d'affichage et votre adresse email. Votre statut de facturation et votre plan actuel sont affichés dans la section Facturation. Si vous avez un plan Pro, vous pouvez aussi connecter un domaine personnalisé en bas de cette page — entrez votre nom de domaine et cliquez sur « Enregistrer le domaine ». N'oubliez pas de cliquer sur « Enregistrer » après toute modification de votre profil.",
         },
         image: "/docs/settings/account-settings-2.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "How does Leadivo pricing work?", ar: "كيف يعمل تسعير Leadivo؟", fr: "Comment fonctionne la tarification de Leadivo ?" },
+        answer: { en: "Leadivo offers a 14-day free trial with full access to all features. After the trial, you subscribe to the Pro plan to keep your store running with all features including custom domains, integrations, and unlimited products. You can view your billing status and subscription details in the Settings page.", ar: "يوفر Leadivo فترة تجريبية مجانية لمدة 14 يومًا مع وصول كامل لجميع الميزات. بعد الفترة التجريبية، تشترك في خطة Pro للحفاظ على تشغيل متجرك بجميع الميزات بما في ذلك النطاقات المخصصة والتكاملات والمنتجات غير المحدودة. يمكنك عرض حالة الفوترة وتفاصيل الاشتراك في صفحة الإعدادات.", fr: "Leadivo offre un essai gratuit de 14 jours avec accès complet à toutes les fonctionnalités. Après l'essai, vous vous abonnez au plan Pro pour garder votre boutique active avec toutes les fonctionnalités incluant domaines personnalisés, intégrations et produits illimités. Vous pouvez voir votre statut de facturation dans les Paramètres." },
+      },
+      {
+        question: { en: "Can I cancel my Pro subscription?", ar: "هل يمكنني إلغاء اشتراك Pro؟", fr: "Puis-je annuler mon abonnement Pro ?" },
+        answer: { en: "Yes, you can cancel your Pro subscription at any time from the Settings page. Your Pro features will remain active until the end of your current billing period.", ar: "نعم، يمكنك إلغاء اشتراك Pro في أي وقت من صفحة الإعدادات. ستبقى ميزات Pro نشطة حتى نهاية فترة الفوترة الحالية.", fr: "Oui, vous pouvez annuler votre abonnement Pro à tout moment depuis les Paramètres. Vos fonctionnalités Pro resteront actives jusqu'à la fin de votre période de facturation actuelle." },
+      },
+      {
+        question: { en: "How do I reset my password?", ar: "كيف أعيد تعيين كلمة المرور؟", fr: "Comment réinitialiser mon mot de passe ?" },
+        answer: { en: "If you forgot your password, click the \"Forgot password\" link on the login page. You'll receive a password reset email with a link to create a new password. If you signed up with Google, no password is needed.", ar: "إذا نسيت كلمة مرورك، انقر على رابط \"نسيت كلمة المرور\" في صفحة تسجيل الدخول. ستتلقى بريدًا إلكترونيًا لإعادة تعيين كلمة المرور مع رابط لإنشاء كلمة مرور جديدة. إذا سجلت عبر جوجل، لا حاجة لكلمة مرور.", fr: "Si vous avez oublié votre mot de passe, cliquez sur « Mot de passe oublié » sur la page de connexion. Vous recevrez un email avec un lien pour créer un nouveau mot de passe. Si vous vous êtes inscrit avec Google, aucun mot de passe n'est nécessaire." },
       },
     ],
   },

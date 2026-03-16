@@ -61,7 +61,11 @@
     "freeDelivery": "Gratis",
     "scanToShop": "Scan om te winkelen op je telefoon",
     "continueOnDesktop": "Verder op desktop",
-    "additionalLanguages": "Extra talen"
+    "additionalLanguages": "Extra talen",
+    "collections": "Collecties",
+    "description": "Beschrijving",
+    "browseAt": "Bekijk {{collection}} bij {{store}}",
+    "shopAt": "Winkel bij {{store}}"
   },
   "search": {
     "searchProducts": "Producten zoeken..."

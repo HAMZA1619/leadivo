@@ -4,6 +4,7 @@ import Link from "next/link"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import { ChevronRight, ChevronLeft, Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import { mdxComponents } from "@/components/blog/mdx-components"
 import { BlogCard } from "@/components/blog/blog-card"
 import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog/content"
@@ -159,26 +160,26 @@ export default async function BlogArticlePage({
 
       <article className="mx-auto max-w-3xl">
         {/* Breadcrumb */}
-        <nav className="mb-6 flex items-center gap-1 text-sm text-muted-foreground">
+        <nav className="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
           <Link href="/blog" className="flex items-center gap-1 transition-colors hover:text-foreground">
             <BackArrow className="h-3.5 w-3.5" />
             {t("blog.title")}
           </Link>
-          <Chevron className="h-3.5 w-3.5" />
+          <Chevron className="h-3 w-3" />
           <span className="truncate text-foreground">{post.title}</span>
         </nav>
 
         {/* Header */}
-        <header className="mb-8">
+        <header className="mb-10">
           <Badge variant="secondary" className="mb-3 capitalize">
             {t(`blog.categories.${post.category}`, post.category.replace("-", " "))}
           </Badge>
-          <h1 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">{post.title}</h1>
-          <p className="mb-4 text-lg text-muted-foreground">{post.description}</p>
+          <h1 className="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl">{post.title}</h1>
+          <p className="mb-5 text-lg text-muted-foreground">{post.description}</p>
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
             <span>{post.author}</span>
-            <span className="text-border">|</span>
-            <span className="flex items-center gap-1">
+            <span className="text-border">·</span>
+            <span className="flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5" />
               {new Date(post.date).toLocaleDateString(post.language === "ar" ? "ar" : post.language === "fr" ? "fr-FR" : "en-US", {
                 month: "long",
@@ -186,7 +187,7 @@ export default async function BlogArticlePage({
                 year: "numeric",
               })}
             </span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1.5">
               <Clock className="h-3.5 w-3.5" />
               {post.readingTime}
             </span>
@@ -204,9 +205,10 @@ export default async function BlogArticlePage({
 
       {/* Related Posts */}
       {related.length > 0 && (
-        <section className="mx-auto mt-16 max-w-5xl border-t pt-10">
-          <h2 className="mb-6 text-2xl font-bold">{t("blog.relatedArticles")}</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="mx-auto mt-16 max-w-5xl">
+          <Separator className="mb-10" />
+          <h2 className="mb-6 text-xl font-semibold">{t("blog.relatedArticles")}</h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((p) => (
               <BlogCard key={p.slug} post={p} />
             ))}

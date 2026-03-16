@@ -61,7 +61,11 @@
     "freeDelivery": "Gratis",
     "scanToShop": "Skanna för att handla på din telefon",
     "continueOnDesktop": "Fortsätt på datorn",
-    "additionalLanguages": "Ytterligare språk"
+    "additionalLanguages": "Ytterligare språk",
+    "collections": "Kollektioner",
+    "description": "Beskrivning",
+    "browseAt": "Bläddra i {{collection}} hos {{store}}",
+    "shopAt": "Handla hos {{store}}"
   },
   "search": {
     "searchProducts": "Sök produkter..."

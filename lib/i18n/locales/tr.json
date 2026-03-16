@@ -61,7 +61,11 @@
     "freeDelivery": "Ücretsiz",
     "scanToShop": "Telefonunuzdan alışveriş için tarayın",
     "continueOnDesktop": "Masaüstünde devam et",
-    "additionalLanguages": "Ek diller"
+    "additionalLanguages": "Ek diller",
+    "collections": "Koleksiyonlar",
+    "description": "Açıklama",
+    "browseAt": "{{store}} mağazasında {{collection}} koleksiyonuna göz atın",
+    "shopAt": "{{store}} mağazasında alışveriş yapın"
   },
   "search": {
     "searchProducts": "Ürün ara..."

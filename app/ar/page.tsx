@@ -6,6 +6,6 @@ const country = COUNTRIES.ar
 
 export const metadata: Metadata = generateCountryMetadata(country)
 
-export default function ArabicPage({ searchParams }: { searchParams: Promise<{ landing?: string }> }) {
-  return <CountryPage country={country} searchParams={searchParams} />
+export default function ArabicPage() {
+  return <CountryPage country={country} />
 }

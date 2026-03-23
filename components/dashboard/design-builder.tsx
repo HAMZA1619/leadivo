@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { parseDesignSettings } from "@/lib/utils"
+import { revalidateStoreCache } from "@/lib/actions/revalidate"
 import { Button } from "@/components/ui/button"
 import { DesignControls } from "./design-controls"
 import { DesignPreview } from "./design-preview"
@@ -58,6 +59,7 @@ export function DesignBuilder({ store }: DesignBuilderProps) {
     if (error) {
       toast.error(error.message)
     } else {
+      await revalidateStoreCache([`store:${store.slug}`])
       toast.success(t("design.designSaved"))
       initialState.current = { ...state }
       initialDescription.current = description

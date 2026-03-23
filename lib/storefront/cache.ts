@@ -2,9 +2,11 @@ import { unstable_cache } from "next/cache"
 import { createStaticClient } from "@/lib/supabase/static"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { getImageUrl } from "@/lib/utils"
+import { cacheGet, cacheSet } from "@/lib/upstash/cache"
 
 const REVALIDATE = 300
 const IMAGE_REVALIDATE = 600
+const REDIS_STORE_TTL = 300 // 5 minutes
 
 // ---------------------------------------------------------------------------
 // Store
@@ -13,6 +15,10 @@ const IMAGE_REVALIDATE = 600
 export function getStoreBySlug<T extends string>(slug: string, select: T) {
   return unstable_cache(
     async () => {
+      const redisKey = `store:${slug}:${select}`
+      const cached = await cacheGet<Record<string, unknown>>(redisKey)
+      if (cached) return cached
+
       const supabase = createStaticClient()
       const { data } = await supabase
         .from("stores")
@@ -20,6 +26,10 @@ export function getStoreBySlug<T extends string>(slug: string, select: T) {
         .eq("slug", slug)
         .eq("is_published", true)
         .single()
+
+      if (data) {
+        void cacheSet(redisKey, data, REDIS_STORE_TTL)
+      }
       return data
     },
     [`store-${slug}-${select}`],

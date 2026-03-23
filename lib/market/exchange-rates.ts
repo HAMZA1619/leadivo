@@ -1,8 +1,10 @@
 import { createStaticClient } from "@/lib/supabase/static"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { cacheGet, cacheSet } from "@/lib/upstash/cache"
 
 const cache = new Map<string, { rates: Record<string, number>; timestamp: number }>()
 const CACHE_TTL = 2 * 60 * 60 * 1000 // 2 hours (primary API updates every 24h)
+const REDIS_RATE_TTL = 7200 // 2 hours in seconds
 
 // ECB currencies supported by Frankfurter (~31 major pairs, most trustworthy free source)
 const ECB_CURRENCIES = new Set([
@@ -109,9 +111,18 @@ export async function getMarketExchangeRate(
 export async function getExchangeRate(from: string, to: string): Promise<number> {
   if (from === to) return 1
 
+  // L1: In-memory cache (same instance, zero latency)
   const cached = cache.get(from)
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
     return cached.rates[to] ?? 1
+  }
+
+  // L2: Upstash Redis (shared across instances, survives cold starts)
+  const redisKey = `fx:${from}`
+  const redisRates = await cacheGet<Record<string, number>>(redisKey)
+  if (redisRates && redisRates[to] != null) {
+    cache.set(from, { rates: redisRates, timestamp: Date.now() })
+    return redisRates[to]
   }
 
   // Tier 1: Try Frankfurter for ECB-supported currency pairs (official institutional rates)
@@ -120,6 +131,7 @@ export async function getExchangeRate(from: string, to: string): Promise<number>
     const existing = cache.get(from)
     const rates = existing ? { ...existing.rates, [to]: ecbRate } : { [to]: ecbRate }
     cache.set(from, { rates, timestamp: Date.now() })
+    void cacheSet(redisKey, rates, REDIS_RATE_TTL)
     persistRates(from, { [to]: ecbRate })
     return ecbRate
   }
@@ -135,6 +147,7 @@ export async function getExchangeRate(from: string, to: string): Promise<number>
 
   if (rates) {
     cache.set(from, { rates, timestamp: Date.now() })
+    void cacheSet(redisKey, rates, REDIS_RATE_TTL)
     persistRates(from, rates)
     return rates[to] ?? 1
   }

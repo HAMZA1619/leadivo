@@ -283,6 +283,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Shipping zones by country.
 - Default rate per zone, free shipping threshold, active/inactive.
 - City-level rate overrides and city exclusions.
+- **CSV import for city rates**: per-zone CSV upload (City, Rate, Excluded columns), client-side parsing, preview with error summary, uses existing bulk upsert API. Downloadable template included.
 - Shipping lookup API (`app/api/shipping/lookup/`).
 
 ### Dashboard — Order Management
@@ -293,6 +294,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Bulk status updates (`app/api/orders/bulk-status/`).
 - Order status timeline (visual history).
 - IP-based country detection on orders.
+- **CSV Export**: export filtered orders as CSV with sanitized cells (CSV injection prevention), rate-limited (5/hour via Redis), capped at 10,000 rows, streamed response, Pro/trialing only. Excludes sensitive fields (ip_address, detected_country). BOM prefix for Excel/Arabic support.
 
 ### Dashboard — Abandoned Checkout Recovery
 - Track checkout sessions that expire without completing (`app/api/checkout-sessions/`).
@@ -417,6 +419,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `GET /api/orders/list` — list with filters.
 - `POST /api/orders/bulk-status` — bulk status update.
 - `GET /api/orders/[id]` — order details.
+- `GET /api/orders/export` — export filtered orders as CSV (streamed, rate-limited, Pro only).
 
 ### Discounts
 - `POST/GET/PATCH/DELETE /api/discounts` — discount CRUD.

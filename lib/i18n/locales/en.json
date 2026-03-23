@@ -184,7 +184,13 @@
     "allMarkets": "All markets",
     "dateFrom": "From",
     "dateTo": "To",
-    "clearFilters": "Clear"
+    "clearFilters": "Clear",
+    "exportCsv": "Export CSV",
+    "exporting": "Exporting...",
+    "exportSuccess": "Orders exported successfully",
+    "exportFailed": "Export failed. Please try again.",
+    "exportRateLimit": "Too many exports. Please wait before trying again.",
+    "exportUpgradeRequired": "Upgrade to Pro to export orders"
   },
   "discounts": {
     "title": "Discounts",
@@ -1448,7 +1454,24 @@
     "noThreshold": "None",
     "thresholdHint": "Orders above this amount get free shipping. Leave empty for no threshold.",
     "thresholdPlaceholder": "e.g. 200",
-    "freeShippingThreshold": "Free shipping threshold"
+    "freeShippingThreshold": "Free shipping threshold",
+    "importCsv": "Import CSV",
+    "csvDescription": "Upload a CSV file with city names, rates, and exclusions.",
+    "csvDragOrClick": "Click to upload CSV file",
+    "csvOnly": "CSV files only",
+    "csvDownloadTemplate": "Download template",
+    "csvTemplateDesc": "Get a sample CSV with the correct format.",
+    "csvRowsFound": "{{count}} cities found",
+    "csvChangeFile": "Change file",
+    "csvMore": "more",
+    "csvSkipped": "Skipped rows",
+    "csvImportCities": "Import {{count}} cities",
+    "csvImporting": "Importing cities...",
+    "csvComplete": "Import complete",
+    "csvFailed": "Import failed",
+    "csvDone": "Done",
+    "csvInvalidFile": "Please upload a CSV file",
+    "csvEmptyFile": "CSV file is empty or has no data rows"
   },
   "timeAgo": {
     "justNow": "just now",

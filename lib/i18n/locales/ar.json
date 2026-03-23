@@ -184,7 +184,13 @@
     "allMarkets": "جميع الأسواق",
     "dateFrom": "من",
     "dateTo": "إلى",
-    "clearFilters": "مسح"
+    "clearFilters": "مسح",
+    "exportCsv": "تصدير CSV",
+    "exporting": "جاري التصدير...",
+    "exportSuccess": "تم تصدير الطلبات بنجاح",
+    "exportFailed": "فشل التصدير. يرجى المحاولة مرة أخرى.",
+    "exportRateLimit": "عدد كبير من التصديرات. يرجى الانتظار قبل المحاولة مرة أخرى.",
+    "exportUpgradeRequired": "قم بالترقية إلى Pro لتصدير الطلبات"
   },
   "discounts": {
     "title": "التخفيضات",
@@ -1448,7 +1454,24 @@
     "noThreshold": "لا يوجد",
     "thresholdHint": "الطلبات التي تتجاوز هذا المبلغ تحصل على شحن مجاني. اتركه فارغاً لعدم وجود حد.",
     "thresholdPlaceholder": "مثال: 200",
-    "freeShippingThreshold": "حد الشحن المجاني"
+    "freeShippingThreshold": "حد الشحن المجاني",
+    "importCsv": "استيراد CSV",
+    "csvDescription": "ارفع ملف CSV يحتوي على أسماء المدن والأسعار والاستثناءات.",
+    "csvDragOrClick": "اضغط لرفع ملف CSV",
+    "csvOnly": "ملفات CSV فقط",
+    "csvDownloadTemplate": "تحميل القالب",
+    "csvTemplateDesc": "احصل على نموذج CSV بالتنسيق الصحيح.",
+    "csvRowsFound": "تم العثور على {{count}} مدن",
+    "csvChangeFile": "تغيير الملف",
+    "csvMore": "المزيد",
+    "csvSkipped": "صفوف تم تخطيها",
+    "csvImportCities": "استيراد {{count}} مدن",
+    "csvImporting": "جاري استيراد المدن...",
+    "csvComplete": "تم الاستيراد",
+    "csvFailed": "فشل الاستيراد",
+    "csvDone": "تم",
+    "csvInvalidFile": "يرجى رفع ملف CSV",
+    "csvEmptyFile": "ملف CSV فارغ أو لا يحتوي على بيانات"
   },
   "timeAgo": {
     "justNow": "الآن",

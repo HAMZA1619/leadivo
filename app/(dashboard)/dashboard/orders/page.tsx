@@ -18,7 +18,7 @@ export default async function OrdersPage() {
 
   if (!store) redirect("/dashboard/store")
 
-  const [{ data: orders }, { data: markets }] = await Promise.all([
+  const [{ data: orders }, { data: markets }, { data: profile }] = await Promise.all([
     supabase
       .from("orders")
       .select("id, order_number, customer_name, customer_phone, customer_country, total, currency, status, created_at")
@@ -30,7 +30,14 @@ export default async function OrdersPage() {
       .select("id, name")
       .eq("store_id", store.id)
       .order("is_default", { ascending: false }),
+    supabase
+      .from("profiles")
+      .select("subscription_status")
+      .eq("id", user.id)
+      .single(),
   ])
+
+  const canExport = ["active", "trialing"].includes(profile?.subscription_status || "")
 
   return (
     <div className="space-y-4">
@@ -39,6 +46,7 @@ export default async function OrdersPage() {
         initialOrders={orders || []}
         hasMore={(orders?.length || 0) === PAGE_SIZE}
         markets={markets || []}
+        canExport={canExport}
       />
     </div>
   )

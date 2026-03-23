@@ -906,6 +906,56 @@ export const ARTICLES: DocArticle[] = [
       },
     ],
   },
+  {
+    slug: "export-orders",
+    category: "orders",
+    title: {
+      en: "Export orders to CSV",
+      ar: "تصدير الطلبات إلى CSV",
+      fr: "Exporter les commandes en CSV",
+    },
+    description: {
+      en: "Download your orders as a CSV file for reporting or offline use.",
+      ar: "حمّل طلباتك كملف CSV للتقارير أو الاستخدام دون اتصال.",
+      fr: "Téléchargez vos commandes en fichier CSV pour vos rapports ou une utilisation hors ligne.",
+    },
+    steps: [
+      {
+        title: { en: "Open the Orders page", ar: "افتح صفحة الطلبات", fr: "Ouvrez la page Commandes" },
+        description: {
+          en: "Click \"Orders\" in the sidebar. The Export CSV button appears in the toolbar next to the filters. This feature is available on the Pro plan and during the free trial.",
+          ar: "انقر على \"الطلبات\" في الشريط الجانبي. يظهر زر تصدير CSV في شريط الأدوات بجانب الفلاتر. هذه الميزة متاحة في خطة Pro وخلال الفترة التجريبية.",
+          fr: "Cliquez sur « Commandes » dans la barre latérale. Le bouton Exporter CSV apparaît dans la barre d'outils à côté des filtres. Cette fonctionnalité est disponible avec le plan Pro et pendant l'essai gratuit.",
+        },
+      },
+      {
+        title: { en: "Apply filters (optional)", ar: "طبّق الفلاتر (اختياري)", fr: "Appliquez des filtres (optionnel)" },
+        description: {
+          en: "Use the status, market, date range, or search filters to narrow down which orders to export. The CSV will only include orders matching your current filters. Leave all filters clear to export all orders.",
+          ar: "استخدم فلاتر الحالة والسوق ونطاق التاريخ أو البحث لتحديد الطلبات المراد تصديرها. سيتضمن ملف CSV فقط الطلبات المطابقة لفلاترك الحالية. اترك جميع الفلاتر فارغة لتصدير كل الطلبات.",
+          fr: "Utilisez les filtres de statut, marché, plage de dates ou recherche pour cibler les commandes à exporter. Le CSV n'inclura que les commandes correspondant à vos filtres actuels. Laissez tous les filtres vides pour exporter toutes les commandes.",
+        },
+      },
+      {
+        title: { en: "Click Export CSV", ar: "انقر تصدير CSV", fr: "Cliquez sur Exporter CSV" },
+        description: {
+          en: "Click the \"Export CSV\" button. The file downloads automatically with the name orders-YYYY-MM-DD.csv. The CSV includes: order number, date, status, customer name, phone, email, city, country, address, items, subtotal, delivery fee, discount, total, currency, payment method, and note. Sensitive data like IP addresses is excluded for privacy. The export supports up to 10,000 orders and is limited to 5 exports per hour.",
+          ar: "انقر على زر \"تصدير CSV\". يتم تنزيل الملف تلقائياً باسم orders-YYYY-MM-DD.csv. يتضمن الملف: رقم الطلب، التاريخ، الحالة، اسم العميل، الهاتف، البريد الإلكتروني، المدينة، البلد، العنوان، المنتجات، المجموع الفرعي، رسوم التوصيل، الخصم، الإجمالي، العملة، طريقة الدفع، والملاحظة. البيانات الحساسة مثل عناوين IP مستبعدة للخصوصية. يدعم التصدير حتى 10,000 طلب ومحدود بـ 5 تصديرات في الساعة.",
+          fr: "Cliquez sur le bouton « Exporter CSV ». Le fichier se télécharge automatiquement sous le nom orders-YYYY-MM-DD.csv. Le CSV inclut : numéro de commande, date, statut, nom du client, téléphone, email, ville, pays, adresse, articles, sous-total, frais de livraison, réduction, total, devise, mode de paiement et note. Les données sensibles comme les adresses IP sont exclues pour la confidentialité. L'export supporte jusqu'à 10 000 commandes et est limité à 5 exports par heure.",
+        },
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "What fields are included in the CSV export?", ar: "ما الحقول المتضمنة في تصدير CSV؟", fr: "Quels champs sont inclus dans l'export CSV ?" },
+        answer: { en: "The CSV includes 17 columns: Order #, Date, Status, Customer Name, Phone, Email, City, Country, Address, Items, Subtotal, Delivery Fee, Discount, Total, Currency, Payment Method, and Note. IP addresses and detected country are excluded for privacy.", ar: "يتضمن CSV 17 عموداً: رقم الطلب، التاريخ، الحالة، اسم العميل، الهاتف، البريد الإلكتروني، المدينة، البلد، العنوان، المنتجات، المجموع الفرعي، رسوم التوصيل، الخصم، الإجمالي، العملة، طريقة الدفع، والملاحظة. عناوين IP والبلد المكتشف مستبعدة للخصوصية.", fr: "Le CSV inclut 17 colonnes : N° de commande, Date, Statut, Nom du client, Téléphone, Email, Ville, Pays, Adresse, Articles, Sous-total, Frais de livraison, Réduction, Total, Devise, Mode de paiement et Note. Les adresses IP et le pays détecté sont exclus pour la confidentialité." },
+      },
+      {
+        question: { en: "Is there a limit on how many orders I can export?", ar: "هل هناك حد لعدد الطلبات التي يمكنني تصديرها؟", fr: "Y a-t-il une limite au nombre de commandes exportables ?" },
+        answer: { en: "Each export includes up to 10,000 orders. You can run up to 5 exports per hour. Use date range filters to split large datasets across multiple exports if needed.", ar: "كل تصدير يتضمن حتى 10,000 طلب. يمكنك إجراء حتى 5 تصديرات في الساعة. استخدم فلاتر نطاق التاريخ لتقسيم البيانات الكبيرة عبر تصديرات متعددة عند الحاجة.", fr: "Chaque export inclut jusqu'à 10 000 commandes. Vous pouvez effectuer jusqu'à 5 exports par heure. Utilisez les filtres de plage de dates pour diviser les grands ensembles de données en plusieurs exports si nécessaire." },
+      },
+    ],
+  },
 
   // ── Shipping ─────────────────────────────────────────────────────────
   {
@@ -1050,6 +1100,18 @@ export const ARTICLES: DocArticle[] = [
       },
       {
         title: {
+          en: "Import cities from CSV",
+          ar: "استيراد المدن من CSV",
+          fr: "Importer des villes depuis un CSV",
+        },
+        description: {
+          en: "For countries with many cities and different rates per city, use the CSV import feature. Click \"Import CSV\" inside a zone, then upload a CSV file with three columns: City, Rate, and Excluded. Each city can have its own rate, or be marked as excluded (use \"yes\" in the Excluded column). You can download a template file to get the correct format. After uploading, you'll see a preview of all cities before confirming the import. Existing cities are updated automatically, new ones are added.",
+          ar: "للدول التي تحتوي على مدن كثيرة وأسعار مختلفة لكل مدينة، استخدم ميزة استيراد CSV. انقر \"استيراد CSV\" داخل المنطقة، ثم ارفع ملف CSV بثلاثة أعمدة: المدينة، السعر، والاستثناء. يمكن لكل مدينة أن تحصل على سعرها الخاص، أو تُحدد كمستثناة (استخدم \"نعم\" في عمود الاستثناء). يمكنك تحميل ملف قالب للحصول على التنسيق الصحيح. بعد الرفع، سترى معاينة لجميع المدن قبل تأكيد الاستيراد. المدن الموجودة تُحدّث تلقائياً والجديدة تُضاف.",
+          fr: "Pour les pays avec de nombreuses villes et des tarifs différents par ville, utilisez la fonction d'import CSV. Cliquez « Importer CSV » dans une zone, puis téléchargez un fichier CSV avec trois colonnes : Ville, Tarif et Exclue. Chaque ville peut avoir son propre tarif ou être marquée comme exclue (utilisez « oui » dans la colonne Exclue). Vous pouvez télécharger un modèle pour obtenir le bon format. Après le téléchargement, vous verrez un aperçu de toutes les villes avant de confirmer l'import. Les villes existantes sont mises à jour automatiquement, les nouvelles sont ajoutées.",
+        },
+      },
+      {
+        title: {
           en: "How customers see delivery fees",
           ar: "كيف يرى العملاء رسوم التوصيل",
           fr: "Comment les clients voient les frais de livraison",
@@ -1070,6 +1132,10 @@ export const ARTICLES: DocArticle[] = [
       {
         question: { en: "What does excluding a city mean for customers?", ar: "ماذا يعني استثناء مدينة للعملاء؟", fr: "Que signifie l'exclusion d'une ville pour les clients ?" },
         answer: { en: "The exclusion feature gives you full control over your delivery zones. Customers in excluded cities will see a clear notification at checkout, helping you focus your delivery operations on the areas you serve best.", ar: "تمنحك ميزة الاستثناء تحكماً كاملاً في مناطق التوصيل. سيرى العملاء في المدن المستثناة إشعاراً واضحاً عند الدفع، مما يساعدك على تركيز عمليات التوصيل على المناطق التي تخدمها بشكل أفضل.", fr: "La fonctionnalité d'exclusion vous donne un contrôle total sur vos zones de livraison. Les clients des villes exclues verront une notification claire au moment du paiement, vous aidant à concentrer vos opérations de livraison sur les zones que vous desservez le mieux." },
+      },
+      {
+        question: { en: "What format should the CSV file use for importing cities?", ar: "ما تنسيق ملف CSV لاستيراد المدن؟", fr: "Quel format le fichier CSV doit-il utiliser pour importer des villes ?" },
+        answer: { en: "The CSV needs three columns: City (the city name), Rate (the delivery fee as a number), and Excluded (\"yes\" or \"no\"). For excluded cities, leave the Rate column empty and set Excluded to \"yes\". You can download a template from the import dialog to get started quickly.", ar: "يحتاج ملف CSV إلى ثلاثة أعمدة: المدينة (اسم المدينة)، السعر (رسوم التوصيل كرقم)، والاستثناء (\"نعم\" أو \"لا\"). للمدن المستثناة، اترك عمود السعر فارغاً واضبط الاستثناء على \"نعم\". يمكنك تحميل قالب من نافذة الاستيراد للبدء بسرعة.", fr: "Le CSV nécessite trois colonnes : Ville (le nom de la ville), Tarif (les frais de livraison en nombre) et Exclue (« oui » ou « non »). Pour les villes exclues, laissez la colonne Tarif vide et mettez Exclue à « oui ». Vous pouvez télécharger un modèle depuis la boîte de dialogue d'import pour démarrer rapidement." },
       },
     ],
   },

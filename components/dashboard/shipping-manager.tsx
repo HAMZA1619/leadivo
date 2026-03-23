@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useTranslation } from "react-i18next"
-import { Check, ChevronDown, ChevronsUpDown, Gift, Loader2, Plus, Trash2, Truck, X } from "lucide-react"
+import { AlertCircle, Check, ChevronDown, ChevronsUpDown, Download, FileSpreadsheet, Gift, Loader2, Plus, Trash2, Truck, Upload, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,7 +17,45 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { cn, getCurrencySymbol } from "@/lib/utils"
 import { COUNTRIES } from "@/lib/constants"
+import { Separator } from "@/components/ui/separator"
 import "@/lib/i18n"
+
+function parseCSV(text: string): Record<string, string>[] {
+  const records: string[][] = []
+  let current: string[] = []
+  let field = ""
+  let inQuotes = false
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i]
+    if (inQuotes) {
+      if (char === '"') {
+        if (text[i + 1] === '"') { field += '"'; i++ } else { inQuotes = false }
+      } else { field += char }
+    } else {
+      if (char === '"') { inQuotes = true }
+      else if (char === ",") { current.push(field.trim()); field = "" }
+      else if (char === "\r" && text[i + 1] === "\n") { current.push(field.trim()); field = ""; if (current.some((v) => v)) records.push(current); current = []; i++ }
+      else if (char === "\n") { current.push(field.trim()); field = ""; if (current.some((v) => v)) records.push(current); current = [] }
+      else { field += char }
+    }
+  }
+  current.push(field.trim())
+  if (current.some((v) => v)) records.push(current)
+  if (records.length < 2) return []
+  const headers = records[0].map((h) => h.toLowerCase().trim())
+  return records.slice(1).map((row) => {
+    const obj: Record<string, string> = {}
+    headers.forEach((h, j) => { obj[h] = row[j] || "" })
+    return obj
+  })
+}
+
+const CITY_CSV_TEMPLATE = `City,Rate,Excluded
+Algiers,400,no
+Oran,500,no
+Constantine,450,no
+Tamanrasset,,yes`
 
 interface CityRate {
   id: string
@@ -70,6 +108,15 @@ export function ShippingManager({ initialZones, currency, markets, limitReached 
 
   // Inline city rate editing
   const [editingCity, setEditingCity] = useState<{ id: string; value: string } | null>(null)
+
+  // CSV import state
+  const [csvZoneId, setCsvZoneId] = useState<string | null>(null)
+  const [csvStep, setCsvStep] = useState<"upload" | "preview" | "importing" | "done">("upload")
+  const [csvRows, setCsvRows] = useState<Array<{ city_name: string; rate: number | null; is_excluded: boolean }>>([])
+  const [csvErrors, setCsvErrors] = useState<string[]>([])
+  const [csvFileName, setCsvFileName] = useState("")
+  const [csvResult, setCsvResult] = useState<{ imported: number; errors: string[] } | null>(null)
+  const csvFileRef = useRef<HTMLInputElement>(null)
 
   const usedCountryCodes = zones.map((z) => z.country_code)
   const availableCountries = COUNTRIES.filter((c) => !usedCountryCodes.includes(c.code))
@@ -258,6 +305,94 @@ export function ShippingManager({ initialZones, currency, markets, limitReached 
     setEditingCity(null)
   }
 
+  function resetCsvImport() {
+    setCsvStep("upload")
+    setCsvRows([])
+    setCsvErrors([])
+    setCsvFileName("")
+    setCsvResult(null)
+  }
+
+  function handleCsvFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.name.endsWith(".csv")) {
+      toast.error(t("shipping.csvInvalidFile"))
+      return
+    }
+    setCsvFileName(file.name)
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const text = ev.target?.result as string
+      const parsed = parseCSV(text)
+      if (parsed.length === 0) {
+        toast.error(t("shipping.csvEmptyFile"))
+        return
+      }
+      const cityMap = new Map<string, { city_name: string; rate: number | null; is_excluded: boolean }>()
+      const errors: string[] = []
+      for (let i = 0; i < parsed.length; i++) {
+        const row = parsed[i]
+        const city = row.city || row.city_name || row.name || ""
+        if (!city) { errors.push(`Row ${i + 2}: missing city name`); continue }
+        const excludedRaw = (row.excluded || row.is_excluded || "").toLowerCase()
+        const isExcluded = ["yes", "true", "1", "oui", "نعم"].includes(excludedRaw)
+        const rateStr = row.rate ?? row.price ?? ""
+        if (!isExcluded && rateStr === "") { errors.push(`Row ${i + 2}: "${city}" — rate is required`); continue }
+        const rate = isExcluded ? null : parseFloat(rateStr)
+        if (!isExcluded && (rate === null || isNaN(rate!) || rate! < 0)) { errors.push(`Row ${i + 2}: "${city}" — invalid rate "${rateStr}"`); continue }
+        cityMap.set(city.toLowerCase(), { city_name: city, rate, is_excluded: isExcluded })
+      }
+      setCsvRows(Array.from(cityMap.values()))
+      setCsvErrors(errors)
+      setCsvStep("preview")
+    }
+    reader.readAsText(file)
+    e.target.value = ""
+  }
+
+  async function handleCsvImport() {
+    if (!csvZoneId || csvRows.length === 0) return
+    setCsvStep("importing")
+    try {
+      const res = await fetch("/api/shipping/cities", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ zone_id: csvZoneId, cities: csvRows }),
+      })
+      if (res.ok) {
+        const newRates: CityRate[] = await res.json()
+        setZones((prev) =>
+          prev.map((z) => {
+            if (z.id !== csvZoneId) return z
+            const existing = z.shipping_city_rates.filter((c) => !newRates.some((nr) => nr.id === c.id))
+            return { ...z, shipping_city_rates: [...existing, ...newRates] }
+          })
+        )
+        setCsvResult({ imported: newRates.length, errors: csvErrors })
+        setCsvStep("done")
+        toast.success(t("shipping.citiesAdded", { count: newRates.length }))
+      } else {
+        const data = await res.json()
+        setCsvResult({ imported: 0, errors: [data?.error || t("shipping.saveFailed"), ...csvErrors] })
+        setCsvStep("done")
+      }
+    } catch {
+      setCsvResult({ imported: 0, errors: [t("shipping.saveFailed"), ...csvErrors] })
+      setCsvStep("done")
+    }
+  }
+
+  function downloadCityTemplate() {
+    const blob = new Blob([CITY_CSV_TEMPLATE], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "shipping-city-rates-template.csv"
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   async function handleDeleteCity(cityRateId: string, zoneId: string) {
     const res = await fetch(`/api/shipping/cities?id=${cityRateId}`, { method: "DELETE" })
     if (res.ok) {
@@ -400,22 +535,36 @@ export function ShippingManager({ initialZones, currency, markets, limitReached 
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                       <h4 className="text-sm font-medium">{t("shipping.cityOverrides")}</h4>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-xs"
-                        onClick={() => {
-                          setShowAddCity(zone.id)
-                          setNewCityNames("")
-                          setNewCityRate("")
-                          setNewCityExcluded(false)
-                        }}
-                      >
-                        <Plus className="me-1 h-3 w-3" />
-                        {t("shipping.addCity")}
-                      </Button>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-xs"
+                          onClick={() => {
+                            setCsvZoneId(zone.id)
+                            resetCsvImport()
+                          }}
+                        >
+                          <Upload className="me-1 h-3 w-3" />
+                          {t("shipping.importCsv")}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-xs"
+                          onClick={() => {
+                            setShowAddCity(zone.id)
+                            setNewCityNames("")
+                            setNewCityRate("")
+                            setNewCityExcluded(false)
+                          }}
+                        >
+                          <Plus className="me-1 h-3 w-3" />
+                          {t("shipping.addCity")}
+                        </Button>
+                      </div>
                     </div>
 
                     {zone.shipping_city_rates.length === 0 ? (
@@ -660,6 +809,164 @@ export function ShippingManager({ initialZones, currency, markets, limitReached 
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* CSV Import Dialog */}
+      <Dialog open={!!csvZoneId} onOpenChange={(open) => { if (!open) { setCsvZoneId(null); setTimeout(resetCsvImport, 300) } }}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <FileSpreadsheet className="h-5 w-5 text-primary" />
+              {t("shipping.importCsv")}
+            </DialogTitle>
+          </DialogHeader>
+
+          {csvStep === "upload" && (
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">{t("shipping.csvDescription")}</p>
+              <div
+                className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 transition-colors hover:border-primary/50 hover:bg-muted/30"
+                onClick={() => csvFileRef.current?.click()}
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                  <Upload className="h-6 w-6 text-primary" />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-medium">{t("shipping.csvDragOrClick")}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{t("shipping.csvOnly")}</p>
+                </div>
+                <input
+                  ref={csvFileRef}
+                  type="file"
+                  accept=".csv"
+                  className="hidden"
+                  onChange={handleCsvFileChange}
+                />
+              </div>
+              <Separator />
+              <button
+                type="button"
+                onClick={downloadCityTemplate}
+                className="flex w-full items-center gap-3 rounded-lg border p-3 text-start transition-colors hover:bg-muted/50"
+              >
+                <Download className="h-4 w-4 shrink-0 text-primary" />
+                <div>
+                  <p className="text-sm font-medium">{t("shipping.csvDownloadTemplate")}</p>
+                  <p className="text-xs text-muted-foreground">{t("shipping.csvTemplateDesc")}</p>
+                </div>
+              </button>
+            </div>
+          )}
+
+          {csvStep === "preview" && (
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-xs font-medium">
+                    <FileSpreadsheet className="h-3 w-3" />
+                    {csvFileName}
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    {t("shipping.csvRowsFound", { count: csvRows.length })}
+                  </span>
+                </div>
+                <button type="button" onClick={resetCsvImport} className="text-xs text-muted-foreground hover:text-foreground">
+                  {t("shipping.csvChangeFile")}
+                </button>
+              </div>
+
+              <div className="max-h-60 space-y-1 overflow-auto pe-1">
+                {csvRows.slice(0, 30).map((row, i) => (
+                  <div key={i} className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2 text-sm">
+                    <span className={cn(row.is_excluded && "line-through text-muted-foreground")}>{row.city_name}</span>
+                    {row.is_excluded ? (
+                      <span className="text-xs text-destructive">{t("shipping.excluded")}</span>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">{row.rate} {sym}</span>
+                    )}
+                  </div>
+                ))}
+                {csvRows.length > 30 && (
+                  <p className="py-2 text-center text-xs text-muted-foreground">
+                    +{csvRows.length - 30} {t("shipping.csvMore")}
+                  </p>
+                )}
+              </div>
+
+              {csvErrors.length > 0 && (
+                <div className="max-h-24 overflow-auto rounded-lg border bg-muted/30 p-3">
+                  <p className="mb-1 text-xs font-medium text-destructive">{t("shipping.csvSkipped")}:</p>
+                  <ul className="space-y-0.5 text-xs text-muted-foreground">
+                    {csvErrors.map((err, i) => (
+                      <li key={i} className="flex items-start gap-1.5">
+                        <AlertCircle className="mt-0.5 h-3 w-3 shrink-0 text-destructive" />
+                        {err}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <Separator />
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" onClick={() => { setCsvZoneId(null); resetCsvImport() }}>{t("shipping.cancel")}</Button>
+                <Button onClick={handleCsvImport} disabled={csvRows.length === 0}>
+                  <Upload className="me-1.5 h-4 w-4" />
+                  {t("shipping.csvImportCities", { count: csvRows.length })}
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {csvStep === "importing" && (
+            <div className="flex flex-col items-center gap-4 py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <p className="font-medium">{t("shipping.csvImporting")}</p>
+            </div>
+          )}
+
+          {csvStep === "done" && csvResult && (
+            <div className="space-y-4">
+              <div className="flex flex-col items-center gap-3 py-4">
+                {csvResult.imported > 0 ? (
+                  <>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10">
+                      <Check className="h-6 w-6 text-emerald-500" />
+                    </div>
+                    <p className="font-medium">{t("shipping.csvComplete")}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("shipping.citiesAdded", { count: csvResult.imported })}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
+                      <AlertCircle className="h-6 w-6 text-destructive" />
+                    </div>
+                    <p className="font-medium">{t("shipping.csvFailed")}</p>
+                  </>
+                )}
+              </div>
+              {csvResult.errors.length > 0 && (
+                <div className="max-h-32 overflow-auto rounded-lg border bg-muted/30 p-3">
+                  <ul className="space-y-0.5 text-xs text-muted-foreground">
+                    {csvResult.errors.map((err, i) => (
+                      <li key={i} className="flex items-start gap-1.5">
+                        <AlertCircle className="mt-0.5 h-3 w-3 shrink-0 text-destructive" />
+                        {err}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <div className="flex justify-end">
+                <Button onClick={() => { setCsvZoneId(null); setTimeout(resetCsvImport, 300) }}>
+                  {t("shipping.csvDone")}
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

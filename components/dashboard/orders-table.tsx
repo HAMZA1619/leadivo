@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { formatPrice } from "@/lib/utils"
 import { RelativeDate } from "@/components/dashboard/relative-date"
 import { ORDER_STATUSES, ORDER_STATUS_TRANSITIONS, type OrderStatus } from "@/lib/constants"
-import { CalendarIcon, CheckCircle, Loader2, PackageCheck, Search, Truck, X } from "lucide-react"
+import { CalendarIcon, CheckCircle, Download, Loader2, PackageCheck, Search, Truck, X } from "lucide-react"
 import { toast } from "sonner"
 import type { DateRange } from "react-day-picker"
 import { useTranslation } from "react-i18next"
@@ -33,6 +33,7 @@ interface OrdersTableProps {
   initialOrders: Order[]
   hasMore: boolean
   markets: Array<{ id: string; name: string }>
+  canExport?: boolean
 }
 
 const STATUS_I18N: Record<string, string> = {
@@ -113,7 +114,7 @@ function useIsMobile(breakpoint = 768) {
   return isMobile
 }
 
-export function OrdersTable({ initialOrders, hasMore: initialHasMore, markets }: OrdersTableProps) {
+export function OrdersTable({ initialOrders, hasMore: initialHasMore, markets, canExport }: OrdersTableProps) {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const [orders, setOrders] = useState(initialOrders)
@@ -128,6 +129,7 @@ export function OrdersTable({ initialOrders, hasMore: initialHasMore, markets }:
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [bulkLoading, setBulkLoading] = useState(false)
+  const [exporting, setExporting] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const dateFrom = dateRange?.from ? toLocalDate(dateRange.from) : ""
@@ -269,6 +271,47 @@ export function OrdersTable({ initialOrders, hasMore: initialHasMore, markets }:
     }
   }
 
+  async function handleExport() {
+    if (exporting) return
+    setExporting(true)
+    try {
+      const params = new URLSearchParams()
+      if (search.trim()) params.set("search", search.trim())
+      if (statusFilter) params.set("status", statusFilter)
+      if (marketFilter) params.set("market", marketFilter)
+      if (dateFrom) params.set("dateFrom", dateFrom)
+      if (dateTo) params.set("dateTo", dateTo)
+
+      const res = await fetch(`/api/orders/export?${params}`)
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: "" }))
+        if (data.error === "rate_limit") {
+          toast.error(t("orders.exportRateLimit"))
+        } else if (data.error === "upgrade_required") {
+          toast.error(t("orders.exportUpgradeRequired"))
+        } else {
+          toast.error(t("orders.exportFailed"))
+        }
+        return
+      }
+
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = `orders-${new Date().toISOString().split("T")[0]}.csv`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+      toast.success(t("orders.exportSuccess"))
+    } catch {
+      toast.error(t("orders.exportFailed"))
+    } finally {
+      setExporting(false)
+    }
+  }
+
   function toggleSelect(id: string) {
     setSelectedIds((prev) => {
       const next = new Set(prev)
@@ -378,6 +421,19 @@ export function OrdersTable({ initialOrders, hasMore: initialHasMore, markets }:
                 <option key={m.id} value={m.id}>{m.name}</option>
               ))}
             </select>
+          )}
+
+          {canExport && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9 gap-2"
+              onClick={handleExport}
+              disabled={exporting}
+            >
+              {exporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+              {t("orders.exportCsv")}
+            </Button>
           )}
 
           <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>

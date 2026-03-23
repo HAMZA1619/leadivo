@@ -184,7 +184,13 @@
     "allMarkets": "Tous les marchés",
     "dateFrom": "De",
     "dateTo": "À",
-    "clearFilters": "Effacer"
+    "clearFilters": "Effacer",
+    "exportCsv": "Exporter CSV",
+    "exporting": "Exportation...",
+    "exportSuccess": "Commandes exportées avec succès",
+    "exportFailed": "L'exportation a échoué. Veuillez réessayer.",
+    "exportRateLimit": "Trop d'exportations. Veuillez patienter avant de réessayer.",
+    "exportUpgradeRequired": "Passez à Pro pour exporter les commandes"
   },
   "discounts": {
     "title": "Réductions",
@@ -1448,7 +1454,24 @@
     "noThreshold": "Aucun",
     "thresholdHint": "Les commandes au-dessus de ce montant bénéficient de la livraison gratuite. Laissez vide pour aucun seuil.",
     "thresholdPlaceholder": "ex. 200",
-    "freeShippingThreshold": "Seuil de livraison gratuite"
+    "freeShippingThreshold": "Seuil de livraison gratuite",
+    "importCsv": "Importer CSV",
+    "csvDescription": "Téléchargez un fichier CSV avec les noms des villes, tarifs et exclusions.",
+    "csvDragOrClick": "Cliquez pour télécharger un fichier CSV",
+    "csvOnly": "Fichiers CSV uniquement",
+    "csvDownloadTemplate": "Télécharger le modèle",
+    "csvTemplateDesc": "Obtenez un exemple CSV avec le bon format.",
+    "csvRowsFound": "{{count}} villes trouvées",
+    "csvChangeFile": "Changer de fichier",
+    "csvMore": "de plus",
+    "csvSkipped": "Lignes ignorées",
+    "csvImportCities": "Importer {{count}} villes",
+    "csvImporting": "Importation des villes...",
+    "csvComplete": "Importation terminée",
+    "csvFailed": "Échec de l'importation",
+    "csvDone": "Terminé",
+    "csvInvalidFile": "Veuillez télécharger un fichier CSV",
+    "csvEmptyFile": "Le fichier CSV est vide ou ne contient pas de données"
   },
   "timeAgo": {
     "justNow": "à l'instant",

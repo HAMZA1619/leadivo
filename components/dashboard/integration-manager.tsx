@@ -48,14 +48,10 @@ interface Props {
 
 function getStatusInfo(
   installed: InstalledIntegration | undefined,
-  latestEvent?: { status: string },
   t?: (key: string) => string,
 ): { color: string; dotColor: string; label: string } {
   if (!installed) return { color: "", dotColor: "", label: "" }
   const config = installed.config as Record<string, unknown>
-  if (latestEvent?.status === "failed") {
-    return { color: "text-red-600 dark:text-red-400", dotColor: "bg-red-500", label: t?.("integrations.statusError") || "Error" }
-  }
   if (config.connected === false) {
     return { color: "text-amber-600 dark:text-amber-400", dotColor: "bg-amber-500", label: t?.("integrations.statusAttention") || "Attention" }
   }
@@ -134,7 +130,7 @@ export function IntegrationManager({ storeId, installedIntegrations, latestEvent
     const config = (installed?.config || {}) as Record<string, unknown>
     const hasTestCode = (app.id === "meta-capi" || app.id === "tiktok-eapi") && !!config.test_event_code
     const isTestMode = hasTestCode && !!config.test_mode
-    const status = installed ? getStatusInfo(installed, latestEvents[app.id], t) : null
+    const status = installed ? getStatusInfo(installed, t) : null
 
     return (
       <Card key={app.id}>

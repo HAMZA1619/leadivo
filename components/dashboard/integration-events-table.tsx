@@ -35,6 +35,24 @@ interface Props {
   hasMore: boolean
 }
 
+function parseErrorMessage(raw: string | null): string | null {
+  if (!raw) return null
+  // Try to extract message from JSON embedded in error string (e.g. "WhatsApp API error 400: {"status":400,"error":"..."}")
+  const jsonMatch = raw.match(/\{[\s\S]*\}/)
+  if (jsonMatch) {
+    try {
+      const parsed = JSON.parse(jsonMatch[0])
+      const msg = parsed.message || parsed.error || parsed.error_message || parsed.detail
+      if (typeof msg === "string" && msg) return msg
+      if (typeof parsed.error === "object" && parsed.error?.message) return parsed.error.message
+    } catch { /* not valid JSON, fall through */ }
+  }
+  // Strip common prefixes like "WhatsApp API error 400: "
+  const prefixMatch = raw.match(/^.+?:\s*(.+)/)
+  if (prefixMatch && prefixMatch[1] && !prefixMatch[1].startsWith("{")) return prefixMatch[1]
+  return raw
+}
+
 const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
   completed: "default",
   pending: "secondary",
@@ -115,8 +133,8 @@ export function IntegrationEventsTable({ appName, integrationId, initialEvents, 
                         {t(`integrations.events.statuses.${event.status}`)}
                       </Badge>
                     </TableCell>
-                    <TableCell className="max-w-[200px] truncate text-sm text-red-600">
-                      {event.error || "—"}
+                    <TableCell className="max-w-[250px] truncate text-sm text-red-600 dark:text-red-400" title={event.error || undefined}>
+                      {parseErrorMessage(event.error) || "—"}
                     </TableCell>
                     <TableCell>
                       <RelativeDate date={event.created_at} />

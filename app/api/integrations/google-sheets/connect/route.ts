@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       access_type: "offline",
       prompt: "consent",
       scope: [
-        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive.file",
       ],
       state: store_id,
     })

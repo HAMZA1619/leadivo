@@ -957,6 +957,70 @@ export const ARTICLES: DocArticle[] = [
     ],
   },
 
+  // ── Customers ────────────────────────────────────────────────────────
+  {
+    slug: "customer-database",
+    category: "orders",
+    title: {
+      en: "Customer database",
+      ar: "قاعدة بيانات العملاء",
+      fr: "Base de données clients",
+    },
+    description: {
+      en: "View and manage your customer profiles, automatically built from orders.",
+      ar: "عرض وإدارة ملفات العملاء، المبنية تلقائياً من الطلبات.",
+      fr: "Consultez et gérez vos profils clients, créés automatiquement à partir des commandes.",
+    },
+    steps: [
+      {
+        title: { en: "Open the Customers page", ar: "افتح صفحة العملاء", fr: "Ouvrez la page Clients" },
+        description: {
+          en: "Click \"Customers\" in the sidebar. You'll see a searchable customer table with name, phone, country, order count, total spent, and tags. Customer profiles are created automatically whenever a new order is placed — no manual entry needed.",
+          ar: "انقر على \"العملاء\" في الشريط الجانبي. سترى جدول عملاء قابل للبحث يعرض الاسم والهاتف والبلد وعدد الطلبات وإجمالي الإنفاق والتصنيفات. يتم إنشاء ملفات العملاء تلقائياً عند استلام أي طلب جديد — بدون إدخال يدوي.",
+          fr: "Cliquez sur « Clients » dans la barre latérale. Vous verrez un tableau de clients avec recherche affichant le nom, téléphone, pays, nombre de commandes, total dépensé et tags. Les profils clients sont créés automatiquement à chaque nouvelle commande — aucune saisie manuelle nécessaire.",
+        },
+        image: "/docs/customers/customer-database-1.svg",
+      },
+      {
+        title: { en: "View customer details", ar: "عرض تفاصيل العميل", fr: "Voir les détails du client" },
+        description: {
+          en: "Click any customer row to open their profile. You'll see their contact info, order history, total spent, order count, and average order value. From here you can also message them directly on WhatsApp.",
+          ar: "انقر على أي صف عميل لفتح ملفه الشخصي. سترى معلومات الاتصال وسجل الطلبات وإجمالي الإنفاق وعدد الطلبات ومتوسط قيمة الطلب. يمكنك أيضاً مراسلتهم مباشرة على واتساب.",
+          fr: "Cliquez sur n'importe quel client pour ouvrir son profil. Vous verrez ses coordonnées, l'historique des commandes, le total dépensé, le nombre de commandes et la valeur moyenne. Vous pouvez aussi les contacter directement sur WhatsApp.",
+        },
+        image: "/docs/customers/customer-database-2.svg",
+      },
+      {
+        title: { en: "Add tags and notes", ar: "إضافة تصنيفات وملاحظات", fr: "Ajouter des tags et notes" },
+        description: {
+          en: "Use tags to categorize customers (e.g. VIP, Wholesale, Loyal) and add notes for internal reference. Tags support autocomplete from previously used tags. Notes auto-save as you type.",
+          ar: "استخدم التصنيفات لتصنيف العملاء (مثل VIP، بالجملة، وفيّ) وأضف ملاحظات للمرجع الداخلي. التصنيفات تدعم الإكمال التلقائي من التصنيفات المستخدمة سابقاً. الملاحظات تُحفظ تلقائياً أثناء الكتابة.",
+          fr: "Utilisez les tags pour catégoriser les clients (ex. VIP, Grossiste, Fidèle) et ajoutez des notes pour référence interne. Les tags supportent l'auto-complétion. Les notes se sauvegardent automatiquement.",
+        },
+        image: "/docs/customers/customer-database-3.svg",
+      },
+      {
+        title: { en: "Export customers to CSV", ar: "تصدير العملاء إلى CSV", fr: "Exporter les clients en CSV" },
+        description: {
+          en: "Click \"Export CSV\" to download your customer list. A confirmation dialog will appear before the download starts. The export includes name, phone, email, city, country, tags, currency, total spent, order count, first and last order dates, and notes. Available on Pro plan and during the free trial.",
+          ar: "انقر \"تصدير CSV\" لتنزيل قائمة عملائك. سيظهر مربع تأكيد قبل بدء التنزيل. يتضمن التصدير: الاسم، الهاتف، البريد، المدينة، البلد، التصنيفات، العملة، إجمالي الإنفاق، عدد الطلبات، تواريخ أول وآخر طلب، والملاحظات. متاح في خطة Pro وخلال الفترة التجريبية.",
+          fr: "Cliquez sur « Exporter CSV » pour télécharger votre liste de clients. Une boîte de confirmation apparaîtra avant le téléchargement. L'export inclut : nom, téléphone, email, ville, pays, tags, devise, total dépensé, nombre de commandes, dates de première et dernière commande, et notes. Disponible avec le plan Pro et pendant l'essai gratuit.",
+        },
+        image: "/docs/customers/customer-database-4.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "How are customer profiles created?", ar: "كيف يتم إنشاء ملفات العملاء؟", fr: "Comment les profils clients sont-ils créés ?" },
+        answer: { en: "Customer profiles are created automatically when an order is placed. The system uses phone number normalization to match customers across different phone formats (local, international, with or without country code), so the same person placing multiple orders gets a single profile.", ar: "يتم إنشاء ملفات العملاء تلقائياً عند تقديم طلب. يستخدم النظام تطبيع أرقام الهاتف لمطابقة العملاء عبر صيغ هاتف مختلفة (محلي، دولي، مع أو بدون رمز البلد)، بحيث يحصل نفس الشخص الذي يقدم طلبات متعددة على ملف واحد.", fr: "Les profils clients sont créés automatiquement lors d'une commande. Le système normalise les numéros de téléphone pour matcher les clients à travers différents formats (local, international, avec ou sans indicatif pays), donc la même personne qui passe plusieurs commandes obtient un seul profil." },
+      },
+      {
+        question: { en: "Can I delete a customer profile?", ar: "هل يمكنني حذف ملف عميل؟", fr: "Puis-je supprimer un profil client ?" },
+        answer: { en: "Customer profiles are derived from orders and cannot be deleted directly. You can clear their tags and notes if needed. The profile data stays accurate and up-to-date as it's automatically maintained by the system.", ar: "ملفات العملاء مشتقة من الطلبات ولا يمكن حذفها مباشرة. يمكنك مسح التصنيفات والملاحظات عند الحاجة. تبقى بيانات الملف دقيقة ومحدثة لأن النظام يصونها تلقائياً.", fr: "Les profils clients sont dérivés des commandes et ne peuvent pas être supprimés directement. Vous pouvez effacer leurs tags et notes si nécessaire. Les données du profil restent précises et à jour car le système les maintient automatiquement." },
+      },
+    ],
+  },
+
   // ── Shipping ─────────────────────────────────────────────────────────
   {
     slug: "setup-zones",

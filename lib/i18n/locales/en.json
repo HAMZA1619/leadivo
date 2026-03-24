@@ -19,6 +19,7 @@
     "discounts": "Discounts",
     "markets": "Markets",
     "shipping": "Shipping",
+    "customers": "Customers",
     "abandonedCheckouts": "Abandoned Carts",
     "checkouts": "Checkouts",
     "helpCenter": "Help Center",
@@ -190,7 +191,66 @@
     "exportSuccess": "Orders exported successfully",
     "exportFailed": "Export failed. Please try again.",
     "exportRateLimit": "Too many exports. Please wait before trying again.",
-    "exportUpgradeRequired": "Upgrade to Pro to export orders"
+    "exportUpgradeRequired": "Upgrade to Pro to export orders",
+    "exportConfirmTitle": "Export orders?",
+    "exportConfirmDescription": "This will download a CSV file with your current filtered orders.",
+    "exportCancel": "Cancel",
+    "exportConfirm": "Export"
+  },
+  "customers": {
+    "title": "Customers",
+    "search": "Search by name, phone or email",
+    "empty": "No customers yet. Customers appear automatically when orders are placed.",
+    "emptySearch": "No customers found matching your search.",
+    "loadMore": "Load more",
+    "columns": {
+      "name": "Name",
+      "phone": "Phone",
+      "country": "Country",
+      "orders": "Orders",
+      "totalSpent": "Total Spent",
+      "lastOrder": "Last Order",
+      "tags": "Tags"
+    },
+    "stats": {
+      "totalCustomers": "Total Customers",
+      "newThisMonth": "New This Month",
+      "repeatRate": "Repeat Rate",
+      "avgOrderValue": "Avg. Order Value"
+    },
+    "detail": {
+      "contactInfo": "Contact Info",
+      "orderHistory": "Order History",
+      "statistics": "Statistics",
+      "totalSpent": "Total Spent",
+      "orderCount": "Orders",
+      "avgOrder": "Avg. Order",
+      "firstOrder": "First Order",
+      "lastOrder": "Last Order",
+      "tags": "Tags",
+      "addTag": "Add a tag...",
+      "notes": "Notes",
+      "notesPlaceholder": "Add notes about this customer...",
+      "notesSaved": "Saved",
+      "updateFailed": "Failed to update",
+      "messageOnWhatsApp": "WhatsApp",
+      "noOrders": "No orders yet"
+    },
+    "filters": {
+      "country": "Country",
+      "allCountries": "All countries",
+      "clearFilters": "Clear"
+    },
+    "export": "Export CSV",
+    "exporting": "Exporting...",
+    "exportSuccess": "Customers exported successfully",
+    "exportFailed": "Export failed. Please try again.",
+    "exportRateLimit": "Too many exports. Please wait before trying again.",
+    "exportUpgradeRequired": "Upgrade to Pro to export customers",
+    "exportConfirmTitle": "Export customers?",
+    "exportConfirmDescription": "This will download a CSV file with your customer data.",
+    "exportCancel": "Cancel",
+    "exportConfirm": "Export"
   },
   "discounts": {
     "title": "Discounts",

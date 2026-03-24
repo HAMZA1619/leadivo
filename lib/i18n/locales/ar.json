@@ -19,6 +19,7 @@
     "discounts": "التخفيضات",
     "markets": "الأسواق",
     "shipping": "الشحن",
+    "customers": "العملاء",
     "abandonedCheckouts": "السلات المتروكة",
     "checkouts": "السلات",
     "helpCenter": "مركز المساعدة",
@@ -190,7 +191,66 @@
     "exportSuccess": "تم تصدير الطلبات بنجاح",
     "exportFailed": "فشل التصدير. يرجى المحاولة مرة أخرى.",
     "exportRateLimit": "عدد كبير من التصديرات. يرجى الانتظار قبل المحاولة مرة أخرى.",
-    "exportUpgradeRequired": "قم بالترقية إلى Pro لتصدير الطلبات"
+    "exportUpgradeRequired": "قم بالترقية إلى Pro لتصدير الطلبات",
+    "exportConfirmTitle": "تصدير الطلبات؟",
+    "exportConfirmDescription": "سيتم تنزيل ملف CSV يحتوي على الطلبات المفلترة الحالية.",
+    "exportCancel": "إلغاء",
+    "exportConfirm": "تصدير"
+  },
+  "customers": {
+    "title": "العملاء",
+    "search": "البحث بالاسم أو الهاتف أو البريد",
+    "empty": "لا يوجد عملاء بعد. يظهر العملاء تلقائياً عند استلام الطلبات.",
+    "emptySearch": "لم يتم العثور على عملاء مطابقين.",
+    "loadMore": "تحميل المزيد",
+    "columns": {
+      "name": "الاسم",
+      "phone": "الهاتف",
+      "country": "البلد",
+      "orders": "الطلبات",
+      "totalSpent": "إجمالي الإنفاق",
+      "lastOrder": "آخر طلب",
+      "tags": "التصنيفات"
+    },
+    "stats": {
+      "totalCustomers": "إجمالي العملاء",
+      "newThisMonth": "جدد هذا الشهر",
+      "repeatRate": "نسبة التكرار",
+      "avgOrderValue": "متوسط قيمة الطلب"
+    },
+    "detail": {
+      "contactInfo": "معلومات الاتصال",
+      "orderHistory": "سجل الطلبات",
+      "statistics": "الإحصائيات",
+      "totalSpent": "إجمالي الإنفاق",
+      "orderCount": "الطلبات",
+      "avgOrder": "متوسط الطلب",
+      "firstOrder": "أول طلب",
+      "lastOrder": "آخر طلب",
+      "tags": "التصنيفات",
+      "addTag": "إضافة تصنيف...",
+      "notes": "ملاحظات",
+      "notesPlaceholder": "أضف ملاحظات حول هذا العميل...",
+      "notesSaved": "تم الحفظ",
+      "updateFailed": "فشل التحديث",
+      "messageOnWhatsApp": "واتساب",
+      "noOrders": "لا توجد طلبات بعد"
+    },
+    "filters": {
+      "country": "البلد",
+      "allCountries": "كل البلدان",
+      "clearFilters": "مسح"
+    },
+    "export": "تصدير CSV",
+    "exporting": "جاري التصدير...",
+    "exportSuccess": "تم تصدير العملاء بنجاح",
+    "exportFailed": "فشل التصدير. يرجى المحاولة مرة أخرى.",
+    "exportRateLimit": "عدد كبير من التصديرات. يرجى الانتظار.",
+    "exportUpgradeRequired": "قم بالترقية إلى Pro لتصدير العملاء",
+    "exportConfirmTitle": "تصدير العملاء؟",
+    "exportConfirmDescription": "سيتم تنزيل ملف CSV يحتوي على بيانات عملائك.",
+    "exportCancel": "إلغاء",
+    "exportConfirm": "تصدير"
   },
   "discounts": {
     "title": "التخفيضات",

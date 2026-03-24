@@ -1009,6 +1009,449 @@ CREATE TRIGGER enforce_status_transition
   EXECUTE FUNCTION public.enforce_order_status_transition();
 
 -- ============================================================
+-- Customers (auto-populated from orders via trigger)
+-- ============================================================
+
+-- Phone normalization function (E.164-like, handles MENA formats)
+CREATE OR REPLACE FUNCTION public.normalize_phone(phone TEXT, country TEXT DEFAULT NULL)
+RETURNS TEXT AS $$
+DECLARE
+  cleaned TEXT;
+  code_map JSONB := '{
+    "AF":"93","Afghanistan":"93",
+    "AL":"355","Albania":"355",
+    "DZ":"213","Algeria":"213",
+    "AD":"376","Andorra":"376",
+    "AO":"244","Angola":"244",
+    "AG":"1268","Antigua and Barbuda":"1268",
+    "AR":"54","Argentina":"54",
+    "AM":"374","Armenia":"374",
+    "AU":"61","Australia":"61",
+    "AT":"43","Austria":"43",
+    "AZ":"994","Azerbaijan":"994",
+    "BS":"1242","Bahamas":"1242",
+    "BH":"973","Bahrain":"973",
+    "BD":"880","Bangladesh":"880",
+    "BB":"1246","Barbados":"1246",
+    "BY":"375","Belarus":"375",
+    "BE":"32","Belgium":"32",
+    "BZ":"501","Belize":"501",
+    "BJ":"229","Benin":"229",
+    "BT":"975","Bhutan":"975",
+    "BO":"591","Bolivia":"591",
+    "BA":"387","Bosnia and Herzegovina":"387",
+    "BW":"267","Botswana":"267",
+    "BR":"55","Brazil":"55",
+    "BN":"673","Brunei":"673",
+    "BG":"359","Bulgaria":"359",
+    "BF":"226","Burkina Faso":"226",
+    "BI":"257","Burundi":"257",
+    "KH":"855","Cambodia":"855",
+    "CM":"237","Cameroon":"237",
+    "CA":"1","Canada":"1",
+    "CV":"238","Cape Verde":"238","Cabo Verde":"238",
+    "CF":"236","Central African Republic":"236",
+    "TD":"235","Chad":"235",
+    "CL":"56","Chile":"56",
+    "CN":"86","China":"86",
+    "CO":"57","Colombia":"57",
+    "KM":"269","Comoros":"269",
+    "CG":"242","Congo":"242","Republic of the Congo":"242",
+    "CD":"243","DR Congo":"243","Democratic Republic of the Congo":"243",
+    "CR":"506","Costa Rica":"506",
+    "CI":"225","Ivory Coast":"225","Côte d Ivoire":"225",
+    "HR":"385","Croatia":"385",
+    "CU":"53","Cuba":"53",
+    "CY":"357","Cyprus":"357",
+    "CZ":"420","Czech Republic":"420","Czechia":"420",
+    "DK":"45","Denmark":"45",
+    "DJ":"253","Djibouti":"253",
+    "DM":"1767","Dominica":"1767",
+    "DO":"1809","Dominican Republic":"1809",
+    "EC":"593","Ecuador":"593",
+    "EG":"20","Egypt":"20",
+    "SV":"503","El Salvador":"503",
+    "GQ":"240","Equatorial Guinea":"240",
+    "ER":"291","Eritrea":"291",
+    "EE":"372","Estonia":"372",
+    "SZ":"268","Eswatini":"268","Swaziland":"268",
+    "ET":"251","Ethiopia":"251",
+    "FJ":"679","Fiji":"679",
+    "FI":"358","Finland":"358",
+    "FR":"33","France":"33",
+    "GA":"241","Gabon":"241",
+    "GM":"220","Gambia":"220",
+    "GE":"995","Georgia":"995",
+    "DE":"49","Germany":"49",
+    "GH":"233","Ghana":"233",
+    "GR":"30","Greece":"30",
+    "GD":"1473","Grenada":"1473",
+    "GT":"502","Guatemala":"502",
+    "GN":"224","Guinea":"224",
+    "GW":"245","Guinea-Bissau":"245",
+    "GY":"592","Guyana":"592",
+    "HT":"509","Haiti":"509",
+    "HN":"504","Honduras":"504",
+    "HK":"852","Hong Kong":"852",
+    "HU":"36","Hungary":"36",
+    "IS":"354","Iceland":"354",
+    "IN":"91","India":"91",
+    "ID":"62","Indonesia":"62",
+    "IR":"98","Iran":"98",
+    "IQ":"964","Iraq":"964",
+    "IE":"353","Ireland":"353",
+    "IL":"972","Israel":"972",
+    "IT":"39","Italy":"39",
+    "JM":"1876","Jamaica":"1876",
+    "JP":"81","Japan":"81",
+    "JO":"962","Jordan":"962",
+    "KZ":"7","Kazakhstan":"7",
+    "KE":"254","Kenya":"254",
+    "KI":"686","Kiribati":"686",
+    "KP":"850","North Korea":"850",
+    "KR":"82","South Korea":"82",
+    "KW":"965","Kuwait":"965",
+    "KG":"996","Kyrgyzstan":"996",
+    "LA":"856","Laos":"856",
+    "LV":"371","Latvia":"371",
+    "LB":"961","Lebanon":"961",
+    "LS":"266","Lesotho":"266",
+    "LR":"231","Liberia":"231",
+    "LY":"218","Libya":"218",
+    "LI":"423","Liechtenstein":"423",
+    "LT":"370","Lithuania":"370",
+    "LU":"352","Luxembourg":"352",
+    "MO":"853","Macau":"853",
+    "MG":"261","Madagascar":"261",
+    "MW":"265","Malawi":"265",
+    "MY":"60","Malaysia":"60",
+    "MV":"960","Maldives":"960",
+    "ML":"223","Mali":"223",
+    "MT":"356","Malta":"356",
+    "MH":"692","Marshall Islands":"692",
+    "MR":"222","Mauritania":"222",
+    "MU":"230","Mauritius":"230",
+    "MX":"52","Mexico":"52",
+    "FM":"691","Micronesia":"691",
+    "MD":"373","Moldova":"373",
+    "MC":"377","Monaco":"377",
+    "MN":"976","Mongolia":"976",
+    "ME":"382","Montenegro":"382",
+    "MA":"212","Morocco":"212",
+    "MZ":"258","Mozambique":"258",
+    "MM":"95","Myanmar":"95",
+    "NA":"264","Namibia":"264",
+    "NR":"674","Nauru":"674",
+    "NP":"977","Nepal":"977",
+    "NL":"31","Netherlands":"31",
+    "NZ":"64","New Zealand":"64",
+    "NI":"505","Nicaragua":"505",
+    "NE":"227","Niger":"227",
+    "NG":"234","Nigeria":"234",
+    "MK":"389","North Macedonia":"389",
+    "NO":"47","Norway":"47",
+    "OM":"968","Oman":"968",
+    "PK":"92","Pakistan":"92",
+    "PW":"680","Palau":"680",
+    "PS":"970","Palestine":"970",
+    "PA":"507","Panama":"507",
+    "PG":"675","Papua New Guinea":"675",
+    "PY":"595","Paraguay":"595",
+    "PE":"51","Peru":"51",
+    "PH":"63","Philippines":"63",
+    "PL":"48","Poland":"48",
+    "PT":"351","Portugal":"351",
+    "QA":"974","Qatar":"974",
+    "RO":"40","Romania":"40",
+    "RU":"7","Russia":"7","Russian Federation":"7",
+    "RW":"250","Rwanda":"250",
+    "KN":"1869","Saint Kitts and Nevis":"1869",
+    "LC":"1758","Saint Lucia":"1758",
+    "VC":"1784","Saint Vincent and the Grenadines":"1784",
+    "WS":"685","Samoa":"685",
+    "SM":"378","San Marino":"378",
+    "ST":"239","Sao Tome and Principe":"239",
+    "SA":"966","Saudi Arabia":"966",
+    "SN":"221","Senegal":"221",
+    "RS":"381","Serbia":"381",
+    "SC":"248","Seychelles":"248",
+    "SL":"232","Sierra Leone":"232",
+    "SG":"65","Singapore":"65",
+    "SK":"421","Slovakia":"421",
+    "SI":"386","Slovenia":"386",
+    "SB":"677","Solomon Islands":"677",
+    "SO":"252","Somalia":"252",
+    "ZA":"27","South Africa":"27",
+    "SS":"211","South Sudan":"211",
+    "ES":"34","Spain":"34",
+    "LK":"94","Sri Lanka":"94",
+    "SD":"249","Sudan":"249",
+    "SR":"597","Suriname":"597",
+    "SE":"46","Sweden":"46",
+    "CH":"41","Switzerland":"41",
+    "SY":"963","Syria":"963",
+    "TW":"886","Taiwan":"886",
+    "TJ":"992","Tajikistan":"992",
+    "TZ":"255","Tanzania":"255",
+    "TH":"66","Thailand":"66",
+    "TL":"670","Timor-Leste":"670","East Timor":"670",
+    "TG":"228","Togo":"228",
+    "TO":"676","Tonga":"676",
+    "TT":"1868","Trinidad and Tobago":"1868",
+    "TN":"216","Tunisia":"216",
+    "TR":"90","Turkey":"90","Türkiye":"90",
+    "TM":"993","Turkmenistan":"993",
+    "TV":"688","Tuvalu":"688",
+    "UG":"256","Uganda":"256",
+    "UA":"380","Ukraine":"380",
+    "AE":"971","United Arab Emirates":"971",
+    "GB":"44","United Kingdom":"44",
+    "US":"1","United States":"1",
+    "UY":"598","Uruguay":"598",
+    "UZ":"998","Uzbekistan":"998",
+    "VU":"678","Vanuatu":"678",
+    "VA":"379","Vatican City":"379",
+    "VE":"58","Venezuela":"58",
+    "VN":"84","Vietnam":"84",
+    "YE":"967","Yemen":"967",
+    "ZM":"260","Zambia":"260",
+    "ZW":"263","Zimbabwe":"263"
+  }'::JSONB;
+  cc TEXT;
+  country_lower TEXT;
+  k TEXT;
+  v TEXT;
+BEGIN
+  IF phone IS NULL OR phone = '' THEN RETURN ''; END IF;
+  cleaned := regexp_replace(phone, '[^0-9+]', '', 'g');
+
+  -- Helper: resolve country code (case-insensitive for both ISO codes and country names)
+  IF country IS NOT NULL THEN
+    -- Try exact match first (fast path)
+    cc := code_map ->> country;
+    -- Try uppercase (for ISO codes like "dz" → "DZ")
+    IF cc IS NULL THEN cc := code_map ->> upper(country); END IF;
+    -- Try case-insensitive scan (for "algeria" → "Algeria", "saudi arabia" → "Saudi Arabia")
+    IF cc IS NULL THEN
+      country_lower := lower(country);
+      FOR k, v IN SELECT * FROM jsonb_each_text(code_map)
+      LOOP
+        IF lower(k) = country_lower THEN
+          cc := v;
+          EXIT;
+        END IF;
+      END LOOP;
+    END IF;
+  END IF;
+
+  -- Already has + prefix → strip + and return digits
+  IF cleaned LIKE '+%' THEN
+    cleaned := regexp_replace(cleaned, '^\+', '');
+    -- Strip embedded local zero after country code: +213(0)555... → 2130555... → 213555...
+    IF cc IS NOT NULL AND cleaned LIKE (cc || '0%') AND length(cleaned) > length(cc) + 8 THEN
+      cleaned := cc || substring(cleaned FROM length(cc) + 2);
+    END IF;
+    RETURN cleaned;
+  END IF;
+
+  -- Starts with 00 → international format, strip 00
+  IF cleaned LIKE '00%' THEN
+    cleaned := substring(cleaned FROM 3);
+    -- Same embedded-zero fix for 00213(0)555... format
+    IF cc IS NOT NULL AND cleaned LIKE (cc || '0%') AND length(cleaned) > length(cc) + 8 THEN
+      cleaned := cc || substring(cleaned FROM length(cc) + 2);
+    END IF;
+    RETURN cleaned;
+  END IF;
+
+  -- Starts with 0 → local format, needs country code
+  IF cleaned LIKE '0%' AND cc IS NOT NULL THEN
+    RETURN cc || substring(cleaned FROM 2);
+  END IF;
+
+  -- No leading 0 but short number with known country → might be missing country code
+  IF length(cleaned) >= 7 AND length(cleaned) <= 10 AND cc IS NOT NULL THEN
+    IF NOT cleaned LIKE (cc || '%') THEN
+      RETURN cc || cleaned;
+    END IF;
+  END IF;
+
+  -- Fallback: return cleaned digits as-is
+  RETURN cleaned;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+CREATE TABLE customers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  store_id UUID NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+  customer_phone TEXT NOT NULL,
+  customer_name TEXT NOT NULL,
+  customer_email TEXT,
+  customer_city TEXT,
+  customer_country TEXT,
+  customer_address TEXT,
+  tags TEXT[] DEFAULT '{}',
+  notes TEXT,
+  currency TEXT,
+  total_spent DECIMAL(10,2) NOT NULL DEFAULT 0,
+  order_count INTEGER NOT NULL DEFAULT 0,
+  first_order_at TIMESTAMPTZ,
+  last_order_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE(store_id, customer_phone)
+);
+
+CREATE INDEX idx_customers_store ON customers(store_id);
+CREATE INDEX idx_customers_store_phone ON customers(store_id, customer_phone);
+CREATE INDEX idx_customers_store_name ON customers(store_id, customer_name);
+CREATE INDEX idx_customers_total_spent ON customers(store_id, total_spent DESC);
+CREATE INDEX idx_customers_order_count ON customers(store_id, order_count DESC);
+CREATE INDEX idx_customers_last_order ON customers(store_id, last_order_at DESC);
+CREATE INDEX idx_customers_tags ON customers USING GIN(tags);
+
+CREATE TRIGGER set_updated_at BEFORE UPDATE ON customers FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+-- Functional index for efficient customer→orders lookup using normalized phone
+CREATE INDEX idx_orders_norm_phone ON orders(store_id, (public.normalize_phone(customer_phone, customer_country)));
+
+-- Auto-upsert customer on order creation
+CREATE OR REPLACE FUNCTION public.upsert_customer_from_order()
+RETURNS TRIGGER AS $$
+DECLARE
+  norm_phone TEXT;
+BEGIN
+  norm_phone := public.normalize_phone(NEW.customer_phone, NEW.customer_country);
+
+  INSERT INTO public.customers (
+    store_id, customer_phone, customer_name, customer_email,
+    customer_city, customer_country, customer_address,
+    currency, total_spent, order_count, first_order_at, last_order_at
+  ) VALUES (
+    NEW.store_id, norm_phone, NEW.customer_name, NEW.customer_email,
+    NEW.customer_city, NEW.customer_country, NEW.customer_address,
+    NEW.currency, NEW.total, 1, NEW.created_at, NEW.created_at
+  )
+  ON CONFLICT (store_id, customer_phone) DO UPDATE SET
+    customer_name = EXCLUDED.customer_name,
+    customer_email = COALESCE(EXCLUDED.customer_email, customers.customer_email),
+    customer_city = COALESCE(EXCLUDED.customer_city, customers.customer_city),
+    customer_country = COALESCE(EXCLUDED.customer_country, customers.customer_country),
+    customer_address = COALESCE(EXCLUDED.customer_address, customers.customer_address),
+    currency = COALESCE(EXCLUDED.currency, customers.currency),
+    total_spent = customers.total_spent + EXCLUDED.total_spent,
+    order_count = customers.order_count + 1,
+    last_order_at = GREATEST(customers.last_order_at, EXCLUDED.last_order_at),
+    updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
+
+CREATE TRIGGER on_order_created_upsert_customer
+  AFTER INSERT ON orders
+  FOR EACH ROW EXECUTE FUNCTION public.upsert_customer_from_order();
+
+-- Incremental update on order status change (cancellations/returns)
+CREATE OR REPLACE FUNCTION public.update_customer_on_order_status()
+RETURNS TRIGGER AS $$
+DECLARE
+  cancel_statuses TEXT[] := ARRAY['canceled', 'returned'];
+  norm_phone TEXT;
+  was_canceled BOOLEAN;
+  now_canceled BOOLEAN;
+BEGIN
+  IF OLD.status = NEW.status THEN RETURN NEW; END IF;
+
+  norm_phone := public.normalize_phone(NEW.customer_phone, NEW.customer_country);
+  was_canceled := OLD.status = ANY(cancel_statuses);
+  now_canceled := NEW.status = ANY(cancel_statuses);
+
+  IF was_canceled = now_canceled THEN RETURN NEW; END IF;
+
+  IF now_canceled AND NOT was_canceled THEN
+    UPDATE public.customers SET
+      total_spent = GREATEST(total_spent - NEW.total, 0),
+      order_count = GREATEST(order_count - 1, 0),
+      updated_at = now()
+    WHERE store_id = NEW.store_id AND customer_phone = norm_phone;
+  ELSIF was_canceled AND NOT now_canceled THEN
+    UPDATE public.customers SET
+      total_spent = total_spent + NEW.total,
+      order_count = order_count + 1,
+      updated_at = now()
+    WHERE store_id = NEW.store_id AND customer_phone = norm_phone;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
+
+CREATE TRIGGER on_order_status_update_customer
+  AFTER UPDATE ON orders
+  FOR EACH ROW EXECUTE FUNCTION public.update_customer_on_order_status();
+
+-- Customers RLS
+ALTER TABLE customers ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Owners can view own customers" ON customers FOR SELECT
+  USING (EXISTS (
+    SELECT 1 FROM stores WHERE stores.id = customers.store_id AND stores.owner_id = (select auth.uid())
+  ));
+
+CREATE POLICY "Owners can update own customers" ON customers FOR UPDATE
+  USING (EXISTS (
+    SELECT 1 FROM stores WHERE stores.id = customers.store_id AND stores.owner_id = (select auth.uid())
+  ));
+
+-- Backfill function (one-time, for existing orders)
+CREATE OR REPLACE FUNCTION public.backfill_customers()
+RETURNS INTEGER AS $$
+DECLARE
+  row_count INTEGER;
+BEGIN
+  INSERT INTO public.customers (
+    store_id, customer_phone, customer_name, customer_email,
+    customer_city, customer_country, customer_address,
+    currency, total_spent, order_count, first_order_at, last_order_at
+  )
+  SELECT
+    store_id,
+    public.normalize_phone(customer_phone, customer_country),
+    (array_agg(customer_name ORDER BY created_at DESC))[1],
+    (array_agg(customer_email ORDER BY created_at DESC) FILTER (WHERE customer_email IS NOT NULL))[1],
+    (array_agg(customer_city ORDER BY created_at DESC) FILTER (WHERE customer_city IS NOT NULL))[1],
+    (array_agg(customer_country ORDER BY created_at DESC) FILTER (WHERE customer_country IS NOT NULL AND customer_country != 'Unknown'))[1],
+    (array_agg(customer_address ORDER BY created_at DESC))[1],
+    (array_agg(currency ORDER BY created_at DESC) FILTER (WHERE currency IS NOT NULL))[1],
+    COALESCE(SUM(total) FILTER (WHERE status NOT IN ('canceled', 'returned')), 0),
+    COUNT(*) FILTER (WHERE status NOT IN ('canceled', 'returned')),
+    MIN(created_at),
+    MAX(created_at)
+  FROM public.orders
+  GROUP BY store_id, public.normalize_phone(customer_phone, customer_country)
+  ON CONFLICT (store_id, customer_phone) DO NOTHING;
+
+  GET DIAGNOSTICS row_count = ROW_COUNT;
+  RETURN row_count;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
+
+-- RPC: get orders for a customer by normalized phone (uses functional index)
+CREATE OR REPLACE FUNCTION public.get_customer_orders(p_store_id UUID, p_norm_phone TEXT, p_limit INTEGER DEFAULT 100)
+RETURNS TABLE (id UUID, order_number INTEGER, status TEXT, total DECIMAL(10,2), currency TEXT, created_at TIMESTAMPTZ)
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT o.id, o.order_number, o.status, o.total, o.currency, o.created_at
+  FROM public.orders o
+  WHERE o.store_id = p_store_id
+    AND public.normalize_phone(o.customer_phone, o.customer_country) = p_norm_phone
+  ORDER BY o.created_at DESC
+  LIMIT p_limit;
+END;
+$$ LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path = '';
+
+-- ============================================================
 -- Storage: product-images bucket
 -- ============================================================
 INSERT INTO storage.buckets (id, name, public)

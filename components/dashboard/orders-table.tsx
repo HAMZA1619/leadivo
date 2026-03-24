@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { Checkbox } from "@/components/ui/checkbox"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { formatPrice } from "@/lib/utils"
 import { RelativeDate } from "@/components/dashboard/relative-date"
 import { ORDER_STATUSES, ORDER_STATUS_TRANSITIONS, type OrderStatus } from "@/lib/constants"
@@ -130,6 +131,7 @@ export function OrdersTable({ initialOrders, hasMore: initialHasMore, markets, c
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [bulkLoading, setBulkLoading] = useState(false)
   const [exporting, setExporting] = useState(false)
+  const [exportConfirmOpen, setExportConfirmOpen] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const dateFrom = dateRange?.from ? toLocalDate(dateRange.from) : ""
@@ -428,7 +430,7 @@ export function OrdersTable({ initialOrders, hasMore: initialHasMore, markets, c
               variant="outline"
               size="sm"
               className="h-9 gap-2"
-              onClick={handleExport}
+              onClick={() => setExportConfirmOpen(true)}
               disabled={exporting}
             >
               {exporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
@@ -593,6 +595,21 @@ export function OrdersTable({ initialOrders, hasMore: initialHasMore, markets, c
           )}
         </>
       )}
+
+      <AlertDialog open={exportConfirmOpen} onOpenChange={setExportConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("orders.exportConfirmTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>{t("orders.exportConfirmDescription")}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("orders.exportCancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={() => { setExportConfirmOpen(false); handleExport() }}>
+              {t("orders.exportConfirm")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

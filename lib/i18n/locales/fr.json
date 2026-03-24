@@ -19,6 +19,7 @@
     "discounts": "Réductions",
     "markets": "Marchés",
     "shipping": "Livraison",
+    "customers": "Clients",
     "abandonedCheckouts": "Paniers abandonnés",
     "checkouts": "Paniers",
     "helpCenter": "Centre d'aide",
@@ -190,7 +191,66 @@
     "exportSuccess": "Commandes exportées avec succès",
     "exportFailed": "L'exportation a échoué. Veuillez réessayer.",
     "exportRateLimit": "Trop d'exportations. Veuillez patienter avant de réessayer.",
-    "exportUpgradeRequired": "Passez à Pro pour exporter les commandes"
+    "exportUpgradeRequired": "Passez à Pro pour exporter les commandes",
+    "exportConfirmTitle": "Exporter les commandes ?",
+    "exportConfirmDescription": "Un fichier CSV sera téléchargé avec vos commandes filtrées.",
+    "exportCancel": "Annuler",
+    "exportConfirm": "Exporter"
+  },
+  "customers": {
+    "title": "Clients",
+    "search": "Rechercher par nom, téléphone ou email",
+    "empty": "Aucun client pour le moment. Les clients apparaissent automatiquement lors des commandes.",
+    "emptySearch": "Aucun client trouvé correspondant à votre recherche.",
+    "loadMore": "Charger plus",
+    "columns": {
+      "name": "Nom",
+      "phone": "Téléphone",
+      "country": "Pays",
+      "orders": "Commandes",
+      "totalSpent": "Total dépensé",
+      "lastOrder": "Dernière commande",
+      "tags": "Tags"
+    },
+    "stats": {
+      "totalCustomers": "Total clients",
+      "newThisMonth": "Nouveaux ce mois",
+      "repeatRate": "Taux de fidélité",
+      "avgOrderValue": "Panier moyen"
+    },
+    "detail": {
+      "contactInfo": "Coordonnées",
+      "orderHistory": "Historique des commandes",
+      "statistics": "Statistiques",
+      "totalSpent": "Total dépensé",
+      "orderCount": "Commandes",
+      "avgOrder": "Commande moy.",
+      "firstOrder": "Première commande",
+      "lastOrder": "Dernière commande",
+      "tags": "Tags",
+      "addTag": "Ajouter un tag...",
+      "notes": "Notes",
+      "notesPlaceholder": "Ajouter des notes sur ce client...",
+      "notesSaved": "Enregistré",
+      "updateFailed": "Échec de la mise à jour",
+      "messageOnWhatsApp": "WhatsApp",
+      "noOrders": "Aucune commande"
+    },
+    "filters": {
+      "country": "Pays",
+      "allCountries": "Tous les pays",
+      "clearFilters": "Effacer"
+    },
+    "export": "Exporter CSV",
+    "exporting": "Exportation...",
+    "exportSuccess": "Clients exportés avec succès",
+    "exportFailed": "Échec de l'exportation. Veuillez réessayer.",
+    "exportRateLimit": "Trop d'exportations. Veuillez patienter.",
+    "exportUpgradeRequired": "Passez à Pro pour exporter les clients",
+    "exportConfirmTitle": "Exporter les clients ?",
+    "exportConfirmDescription": "Un fichier CSV sera téléchargé avec vos données clients.",
+    "exportCancel": "Annuler",
+    "exportConfirm": "Exporter"
   },
   "discounts": {
     "title": "Réductions",

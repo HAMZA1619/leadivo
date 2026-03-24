@@ -296,6 +296,19 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - IP-based country detection on orders.
 - **CSV Export**: export filtered orders as CSV with sanitized cells (CSV injection prevention), rate-limited (5/hour via Redis), capped at 10,000 rows, streamed response, Pro/trialing only. Excludes sensitive fields (ip_address, detected_country). BOM prefix for Excel/Arabic support.
 
+### Dashboard — Customer Database (CRM)
+- Auto-populated customer profiles from orders via database trigger.
+- Phone normalization (E.164-like) handles MENA formats: local (`0555`), international (`+213555`), double-zero (`00213555`). Covers 30+ countries.
+- Customer list with search (name/phone/email), country filter, sortable columns (total spent, order count, last order, name).
+- Customer detail page: contact info, order history, statistics (total spent, order count, avg order value), WhatsApp deep link.
+- Tags editor: inline pill editor with autocomplete from previously used tags. Presets: VIP, Wholesale, Loyal, New.
+- Notes editor: auto-save textarea with debounce.
+- Stats cards: total customers, new this month, repeat rate, avg order value.
+- CSV export: streaming, rate-limited (5/hour via Redis), sanitized cells, BOM for Excel/Arabic, Pro/trialing only.
+- Incremental O(1) stats updates on order status changes (cancel/return subtracts, un-cancel adds back).
+- Backfill function for existing orders: `SELECT backfill_customers()`.
+- RLS: owners can view/update own customers. No INSERT/DELETE policies (trigger-managed).
+
 ### Dashboard — Abandoned Checkout Recovery
 - Track checkout sessions that expire without completing (`app/api/checkout-sessions/`).
 - Dashboard view of abandoned carts with customer info and cart value.
@@ -421,6 +434,14 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `GET /api/orders/[id]` — order details.
 - `GET /api/orders/export` — export filtered orders as CSV (streamed, rate-limited, Pro only).
 
+### Customers
+- `GET /api/customers/list` — paginated list with search, sort, country/tag/spent/order filters.
+- `GET /api/customers/[customerId]` — customer detail + their orders.
+- `PATCH /api/customers/[customerId]` — update tags/notes.
+- `GET /api/customers/stats` — aggregate stats (total, new, repeat rate, avg value, top 5).
+- `GET /api/customers/tags` — distinct tags for autocomplete.
+- `GET /api/customers/export` — CSV export (streamed, rate-limited, Pro only).
+
 ### Discounts
 - `POST/GET/PATCH/DELETE /api/discounts` — discount CRUD.
 - `GET /api/discounts/validate` — validate coupon code.
@@ -526,6 +547,14 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 
 ### checkout_sessions
 - `id`, `store_id`, `items`, `customer_info`, `cart_state`, `expires_at`, `is_abandoned`.
+
+### customers
+- `id`, `store_id`, `customer_phone` (normalized E.164), `customer_name`, `customer_email`, `customer_city`, `customer_country`, `customer_address`.
+- `tags` (TEXT[]), `notes` (TEXT).
+- `currency`, `total_spent`, `order_count`, `first_order_at`, `last_order_at`.
+- `UNIQUE(store_id, customer_phone)`.
+- Auto-populated via `upsert_customer_from_order` trigger on orders INSERT.
+- Incremental stats via `update_customer_on_order_status` trigger on orders UPDATE.
 
 ### profiles
 - `id` (Supabase auth uid), `full_name`, `avatar_url`, `subscription_status`, `trial_ends_at`.

@@ -14,6 +14,8 @@ export async function generateMetadata({
   const article = getArticle(category, slug)
   if (!article) return {}
 
+  const firstImage = article.steps.find((s) => s.image)?.image
+
   return {
     title: `${article.title.en} — Leadivo Docs`,
     description: article.description.en,
@@ -25,6 +27,7 @@ export async function generateMetadata({
       description: article.description.en,
       type: "article",
       url: `${APP_URL}/docs/${category}/${slug}`,
+      ...(firstImage ? { images: [{ url: `${APP_URL}${firstImage}`, width: 800, height: 450, alt: article.title.en }] } : {}),
     },
   }
 }
@@ -71,6 +74,22 @@ export default async function ArticleLayout({
         }
       : null
 
+  const howToJsonLd = article
+    ? {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: article.title.en,
+        description: article.description.en,
+        step: article.steps.map((step, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: step.title.en,
+          text: step.description.en,
+          ...(step.image ? { image: `${APP_URL}${step.image}` } : {}),
+        })),
+      }
+    : null
+
   return (
     <>
       <script
@@ -81,6 +100,12 @@ export default async function ArticleLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
+      {howToJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
         />
       )}
       {children}

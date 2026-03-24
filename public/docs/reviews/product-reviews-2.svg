@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+<defs><style>text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }</style></defs>
+<rect width="800" height="450" fill="#f4f5f7" rx="8"/>
+<!-- Sidebar -->
+<rect x="0" y="0" width="180" height="450" fill="#ffffff"/><line x1="180" y1="0" x2="180" y2="450" stroke="#e5e7eb"/>
+<circle cx="28" cy="67" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="71" font-size="12" fill="#6b7280">Overview</text>
+<circle cx="28" cy="103" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="107" font-size="12" fill="#6b7280">Products</text>
+<circle cx="28" cy="139" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="143" font-size="12" fill="#6b7280">Orders</text>
+<rect x="8" y="160" width="164" height="30" rx="6" fill="#ecfdf5"/><circle cx="28" cy="175" r="4" fill="#10b981"/><text x="42" y="179" font-size="12" fill="#10b981" font-weight="600">Reviews</text>
+<circle cx="28" cy="211" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="215" font-size="12" fill="#6b7280">Customers</text>
+<circle cx="28" cy="247" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="251" font-size="12" fill="#6b7280">Discounts</text>
+<!-- Header -->
+<rect x="180" y="0" width="620" height="44" fill="#ffffff"/><line x1="180" y1="44" x2="800" y2="44" stroke="#e5e7eb"/>
+<text x="210" y="28" font-size="18" font-weight="700" fill="#1f2937">Reviews</text>
+<!-- Filter tabs -->
+<rect x="210" y="56" width="50" height="26" rx="6" fill="#10b981"/><text x="235" y="73" font-size="10" fill="#fff" text-anchor="middle" font-weight="600">All</text>
+<rect x="268" y="56" width="65" height="26" rx="6" fill="#fef3c7"/><text x="300" y="73" font-size="10" fill="#92400e" text-anchor="middle" font-weight="500">Pending 3</text>
+<rect x="341" y="56" width="73" height="26" rx="6" fill="#f4f5f7"/><text x="377" y="73" font-size="10" fill="#6b7280" text-anchor="middle">Approved 8</text>
+<rect x="422" y="56" width="70" height="26" rx="6" fill="#f4f5f7"/><text x="457" y="73" font-size="10" fill="#6b7280" text-anchor="middle">Rejected 1</text>
+<!-- Bulk actions -->
+<rect x="660" y="56" width="110" height="26" rx="6" fill="#10b981"/><text x="715" y="73" font-size="10" fill="#fff" text-anchor="middle" font-weight="500">Bulk Actions ▾</text>
+<!-- Review rows -->
+<rect x="210" y="94" width="560" height="28" fill="#f4f5f7"/>
+<rect x="218" y="102" width="12" height="12" rx="2" fill="#ffffff" stroke="#d1d5db"/>
+<text x="242" y="112" font-size="10" font-weight="500" fill="#6b7280">Customer</text>
+<text x="340" y="112" font-size="10" font-weight="500" fill="#6b7280">Product</text>
+<text x="460" y="112" font-size="10" font-weight="500" fill="#6b7280">Rating</text>
+<text x="540" y="112" font-size="10" font-weight="500" fill="#6b7280">Status</text>
+<text x="640" y="112" font-size="10" font-weight="500" fill="#6b7280">Date</text>
+<text x="720" y="112" font-size="10" font-weight="500" fill="#6b7280">Actions</text>
+<!-- Row 1 - pending -->
+<line x1="210" y1="154" x2="770" y2="154" stroke="#f0f0f0"/>
+<rect x="218" y="132" width="12" height="12" rx="2" fill="#ffffff" stroke="#d1d5db"/>
+<text x="242" y="144" font-size="10" fill="#1f2937">Sarah M.</text>
+<text x="340" y="144" font-size="10" fill="#1f2937">Wireless Headphones</text>
+<text x="460" y="144" font-size="10" fill="#f59e0b">★★★★★</text>
+<rect x="538" y="132" width="55" height="18" rx="9" fill="#fef3c7"/><text x="546" y="144" font-size="9" fill="#92400e">Pending</text>
+<text x="640" y="144" font-size="10" fill="#6b7280">2d ago</text>
+<rect x="715" y="131" width="20" height="20" rx="4" fill="#d1fae5"/><text x="725" y="145" font-size="11" fill="#059669" text-anchor="middle">✓</text>
+<rect x="740" y="131" width="20" height="20" rx="4" fill="#fee2e2"/><text x="750" y="145" font-size="11" fill="#ef4444" text-anchor="middle">×</text>
+<!-- Row 2 - approved -->
+<line x1="210" y1="186" x2="770" y2="186" stroke="#f0f0f0"/>
+<rect x="218" y="164" width="12" height="12" rx="2" fill="#ffffff" stroke="#d1d5db"/>
+<text x="242" y="176" font-size="10" fill="#1f2937">Omar B.</text>
+<text x="340" y="176" font-size="10" fill="#1f2937">Smart Watch Pro</text>
+<text x="460" y="176" font-size="10" fill="#f59e0b">★★★★☆</text>
+<rect x="538" y="164" width="62" height="18" rx="9" fill="#d1fae5"/><text x="546" y="176" font-size="9" fill="#059669">Approved</text>
+<text x="640" y="176" font-size="10" fill="#6b7280">5d ago</text>
+<rect x="715" y="163" width="20" height="20" rx="4" fill="#f4f5f7"/><text x="725" y="177" font-size="11" fill="#9ca3af" text-anchor="middle">✓</text>
+<rect x="740" y="163" width="20" height="20" rx="4" fill="#fee2e2"/><text x="750" y="177" font-size="11" fill="#ef4444" text-anchor="middle">×</text>
+<!-- Row 3 - pending -->
+<line x1="210" y1="218" x2="770" y2="218" stroke="#f0f0f0"/>
+<rect x="218" y="196" width="12" height="12" rx="2" fill="#ffffff" stroke="#d1d5db"/>
+<text x="242" y="208" font-size="10" fill="#1f2937">Lisa P.</text>
+<text x="340" y="208" font-size="10" fill="#1f2937">Leather Bag</text>
+<text x="460" y="208" font-size="10" fill="#f59e0b">★★★☆☆</text>
+<rect x="538" y="196" width="55" height="18" rx="9" fill="#fef3c7"/><text x="546" y="208" font-size="9" fill="#92400e">Pending</text>
+<text x="640" y="208" font-size="10" fill="#6b7280">6d ago</text>
+<rect x="715" y="195" width="20" height="20" rx="4" fill="#d1fae5"/><text x="725" y="209" font-size="11" fill="#059669" text-anchor="middle">✓</text>
+<rect x="740" y="195" width="20" height="20" rx="4" fill="#fee2e2"/><text x="750" y="209" font-size="11" fill="#ef4444" text-anchor="middle">×</text>
+<!-- Row 4 - approved with verified badge -->
+<line x1="210" y1="250" x2="770" y2="250" stroke="#f0f0f0"/>
+<rect x="218" y="228" width="12" height="12" rx="2" fill="#ffffff" stroke="#d1d5db"/>
+<text x="242" y="240" font-size="10" fill="#1f2937">Alex K.</text>
+<text x="340" y="240" font-size="10" fill="#1f2937">Running Shoes</text>
+<text x="460" y="240" font-size="10" fill="#f59e0b">★★★★★</text>
+<rect x="538" y="228" width="62" height="18" rx="9" fill="#d1fae5"/><text x="546" y="240" font-size="9" fill="#059669">Approved</text>
+<text x="640" y="240" font-size="10" fill="#6b7280">1w ago</text>
+<rect x="715" y="227" width="20" height="20" rx="4" fill="#f4f5f7"/><text x="725" y="241" font-size="11" fill="#9ca3af" text-anchor="middle">✓</text>
+<rect x="740" y="227" width="20" height="20" rx="4" fill="#fee2e2"/><text x="750" y="241" font-size="11" fill="#ef4444" text-anchor="middle">×</text>
+<!-- Row 5 - rejected -->
+<line x1="210" y1="282" x2="770" y2="282" stroke="#f0f0f0"/>
+<rect x="218" y="260" width="12" height="12" rx="2" fill="#ffffff" stroke="#d1d5db"/>
+<text x="242" y="272" font-size="10" fill="#1f2937">James R.</text>
+<text x="340" y="272" font-size="10" fill="#1f2937">Phone Case</text>
+<text x="460" y="272" font-size="10" fill="#f59e0b">★☆☆☆☆</text>
+<rect x="538" y="260" width="58" height="18" rx="9" fill="#fee2e2"/><text x="546" y="272" font-size="9" fill="#ef4444">Rejected</text>
+<text x="640" y="272" font-size="10" fill="#6b7280">2w ago</text>
+<rect x="715" y="259" width="20" height="20" rx="4" fill="#d1fae5"/><text x="725" y="273" font-size="11" fill="#059669" text-anchor="middle">✓</text>
+<rect x="740" y="259" width="20" height="20" rx="4" fill="#f4f5f7"/><text x="750" y="273" font-size="11" fill="#9ca3af" text-anchor="middle">×</text>
+<!-- Annotations -->
+<g class="doc-annotations">
+<circle cx="300" cy="69" r="28" fill="#ef4444" opacity="0.08"/><circle cx="300" cy="69" r="28" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+<rect x="210" y="300" width="180" height="40" rx="6" fill="#ef4444"/>
+<text x="220" y="316" font-size="9" fill="#fff" font-weight="600">Filter by status to find</text>
+<text x="220" y="330" font-size="9" fill="#fff">reviews that need attention</text>
+<circle cx="725" cy="144" r="22" fill="#ef4444" opacity="0.08"/><circle cx="725" cy="144" r="22" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+<rect x="556" y="300" width="180" height="40" rx="6" fill="#ef4444"/>
+<text x="566" y="316" font-size="9" fill="#fff" font-weight="600">Approve or reject each</text>
+<text x="566" y="330" font-size="9" fill="#fff">review with one click</text>
+<line x1="646" y1="300" x2="725" y2="166" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+</g>
+</svg>

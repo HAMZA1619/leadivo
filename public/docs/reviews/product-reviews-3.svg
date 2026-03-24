@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+<defs><style>text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }</style></defs>
+<rect width="800" height="450" fill="#f4f5f7" rx="8"/>
+<!-- Sidebar -->
+<rect x="0" y="0" width="180" height="450" fill="#ffffff"/><line x1="180" y1="0" x2="180" y2="450" stroke="#e5e7eb"/>
+<circle cx="28" cy="67" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="71" font-size="12" fill="#6b7280">Overview</text>
+<circle cx="28" cy="103" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="107" font-size="12" fill="#6b7280">Store</text>
+<rect x="8" y="124" width="164" height="30" rx="6" fill="#ecfdf5"/><circle cx="28" cy="139" r="4" fill="#10b981"/><text x="42" y="143" font-size="12" fill="#10b981" font-weight="600">Design</text>
+<circle cx="28" cy="175" r="4" fill="#6b7280" opacity="0.5"/><text x="42" y="179" font-size="12" fill="#6b7280">Products</text>
+<!-- Header -->
+<rect x="180" y="0" width="620" height="44" fill="#ffffff"/><line x1="180" y1="44" x2="800" y2="44" stroke="#e5e7eb"/>
+<text x="210" y="28" font-size="18" font-weight="700" fill="#1f2937">Design Builder</text>
+<!-- Review Settings Panel -->
+<rect x="195" y="56" width="240" height="384" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="215" y="82" font-size="13" font-weight="600" fill="#1f2937">Review Settings</text>
+<!-- Show reviews toggle -->
+<text x="215" y="110" font-size="11" fill="#1f2937">Show Reviews</text>
+<rect x="380" y="98" width="36" height="20" rx="10" fill="#10b981"/><circle cx="400" cy="108" r="7" fill="#ffffff"/>
+<!-- Card style -->
+<text x="215" y="145" font-size="11" fill="#1f2937">Card Style</text>
+<rect x="215" y="152" width="65" height="26" rx="6" fill="#f4f5f7" stroke="#d1d5db"/><text x="247" y="169" font-size="10" fill="#6b7280" text-anchor="middle">Minimal</text>
+<rect x="286" y="152" width="50" height="26" rx="6" fill="#10b981"/><text x="311" y="169" font-size="10" fill="#fff" text-anchor="middle" font-weight="600">Card</text>
+<rect x="342" y="152" width="60" height="26" rx="6" fill="#f4f5f7" stroke="#d1d5db"/><text x="372" y="169" font-size="10" fill="#6b7280" text-anchor="middle">Bubble</text>
+<!-- Show images toggle -->
+<text x="215" y="205" font-size="11" fill="#1f2937">Show Review Images</text>
+<rect x="380" y="193" width="36" height="20" rx="10" fill="#10b981"/><circle cx="400" cy="203" r="7" fill="#ffffff"/>
+<!-- Show verified badge toggle -->
+<text x="215" y="240" font-size="11" fill="#1f2937">Show Verified Badge</text>
+<rect x="380" y="228" width="36" height="20" rx="10" fill="#10b981"/><circle cx="400" cy="238" r="7" fill="#ffffff"/>
+<!-- Preview Panel -->
+<rect x="450" y="56" width="330" height="384" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="470" y="82" font-size="13" font-weight="600" fill="#1f2937">Preview — Product Page</text>
+<!-- Star summary in preview -->
+<text x="470" y="110" font-size="11" fill="#1f2937" font-weight="600">Customer Reviews</text>
+<text x="470" y="128" font-size="20" fill="#f59e0b">★★★★★</text>
+<text x="590" y="128" font-size="11" fill="#6b7280">4.6 out of 5 (12 reviews)</text>
+<!-- Star breakdown bars -->
+<text x="470" y="148" font-size="9" fill="#6b7280">5★</text><rect x="495" y="140" width="200" height="8" rx="4" fill="#f4f5f7"/><rect x="495" y="140" width="150" height="8" rx="4" fill="#f59e0b"/>
+<text x="470" y="163" font-size="9" fill="#6b7280">4★</text><rect x="495" y="155" width="200" height="8" rx="4" fill="#f4f5f7"/><rect x="495" y="155" width="80" height="8" rx="4" fill="#f59e0b"/>
+<text x="470" y="178" font-size="9" fill="#6b7280">3★</text><rect x="495" y="170" width="200" height="8" rx="4" fill="#f4f5f7"/><rect x="495" y="170" width="30" height="8" rx="4" fill="#f59e0b"/>
+<text x="470" y="193" font-size="9" fill="#6b7280">2★</text><rect x="495" y="185" width="200" height="8" rx="4" fill="#f4f5f7"/><rect x="495" y="185" width="10" height="8" rx="4" fill="#f59e0b"/>
+<text x="470" y="208" font-size="9" fill="#6b7280">1★</text><rect x="495" y="200" width="200" height="8" rx="4" fill="#f4f5f7"/><rect x="495" y="200" width="5" height="8" rx="4" fill="#f59e0b"/>
+<!-- Review card preview (Card style) -->
+<rect x="470" y="220" width="290" height="90" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="486" y="242" font-size="11" fill="#1f2937" font-weight="600">Sarah M.</text>
+<rect x="570" y="230" width="60" height="16" rx="8" fill="#d1fae5"/><text x="578" y="242" font-size="8" fill="#059669">✓ Verified</text>
+<text x="486" y="258" font-size="12" fill="#f59e0b">★★★★★</text>
+<text x="486" y="276" font-size="10" fill="#6b7280">Great quality! Exactly as described and</text>
+<text x="486" y="290" font-size="10" fill="#6b7280">arrived quickly. Highly recommend.</text>
+<!-- Review card 2 -->
+<rect x="470" y="320" width="290" height="90" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="486" y="342" font-size="11" fill="#1f2937" font-weight="600">Omar B.</text>
+<rect x="560" y="330" width="60" height="16" rx="8" fill="#d1fae5"/><text x="568" y="342" font-size="8" fill="#059669">✓ Verified</text>
+<text x="486" y="358" font-size="12" fill="#f59e0b">★★★★☆</text>
+<text x="486" y="376" font-size="10" fill="#6b7280">Good product, shipping was fast.</text>
+<text x="486" y="390" font-size="10" fill="#6b7280">Would buy again.</text>
+<!-- Annotations -->
+<g class="doc-annotations">
+<circle cx="311" cy="163" r="40" fill="#ef4444" opacity="0.08"/><circle cx="311" cy="163" r="40" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+<rect x="215" y="270" width="200" height="40" rx="6" fill="#ef4444"/>
+<text x="225" y="286" font-size="9" fill="#fff" font-weight="600">Choose Minimal, Card, or Bubble</text>
+<text x="225" y="300" font-size="9" fill="#fff">style for review cards</text>
+<line x1="315" y1="270" x2="311" y2="203" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+<circle cx="615" cy="260" r="40" fill="#ef4444" opacity="0.08"/><circle cx="615" cy="260" r="40" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+<rect x="215" y="330" width="200" height="36" rx="6" fill="#ef4444"/>
+<text x="225" y="346" font-size="9" fill="#fff" font-weight="600">Live preview updates instantly</text>
+<text x="225" y="358" font-size="9" fill="#fff">as you change settings</text>
+<line x1="415" y1="348" x2="575" y2="280" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+</g>
+</svg>

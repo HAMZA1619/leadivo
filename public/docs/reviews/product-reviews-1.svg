@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+<defs><style>text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }</style></defs>
+<rect width="800" height="450" fill="#f4f5f7" rx="8"/>
+<!-- Phone frame -->
+<rect x="250" y="20" width="300" height="410" rx="24" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+<rect x="260" y="40" width="280" height="370" rx="4" fill="#ffffff"/>
+<!-- Header bar -->
+<rect x="260" y="40" width="280" height="40" fill="#10b981" rx="4"/>
+<text x="400" y="65" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="600">Leave a Review</text>
+<!-- Product info -->
+<rect x="280" y="95" width="50" height="50" rx="6" fill="#f4f5f7"/>
+<rect x="293" y="108" width="24" height="24" rx="4" fill="#d1d5db"/>
+<text x="340" y="115" font-size="11" fill="#1f2937" font-weight="600">Wireless Headphones</text>
+<text x="340" y="130" font-size="10" fill="#6b7280">Order #42</text>
+<!-- Star rating -->
+<text x="280" y="170" font-size="11" fill="#1f2937" font-weight="500">Your Rating</text>
+<text x="280" y="195" font-size="24" fill="#f59e0b">★ ★ ★ ★ ★</text>
+<!-- Comment box -->
+<text x="280" y="225" font-size="11" fill="#1f2937" font-weight="500">Your Review</text>
+<rect x="280" y="232" width="240" height="60" rx="6" fill="#ffffff" stroke="#d1d5db"/>
+<text x="290" y="250" font-size="10" fill="#6b7280">Great product! Sound quality is</text>
+<text x="290" y="264" font-size="10" fill="#6b7280">amazing and very comfortable...</text>
+<!-- Image upload -->
+<text x="280" y="310" font-size="11" fill="#1f2937" font-weight="500">Photos (up to 3)</text>
+<rect x="280" y="318" width="50" height="50" rx="6" fill="#f4f5f7" stroke="#d1d5db" stroke-dasharray="4 2"/>
+<text x="305" y="347" font-size="16" fill="#9ca3af" text-anchor="middle">+</text>
+<rect x="338" y="318" width="50" height="50" rx="6" fill="#f0fdf4" stroke="#10b981"/>
+<text x="363" y="347" font-size="11" fill="#10b981" text-anchor="middle">✓</text>
+<!-- Submit button -->
+<rect x="280" y="380" width="240" height="34" rx="8" fill="#10b981"/>
+<text x="400" y="401" font-size="12" fill="#ffffff" text-anchor="middle" font-weight="600">Submit Review</text>
+<!-- Annotations -->
+<g class="doc-annotations">
+<circle cx="400" cy="190" r="20" fill="#ef4444" opacity="0.10"/><circle cx="400" cy="190" r="20" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+<rect x="556" y="90" width="180" height="50" rx="6" fill="#ef4444"/>
+<text x="566" y="108" font-size="9" fill="#fff" font-weight="600">Secure HMAC-signed link</text>
+<text x="566" y="122" font-size="9" fill="#fff">Only verified buyers can</text>
+<text x="566" y="132" font-size="9" fill="#fff">submit reviews</text>
+<line x1="556" y1="115" x2="470" y2="170" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+<circle cx="305" cy="343" r="30" fill="#ef4444" opacity="0.08"/><circle cx="305" cy="343" r="30" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+<rect x="556" y="320" width="180" height="36" rx="6" fill="#ef4444"/>
+<text x="566" y="336" font-size="9" fill="#fff" font-weight="600">Up to 3 images per review</text>
+<text x="566" y="348" font-size="9" fill="#fff">Compressed to WebP</text>
+<line x1="556" y1="338" x2="395" y2="343" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+</g>
+</svg>

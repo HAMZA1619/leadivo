@@ -1498,3 +1498,52 @@ CREATE POLICY "Authenticated delete from product-images"
       AND stores.owner_id = (select auth.uid())
     )
   );
+
+-- ============================================================
+-- Product Reviews
+-- ============================================================
+CREATE TABLE product_reviews (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  store_id UUID NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+  product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  customer_name TEXT NOT NULL,
+  customer_phone TEXT NOT NULL,
+  rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  comment TEXT CHECK (comment IS NULL OR length(comment) <= 1000),
+  image_urls TEXT[] DEFAULT '{}' CHECK (array_length(image_urls, 1) IS NULL OR array_length(image_urls, 1) <= 3),
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  is_verified_purchase BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE UNIQUE INDEX idx_reviews_customer_product ON product_reviews(product_id, customer_phone);
+CREATE INDEX idx_reviews_product ON product_reviews(product_id);
+CREATE INDEX idx_reviews_store ON product_reviews(store_id);
+CREATE INDEX idx_reviews_status ON product_reviews(store_id, status);
+CREATE INDEX idx_reviews_product_approved ON product_reviews(product_id, status) WHERE status = 'approved';
+
+CREATE TRIGGER set_updated_at BEFORE UPDATE ON product_reviews FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+ALTER TABLE product_reviews ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public can view approved reviews" ON product_reviews FOR SELECT
+  USING (status = 'approved' AND EXISTS (
+    SELECT 1 FROM stores WHERE stores.id = product_reviews.store_id AND stores.is_published = true
+  ));
+
+CREATE POLICY "Owners can view own store reviews" ON product_reviews FOR SELECT
+  USING (EXISTS (
+    SELECT 1 FROM stores WHERE stores.id = product_reviews.store_id AND stores.owner_id = (select auth.uid())
+  ));
+
+CREATE POLICY "Owners can update reviews" ON product_reviews FOR UPDATE
+  USING (EXISTS (
+    SELECT 1 FROM stores WHERE stores.id = product_reviews.store_id AND stores.owner_id = (select auth.uid())
+  ));
+
+CREATE POLICY "Owners can delete reviews" ON product_reviews FOR DELETE
+  USING (EXISTS (
+    SELECT 1 FROM stores WHERE stores.id = product_reviews.store_id AND stores.owner_id = (select auth.uid())
+  ));

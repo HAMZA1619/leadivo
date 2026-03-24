@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
       const { data: store } = await supabase
         .from("stores")
-        .select("id, name, currency, language")
+        .select("id, name, slug, currency, language")
         .eq("id", event.store_id)
         .single()
 
@@ -70,10 +70,10 @@ export async function POST(request: Request) {
         .eq("id", event.id)
 
       let enrichedPayload = event.payload || {}
-      if (event.event_type === "order.created" && enrichedPayload.order_id) {
+      if ((event.event_type === "order.created" || event.event_type === "order.status_changed") && enrichedPayload.order_id) {
         const { data: items } = await supabase
           .from("order_items")
-          .select("product_name, product_price, quantity, variant_options")
+          .select("product_id, product_name, product_price, quantity, variant_options")
           .eq("order_id", enrichedPayload.order_id)
         if (items && items.length > 0) {
           enrichedPayload = { ...enrichedPayload, items }
@@ -133,7 +133,7 @@ export async function POST(request: Request) {
 
     const { data: store } = await supabase
       .from("stores")
-      .select("id, name, currency, language")
+      .select("id, name, slug, currency, language")
       .eq("id", event.store_id)
       .single()
 
@@ -163,11 +163,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true, dispatched: 0 })
     }
 
-    let enrichedPayload = event.payload || {}
-    if (event.event_type === "order.created" && enrichedPayload.order_id) {
+    let enrichedPayload = { ...event.payload, store_slug: store.slug } || {}
+    if ((event.event_type === "order.created" || event.event_type === "order.status_changed") && enrichedPayload.order_id) {
       const { data: items } = await supabase
         .from("order_items")
-        .select("product_name, product_price, quantity, variant_options")
+        .select("product_id, product_name, product_price, quantity, variant_options")
         .eq("order_id", enrichedPayload.order_id)
       if (items && items.length > 0) {
         enrichedPayload = { ...enrichedPayload, items }

@@ -13,7 +13,9 @@ Leadivo empowers social media sellers and small businesses to build beautiful, h
 - **Sell in Any Currency**: Create markets by country with automatic exchange rates, smart price adjustments, and professional rounding rules.
 - **Reach Customers in Their Language**: Support for 20+ languages including Arabic (full RTL), French, English, Spanish, Portuguese, German, and more.
 - **Powerful Product Tools**: Manage products, variants, and collections with ease. Import your catalog via Shopify-compatible CSV in seconds.
-- **Streamlined Order Management**: Track every order from placement to delivery with a visual timeline, bulk status updates, and smart filtering.
+- **Product Reviews & Ratings**: Customers leave verified star ratings, comments, and photos after delivery. Store owners moderate reviews and customize display styles — minimal, card, or bubble.
+- **Customer Database (CRM)**: Every order automatically builds a customer profile with contact info, purchase history, tags (VIP, Wholesale, etc.), notes, and lifetime stats. Export your database anytime.
+- **Streamlined Order Management**: Track every order from placement to delivery with a visual timeline, bulk status updates, CSV export, and smart filtering.
 - **Flexible Shipping**: Set country-level and city-level shipping rates, offer free shipping thresholds, and handle city exclusions effortlessly.
 - **Smart Discount Codes**: Create percentage or fixed-amount coupons with advanced rules — minimum order, usage caps, date ranges, and market-specific targeting.
 - **WhatsApp Integration**: Send automatic order confirmations and recover abandoned carts through WhatsApp Business API — right where your customers are.

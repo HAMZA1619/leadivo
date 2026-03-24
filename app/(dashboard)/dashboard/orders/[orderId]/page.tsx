@@ -2,9 +2,10 @@ import { createClient } from "@/lib/supabase/server"
 import { redirect, notFound } from "next/navigation"
 import Link from "next/link"
 import { Separator } from "@/components/ui/separator"
-import { formatPrice } from "@/lib/utils"
+import { formatPrice, getStoreUrl } from "@/lib/utils"
 import { OrderStatusTimeline } from "@/components/dashboard/order-status-timeline"
 import { OrderStatusActions } from "@/components/dashboard/order-status-actions"
+import { CopyReviewLink } from "@/components/dashboard/copy-review-link"
 import type { OrderStatus } from "@/lib/constants"
 import {
   ArrowLeft,
@@ -19,6 +20,8 @@ import {
 } from "lucide-react"
 import { T } from "@/components/dashboard/translated-text"
 import { FormattedDateTime } from "@/components/dashboard/formatted-date"
+import { generateReviewToken } from "@/lib/reviews"
+import { normalizePhone } from "@/lib/integrations/apps/whatsapp"
 
 export default async function OrderDetailPage({
   params,
@@ -33,7 +36,7 @@ export default async function OrderDetailPage({
   if (!user) redirect("/login")
 
   const [{ data: store }, { data: items }] = await Promise.all([
-    supabase.from("stores").select("id").eq("owner_id", user.id).single(),
+    supabase.from("stores").select("id, slug, custom_domain, domain_verified").eq("owner_id", user.id).single(),
     supabase.from("order_items").select("*").eq("order_id", orderId),
   ])
 
@@ -143,6 +146,13 @@ export default async function OrderDetailPage({
                         order.currency
                       )}
                     </p>
+                    {order.status === "delivered" && item.product_id && (() => {
+                      const phone = normalizePhone(order.customer_phone, order.customer_country)
+                      const token = generateReviewToken(order.id, item.product_id, phone)
+                      const storeUrl = getStoreUrl(store.slug, store.custom_domain, store.domain_verified)
+                      const reviewUrl = `${storeUrl}/products/${item.product_id}/review?order=${order.id}&phone=${encodeURIComponent(phone)}&token=${token}`
+                      return <CopyReviewLink url={reviewUrl} />
+                    })()}
                   </div>
                 </div>
               ))}

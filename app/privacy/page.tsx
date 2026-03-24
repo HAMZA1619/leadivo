@@ -24,6 +24,8 @@ function PrivacyContent() {
 
   const sections = [
     { title: t("privacy.collectTitle"), text: t("privacy.collectText") },
+    { title: t("privacy.reviewDataTitle"), text: t("privacy.reviewDataText") },
+    { title: t("privacy.customerDataTitle"), text: t("privacy.customerDataText") },
     { title: t("privacy.useTitle"), text: t("privacy.useText") },
     { title: t("privacy.sharingTitle"), text: t("privacy.sharingText") },
     { title: t("privacy.cookiesTitle"), text: t("privacy.cookiesText") },

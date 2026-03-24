@@ -309,6 +309,12 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Backfill function for existing orders: `SELECT backfill_customers()`.
 - RLS: owners can view/update own customers. No INSERT/DELETE policies (trigger-managed).
 
+### Dashboard — Product Reviews
+- Review moderation: approve, reject, delete reviews.
+- Bulk moderation: select multiple reviews for batch approve/reject/delete.
+- Filter tabs: All, Pending, Approved, Rejected (with counts).
+- Review details: customer name, rating (1-5 stars), comment, images, verified purchase badge.
+
 ### Dashboard — Abandoned Checkout Recovery
 - Track checkout sessions that expire without completing (`app/api/checkout-sessions/`).
 - Dashboard view of abandoned carts with customer info and cart value.
@@ -323,6 +329,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Card shadow intensity. Product image ratio: square, portrait, landscape.
 - Layout spacing: compact, normal, spacious.
 - Product page controls: variant selector style (buttons or dropdown), FAQ display style (cards or collapsible accordion), show/hide SKU, show/hide stock availability badge.
+- Review settings: show/hide reviews, card style (minimal/card/bubble), show review images, show verified badge.
 - Live preview with 4 tabs: Store, Product, Checkout, Thank You.
 - Dark mode support.
 
@@ -384,6 +391,15 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - City selection during checkout.
 - Dynamic shipping rate calculation.
 - Free shipping when threshold met.
+
+### Storefront — Product Reviews
+- Star ratings on product cards (home page + collection pages).
+- Full reviews section on product pages: average rating, star breakdown, review cards.
+- Three review card styles: Minimal, Card, Bubble (customizable via design builder).
+- Client-side review sorting: Newest, Oldest, Highest Rated, Lowest Rated.
+- Review submission page: HMAC-signed links sent via WhatsApp after delivery.
+- Image upload: up to 3 images per review, compressed to WebP.
+- Verified purchase badge for reviews from delivered orders.
 
 ### Storefront — Search
 - Product search by name/description.
@@ -457,6 +473,12 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `POST/GET/PATCH/DELETE /api/shipping` — shipping zone CRUD.
 - `GET /api/shipping/cities` — cities by country.
 - `POST /api/shipping/lookup` — calculate shipping cost.
+
+### Reviews
+- `POST/GET/PATCH/DELETE /api/reviews` — review CRUD + public submission.
+- `GET /api/reviews/list` — dashboard moderation list with filters.
+- `PATCH /api/reviews/bulk` — bulk approve/reject/delete.
+- `POST /api/reviews/upload-images` — public review image upload.
 
 ### Checkout
 - `POST /api/checkout` — create checkout/order.
@@ -556,6 +578,12 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Auto-populated via `upsert_customer_from_order` trigger on orders INSERT.
 - Incremental stats via `update_customer_on_order_status` trigger on orders UPDATE.
 
+### product_reviews
+- `id`, `store_id`, `product_id`, `order_id`, `customer_name`, `customer_phone`.
+- `rating` (1-5), `comment` (max 1000 chars), `image_urls` (max 3).
+- `status` (pending/approved/rejected), `is_verified_purchase`.
+- `UNIQUE(product_id, customer_phone)` — one review per customer per product.
+
 ### profiles
 - `id` (Supabase auth uid), `full_name`, `avatar_url`, `subscription_status`, `trial_ends_at`.
 
@@ -602,6 +630,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Abandoned checkout recovery messages.
 - AI-generated messages with order context, fallback templates.
 - Phone number normalization.
+- Review link generation: tokenized review links appended to delivery notifications.
 
 ### Meta Conversions API (Facebook Pixel)
 - Client-side events: ViewContent, AddToCart, InitiateCheckout.
@@ -627,6 +656,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 
 ### Event System
 - Event types: `order.created`, `order.status_changed`, `checkout.abandoned`.
+- `order.status_changed` payload includes product items for review link generation on delivery.
 - Webhook dispatch to registered integrations.
 - Retry logic with pg_cron, status tracking (pending/completed/failed), retry counter.
 

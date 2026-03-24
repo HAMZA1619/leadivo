@@ -270,6 +270,103 @@ export function getMarketExclusions(marketId: string) {
 }
 
 // ---------------------------------------------------------------------------
+// Product Reviews
+// ---------------------------------------------------------------------------
+
+const REVIEWS_REDIS_TTL = 300
+
+export function getProductReviews(productId: string) {
+  return unstable_cache(
+    async () => {
+      const redisKey = `reviews:${productId}`
+      const cached = await cacheGet<Record<string, unknown>[]>(redisKey)
+      if (cached) return cached
+
+      const supabase = createStaticClient()
+      const { data } = await supabase
+        .from("product_reviews")
+        .select("id, customer_name, rating, comment, image_urls, is_verified_purchase, created_at")
+        .eq("product_id", productId)
+        .eq("status", "approved")
+        .order("created_at", { ascending: false })
+        .limit(50)
+
+      const result = data || []
+      if (result.length > 0) {
+        void cacheSet(redisKey, result, REVIEWS_REDIS_TTL)
+      }
+      return result
+    },
+    [`reviews-${productId}`],
+    { tags: [`reviews:${productId}`], revalidate: REVALIDATE },
+  )()
+}
+
+export function getProductReviewStats(productId: string) {
+  return unstable_cache(
+    async () => {
+      const redisKey = `review-stats:${productId}`
+      const cached = await cacheGet<Record<string, unknown>>(redisKey)
+      if (cached) return cached
+
+      const supabase = createStaticClient()
+      const { data } = await supabase
+        .from("product_reviews")
+        .select("rating")
+        .eq("product_id", productId)
+        .eq("status", "approved")
+
+      if (!data || data.length === 0) return null
+
+      const breakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 } as Record<number, number>
+      let total = 0
+      for (const r of data) {
+        breakdown[r.rating] = (breakdown[r.rating] || 0) + 1
+        total += r.rating
+      }
+      const stats = {
+        average: total / data.length,
+        count: data.length,
+        breakdown,
+      }
+      void cacheSet(redisKey, stats, REVIEWS_REDIS_TTL)
+      return stats
+    },
+    [`review-stats-${productId}`],
+    { tags: [`reviews:${productId}`], revalidate: REVALIDATE },
+  )()
+}
+
+export function getBulkReviewStats(productIds: string[]) {
+  const sorted = [...productIds].sort()
+  return unstable_cache(
+    async () => {
+      if (sorted.length === 0) return {}
+      const supabase = createStaticClient()
+      const { data } = await supabase
+        .from("product_reviews")
+        .select("product_id, rating")
+        .in("product_id", sorted)
+        .eq("status", "approved")
+
+      if (!data) return {}
+      const stats: Record<string, { average: number; count: number }> = {}
+      for (const r of data) {
+        if (!stats[r.product_id]) stats[r.product_id] = { average: 0, count: 0 }
+        stats[r.product_id].count++
+        stats[r.product_id].average += r.rating
+      }
+      for (const pid of Object.keys(stats)) {
+        stats[pid].average = stats[pid].average / stats[pid].count
+      }
+      return stats
+    },
+    [`bulk-review-stats-${sorted.join(",")}`],
+    { tags: sorted.map((id) => `reviews:${id}`), revalidate: REVALIDATE },
+  )()
+}
+
+// ---------------------------------------------------------------------------
 // Store integration
 // ---------------------------------------------------------------------------
 

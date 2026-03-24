@@ -111,6 +111,22 @@ const faqJsonLd = {
         text: "Yes. Leadivo offers a free trial so you can explore all features before committing to a subscription.",
       },
     },
+    {
+      "@type": "Question",
+      name: "Can customers leave reviews on my store?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes! After an order is delivered, customers receive a review link via WhatsApp. They can rate products, write comments, and add photos. You can moderate all reviews before they appear on your store.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do I get a customer database?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Every order automatically creates a customer profile with contact info, purchase history, and lifetime stats. You can tag customers (VIP, Wholesale, etc.), add notes, and export your database anytime.",
+      },
+    },
   ],
 }
 

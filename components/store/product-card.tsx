@@ -6,7 +6,7 @@ import { useStoreCurrency } from "@/lib/hooks/use-store-currency"
 import { useMarket } from "@/lib/hooks/use-market"
 import { useButtonStyle, useButtonSize, getButtonStyleProps } from "@/lib/hooks/use-button-style"
 import { Button } from "@/components/ui/button"
-import { ImageIcon, ShoppingCart } from "lucide-react"
+import { ImageIcon, ShoppingCart, Star } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useTranslation } from "react-i18next"
@@ -26,6 +26,7 @@ interface ProductCardProps {
     stock?: number | null
     options?: unknown[]
     product_variants?: { price: number; is_available: boolean; stock: number | null }[]
+    reviewStats?: { average: number; count: number } | null
   }
   storeSlug: string
 }
@@ -117,6 +118,13 @@ export function ProductCard({ product, storeSlug }: ProductCardProps) {
             </span>
           )}
         </div>
+        {product.reviewStats && product.reviewStats.count > 0 && (
+          <div className={cn("mt-1 flex items-center gap-1", isCentered && "justify-center")}>
+            <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
+            <span className="text-xs font-medium">{product.reviewStats.average.toFixed(1)}</span>
+            <span className="text-xs text-muted-foreground">({product.reviewStats.count})</span>
+          </div>
+        )}
         {cardSettings.showAtc && (
           <>
             {hasVariants ? (

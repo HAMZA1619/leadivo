@@ -6,7 +6,7 @@ import { CollectionTabs } from "@/components/store/collection-tabs"
 import { SearchInput } from "@/components/store/search-input"
 import { ViewTracker } from "@/components/store/view-tracker"
 import { ProductGrid } from "@/components/store/product-grid"
-import { getStoreBySlug, getStoreCollections, getStoreProducts, getStoreMarkets, getMarketPrices, getMarketExclusions, resolveImageUrls } from "@/lib/storefront/cache"
+import { getStoreBySlug, getStoreCollections, getStoreProducts, getStoreMarkets, getMarketPrices, getMarketExclusions, resolveImageUrls, getBulkReviewStats } from "@/lib/storefront/cache"
 import { resolvePrice, applyRounding } from "@/lib/market/resolve-price"
 import type { MarketInfo } from "@/lib/market/resolve-price"
 import { getMarketExchangeRate } from "@/lib/market/exchange-rates"
@@ -113,9 +113,13 @@ export default async function CollectionPage({
     }
   }
 
-  // Resolve image IDs to URLs
+  // Resolve image IDs to URLs + review stats
   const allImageIds = (rawProducts || []).flatMap((p) => p.image_urls || [])
-  const imageMap = await resolveImageUrls(allImageIds)
+  const productIds = (rawProducts || []).map((p) => p.id)
+  const [imageMap, reviewStatsMap] = await Promise.all([
+    resolveImageUrls(allImageIds),
+    getBulkReviewStats(productIds),
+  ])
   const products = (rawProducts || []).map((p) => {
     const resolved = resolvePrice(
       Number(p.price),
@@ -135,6 +139,7 @@ export default async function CollectionPage({
       compare_at_price: resolved.compare_at_price,
       product_variants: adjustedVariants,
       image_urls: (p.image_urls || []).map((id: string) => imageMap.get(id)).filter(Boolean) as string[],
+      reviewStats: reviewStatsMap[p.id] || null,
     }
   })
 

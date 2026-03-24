@@ -1632,6 +1632,65 @@ export const ARTICLES: DocArticle[] = [
     ],
   },
 
+  // ── Reviews ──────────────────────────────────────────────────────────
+  {
+    slug: "product-reviews",
+    category: "products",
+    title: {
+      en: "Managing product reviews",
+      ar: "إدارة تقييمات المنتجات",
+      fr: "Gérer les avis produits",
+    },
+    description: {
+      en: "Collect, moderate, and display customer reviews on your products.",
+      ar: "اجمع وأدِر واعرض تقييمات العملاء على منتجاتك.",
+      fr: "Collectez, modérez et affichez les avis clients sur vos produits.",
+    },
+    steps: [
+      {
+        title: { en: "How customers leave reviews", ar: "كيف يترك العملاء تقييمات", fr: "Comment les clients laissent des avis" },
+        description: {
+          en: "After an order is delivered, your customer receives a review link via WhatsApp. This link is secure and unique — it uses HMAC signing to ensure only verified buyers can submit reviews. Customers can rate from 1 to 5 stars, write a comment, and upload up to 3 images. Each customer can leave one review per product, and their review is automatically marked with a verified purchase badge.",
+          ar: "بعد تسليم الطلب، يتلقى عميلك رابط تقييم عبر واتساب. هذا الرابط آمن وفريد — يستخدم توقيع HMAC لضمان أن المشترين المؤكدين فقط يمكنهم إرسال التقييمات. يمكن للعملاء التقييم من 1 إلى 5 نجوم، وكتابة تعليق، ورفع حتى 3 صور. يمكن لكل عميل ترك تقييم واحد لكل منتج، ويتم تمييز تقييمه تلقائيًا بشارة شراء مؤكد.",
+          fr: "Après la livraison d'une commande, votre client reçoit un lien d'avis via WhatsApp. Ce lien est sécurisé et unique — il utilise une signature HMAC pour garantir que seuls les acheteurs vérifiés peuvent soumettre des avis. Les clients peuvent noter de 1 à 5 étoiles, écrire un commentaire et télécharger jusqu'à 3 images. Chaque client peut laisser un seul avis par produit, et son avis est automatiquement marqué d'un badge d'achat vérifié.",
+        },
+        image: "/docs/reviews/product-reviews-1.svg",
+      },
+      {
+        title: { en: "Moderate reviews from the dashboard", ar: "أدِر التقييمات من لوحة التحكم", fr: "Modérez les avis depuis le tableau de bord" },
+        description: {
+          en: "Go to the Reviews section in your dashboard to see all submitted reviews. Use the filter tabs (All, Pending, Approved, Rejected) to quickly find reviews that need your attention. For each review, you can approve it to display on your storefront, reject it to keep it hidden, or delete it entirely. You can also select multiple reviews and use bulk actions to approve, reject, or delete them at once.",
+          ar: "انتقل إلى قسم التقييمات في لوحة التحكم لرؤية جميع التقييمات المرسلة. استخدم علامات التصفية (الكل، قيد الانتظار، مقبول، مرفوض) للعثور بسرعة على التقييمات التي تحتاج انتباهك. لكل تقييم، يمكنك قبوله لعرضه في واجهة المتجر، أو رفضه لإبقائه مخفيًا، أو حذفه نهائيًا. يمكنك أيضًا تحديد عدة تقييمات واستخدام الإجراءات الجماعية لقبولها أو رفضها أو حذفها دفعة واحدة.",
+          fr: "Allez dans la section Avis de votre tableau de bord pour voir tous les avis soumis. Utilisez les onglets de filtre (Tous, En attente, Approuvés, Rejetés) pour trouver rapidement les avis nécessitant votre attention. Pour chaque avis, vous pouvez l'approuver pour l'afficher sur votre vitrine, le rejeter pour le garder masqué, ou le supprimer définitivement. Vous pouvez aussi sélectionner plusieurs avis et utiliser les actions groupées pour les approuver, rejeter ou supprimer en une fois.",
+        },
+        image: "/docs/reviews/product-reviews-2.svg",
+      },
+      {
+        title: { en: "Customize review display in the design builder", ar: "خصّص عرض التقييمات في مُنشئ التصميم", fr: "Personnalisez l'affichage des avis dans le constructeur de design" },
+        description: {
+          en: "Open the Design Builder and scroll to the review settings. You can show or hide reviews on your storefront, choose a card style (Minimal, Card, or Bubble), toggle review images, and show or hide the verified purchase badge. Star ratings automatically appear on product cards across your home page and collection pages, and the full reviews section displays on each product page with average rating, star breakdown, and individual review cards.",
+          ar: "افتح مُنشئ التصميم وانتقل إلى إعدادات التقييمات. يمكنك إظهار أو إخفاء التقييمات في واجهة متجرك، واختيار نمط البطاقة (بسيط، بطاقة، أو فقاعة)، وتبديل صور التقييمات، وإظهار أو إخفاء شارة الشراء المؤكد. تظهر تقييمات النجوم تلقائيًا على بطاقات المنتجات في صفحتك الرئيسية وصفحات المجموعات، ويُعرض قسم التقييمات الكامل في كل صفحة منتج مع التقييم المتوسط وتفصيل النجوم وبطاقات التقييم الفردية.",
+          fr: "Ouvrez le Constructeur de design et faites défiler jusqu'aux paramètres des avis. Vous pouvez afficher ou masquer les avis sur votre vitrine, choisir un style de carte (Minimal, Carte ou Bulle), activer les images d'avis et afficher ou masquer le badge d'achat vérifié. Les étoiles apparaissent automatiquement sur les cartes produits de votre page d'accueil et pages de collections, et la section complète des avis s'affiche sur chaque page produit avec la note moyenne, la répartition des étoiles et les cartes d'avis individuelles.",
+        },
+        image: "/docs/reviews/product-reviews-3.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "How do customers receive review links?", ar: "كيف يتلقى العملاء روابط التقييم؟", fr: "Comment les clients reçoivent-ils les liens d'avis ?" },
+        answer: { en: "Review links are automatically appended to WhatsApp delivery notifications when an order status changes to delivered. Each link is unique and cryptographically signed, so only the verified buyer can submit a review for the products in their order.", ar: "تُضاف روابط التقييم تلقائيًا إلى إشعارات التسليم عبر واتساب عند تغيير حالة الطلب إلى تم التسليم. كل رابط فريد وموقّع رقميًا، لذا يمكن فقط للمشتري المؤكد إرسال تقييم للمنتجات في طلبه.", fr: "Les liens d'avis sont automatiquement ajoutés aux notifications WhatsApp de livraison lorsque le statut d'une commande passe à livré. Chaque lien est unique et signé cryptographiquement, seul l'acheteur vérifié peut soumettre un avis pour les produits de sa commande." },
+      },
+      {
+        question: { en: "Can I choose which reviews appear on my store?", ar: "هل يمكنني اختيار التقييمات التي تظهر في متجري؟", fr: "Puis-je choisir quels avis apparaissent sur ma boutique ?" },
+        answer: { en: "Yes, all reviews start with a pending status. You have full control to approve reviews you want displayed, reject ones you prefer to keep hidden, or delete them. Use the bulk moderation tools to manage multiple reviews efficiently.", ar: "نعم، تبدأ جميع التقييمات بحالة قيد الانتظار. لديك تحكم كامل لقبول التقييمات التي تريد عرضها، ورفض التي تفضل إخفاءها، أو حذفها. استخدم أدوات الإدارة الجماعية لإدارة عدة تقييمات بكفاءة.", fr: "Oui, tous les avis commencent avec un statut en attente. Vous avez un contrôle total pour approuver les avis que vous souhaitez afficher, rejeter ceux que vous préférez garder masqués, ou les supprimer. Utilisez les outils de modération groupée pour gérer plusieurs avis efficacement." },
+      },
+      {
+        question: { en: "What review card styles are available?", ar: "ما أنماط بطاقات التقييم المتاحة؟", fr: "Quels styles de cartes d'avis sont disponibles ?" },
+        answer: { en: "Leadivo offers three review card styles: Minimal (clean and simple), Card (with borders and shadows), and Bubble (rounded with a conversational feel). You can switch between styles anytime in the Design Builder and see the change instantly in the live preview.", ar: "يوفر Leadivo ثلاثة أنماط لبطاقات التقييم: بسيط (نظيف وبسيط)، بطاقة (مع حدود وظلال)، وفقاعة (مستدير بإحساس حواري). يمكنك التبديل بين الأنماط في أي وقت في مُنشئ التصميم ورؤية التغيير فورًا في المعاينة المباشرة.", fr: "Leadivo propose trois styles de cartes d'avis : Minimal (propre et simple), Carte (avec bordures et ombres) et Bulle (arrondi avec un aspect conversationnel). Vous pouvez changer de style à tout moment dans le Constructeur de design et voir le changement instantanément dans l'aperçu en direct." },
+      },
+    ],
+  },
+
   // ── Settings ─────────────────────────────────────────────────────────
   {
     slug: "account-settings",

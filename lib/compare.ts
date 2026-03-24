@@ -66,6 +66,8 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       { key: "compare.feature.designBuilder", leadivo: true, other: true },
       { key: "compare.feature.metaCapi", leadivo: true, other: "plugin" },
       { key: "compare.feature.shippingZones", leadivo: true, other: true },
+      { key: "compare.feature.reviews", leadivo: true, other: "plugin" },
+      { key: "compare.feature.customerDatabase", leadivo: true, other: true },
       { key: "compare.feature.pricing", leadivo: "$19/mo", other: "$39/mo+" },
     ],
     highlights: [
@@ -136,6 +138,8 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       { key: "compare.feature.mobileFirst", leadivo: true, other: "theme" },
       { key: "compare.feature.metaCapi", leadivo: true, other: "plugin" },
       { key: "compare.feature.maintenance", leadivo: true, other: false },
+      { key: "compare.feature.reviews", leadivo: true, other: "plugin" },
+      { key: "compare.feature.customerDatabase", leadivo: true, other: "plugin" },
       { key: "compare.feature.pricing", leadivo: "$19/mo", other: "$20+/mo*" },
     ],
     highlights: [
@@ -206,6 +210,8 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       { key: "compare.feature.tiktokApi", leadivo: true, other: false },
       { key: "compare.feature.googleSheets", leadivo: true, other: false },
       { key: "compare.feature.cityShipping", leadivo: true, other: false },
+      { key: "compare.feature.reviews", leadivo: true, other: true },
+      { key: "compare.feature.customerDatabase", leadivo: true, other: "limited" },
       { key: "compare.feature.pricing", leadivo: "$19/mo", other: "$19/mo+" },
     ],
     highlights: [
@@ -276,6 +282,8 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       { key: "compare.feature.tiktokApi", leadivo: true, other: false },
       { key: "compare.feature.googleSheets", leadivo: true, other: false },
       { key: "compare.feature.cityShipping", leadivo: true, other: true },
+      { key: "compare.feature.reviews", leadivo: true, other: true },
+      { key: "compare.feature.customerDatabase", leadivo: true, other: true },
       { key: "compare.feature.pricing", leadivo: "$19/mo", other: "$27/mo+" },
     ],
     highlights: [

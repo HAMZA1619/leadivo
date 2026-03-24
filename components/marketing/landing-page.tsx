@@ -33,10 +33,12 @@ import {
   Settings,
   ShoppingCart,
   Smartphone,
+  Star,
   Store,
   Ticket,
   TrendingUp,
   Truck,
+  Users,
   Zap,
 } from "lucide-react"
 import "@/lib/i18n"
@@ -84,6 +86,8 @@ const features = [
   { icon: Globe, titleKey: "landing.featureDomain", descKey: "landing.featureDomainDesc" },
   { icon: Languages, titleKey: "landing.featureLanguage", descKey: "landing.featureLanguageDesc" },
   { icon: MapPin, titleKey: "landing.featureMarkets", descKey: "landing.featureMarketsDesc" },
+  { icon: Star, titleKey: "landing.featureReviews", descKey: "landing.featureReviewsDesc" },
+  { icon: Users, titleKey: "landing.featureCustomers", descKey: "landing.featureCustomersDesc" },
 ]
 
 const steps = [
@@ -102,6 +106,8 @@ const pricingFeatures = [
   "landing.pricingFeature7",
   "landing.pricingFeature8",
   "landing.pricingFeature9",
+  "landing.pricingFeature10",
+  "landing.pricingFeature11",
 ]
 
 const faqItems = [
@@ -114,6 +120,8 @@ const faqItems = [
   { qKey: "landing.faq7Question", aKey: "landing.faq7Answer" },
   { qKey: "landing.faq8Question", aKey: "landing.faq8Answer" },
   { qKey: "landing.faq9Question", aKey: "landing.faq9Answer" },
+  { qKey: "landing.faq10Question", aKey: "landing.faq10Answer" },
+  { qKey: "landing.faq11Question", aKey: "landing.faq11Answer" },
 ]
 
 export function LandingPage({ lang, countryName }: { lang?: string; countryName?: string } = {}) {

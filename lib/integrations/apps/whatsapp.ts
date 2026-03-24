@@ -22,6 +22,7 @@ export interface WhatsAppConfig {
 }
 
 interface OrderItem {
+  product_id?: string
   product_name: string
   product_price: number
   quantity: number
@@ -30,6 +31,8 @@ interface OrderItem {
 
 interface EventPayload {
   order_number: number
+  order_id?: string
+  store_slug?: string
   customer_name: string
   customer_phone: string
   customer_country?: string
@@ -254,12 +257,28 @@ ${itemsList}`
       payload.customer_country ? `Country: ${payload.customer_country}` : null,
     ].filter(Boolean).join("\n")
 
+    let reviewLinksContext = ""
+    if (payload.new_status === "delivered" && payload.store_slug && payload.order_id && payload.items?.length) {
+      const { generateReviewToken } = await import("@/lib/reviews")
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || ""
+      const phone = normalizePhone(payload.customer_phone, payload.customer_country)
+      const links = payload.items.map((item) => {
+        const productId = item.product_id
+        if (!productId) return null
+        const token = generateReviewToken(payload.order_id!, productId, phone)
+        return `- ${item.product_name}: ${appUrl}/${payload.store_slug}/products/${productId}/review?order=${payload.order_id}&phone=${encodeURIComponent(phone)}&token=${token}`
+      }).filter(Boolean)
+      if (links.length > 0) {
+        reviewLinksContext = `\n\nReview links (include these in the message so the customer can leave a review):\n${links.join("\n")}`
+      }
+    }
+
     context = `Event: Order status updated
 Store: ${storeName}
 Order #${payload.order_number}
 Customer: ${payload.customer_name}
 ${addressParts || "Address: Not provided"}
-Status: ${translateStatus(payload.new_status, language)}`
+Status: ${translateStatus(payload.new_status, language)}${reviewLinksContext}`
   } else if (eventType === "checkout.abandoned") {
     const aPayload = payload as unknown as AbandonedCheckoutPayload
     const itemsList = aPayload.cart_items?.length
@@ -441,14 +460,16 @@ export function buildWhatsAppMessage(
   }
 
   if (eventType === "order.status_changed") {
-    return [
+    const lines = [
       `Hey ${firstName}! Quick update on your order from *${storeName}*:`,
       ``,
       `*Order #${payload.order_number}*`,
       `Status: ${translateStatus(payload.new_status, language)}`,
       ``,
       `Thanks for your patience!`,
-    ].join("\n")
+    ]
+
+    return lines.join("\n")
   }
 
   if (eventType === "checkout.abandoned") {

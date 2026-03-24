@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { CheckCircle, ChevronDown, Languages, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
+import { CheckCircle, ChevronDown, Languages, Minus, Plus, ShoppingCart, Star, Trash2 } from "lucide-react"
 import { BORDER_RADIUS_OPTIONS, CARD_SHADOW_OPTIONS, PRODUCT_IMAGE_RATIO_OPTIONS, LAYOUT_SPACING_OPTIONS } from "@/lib/constants"
 import { cn, getImageUrl, sanitizeCss } from "@/lib/utils"
 import { useTranslation } from "react-i18next"
@@ -73,6 +73,11 @@ export interface DesignState {
   faqStyle: "cards" | "accordion"
   showProductSku: boolean
   showStockBadge: boolean
+  // Reviews
+  showReviews: boolean
+  reviewCardStyle: "minimal" | "card" | "bubble"
+  showReviewImages: boolean
+  showVerifiedBadge: boolean
 }
 
 interface DesignPreviewProps {
@@ -483,6 +488,12 @@ const MOCK_FAQS = [
   { question: "How long does shipping take?", answer: "Delivery typically takes 3-5 business days depending on your location." },
 ]
 
+const MOCK_REVIEWS = [
+  { name: "Sarah M.", rating: 5, comment: "Excellent quality! Exactly as described.", verified: true, hasImage: true },
+  { name: "Ahmed K.", rating: 4, comment: "Great product, fast delivery.", verified: true, hasImage: false },
+  { name: "Fatima L.", rating: 5, comment: "Love it! Will order again.", verified: true, hasImage: true },
+]
+
 function ProductPreview({
   state,
   storeName,
@@ -731,6 +742,149 @@ function ProductPreview({
             </div>
           )}
         </div>
+
+        {/* Reviews */}
+        {state.showReviews && (
+          <div className="space-y-1.5 border-t pt-2">
+            <p className="text-[10px] font-bold" style={{ fontFamily: "var(--store-heading-font)" }}>
+              {st("storefront.reviews")}
+            </p>
+            <div className="flex items-center gap-1">
+              <div className="flex">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star
+                    key={s}
+                    className="h-2.5 w-2.5"
+                    style={{
+                      fill: s <= 4 ? "var(--store-accent)" : s === 5 ? "var(--store-accent)" : "transparent",
+                      color: "var(--store-accent)",
+                      opacity: s <= 4 ? 1 : 0.6,
+                    }}
+                  />
+                ))}
+              </div>
+              <span className="text-[8px] font-medium">4.7</span>
+              <span className="text-[8px] opacity-50">(3 {st("storefront.reviews")})</span>
+            </div>
+
+            <div className="space-y-1">
+              {MOCK_REVIEWS.map((review, i) => {
+                if (state.reviewCardStyle === "minimal") {
+                  return (
+                    <div key={i} className={cn(i > 0 && "border-t pt-1")}>
+                      <div className="flex items-center gap-1">
+                        <span className="text-[8px] font-medium">{review.name}</span>
+                        <div className="flex">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star
+                              key={s}
+                              className="h-1.5 w-1.5"
+                              style={{
+                                fill: s <= review.rating ? "var(--store-accent)" : "transparent",
+                                color: "var(--store-accent)",
+                              }}
+                            />
+                          ))}
+                        </div>
+                        {state.showVerifiedBadge && review.verified && (
+                          <CheckCircle className="h-2 w-2 text-green-500" />
+                        )}
+                      </div>
+                      <p className="text-[7px] leading-relaxed opacity-60">{review.comment}</p>
+                    </div>
+                  )
+                }
+
+                if (state.reviewCardStyle === "bubble") {
+                  return (
+                    <div
+                      key={i}
+                      className="bg-muted/50 p-1.5"
+                      style={{ borderRadius: radiusCss }}
+                    >
+                      <div className="flex items-center gap-1">
+                        <div
+                          className="flex h-3 w-3 items-center justify-center text-[6px] font-bold"
+                          style={{
+                            borderRadius: "9999px",
+                            backgroundColor: "var(--store-accent)",
+                            color: "var(--store-btn-text)",
+                          }}
+                        >
+                          {review.name[0]}
+                        </div>
+                        <span className="text-[8px] font-medium">{review.name}</span>
+                        <div className="flex">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star
+                              key={s}
+                              className="h-1.5 w-1.5"
+                              style={{
+                                fill: s <= review.rating ? "var(--store-accent)" : "transparent",
+                                color: "var(--store-accent)",
+                              }}
+                            />
+                          ))}
+                        </div>
+                        {state.showVerifiedBadge && review.verified && (
+                          <CheckCircle className="h-2 w-2 text-green-500" />
+                        )}
+                      </div>
+                      <p className="mt-0.5 text-[7px] leading-relaxed opacity-60">{review.comment}</p>
+                      {state.showReviewImages && review.hasImage && (
+                        <div className="mt-1 h-6 w-8 rounded-sm bg-muted-foreground/10" />
+                      )}
+                    </div>
+                  )
+                }
+
+                return (
+                  <div
+                    key={i}
+                    className="border p-1.5"
+                    style={{
+                      borderRadius: radiusCss,
+                      boxShadow: getShadowCss(state.cardShadow),
+                    }}
+                  >
+                    <div className="flex items-center gap-1">
+                      <div
+                        className="flex h-3 w-3 items-center justify-center text-[6px] font-bold"
+                        style={{
+                          borderRadius: "9999px",
+                          backgroundColor: "var(--store-accent)",
+                          color: "var(--store-btn-text)",
+                        }}
+                      >
+                        {review.name[0]}
+                      </div>
+                      <span className="text-[8px] font-medium">{review.name}</span>
+                      <div className="flex">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star
+                            key={s}
+                            className="h-1.5 w-1.5"
+                            style={{
+                              fill: s <= review.rating ? "var(--store-accent)" : "transparent",
+                              color: "var(--store-accent)",
+                            }}
+                          />
+                        ))}
+                      </div>
+                      {state.showVerifiedBadge && review.verified && (
+                        <CheckCircle className="h-2 w-2 text-green-500" />
+                      )}
+                    </div>
+                    <p className="mt-0.5 text-[7px] leading-relaxed opacity-60">{review.comment}</p>
+                    {state.showReviewImages && review.hasImage && (
+                      <div className="mt-1 h-6 w-8 rounded-sm bg-muted-foreground/10" />
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Footer */}

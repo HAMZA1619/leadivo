@@ -9,7 +9,8 @@ import { TiktokPixelViewContent } from "@/components/store/tiktok-pixel-view-con
 import { getT } from "@/lib/i18n/storefront"
 import { parseDesignSettings } from "@/lib/utils"
 import { FaqAccordion } from "@/components/store/faq-accordion"
-import { getStoreBySlug, getProduct, getProductVariants, getStoreMarkets, getMarketPrices, getMarketExclusions, resolveImageUrls } from "@/lib/storefront/cache"
+import { getStoreBySlug, getProduct, getProductVariants, getStoreMarkets, getMarketPrices, getMarketExclusions, resolveImageUrls, getProductReviewStats } from "@/lib/storefront/cache"
+import { ProductReviews } from "@/components/store/product-reviews"
 import { resolvePrice } from "@/lib/market/resolve-price"
 import type { MarketInfo } from "@/lib/market/resolve-price"
 import { getMarketExchangeRate } from "@/lib/market/exchange-rates"
@@ -214,6 +215,8 @@ export default async function ProductPage({
 
   const faqs: { question: string; answer: string }[] = Array.isArray(product.faqs) ? product.faqs : []
 
+  const reviewStats = await getProductReviewStats(product.id)
+
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -223,6 +226,15 @@ export default async function ProductPage({
     ...(resolvedImageUrls.length > 0 ? { image: resolvedImageUrls } : {}),
     ...(product.sku && !hasOptions ? { sku: product.sku } : {}),
     offers: offersSchema,
+    ...(reviewStats && reviewStats.count > 0 ? {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: (reviewStats.average as number).toFixed(1),
+        reviewCount: reviewStats.count,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    } : {}),
   }
 
   const faqJsonLd = faqs.length > 0
@@ -372,6 +384,19 @@ export default async function ProductPage({
             </div>
           )}
         </section>
+      )}
+
+      {ds.showReviews && (
+        <ProductReviews
+          productId={product.id}
+          storeSlug={slug}
+          designSettings={{
+            reviewCardStyle: ds.reviewCardStyle,
+            showReviewImages: ds.showReviewImages,
+            showVerifiedBadge: ds.showVerifiedBadge,
+          }}
+          lang={store.language || "en"}
+        />
       )}
     </div>
   )

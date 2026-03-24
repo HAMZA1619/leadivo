@@ -139,5 +139,10 @@ export function parseDesignSettings(raw: Record<string, unknown> = {}): DesignSt
     faqStyle: (raw.faqStyle as DesignState["faqStyle"]) || "cards",
     showProductSku: typeof raw.showProductSku === "boolean" ? raw.showProductSku : true,
     showStockBadge: typeof raw.showStockBadge === "boolean" ? raw.showStockBadge : false,
+    // Reviews
+    showReviews: typeof raw.showReviews === "boolean" ? raw.showReviews : true,
+    reviewCardStyle: (raw.reviewCardStyle as DesignState["reviewCardStyle"]) || "card",
+    showReviewImages: typeof raw.showReviewImages === "boolean" ? raw.showReviewImages : true,
+    showVerifiedBadge: typeof raw.showVerifiedBadge === "boolean" ? raw.showVerifiedBadge : true,
   }
 }

@@ -858,6 +858,83 @@ export function DesignControls({ state, onChange, storeId, previewTab, onPreview
                   />
                 </div>
               </div>
+
+              {/* Reviews */}
+              <div className="border-t pt-4 space-y-3">
+                <h3 className="text-sm font-medium">{t("design.reviews")}</h3>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="show-reviews" className="text-sm">{t("design.showReviews")}</Label>
+                    <p className="text-[11px] text-muted-foreground">{t("design.showReviewsHint")}</p>
+                  </div>
+                  <Switch
+                    id="show-reviews"
+                    checked={state.showReviews}
+                    onCheckedChange={(v) => onChange({ showReviews: v })}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium">{t("design.reviewCardStyle")}</h3>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(["minimal", "card", "bubble"] as const).map((style) => (
+                      <button
+                        key={style}
+                        type="button"
+                        onClick={() => onChange({ reviewCardStyle: style })}
+                        className={cn(
+                          "flex flex-col items-center gap-1.5 rounded-lg border-2 p-2 transition-colors",
+                          state.reviewCardStyle === style
+                            ? "border-primary bg-primary/5"
+                            : "border-border hover:border-muted-foreground/50"
+                        )}
+                      >
+                        {style === "minimal" ? (
+                          <div className="w-full space-y-0.5">
+                            <div className="h-0.5 w-full bg-muted-foreground/20" />
+                            <div className="h-2.5 w-full" />
+                            <div className="h-0.5 w-full bg-muted-foreground/20" />
+                          </div>
+                        ) : style === "card" ? (
+                          <div className="w-full space-y-0.5">
+                            <div className="h-3 w-full rounded-sm border border-muted-foreground/30 bg-muted/50" />
+                            <div className="h-3 w-full rounded-sm border border-muted-foreground/30 bg-muted/50" />
+                          </div>
+                        ) : (
+                          <div className="w-full space-y-0.5">
+                            <div className="h-3 w-full rounded-full bg-muted/80" />
+                            <div className="h-3 w-full rounded-full bg-muted/80" />
+                          </div>
+                        )}
+                        <span className="text-[10px] font-medium">{t(`design.reviewStyle${style.charAt(0).toUpperCase() + style.slice(1)}`)}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="show-review-images" className="text-sm">{t("design.showReviewImages")}</Label>
+                  </div>
+                  <Switch
+                    id="show-review-images"
+                    checked={state.showReviewImages}
+                    onCheckedChange={(v) => onChange({ showReviewImages: v })}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="show-verified-badge" className="text-sm">{t("design.showVerifiedBadge")}</Label>
+                  </div>
+                  <Switch
+                    id="show-verified-badge"
+                    checked={state.showVerifiedBadge}
+                    onCheckedChange={(v) => onChange({ showVerifiedBadge: v })}
+                  />
+                </div>
+              </div>
             </div>
           )}
 

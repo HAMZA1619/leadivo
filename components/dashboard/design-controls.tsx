@@ -1012,6 +1012,7 @@ export function DesignControls({ state, onChange, storeId, previewTab, onPreview
                 />
               </div>
 
+              {/* Flash Call — hidden until Infobip voice routes are available
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor="require-flash-call" className="text-sm">{t("design.requireFlashCall")}</Label>
@@ -1023,6 +1024,7 @@ export function DesignControls({ state, onChange, storeId, previewTab, onPreview
                   onCheckedChange={(v) => onChange({ requireFlashCall: v })}
                 />
               </div>
+              */}
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">

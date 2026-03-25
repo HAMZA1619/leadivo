@@ -1,17 +1,9 @@
 import crypto from "crypto"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { normalizePhone } from "@/lib/integrations/apps/whatsapp"
-import { sendFlashCall, sendSmsOtp, verifyFlashCallPin } from "./client"
+import { send2faPin, verify2faPin } from "./client"
 
 const HMAC_SECRET = process.env.INFOBIP_API_KEY || "verification-secret"
-
-function hashCode(code: string): string {
-  return crypto.createHash("sha256").update(code).digest("hex")
-}
-
-function generateCode(): string {
-  return String(crypto.randomInt(1000, 10000))
-}
 
 /** Normalize phone to a canonical form for consistent DB lookups */
 function canonical(phone: string, country?: string): string {
@@ -40,28 +32,23 @@ export async function initiateVerification(
     throw new Error("TOO_MANY_ATTEMPTS")
   }
 
-  const code = generateCode()
-  const expiresAt = new Date(Date.now() + 2 * 60 * 1000).toISOString()
+  const channel = method === "flash_call" ? "voice" as const : "sms" as const
 
-  if (method === "flash_call") {
-    try {
-      await sendFlashCall(phone, country)
-    } catch {
-      throw new Error("FLASH_CALL_FAILED")
-    }
-  } else {
-    await sendSmsOtp(phone, code, country)
+  let pinId: string
+  try {
+    const result = await send2faPin(phone, channel, country)
+    pinId = result.pinId
+  } catch {
+    if (method === "flash_call") throw new Error("FLASH_CALL_FAILED")
+    throw new Error("SMS_FAILED")
   }
+
+  const expiresAt = new Date(Date.now() + 2 * 60 * 1000).toISOString()
 
   await admin.from("phone_verifications").insert({
     store_id: storeId,
     phone: normalizedPhone,
-    // For flash call: Infobip 2FA manages its own PIN, but we store
-    // our generated code as a server-side fallback. The confirm endpoint
-    // accepts the code Infobip delivers (last 4 digits of calling number)
-    // OR the code we generated — either path hashes to the same verification row.
-    // In practice, flash_call verification uses Infobip's /2fa/2/pin/verify.
-    code_hash: hashCode(code),
+    code_hash: pinId, // Store Infobip pinId for verification
     method,
     expires_at: expiresAt,
   })
@@ -116,14 +103,9 @@ export async function confirmVerification(
     .update({ attempts: newAttempts })
     .eq("id", row.id)
 
-  // For flash calls, verify via Infobip's 2FA verify endpoint
-  let verified = false
-  if (row.method === "flash_call") {
-    verified = await verifyFlashCallPin(normalizedPhone, code)
-  } else {
-    // SMS OTP: compare against our stored hash
-    verified = hashCode(code) === row.code_hash
-  }
+  // Verify PIN via Infobip 2FA API (works for both SMS and Voice)
+  const pinId = row.code_hash
+  const verified = await verify2faPin(pinId, code)
 
   if (!verified) {
     return { verified: false }
@@ -135,7 +117,6 @@ export async function confirmVerification(
     .update({ status: "verified" })
     .eq("id", row.id)
 
-  // Token uses normalized phone so it matches regardless of input format
   const token = generateVerificationToken(storeId, normalizedPhone)
   return { verified: true, token }
 }

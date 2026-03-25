@@ -51,8 +51,9 @@ export async function cacheDelPattern(pattern: string): Promise<void> {
     const allKeys: string[] = []
     let cursor = 0
     do {
-      const [nextCursor, keys] = await redis.scan(cursor, { match: pattern, count: 100 })
-      cursor = nextCursor
+      const result = await redis.scan(cursor, { match: pattern, count: 100 })
+      cursor = Number(result[0])
+      const keys = result[1] as string[]
       if (keys.length > 0) allKeys.push(...keys)
     } while (cursor !== 0)
     if (allKeys.length > 0) {

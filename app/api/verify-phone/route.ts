@@ -10,6 +10,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing slug or phone" }, { status: 400 })
     }
 
+    // Sanitize inputs
+    if (typeof slug !== "string" || slug.length > 100 || !/^[a-z0-9-]+$/.test(slug)) {
+      return NextResponse.json({ error: "Invalid slug" }, { status: 400 })
+    }
+    if (typeof phone !== "string" || phone.length > 20 || !/^[+\d\s()-]+$/.test(phone)) {
+      return NextResponse.json({ error: "Invalid phone" }, { status: 400 })
+    }
+
     const supabase = createStaticClient()
     const { data: store } = await supabase
       .from("stores")

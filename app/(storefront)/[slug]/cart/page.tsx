@@ -23,6 +23,7 @@ import { usePixel } from "@/lib/hooks/use-pixel"
 import { useTiktokPixel } from "@/lib/hooks/use-tiktok-pixel"
 import { useButtonStyle, useButtonSize, getButtonStyleProps } from "@/lib/hooks/use-button-style"
 import { useStoreConfig } from "@/lib/store/store-config"
+import { PhoneVerificationSheet } from "@/components/store/phone-verification-sheet"
 import Script from "next/script"
 import "@/lib/i18n"
 
@@ -205,6 +206,11 @@ export default function CartPage() {
 
   const storeConfig = useStoreConfig()
   const requireCaptcha = storeConfig?.requireCaptcha ?? false
+  const requireFlashCall = storeConfig?.requireFlashCall ?? false
+  const requireSmsOtp = storeConfig?.requireSmsOtp ?? false
+  const requireVerification = requireFlashCall || requireSmsOtp
+  const verificationTokenRef = useRef<string | null>(null)
+  const [verificationOpen, setVerificationOpen] = useState(false)
   const showFields = {
     email: storeConfig?.showEmail ?? true,
     country: storeConfig?.showCountry ?? true,
@@ -398,6 +404,12 @@ export default function CartPage() {
       return
     }
 
+    // Phone verification — intercept before captcha/order
+    if (requireVerification && !verificationTokenRef.current) {
+      setVerificationOpen(true)
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -418,6 +430,7 @@ export default function CartPage() {
           slug,
           ...form,
           captcha_token: captchaToken,
+          verification_token: verificationTokenRef.current || undefined,
           payment_method: "cod",
           discount_code: appliedDiscount?.code || undefined,
           market_id: market?.id || undefined,
@@ -452,6 +465,12 @@ export default function CartPage() {
       }
       setLoading(false)
     }
+  }
+
+  function handleVerified(token: string) {
+    verificationTokenRef.current = token
+    // Auto-submit after verification
+    formRef.current?.requestSubmit()
   }
 
   return (
@@ -719,6 +738,19 @@ export default function CartPage() {
           {loading ? t("storefront.placingOrder") : fl("orderButton", t("storefront.orderNow"))}
         </Button>
       </form>
+
+      {requireVerification && (
+        <PhoneVerificationSheet
+          open={verificationOpen}
+          onOpenChange={setVerificationOpen}
+          phone={form.customer_phone}
+          country={form.customer_country}
+          slug={slug}
+          requireFlashCall={requireFlashCall}
+          requireSmsOtp={requireSmsOtp}
+          onVerified={handleVerified}
+        />
+      )}
     </div>
   )
 }

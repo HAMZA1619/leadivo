@@ -55,6 +55,7 @@ export async function POST(request: Request) {
       customer_address,
       note,
       captcha_token,
+      verification_token,
       items,
       discount_code,
       market_id,
@@ -94,6 +95,16 @@ export async function POST(request: Request) {
     const requireCaptcha = typeof ds.requireCaptcha === "boolean" ? ds.requireCaptcha : false
     if (requireCaptcha && (!captcha_token || !(await verifyCaptcha(captcha_token)))) {
       return NextResponse.json({ error: "CAPTCHA verification failed" }, { status: 400 })
+    }
+
+    // Verify phone verification token if enabled
+    const requireFlashCall = typeof ds.requireFlashCall === "boolean" ? ds.requireFlashCall : false
+    const requireSmsOtp = typeof ds.requireSmsOtp === "boolean" ? ds.requireSmsOtp : false
+    if (requireFlashCall || requireSmsOtp) {
+      const { validateVerificationToken } = await import("@/lib/integrations/infobip/verification")
+      if (!verification_token || !validateVerificationToken(verification_token, customer_phone, store.id, customer_country)) {
+        return NextResponse.json({ error: "Phone verification required" }, { status: 400 })
+      }
     }
 
     // Resolve market for currency

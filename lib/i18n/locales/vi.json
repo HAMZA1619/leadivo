@@ -98,7 +98,21 @@
     "reviewImageTooLarge": "Hình ảnh quá lớn (tối đa 5MB)",
     "reviewRatingRequired": "Vui lòng chọn xếp hạng",
     "reviewAddImage": "Thêm ảnh",
-    "reviewSubmit": "Gửi đánh giá"
+    "reviewSubmit": "Gửi đánh giá",
+    "verification": {
+      "calling": "Chúng tôi đang gọi điện cho bạn...",
+      "enterCode": "Nhập mã đã gửi đến điện thoại của bạn",
+      "enterDigits": "Nhập 4 số cuối của số điện thoại gọi đến",
+      "verified": "Đã xác minh điện thoại",
+      "resend": "Gửi lại mã",
+      "expiresIn": "Hết hạn sau {{seconds}}s",
+      "tooManyAttempts": "Quá nhiều lần thử. Vui lòng thử lại sau vài phút.",
+      "invalidCode": "Mã không hợp lệ. Vui lòng thử lại.",
+      "codeExpired": "Mã đã hết hạn.",
+      "changeNumber": "Đổi số",
+      "orTrySms": "Thử qua SMS",
+      "verifyPhone": "Xác minh số điện thoại của bạn"
+    }
   },
   "search": {
     "searchProducts": "Tìm kiếm sản phẩm..."

@@ -506,6 +506,8 @@
     "seoKeywordsPlaceholder": "كلمة1، كلمة2",
     "seoFeaturedImage": "الصورة البارزة",
     "seoFeaturedImageHint": "تُعرض عند مشاركة متجرك على وسائل التواصل الاجتماعي.",
+    "security": "الأمان",
+    "securityHint": "حماية صفحة الدفع من الطلبات الوهمية والعشوائية.",
     "preferences": "الإعدادات",
     "checkout": "الدفع",
     "thankYou": "شكراً",
@@ -582,6 +584,10 @@
     "showCardAddToCartHint": "عرض زر الإضافة للسلة على بطاقات المنتجات",
     "requireCaptcha": "التحقق بـ CAPTCHA",
     "requireCaptchaHint": "طلب التحقق عند الدفع لمنع الطلبات العشوائية",
+    "requireFlashCall": "التحقق بمكالمة فلاش",
+    "requireFlashCallHint": "التحقق من أرقام الهواتف عبر مكالمة فائتة قبل تقديم الطلب",
+    "requireSmsOtp": "التحقق برمز SMS",
+    "requireSmsOtpHint": "إرسال رمز لمرة واحدة عبر SMS للتحقق من أرقام الهواتف",
     "mobileOnly": "وضع الجوال فقط",
     "mobileOnlyHint": "عرض المتجر في إطار هاتف على سطح المكتب مع رمز QR للمسح",
     "whatsappFloat": "زر واتساب",
@@ -874,7 +880,21 @@
     "reviewImageTooLarge": "الصورة كبيرة جداً (الحد الأقصى 5 ميغابايت)",
     "reviewRatingRequired": "يرجى اختيار تقييم",
     "reviewAddImage": "إضافة صور",
-    "reviewSubmit": "إرسال التقييم"
+    "reviewSubmit": "إرسال التقييم",
+    "verification": {
+      "calling": "نحن نتصل بهاتفك...",
+      "enterCode": "أدخل الرمز المرسل إلى هاتفك",
+      "enterDigits": "أدخل آخر 4 أرقام من رقم المتصل",
+      "verified": "تم التحقق من الهاتف",
+      "resend": "إعادة إرسال الرمز",
+      "expiresIn": "ينتهي خلال {{seconds}} ثانية",
+      "tooManyAttempts": "محاولات كثيرة جداً. حاول مرة أخرى بعد بضع دقائق.",
+      "invalidCode": "رمز غير صحيح. حاول مرة أخرى.",
+      "codeExpired": "انتهت صلاحية الرمز.",
+      "changeNumber": "تغيير الرقم",
+      "orTrySms": "جرب عبر SMS بدلاً من ذلك",
+      "verifyPhone": "تحقق من رقم هاتفك"
+    }
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك",

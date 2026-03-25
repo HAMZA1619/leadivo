@@ -55,6 +55,8 @@ export interface DesignState {
   // Preferences
   showCardAddToCart: boolean
   requireCaptcha: boolean
+  requireFlashCall: boolean
+  requireSmsOtp: boolean
   whatsappFloat: string
   mobileOnly: boolean
   // SEO

@@ -506,6 +506,8 @@
     "seoKeywordsPlaceholder": "mot1, mot2",
     "seoFeaturedImage": "Image mise en avant",
     "seoFeaturedImageHint": "Affichée lorsque votre boutique est partagée sur les réseaux sociaux.",
+    "security": "Sécurité",
+    "securityHint": "Protégez votre page de paiement contre les commandes frauduleuses et spam.",
     "preferences": "Paramètres",
     "checkout": "Paiement",
     "thankYou": "Merci",
@@ -582,6 +584,10 @@
     "showCardAddToCartHint": "Afficher le bouton d'ajout au panier sur les cartes produits",
     "requireCaptcha": "Vérification CAPTCHA",
     "requireCaptchaHint": "Exiger un CAPTCHA lors du paiement pour éviter les commandes spam",
+    "requireFlashCall": "Vérification par appel flash",
+    "requireFlashCallHint": "Vérifier les numéros de téléphone par appel manqué avant la commande",
+    "requireSmsOtp": "Vérification par SMS OTP",
+    "requireSmsOtpHint": "Envoyer un code unique par SMS pour vérifier les numéros de téléphone",
     "mobileOnly": "Mode mobile uniquement",
     "mobileOnlyHint": "Afficher la boutique dans un cadre de téléphone sur ordinateur avec un QR code",
     "whatsappFloat": "Bouton WhatsApp",
@@ -874,7 +880,21 @@
     "reviewImageTooLarge": "L'image est trop grande (max 5 Mo)",
     "reviewRatingRequired": "Veuillez sélectionner une note",
     "reviewAddImage": "Ajouter des photos",
-    "reviewSubmit": "Soumettre l'avis"
+    "reviewSubmit": "Soumettre l'avis",
+    "verification": {
+      "calling": "Nous appelons votre téléphone...",
+      "enterCode": "Entrez le code envoyé à votre téléphone",
+      "enterDigits": "Entrez les 4 derniers chiffres du numéro appelant",
+      "verified": "Téléphone vérifié",
+      "resend": "Renvoyer le code",
+      "expiresIn": "Expire dans {{seconds}}s",
+      "tooManyAttempts": "Trop de tentatives. Réessayez dans quelques minutes.",
+      "invalidCode": "Code invalide. Réessayez.",
+      "codeExpired": "Code expiré.",
+      "changeNumber": "Changer le numéro",
+      "orTrySms": "Essayer par SMS",
+      "verifyPhone": "Vérifiez votre numéro de téléphone"
+    }
   },
   "auth": {
     "welcomeBack": "Bon retour",

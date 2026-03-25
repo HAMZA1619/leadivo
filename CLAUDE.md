@@ -330,6 +330,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Layout spacing: compact, normal, spacious.
 - Product page controls: variant selector style (buttons or dropdown), FAQ display style (cards or collapsible accordion), show/hide SKU, show/hide stock availability badge.
 - Review settings: show/hide reviews, card style (minimal/card/bubble), show review images, show verified badge.
+- Security tab: CAPTCHA verification, flash call verification, SMS OTP verification — checkout protection settings.
 - Live preview with 4 tabs: Store, Product, Checkout, Thank You.
 - Dark mode support.
 
@@ -372,6 +373,12 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Client + server Zod validation.
 - Payment: COD (Cash on Delivery).
 - hCaptcha protection.
+- Phone verification via Infobip: Flash Call (missed call, enter last 4 digits) and/or SMS OTP (4-digit code).
+  - Verification sheet (Drawer/bottom sheet) with segmented OTP input, auto-submit, auto-advance, paste support.
+  - Flash Call → SMS OTP automatic fallback when both enabled.
+  - Rate-limited: max 3 requests per phone per 10 minutes, max 5 code attempts.
+  - HMAC-signed verification token passed to order creation API.
+  - Settings: `requireFlashCall` and `requireSmsOtp` toggles in Design Builder → Preferences tab.
 - Order creation via `app/api/checkout/`.
 
 ### Storefront — Market & Currency
@@ -486,6 +493,10 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `GET /api/abandoned-checkouts/list` — list abandoned carts.
 - `POST /api/cron/abandoned-checkouts` — cron recovery processing.
 
+### Phone Verification
+- `POST /api/verify-phone` — initiate flash call or SMS OTP verification.
+- `POST /api/verify-phone/confirm` — confirm OTP code, return signed verification token.
+
 ### Integrations
 - `POST/GET/PATCH/DELETE /api/integrations` — integration CRUD.
 - `POST /api/integrations/events` — log integration events.
@@ -584,6 +595,12 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `status` (pending/approved/rejected), `is_verified_purchase`.
 - `UNIQUE(product_id, customer_phone)` — one review per customer per product.
 
+### phone_verifications
+- `id`, `store_id`, `phone`, `code_hash`, `method` (flash_call/sms_otp).
+- `status` (pending/verified/expired), `attempts`, `expires_at`.
+- Accessed only via service role (admin client) — no RLS user-facing policies.
+- Cleanup: pg_cron daily job deletes rows older than 24 hours.
+
 ### profiles
 - `id` (Supabase auth uid), `full_name`, `avatar_url`, `subscription_status`, `trial_ends_at`.
 
@@ -670,6 +687,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - **Google Sheets API** — order syncing.
 - **Google Analytics** — analytics tracking.
 - **TikTok Event API** — conversion tracking.
+- **Infobip** — phone verification (Flash Call + SMS OTP) for fake order prevention.
 - **hCaptcha** — checkout CAPTCHA protection.
 - **ipapi.co** — IP geolocation for market detection.
 - **Vercel** — deployment.

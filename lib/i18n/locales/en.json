@@ -506,6 +506,8 @@
     "seoKeywordsPlaceholder": "key1, key2",
     "seoFeaturedImage": "Featured image",
     "seoFeaturedImageHint": "Displayed when your store is shared on social media.",
+    "security": "Security",
+    "securityHint": "Protect your checkout from fake and spam orders.",
     "preferences": "Settings",
     "checkout": "Checkout",
     "thankYou": "Thank You",
@@ -582,6 +584,10 @@
     "showCardAddToCartHint": "Show the add to cart button on product cards",
     "requireCaptcha": "CAPTCHA verification",
     "requireCaptchaHint": "Require CAPTCHA on checkout to prevent spam orders",
+    "requireFlashCall": "Flash call verification",
+    "requireFlashCallHint": "Verify phone numbers via missed call before order placement",
+    "requireSmsOtp": "SMS OTP verification",
+    "requireSmsOtpHint": "Send a one-time code via SMS to verify phone numbers",
     "mobileOnly": "Mobile only mode",
     "mobileOnlyHint": "Show store in a phone frame on desktop with a QR code to scan",
     "whatsappFloat": "WhatsApp button",
@@ -874,7 +880,21 @@
     "reviewSortNewest": "Newest",
     "reviewSortOldest": "Oldest",
     "reviewSortHighest": "Highest Rated",
-    "reviewSortLowest": "Lowest Rated"
+    "reviewSortLowest": "Lowest Rated",
+    "verification": {
+      "calling": "We're calling your phone...",
+      "enterCode": "Enter the code sent to your phone",
+      "enterDigits": "Enter the last 4 digits of the calling number",
+      "verified": "Phone verified",
+      "resend": "Resend code",
+      "expiresIn": "Expires in {{seconds}}s",
+      "tooManyAttempts": "Too many attempts. Try again in a few minutes.",
+      "invalidCode": "Invalid code. Try again.",
+      "codeExpired": "Code expired.",
+      "changeNumber": "Change number",
+      "orTrySms": "Try via SMS instead",
+      "verifyPhone": "Verify your phone number"
+    }
   },
   "auth": {
     "welcomeBack": "Welcome back",

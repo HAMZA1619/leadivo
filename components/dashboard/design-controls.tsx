@@ -9,14 +9,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { SingleImageUpload } from "@/components/dashboard/single-image-upload"
 import { cn } from "@/lib/utils"
 import { FONT_OPTIONS, BORDER_RADIUS_OPTIONS, COLOR_THEME_PRESETS, BUTTON_STYLE_OPTIONS, BUTTON_SIZE_OPTIONS, CARD_SHADOW_OPTIONS, PRODUCT_IMAGE_RATIO_OPTIONS, LAYOUT_SPACING_OPTIONS } from "@/lib/constants"
-import { Shuffle, Palette, Type, LayoutGrid, Settings2, ImageIcon, CreditCard, Heart, Search, ChevronsUpDown, Package } from "lucide-react"
+import { Shuffle, Palette, Type, LayoutGrid, Settings2, ImageIcon, CreditCard, Heart, Search, ChevronsUpDown, Package, ShieldCheck } from "lucide-react"
 import type { DesignState, PreviewTab } from "./design-preview"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
 import { STOREFRONT_LANGUAGES } from "@/lib/i18n/languages"
 import { Checkbox } from "@/components/ui/checkbox"
 
-type SectionId = "branding" | "colors" | "typography" | "layout" | "product" | "checkout" | "thankyou" | "preferences" | "seo"
+type SectionId = "branding" | "colors" | "typography" | "layout" | "product" | "checkout" | "thankyou" | "seo" | "security" | "preferences"
 
 const sections: { id: SectionId; icon: React.ComponentType<{ className?: string }>; labelKey: string; previewTab: PreviewTab }[] = [
   { id: "branding", icon: ImageIcon, labelKey: "design.branding", previewTab: "store" },
@@ -27,6 +27,7 @@ const sections: { id: SectionId; icon: React.ComponentType<{ className?: string 
   { id: "checkout", icon: CreditCard, labelKey: "design.checkout", previewTab: "checkout" },
   { id: "thankyou", icon: Heart, labelKey: "design.thankYou", previewTab: "thankyou" },
   { id: "seo", icon: Search, labelKey: "design.seo", previewTab: "store" },
+  { id: "security", icon: ShieldCheck, labelKey: "design.security", previewTab: "checkout" },
   { id: "preferences", icon: Settings2, labelKey: "design.preferences", previewTab: "store" },
 ]
 
@@ -994,6 +995,49 @@ export function DesignControls({ state, onChange, storeId, previewTab, onPreview
             </div>
           )}
 
+          {/* Security */}
+          {activeSection === "security" && (
+            <div className="space-y-4">
+              <p className="text-[11px] text-muted-foreground">{t("design.securityHint")}</p>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label htmlFor="require-captcha" className="text-sm">{t("design.requireCaptcha")}</Label>
+                  <p className="text-[11px] text-muted-foreground">{t("design.requireCaptchaHint")}</p>
+                </div>
+                <Switch
+                  id="require-captcha"
+                  checked={state.requireCaptcha}
+                  onCheckedChange={(v) => onChange({ requireCaptcha: v })}
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label htmlFor="require-flash-call" className="text-sm">{t("design.requireFlashCall")}</Label>
+                  <p className="text-[11px] text-muted-foreground">{t("design.requireFlashCallHint")}</p>
+                </div>
+                <Switch
+                  id="require-flash-call"
+                  checked={state.requireFlashCall}
+                  onCheckedChange={(v) => onChange({ requireFlashCall: v })}
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label htmlFor="require-sms-otp" className="text-sm">{t("design.requireSmsOtp")}</Label>
+                  <p className="text-[11px] text-muted-foreground">{t("design.requireSmsOtpHint")}</p>
+                </div>
+                <Switch
+                  id="require-sms-otp"
+                  checked={state.requireSmsOtp}
+                  onCheckedChange={(v) => onChange({ requireSmsOtp: v })}
+                />
+              </div>
+            </div>
+          )}
+
           {/* Preferences */}
           {activeSection === "preferences" && (
             <div className="space-y-4">
@@ -1042,18 +1086,6 @@ export function DesignControls({ state, onChange, storeId, previewTab, onPreview
                   id="show-card-atc"
                   checked={state.showCardAddToCart}
                   onCheckedChange={(v) => onChange({ showCardAddToCart: v })}
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label htmlFor="require-captcha" className="text-sm">{t("design.requireCaptcha")}</Label>
-                  <p className="text-[11px] text-muted-foreground">{t("design.requireCaptchaHint")}</p>
-                </div>
-                <Switch
-                  id="require-captcha"
-                  checked={state.requireCaptcha}
-                  onCheckedChange={(v) => onChange({ requireCaptcha: v })}
                 />
               </div>
 

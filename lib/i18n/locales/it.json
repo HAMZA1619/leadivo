@@ -98,7 +98,21 @@
     "reviewImageTooLarge": "L'immagine è troppo grande (max 5 MB)",
     "reviewRatingRequired": "Seleziona una valutazione",
     "reviewAddImage": "Aggiungi foto",
-    "reviewSubmit": "Invia recensione"
+    "reviewSubmit": "Invia recensione",
+    "verification": {
+      "calling": "Stiamo chiamando il tuo telefono...",
+      "enterCode": "Inserisci il codice inviato al tuo telefono",
+      "enterDigits": "Inserisci le ultime 4 cifre del numero chiamante",
+      "verified": "Telefono verificato",
+      "resend": "Reinvia codice",
+      "expiresIn": "Scade tra {{seconds}}s",
+      "tooManyAttempts": "Troppi tentativi. Riprova tra qualche minuto.",
+      "invalidCode": "Codice non valido. Riprova.",
+      "codeExpired": "Codice scaduto.",
+      "changeNumber": "Cambia numero",
+      "orTrySms": "Prova tramite SMS",
+      "verifyPhone": "Verifica il tuo numero di telefono"
+    }
   },
   "search": {
     "searchProducts": "Cerca prodotti..."

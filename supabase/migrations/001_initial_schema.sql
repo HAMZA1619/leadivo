@@ -1547,3 +1547,21 @@ CREATE POLICY "Owners can delete reviews" ON product_reviews FOR DELETE
   USING (EXISTS (
     SELECT 1 FROM stores WHERE stores.id = product_reviews.store_id AND stores.owner_id = (select auth.uid())
   ));
+
+-- Phone verifications (for Infobip Flash Call / SMS OTP)
+CREATE TABLE phone_verifications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  store_id UUID NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+  phone TEXT NOT NULL,
+  code_hash TEXT NOT NULL,
+  method TEXT NOT NULL CHECK (method IN ('flash_call', 'sms_otp')),
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'verified', 'expired')),
+  attempts INT DEFAULT 0,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE phone_verifications ENABLE ROW LEVEL SECURITY;
+-- No user-facing policies — accessed only via service role (admin client) in API routes
+
+CREATE INDEX idx_phone_verifications_lookup ON phone_verifications (store_id, phone, status);

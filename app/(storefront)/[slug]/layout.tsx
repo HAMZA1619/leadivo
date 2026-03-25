@@ -266,6 +266,8 @@ export default async function StoreLayout({
         showNote: ds.checkoutShowNote !== false,
         thankYouMessage: ds.thankYouMessage || "",
         requireCaptcha: ds.requireCaptcha === true,
+        requireFlashCall: ds.requireFlashCall === true,
+        requireSmsOtp: ds.requireSmsOtp === true,
         checkoutFields: ds.checkoutFields || {},
         variantStyle: ds.variantStyle || "buttons",
         faqStyle: ds.faqStyle || "cards",

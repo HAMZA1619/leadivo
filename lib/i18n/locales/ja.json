@@ -98,7 +98,21 @@
     "reviewImageTooLarge": "画像が大きすぎます（最大5MB）",
     "reviewRatingRequired": "評価を選択してください",
     "reviewAddImage": "写真を追加",
-    "reviewSubmit": "レビューを送信"
+    "reviewSubmit": "レビューを送信",
+    "verification": {
+      "calling": "お電話をかけています...",
+      "enterCode": "お電話に送信されたコードを入力してください",
+      "enterDigits": "発信番号の下4桁を入力してください",
+      "verified": "電話番号が確認されました",
+      "resend": "コードを再送信",
+      "expiresIn": "{{seconds}}秒後に期限切れ",
+      "tooManyAttempts": "試行回数が多すぎます。数分後にもう一度お試しください。",
+      "invalidCode": "無効なコードです。もう一度お試しください。",
+      "codeExpired": "コードの期限が切れました。",
+      "changeNumber": "番号を変更",
+      "orTrySms": "SMSで試す",
+      "verifyPhone": "電話番号を確認してください"
+    }
   },
   "search": {
     "searchProducts": "商品を検索..."

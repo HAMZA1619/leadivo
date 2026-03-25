@@ -98,7 +98,21 @@
     "reviewImageTooLarge": "이미지가 너무 큽니다 (최대 5MB)",
     "reviewRatingRequired": "평점을 선택해 주세요",
     "reviewAddImage": "사진 추가",
-    "reviewSubmit": "리뷰 제출"
+    "reviewSubmit": "리뷰 제출",
+    "verification": {
+      "calling": "전화를 걸고 있습니다...",
+      "enterCode": "휴대폰으로 전송된 코드를 입력하세요",
+      "enterDigits": "발신 번호의 마지막 4자리를 입력하세요",
+      "verified": "전화번호 인증 완료",
+      "resend": "코드 재전송",
+      "expiresIn": "{{seconds}}초 후 만료",
+      "tooManyAttempts": "시도 횟수가 너무 많습니다. 몇 분 후에 다시 시도하세요.",
+      "invalidCode": "잘못된 코드입니다. 다시 시도하세요.",
+      "codeExpired": "코드가 만료되었습니다.",
+      "changeNumber": "번호 변경",
+      "orTrySms": "SMS로 시도",
+      "verifyPhone": "전화번호를 인증하세요"
+    }
   },
   "search": {
     "searchProducts": "상품 검색..."

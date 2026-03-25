@@ -98,7 +98,21 @@
     "reviewImageTooLarge": "รูปภาพใหญ่เกินไป (สูงสุด 5MB)",
     "reviewRatingRequired": "กรุณาเลือกคะแนน",
     "reviewAddImage": "เพิ่มรูปภาพ",
-    "reviewSubmit": "ส่งรีวิว"
+    "reviewSubmit": "ส่งรีวิว",
+    "verification": {
+      "calling": "กำลังโทรหาคุณ...",
+      "enterCode": "กรอกรหัสที่ส่งไปยังโทรศัพท์ของคุณ",
+      "enterDigits": "กรอก 4 หลักสุดท้ายของหมายเลขที่โทรมา",
+      "verified": "ยืนยันโทรศัพท์แล้ว",
+      "resend": "ส่งรหัสอีกครั้ง",
+      "expiresIn": "หมดอายุใน {{seconds}} วินาที",
+      "tooManyAttempts": "ลองหลายครั้งเกินไป กรุณาลองใหม่ในอีกสักครู่",
+      "invalidCode": "รหัสไม่ถูกต้อง ลองอีกครั้ง",
+      "codeExpired": "รหัสหมดอายุแล้ว",
+      "changeNumber": "เปลี่ยนหมายเลข",
+      "orTrySms": "ลองผ่าน SMS",
+      "verifyPhone": "ยืนยันหมายเลขโทรศัพท์ของคุณ"
+    }
   },
   "search": {
     "searchProducts": "ค้นหาสินค้า..."

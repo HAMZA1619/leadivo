@@ -121,6 +121,8 @@ export function parseDesignSettings(raw: Record<string, unknown> = {}): DesignSt
     // Preferences
     showCardAddToCart: typeof raw.showCardAddToCart === "boolean" ? raw.showCardAddToCart : true,
     requireCaptcha: typeof raw.requireCaptcha === "boolean" ? raw.requireCaptcha : false,
+    requireFlashCall: typeof raw.requireFlashCall === "boolean" ? raw.requireFlashCall : false,
+    requireSmsOtp: typeof raw.requireSmsOtp === "boolean" ? raw.requireSmsOtp : false,
     whatsappFloat: (raw.whatsappFloat as string) || "",
     mobileOnly: typeof raw.mobileOnly === "boolean" ? raw.mobileOnly : false,
     // Thank you page

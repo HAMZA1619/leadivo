@@ -59,11 +59,11 @@ export function DesignBuilder({ store }: DesignBuilderProps) {
     if (error) {
       toast.error(error.message)
     } else {
-      await revalidateStoreCache([`store:${store.slug}`])
       toast.success(t("design.designSaved"))
       initialState.current = { ...state }
       initialDescription.current = description
-      router.refresh()
+      // Invalidate cache in the background — don't block the UI
+      revalidateStoreCache([`store:${store.slug}`])
     }
     setSaving(false)
   }

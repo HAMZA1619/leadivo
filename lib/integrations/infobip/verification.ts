@@ -13,7 +13,7 @@ function canonical(phone: string, country?: string): string {
 export async function initiateVerification(
   storeId: string,
   phone: string,
-  method: "flash_call" | "sms_otp",
+  _method: "sms_otp",
   country?: string
 ): Promise<{ method: string; expires_in: number }> {
   const admin = createAdminClient()
@@ -32,14 +32,11 @@ export async function initiateVerification(
     throw new Error("TOO_MANY_ATTEMPTS")
   }
 
-  const channel = method === "flash_call" ? "voice" as const : "sms" as const
-
   let pinId: string
   try {
-    const result = await send2faPin(phone, channel, country)
+    const result = await send2faPin(phone, country)
     pinId = result.pinId
   } catch {
-    if (method === "flash_call") throw new Error("FLASH_CALL_FAILED")
     throw new Error("SMS_FAILED")
   }
 
@@ -48,12 +45,12 @@ export async function initiateVerification(
   await admin.from("phone_verifications").insert({
     store_id: storeId,
     phone: normalizedPhone,
-    code_hash: pinId, // Store Infobip pinId for verification
-    method,
+    code_hash: pinId,
+    method: "sms_otp",
     expires_at: expiresAt,
   })
 
-  return { method, expires_in: 120 }
+  return { method: "sms_otp", expires_in: 120 }
 }
 
 export async function confirmVerification(
@@ -103,7 +100,7 @@ export async function confirmVerification(
     .update({ attempts: newAttempts })
     .eq("id", row.id)
 
-  // Verify PIN via Infobip 2FA API (works for both SMS and Voice)
+  // Verify PIN via Infobip 2FA API
   const pinId = row.code_hash
   const verified = await verify2faPin(pinId, code)
 

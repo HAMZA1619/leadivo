@@ -330,7 +330,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Layout spacing: compact, normal, spacious.
 - Product page controls: variant selector style (buttons or dropdown), FAQ display style (cards or collapsible accordion), show/hide SKU, show/hide stock availability badge.
 - Review settings: show/hide reviews, card style (minimal/card/bubble), show review images, show verified badge.
-- Security tab: CAPTCHA verification, flash call verification, SMS OTP verification — checkout protection settings.
+- Security tab: CAPTCHA verification, SMS OTP verification — checkout protection settings.
 - Live preview with 4 tabs: Store, Product, Checkout, Thank You.
 - Dark mode support.
 
@@ -373,12 +373,11 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Client + server Zod validation.
 - Payment: COD (Cash on Delivery).
 - hCaptcha protection.
-- Phone verification via Infobip: Flash Call (missed call, enter last 4 digits) and/or SMS OTP (4-digit code).
+- Phone verification via Infobip SMS OTP (4-digit code).
   - Verification sheet (Drawer/bottom sheet) with segmented OTP input, auto-submit, auto-advance, paste support.
-  - Flash Call → SMS OTP automatic fallback when both enabled.
   - Rate-limited: max 3 requests per phone per 10 minutes, max 5 code attempts.
   - HMAC-signed verification token passed to order creation API.
-  - Settings: `requireFlashCall` and `requireSmsOtp` toggles in Design Builder → Preferences tab.
+  - Settings: `requireSmsOtp` toggle in Design Builder → Security tab.
 - Order creation via `app/api/checkout/`.
 
 ### Storefront — Market & Currency
@@ -427,10 +426,10 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 ---
 
 ### Public Pages & SEO
-- **Landing page**: marketing page with CTAs, SEO schemas (FAQ, Organization, SoftwareApplication JSON-LD), OpenGraph + Twitter cards.
+- **Landing page**: marketing page with CTAs, feature grid (15 features including order protection), pricing with 12 feature bullets, 12 FAQs, SEO schemas (FAQ, Organization, SoftwareApplication JSON-LD), OpenGraph + Twitter cards.
 - **Blog**: MDX-based posts, categories (Getting Started, Growth, Social Commerce, Country Guides), featured posts with FadeIn animations, reading time, RSS/XML feed, related posts. Auto-generated table of contents from h2/h3 headings (no manual TOC in MDX files — the `TableOfContents` component handles it). Shell: sticky header with auth buttons + backdrop blur (matches compare/docs/landing style). Components in `components/blog/`, pages in `app/blog/`.
 - **Documentation pages**: categories with icon badges, nested articles, step-by-step cards with screenshots, FAQ accordions, prev/next navigation, FadeIn animations, search. Shell: sticky header with auth buttons + backdrop blur (matches compare/landing page style). Components in `components/docs/docs-shell.tsx`, pages in `app/docs/`.
-- **Privacy Policy** and **Terms of Service** static pages.
+- **Privacy Policy** (includes phone verification data section) and **Terms of Service** (mentions phone verification in buyer section) static pages.
 - **Comparison pages**: `/compare` index + `/compare/[platform]` pages (Shopify, WooCommerce, YouCan, Salla). Positive tone — acknowledge competitors respectfully, highlight Leadivo's COD/social seller strengths. Feature comparison table, highlights, FAQs with JSON-LD. Config in `lib/compare.ts`, components in `components/marketing/compare-page.tsx` and `compare-index.tsx`. Translation keys in `compare.*` (en/ar/fr only).
 - **Country redirect pages**: /dz, /ae, /ar, /eg, /ma, /sa, /tn.
 - **Sitemap**: dynamic sitemap generation (per-store sitemaps at `app/(storefront)/[slug]/sitemap.ts`).
@@ -494,7 +493,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `POST /api/cron/abandoned-checkouts` — cron recovery processing.
 
 ### Phone Verification
-- `POST /api/verify-phone` — initiate flash call or SMS OTP verification.
+- `POST /api/verify-phone` — initiate SMS OTP verification.
 - `POST /api/verify-phone/confirm` — confirm OTP code, return signed verification token.
 
 ### Integrations
@@ -596,7 +595,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `UNIQUE(product_id, customer_phone)` — one review per customer per product.
 
 ### phone_verifications
-- `id`, `store_id`, `phone`, `code_hash`, `method` (flash_call/sms_otp).
+- `id`, `store_id`, `phone`, `code_hash`, `method` (sms_otp).
 - `status` (pending/verified/expired), `attempts`, `expires_at`.
 - Accessed only via service role (admin client) — no RLS user-facing policies.
 - Cleanup: pg_cron daily job deletes rows older than 24 hours.
@@ -687,7 +686,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - **Google Sheets API** — order syncing.
 - **Google Analytics** — analytics tracking.
 - **TikTok Event API** — conversion tracking.
-- **Infobip** — phone verification (Flash Call + SMS OTP) for fake order prevention.
+- **Infobip** — phone verification (SMS OTP) for fake order prevention.
 - **hCaptcha** — checkout CAPTCHA protection.
 - **ipapi.co** — IP geolocation for market detection.
 - **Vercel** — deployment.

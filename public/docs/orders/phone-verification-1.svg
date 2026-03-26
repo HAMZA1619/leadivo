@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+<defs><style>text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }</style></defs>
+<rect width="800" height="450" fill="#f4f5f7" rx="8"/>
+<!-- Sidebar -->
+<rect x="0" y="0" width="180" height="450" fill="#ffffff"/><line x1="180" y1="0" x2="180" y2="450" stroke="#e5e7eb"/>
+<rect x="8" y="124" width="164" height="30" rx="6" fill="#ecfdf5"/><circle cx="28" cy="139" r="4" fill="#10b981"/><text x="42" y="143" font-size="12" fill="#10b981" font-weight="600">Design</text>
+<!-- Header -->
+<rect x="180" y="0" width="620" height="44" fill="#ffffff"/><line x1="180" y1="44" x2="800" y2="44" stroke="#e5e7eb"/>
+<text x="210" y="74" font-size="20" font-weight="700" fill="#1f2937">Design</text>
+<rect x="700" y="56" width="70" height="28" rx="6" fill="#10b981"/><text x="735" y="74" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="500">Save</text>
+<!-- Design sections sidebar -->
+<rect x="196" y="90" width="140" height="340" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="216" y="116" font-size="10" fill="#6b7280">Branding</text>
+<text x="216" y="140" font-size="10" fill="#6b7280">Colors</text>
+<text x="216" y="164" font-size="10" fill="#6b7280">Typography</text>
+<text x="216" y="188" font-size="10" fill="#6b7280">Layout &amp; Style</text>
+<text x="216" y="212" font-size="10" fill="#6b7280">Product Page</text>
+<text x="216" y="236" font-size="10" fill="#6b7280">Reviews</text>
+<rect x="200" y="248" width="132" height="28" rx="4" fill="#ecfdf5"/><text x="216" y="266" font-size="10" fill="#10b981" font-weight="500">Security</text>
+<text x="216" y="290" font-size="10" fill="#6b7280">Checkout</text>
+<text x="216" y="314" font-size="10" fill="#6b7280">Thank You</text>
+<!-- Security tab content -->
+<text x="360" y="112" font-size="14" font-weight="600" fill="#1f2937">Security</text>
+<text x="360" y="132" font-size="10" fill="#6b7280">Protect your checkout from fake orders</text>
+<!-- CAPTCHA section -->
+<rect x="360" y="150" width="260" height="70" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="380" y="172" font-size="11" fill="#1f2937" font-weight="600">CAPTCHA Verification</text>
+<text x="380" y="188" font-size="9" fill="#6b7280">Add hCaptcha challenge at checkout</text>
+<!-- Toggle off -->
+<rect x="580" y="164" width="28" height="16" rx="8" fill="#d1d5db"/>
+<circle cx="590" cy="172" r="6" fill="#ffffff"/>
+<!-- SMS OTP section -->
+<rect x="360" y="232" width="260" height="70" rx="8" fill="#ffffff" stroke="#e5e7eb"/>
+<text x="380" y="254" font-size="11" fill="#1f2937" font-weight="600">SMS OTP Verification</text>
+<text x="380" y="270" font-size="9" fill="#6b7280">Send a 4-digit code via SMS to verify phone</text>
+<!-- Toggle off -->
+<rect x="580" y="246" width="28" height="16" rx="8" fill="#d1d5db"/>
+<circle cx="590" cy="254" r="6" fill="#ffffff"/>
+<!-- Phone preview -->
+<rect x="650" y="90" width="130" height="260" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+<rect x="672" y="96" width="46" height="10" rx="5" fill="#e5e7eb"/>
+<rect x="656" y="112" width="118" height="28" fill="#10b981" opacity="0.15"/>
+<text x="715" y="130" font-size="7" font-weight="600" fill="#059669" text-anchor="middle">My Store</text>
+<rect x="662" y="148" width="102" height="20" rx="4" fill="#f4f5f7"/>
+<text x="713" y="161" font-size="6" fill="#6b7280" text-anchor="middle">Checkout Form</text>
+<rect x="662" y="175" width="102" height="14" rx="3" fill="#f4f5f7"/>
+<rect x="662" y="195" width="102" height="14" rx="3" fill="#f4f5f7"/>
+<rect x="662" y="215" width="102" height="14" rx="3" fill="#f4f5f7"/>
+<rect x="662" y="240" width="102" height="24" rx="6" fill="#10b981"/>
+<text x="713" y="256" font-size="7" fill="#ffffff" text-anchor="middle" font-weight="500">Place Order</text>
+<!-- Annotations -->
+<g class="doc-annotations">
+<rect x="196" y="244" width="140" height="36" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 3" rx="6"/>
+<rect x="60" y="300" width="120" height="36" rx="6" fill="#ef4444"/>
+<text x="70" y="314" font-size="9" fill="#fff" font-weight="600">Click Security tab</text>
+<text x="70" y="326" font-size="9" fill="#fff">in Design Builder</text>
+<line x1="120" y1="300" x2="230" y2="280" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+</g>
+</svg>

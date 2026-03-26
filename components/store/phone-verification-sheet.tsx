@@ -12,8 +12,6 @@ interface PhoneVerificationSheetProps {
   phone: string
   country: string
   slug: string
-  requireFlashCall: boolean
-  requireSmsOtp: boolean
   onVerified: (token: string) => void
 }
 
@@ -23,13 +21,10 @@ export function PhoneVerificationSheet({
   phone,
   country,
   slug,
-  requireFlashCall,
-  requireSmsOtp,
   onVerified,
 }: PhoneVerificationSheetProps) {
   const { t } = useTranslation()
   const [digits, setDigits] = useState(["", "", "", ""])
-  const [method, setMethod] = useState<"flash_call" | "sms_otp" | null>(null)
   const [status, setStatus] = useState<"idle" | "sending" | "waiting" | "verifying" | "success" | "error" | "expired" | "blocked">("idle")
   const [errorMsg, setErrorMsg] = useState("")
   const [countdown, setCountdown] = useState(0)
@@ -41,7 +36,7 @@ export function PhoneVerificationSheet({
     ? phone.slice(0, -4).replace(/./g, "*") + phone.slice(-4)
     : phone
 
-  const sendCode = useCallback(async (preferredMethod?: "flash_call" | "sms_otp") => {
+  const sendCode = useCallback(async () => {
     setStatus("sending")
     setErrorMsg("")
     setDigits(["", "", "", ""])
@@ -51,7 +46,7 @@ export function PhoneVerificationSheet({
       const res = await fetch("/api/verify-phone", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug, phone, method: preferredMethod, country }),
+        body: JSON.stringify({ slug, phone, country }),
       })
 
       if (!res.ok) {
@@ -64,8 +59,6 @@ export function PhoneVerificationSheet({
         throw new Error(data?.error || "Failed")
       }
 
-      const data = await res.json()
-      setMethod(data.method as "flash_call" | "sms_otp")
       setStatus("waiting")
       setCountdown(60)
 
@@ -84,7 +77,6 @@ export function PhoneVerificationSheet({
     } else {
       setStatus("idle")
       setDigits(["", "", "", ""])
-      setMethod(null)
       setCountdown(0)
     }
   }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -178,14 +170,14 @@ export function PhoneVerificationSheet({
     }
   }
 
-  async function handleResend(newMethod?: "flash_call" | "sms_otp") {
+  async function handleResend() {
     if (resendCount >= 3) {
       setStatus("blocked")
       setErrorMsg(t("storefront.verification.tooManyAttempts"))
       return
     }
     setResendCount((c) => c + 1)
-    await sendCode(newMethod)
+    await sendCode()
   }
 
   return (
@@ -197,9 +189,7 @@ export function PhoneVerificationSheet({
           </h3>
 
           <p className="mt-1 text-center text-sm text-muted-foreground">
-            {method === "flash_call"
-              ? t("storefront.verification.enterDigits")
-              : t("storefront.verification.enterCode")}
+            {t("storefront.verification.enterCode")}
           </p>
 
           <p className="mt-0.5 text-center text-xs text-muted-foreground">
@@ -238,9 +228,7 @@ export function PhoneVerificationSheet({
             {status === "sending" && (
               <div className="flex items-center justify-center gap-2 text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                {method === "flash_call"
-                  ? t("storefront.verification.calling")
-                  : t("storefront.verification.enterCode")}
+                {t("storefront.verification.enterCode")}
               </div>
             )}
             {status === "verifying" && (
@@ -275,17 +263,6 @@ export function PhoneVerificationSheet({
                 >
                   {t("storefront.verification.resend")}
                 </Button>
-              )}
-
-              {/* Switch method option */}
-              {method === "flash_call" && requireSmsOtp && (
-                <button
-                  type="button"
-                  className="block w-full text-xs text-muted-foreground underline"
-                  onClick={() => handleResend("sms_otp")}
-                >
-                  {t("storefront.verification.orTrySms")}
-                </button>
               )}
             </div>
           )}

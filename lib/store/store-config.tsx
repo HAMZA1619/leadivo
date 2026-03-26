@@ -14,7 +14,6 @@ export interface StoreConfig {
   showNote: boolean
   thankYouMessage: string
   requireCaptcha: boolean
-  requireFlashCall: boolean
   requireSmsOtp: boolean
   checkoutFields: Record<string, { label?: Record<string, string>; placeholder?: Record<string, string> }>
   variantStyle: string

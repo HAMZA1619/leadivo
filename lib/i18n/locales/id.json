@@ -100,17 +100,13 @@
     "reviewAddImage": "Tambah foto",
     "reviewSubmit": "Kirim ulasan",
     "verification": {
-      "calling": "Kami sedang menelepon Anda...",
       "enterCode": "Masukkan kode yang dikirim ke ponsel Anda",
-      "enterDigits": "Masukkan 4 digit terakhir dari nomor yang menelepon",
       "verified": "Telepon terverifikasi",
       "resend": "Kirim ulang kode",
       "expiresIn": "Kedaluwarsa dalam {{seconds}} detik",
       "tooManyAttempts": "Terlalu banyak percobaan. Coba lagi dalam beberapa menit.",
       "invalidCode": "Kode tidak valid. Coba lagi.",
       "codeExpired": "Kode kedaluwarsa.",
-      "changeNumber": "Ubah nomor",
-      "orTrySms": "Coba lewat SMS",
       "verifyPhone": "Verifikasi nomor telepon Anda"
     }
   },

@@ -100,17 +100,13 @@
     "reviewAddImage": "Foto's toevoegen",
     "reviewSubmit": "Beoordeling indienen",
     "verification": {
-      "calling": "We bellen uw telefoon...",
       "enterCode": "Voer de code in die naar uw telefoon is verzonden",
-      "enterDigits": "Voer de laatste 4 cijfers van het bellende nummer in",
       "verified": "Telefoon geverifieerd",
       "resend": "Code opnieuw verzenden",
       "expiresIn": "Verloopt over {{seconds}}s",
       "tooManyAttempts": "Te veel pogingen. Probeer het over een paar minuten opnieuw.",
       "invalidCode": "Ongeldige code. Probeer het opnieuw.",
       "codeExpired": "Code verlopen.",
-      "changeNumber": "Nummer wijzigen",
-      "orTrySms": "Probeer via SMS",
       "verifyPhone": "Verifieer uw telefoonnummer"
     }
   },

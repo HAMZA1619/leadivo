@@ -100,17 +100,13 @@
     "reviewAddImage": "Fotoğraf ekle",
     "reviewSubmit": "Değerlendirmeyi gönder",
     "verification": {
-      "calling": "Telefonunuzu arıyoruz...",
       "enterCode": "Telefonunuza gönderilen kodu girin",
-      "enterDigits": "Arayan numaranın son 4 hanesini girin",
       "verified": "Telefon doğrulandı",
       "resend": "Kodu tekrar gönder",
       "expiresIn": "{{seconds}} saniye içinde sona erer",
       "tooManyAttempts": "Çok fazla deneme. Birkaç dakika sonra tekrar deneyin.",
       "invalidCode": "Geçersiz kod. Tekrar deneyin.",
       "codeExpired": "Kod süresi doldu.",
-      "changeNumber": "Numarayı değiştir",
-      "orTrySms": "SMS ile deneyin",
       "verifyPhone": "Telefon numaranızı doğrulayın"
     }
   },

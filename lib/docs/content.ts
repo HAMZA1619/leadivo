@@ -1750,9 +1750,9 @@ export const ARTICLES: DocArticle[] = [
       fr: "Vérification du téléphone au paiement",
     },
     description: {
-      en: "Verify customer phone numbers with Flash Call or SMS OTP to prevent fake COD orders.",
-      ar: "تحقق من أرقام هواتف العملاء عبر مكالمة فلاش أو رمز SMS لمنع الطلبات الوهمية.",
-      fr: "Vérifiez les numéros de téléphone des clients par appel flash ou SMS OTP pour éviter les fausses commandes.",
+      en: "Verify customer phone numbers with SMS OTP to prevent fake COD orders.",
+      ar: "تحقق من أرقام هواتف العملاء عبر رمز SMS لمنع الطلبات الوهمية.",
+      fr: "Vérifiez les numéros de téléphone des clients par SMS OTP pour éviter les fausses commandes.",
     },
     steps: [
       {
@@ -1762,22 +1762,24 @@ export const ARTICLES: DocArticle[] = [
           fr: "Ouvrez le Design Builder",
         },
         description: {
-          en: "Go to your Dashboard and open the Design Builder. Navigate to the Preferences tab.",
-          ar: "انتقل إلى لوحة التحكم وافتح منشئ التصميم. انتقل إلى تبويب التفضيلات.",
-          fr: "Allez dans votre Tableau de bord et ouvrez le Design Builder. Accédez à l'onglet Préférences.",
+          en: "Go to your Dashboard and open the Design Builder. Navigate to the Security tab.",
+          ar: "انتقل إلى لوحة التحكم وافتح منشئ التصميم. انتقل إلى تبويب الأمان.",
+          fr: "Allez dans votre Tableau de bord et ouvrez le Design Builder. Accédez à l'onglet Sécurité.",
         },
+        image: "/docs/orders/phone-verification-1.svg",
       },
       {
         title: {
-          en: "Enable Flash Call or SMS OTP",
-          ar: "تفعيل مكالمة فلاش أو رمز SMS",
-          fr: "Activer l'appel flash ou le SMS OTP",
+          en: "Enable SMS OTP verification",
+          ar: "تفعيل التحقق برمز SMS",
+          fr: "Activer la vérification SMS OTP",
         },
         description: {
-          en: "Toggle on Flash Call verification, SMS OTP verification, or both. Flash Call sends a missed call — the customer enters the last 4 digits. SMS OTP sends a text message with a 4-digit code.",
-          ar: "قم بتفعيل التحقق عبر مكالمة فلاش أو رمز SMS أو كليهما. مكالمة فلاش ترسل مكالمة فائتة — يدخل العميل آخر 4 أرقام. رمز SMS يرسل رسالة نصية برمز مكون من 4 أرقام.",
-          fr: "Activez la vérification par appel flash, SMS OTP, ou les deux. L'appel flash envoie un appel manqué — le client entre les 4 derniers chiffres. Le SMS OTP envoie un message texte avec un code à 4 chiffres.",
+          en: "Toggle on SMS OTP verification. When enabled, customers receive a 4-digit code via text message that they must enter before placing an order.",
+          ar: "قم بتفعيل التحقق عبر رمز SMS. عند التفعيل، يتلقى العملاء رمزاً مكوناً من 4 أرقام عبر رسالة نصية يجب إدخاله قبل تقديم الطلب.",
+          fr: "Activez la vérification SMS OTP. Une fois activé, les clients reçoivent un code à 4 chiffres par SMS qu'ils doivent saisir avant de passer commande.",
         },
+        image: "/docs/orders/phone-verification-2.svg",
       },
       {
         title: {
@@ -1790,31 +1792,32 @@ export const ARTICLES: DocArticle[] = [
           ar: "احفظ إعدادات التصميم وقم بتجربة طلب. عندما ينقر العميل على تقديم الطلب، ستظهر ورقة تحقق تطلب منه إدخال الرمز قبل إرسال الطلب.",
           fr: "Enregistrez vos paramètres de design et passez une commande test. Lorsque le client clique sur Passer la commande, une feuille de vérification apparaîtra demandant d'entrer le code avant l'envoi de la commande.",
         },
+        image: "/docs/orders/phone-verification-3.svg",
       },
     ],
     faqs: [
       {
         question: {
-          en: "What is Flash Call verification?",
-          ar: "ما هو التحقق عبر مكالمة فلاش؟",
-          fr: "Qu'est-ce que la vérification par appel flash ?",
+          en: "How does SMS OTP verification work?",
+          ar: "كيف يعمل التحقق عبر رمز SMS؟",
+          fr: "Comment fonctionne la vérification SMS OTP ?",
         },
         answer: {
-          en: "Flash Call sends a brief missed call to the customer's phone. The customer enters the last 4 digits of the calling number to verify their phone. It's faster than SMS and works without cellular credit.",
-          ar: "مكالمة فلاش ترسل مكالمة فائتة قصيرة لهاتف العميل. يقوم العميل بإدخال آخر 4 أرقام من رقم المتصل للتحقق من هاتفه. إنها أسرع من SMS وتعمل بدون رصيد.",
-          fr: "L'appel flash envoie un bref appel manqué au téléphone du client. Le client entre les 4 derniers chiffres du numéro appelant pour vérifier son téléphone. C'est plus rapide que le SMS et fonctionne sans crédit.",
+          en: "When a customer places an order, they receive a 4-digit code via SMS. They enter the code in a verification sheet to confirm their phone number before the order is submitted.",
+          ar: "عندما يقدم العميل طلباً، يتلقى رمزاً مكوناً من 4 أرقام عبر SMS. يدخل الرمز في ورقة التحقق لتأكيد رقم هاتفه قبل إرسال الطلب.",
+          fr: "Lorsqu'un client passe une commande, il reçoit un code à 4 chiffres par SMS. Il saisit le code dans une feuille de vérification pour confirmer son numéro de téléphone avant l'envoi de la commande.",
         },
       },
       {
         question: {
-          en: "Can I use both Flash Call and SMS OTP together?",
-          ar: "هل يمكنني استخدام مكالمة فلاش ورمز SMS معاً؟",
-          fr: "Puis-je utiliser l'appel flash et le SMS OTP ensemble ?",
+          en: "What happens if the customer doesn't receive the code?",
+          ar: "ماذا يحدث إذا لم يتلقَّ العميل الرمز؟",
+          fr: "Que se passe-t-il si le client ne reçoit pas le code ?",
         },
         answer: {
-          en: "Yes. When both are enabled, Flash Call is tried first. If it fails, the system automatically falls back to SMS OTP. Customers can also manually switch to SMS from the verification screen.",
-          ar: "نعم. عند تفعيل كليهما، تتم محاولة مكالمة فلاش أولاً. إذا فشلت، يتحول النظام تلقائياً إلى رمز SMS. يمكن للعملاء أيضاً التبديل يدوياً إلى SMS من شاشة التحقق.",
-          fr: "Oui. Lorsque les deux sont activés, l'appel flash est essayé en premier. S'il échoue, le système bascule automatiquement vers le SMS OTP. Les clients peuvent aussi passer manuellement au SMS depuis l'écran de vérification.",
+          en: "Customers can resend the code up to 3 times. Each code is valid for 2 minutes. If they still don't receive it, they should check that their phone number is correct.",
+          ar: "يمكن للعملاء إعادة إرسال الرمز حتى 3 مرات. كل رمز صالح لمدة دقيقتين. إذا لم يتلقوه بعد ذلك، يجب التأكد من صحة رقم الهاتف.",
+          fr: "Les clients peuvent renvoyer le code jusqu'à 3 fois. Chaque code est valide pendant 2 minutes. S'ils ne le reçoivent toujours pas, ils doivent vérifier que leur numéro de téléphone est correct.",
         },
       },
     ],

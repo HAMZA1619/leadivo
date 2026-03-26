@@ -100,17 +100,13 @@
     "reviewAddImage": "Agregar fotos",
     "reviewSubmit": "Enviar reseña",
     "verification": {
-      "calling": "Estamos llamando a tu teléfono...",
       "enterCode": "Ingresa el código enviado a tu teléfono",
-      "enterDigits": "Ingresa los últimos 4 dígitos del número que llama",
       "verified": "Teléfono verificado",
       "resend": "Reenviar código",
       "expiresIn": "Expira en {{seconds}}s",
       "tooManyAttempts": "Demasiados intentos. Inténtalo de nuevo en unos minutos.",
       "invalidCode": "Código inválido. Inténtalo de nuevo.",
       "codeExpired": "Código expirado.",
-      "changeNumber": "Cambiar número",
-      "orTrySms": "Intentar por SMS",
       "verifyPhone": "Verifica tu número de teléfono"
     }
   },

@@ -55,7 +55,6 @@ export interface DesignState {
   // Preferences
   showCardAddToCart: boolean
   requireCaptcha: boolean
-  requireFlashCall: boolean
   requireSmsOtp: boolean
   whatsappFloat: string
   mobileOnly: boolean
@@ -89,6 +88,7 @@ interface DesignPreviewProps {
   currency: string
   previewTab: PreviewTab
   onTabChange: (tab: PreviewTab) => void
+  activeSection?: string
 }
 
 const RTL_LANGS = RTL_LANGUAGES
@@ -175,7 +175,7 @@ const tabs: { value: PreviewTab; labelKey: string }[] = [
   { value: "thankyou", labelKey: "designPreview.tabThankYou" },
 ]
 
-export function DesignPreview({ state, storeName, storeDescription, currency, previewTab, onTabChange }: DesignPreviewProps) {
+export function DesignPreview({ state, storeName, storeDescription, currency, previewTab, onTabChange, activeSection }: DesignPreviewProps) {
   const { t, i18n } = useTranslation()
   const [previewLang, setPreviewLang] = useState(state.language)
   const [localeReady, setLocaleReady] = useState(false)
@@ -336,6 +336,7 @@ export function DesignPreview({ state, storeName, storeDescription, currency, pr
               onRemoveItem={removeItem}
               onGoToStore={() => onTabChange("store")}
               onPlaceOrder={() => onTabChange("thankyou")}
+              showOtpOverlay={activeSection === "security" && state.requireSmsOtp}
             />
           )}
           {previewTab === "thankyou" && (
@@ -926,6 +927,7 @@ function CheckoutPreview({
   onRemoveItem,
   onGoToStore,
   onPlaceOrder,
+  showOtpOverlay,
 }: {
   state: DesignState
   storeName: string
@@ -938,11 +940,12 @@ function CheckoutPreview({
   onRemoveItem: (name: string) => void
   onGoToStore: () => void
   onPlaceOrder: () => void
+  showOtpOverlay?: boolean
 }) {
   const itemCount = cartItems.reduce((sum, item) => sum + item.qty, 0)
 
   return (
-    <>
+    <div className="relative min-h-full">
       <PreviewHeader state={state} storeName={storeName} cartCount={itemCount} />
       <div className="p-2 space-y-2">
         {/* Cart summary */}
@@ -1040,7 +1043,35 @@ function CheckoutPreview({
           </>
         })()}
       </div>
-    </>
+
+      {/* OTP verification overlay — shown when on Security tab with SMS OTP enabled */}
+      {showOtpOverlay && (
+        <div className="sticky inset-x-0 bottom-0 z-10 animate-in slide-in-from-bottom-4 duration-300">
+          <div className="rounded-t-xl border-t px-4 pb-4 pt-3 shadow-[0_-4px_20px_rgba(0,0,0,0.12)]" style={{ backgroundColor: "var(--store-bg)", color: "var(--store-text)" }}>
+            <div className="mx-auto mb-2 h-1 w-8 rounded-full bg-current opacity-20" />
+            <p className="text-center text-[10px] font-semibold">{st("storefront.verification.verifyPhone")}</p>
+            <p className="mt-0.5 text-center text-[8px] opacity-60">{st("storefront.verification.enterCode")}</p>
+            <p className="mt-0.5 text-center text-[8px] opacity-40">*******890</p>
+            <div className="mt-2 flex justify-center gap-1.5">
+              {["3", "8", "1", ""].map((d, i) => (
+                <div
+                  key={i}
+                  className="flex h-8 w-7 items-center justify-center rounded border-2 text-[13px] font-bold"
+                  style={{
+                    borderColor: i < 3 ? "var(--store-primary)" : "var(--store-text)",
+                    borderRadius: radiusCss,
+                    opacity: i < 3 ? 1 : 0.3,
+                  }}
+                >
+                  {d}{i === 3 && <span className="animate-pulse">|</span>}
+                </div>
+              ))}
+            </div>
+            <p className="mt-2 text-center text-[8px] opacity-50">{st("storefront.verification.expiresIn", { seconds: 47 })}</p>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 

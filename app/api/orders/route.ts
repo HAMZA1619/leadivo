@@ -98,9 +98,8 @@ export async function POST(request: Request) {
     }
 
     // Verify phone verification token if enabled
-    const requireFlashCall = typeof ds.requireFlashCall === "boolean" ? ds.requireFlashCall : false
     const requireSmsOtp = typeof ds.requireSmsOtp === "boolean" ? ds.requireSmsOtp : false
-    if (requireFlashCall || requireSmsOtp) {
+    if (requireSmsOtp) {
       const { validateVerificationToken } = await import("@/lib/integrations/infobip/verification")
       if (!verification_token || !validateVerificationToken(verification_token, customer_phone, store.id, customer_country)) {
         return NextResponse.json({ error: "Phone verification required" }, { status: 400 })

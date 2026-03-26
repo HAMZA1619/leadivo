@@ -127,6 +127,14 @@ const faqJsonLd = {
         text: "Every order automatically creates a customer profile with contact info, purchase history, and lifetime stats. You can tag customers (VIP, Wholesale, etc.), add notes, and export your database anytime.",
       },
     },
+    {
+      "@type": "Question",
+      name: "How do I protect my store from fake orders?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Leadivo offers built-in checkout protection with SMS OTP verification and CAPTCHA. When enabled, customers must confirm their phone number with a one-time code before placing an order.",
+      },
+    },
   ],
 }
 

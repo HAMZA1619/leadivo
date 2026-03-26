@@ -100,17 +100,13 @@
     "reviewAddImage": "Lägg till bilder",
     "reviewSubmit": "Skicka recension",
     "verification": {
-      "calling": "Vi ringer din telefon...",
       "enterCode": "Ange koden som skickades till din telefon",
-      "enterDigits": "Ange de sista 4 siffrorna i det uppringande numret",
       "verified": "Telefon verifierad",
       "resend": "Skicka kod igen",
       "expiresIn": "Upphör om {{seconds}}s",
       "tooManyAttempts": "För många försök. Försök igen om några minuter.",
       "invalidCode": "Ogiltig kod. Försök igen.",
       "codeExpired": "Koden har gått ut.",
-      "changeNumber": "Ändra nummer",
-      "orTrySms": "Prova via SMS",
       "verifyPhone": "Verifiera ditt telefonnummer"
     }
   },

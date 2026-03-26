@@ -30,6 +30,7 @@ function PrivacyContent() {
     { title: t("privacy.sharingTitle"), text: t("privacy.sharingText") },
     { title: t("privacy.cookiesTitle"), text: t("privacy.cookiesText") },
     { title: t("privacy.securityTitle"), text: t("privacy.securityText") },
+    { title: t("privacy.phoneVerificationTitle"), text: t("privacy.phoneVerificationText") },
     { title: t("privacy.rightsTitle"), text: t("privacy.rightsText") },
     { title: t("privacy.contactTitle"), text: t("privacy.contactText") },
   ]

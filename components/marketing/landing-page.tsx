@@ -38,6 +38,7 @@ import {
   Ticket,
   TrendingUp,
   Truck,
+  ShieldCheck,
   Users,
   Zap,
 } from "lucide-react"
@@ -88,6 +89,7 @@ const features = [
   { icon: MapPin, titleKey: "landing.featureMarkets", descKey: "landing.featureMarketsDesc" },
   { icon: Star, titleKey: "landing.featureReviews", descKey: "landing.featureReviewsDesc" },
   { icon: Users, titleKey: "landing.featureCustomers", descKey: "landing.featureCustomersDesc" },
+  { icon: ShieldCheck, titleKey: "landing.featureAntifraud", descKey: "landing.featureAntifraudDesc" },
 ]
 
 const steps = [
@@ -108,6 +110,7 @@ const pricingFeatures = [
   "landing.pricingFeature9",
   "landing.pricingFeature10",
   "landing.pricingFeature11",
+  "landing.pricingFeature12",
 ]
 
 const faqItems = [
@@ -122,6 +125,7 @@ const faqItems = [
   { qKey: "landing.faq9Question", aKey: "landing.faq9Answer" },
   { qKey: "landing.faq10Question", aKey: "landing.faq10Answer" },
   { qKey: "landing.faq11Question", aKey: "landing.faq11Answer" },
+  { qKey: "landing.faq12Question", aKey: "landing.faq12Answer" },
 ]
 
 export function LandingPage({ lang, countryName }: { lang?: string; countryName?: string } = {}) {

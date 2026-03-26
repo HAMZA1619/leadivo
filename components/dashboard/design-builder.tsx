@@ -34,6 +34,7 @@ export function DesignBuilder({ store }: DesignBuilderProps) {
   const initialDescription = useRef(store.description || "")
   const [description, setDescription] = useState(store.description || "")
   const [previewTab, setPreviewTab] = useState<PreviewTab>("store")
+  const [activeSection, setActiveSection] = useState("branding")
   const [saving, setSaving] = useState(false)
   const [showMobilePreview, setShowMobilePreview] = useState(false)
   const isDirty = JSON.stringify(state) !== JSON.stringify(initialState.current) || description !== initialDescription.current
@@ -104,13 +105,14 @@ export function DesignBuilder({ store }: DesignBuilderProps) {
             currency={store.currency}
             previewTab={previewTab}
             onTabChange={setPreviewTab}
+            activeSection={activeSection}
           />
         </div>
       )}
 
       <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
         <div className="min-w-0 flex-1">
-          <DesignControls state={state} onChange={handleChange} storeId={store.id} previewTab={previewTab} onPreviewTabChange={setPreviewTab} description={description} onDescriptionChange={setDescription} />
+          <DesignControls state={state} onChange={handleChange} storeId={store.id} previewTab={previewTab} onPreviewTabChange={setPreviewTab} description={description} onDescriptionChange={setDescription} activeSection={activeSection} onActiveSectionChange={setActiveSection} />
         </div>
         <div className="hidden w-[360px] shrink-0 lg:block lg:sticky lg:top-20 lg:self-start">
           <DesignPreview
@@ -120,6 +122,7 @@ export function DesignBuilder({ store }: DesignBuilderProps) {
             currency={store.currency}
             previewTab={previewTab}
             onTabChange={setPreviewTab}
+            activeSection={activeSection}
           />
         </div>
       </div>

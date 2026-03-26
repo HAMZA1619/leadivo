@@ -100,17 +100,13 @@
     "reviewAddImage": "Tambah gambar",
     "reviewSubmit": "Hantar ulasan",
     "verification": {
-      "calling": "Kami sedang menelefon anda...",
       "enterCode": "Masukkan kod yang dihantar ke telefon anda",
-      "enterDigits": "Masukkan 4 digit terakhir nombor yang menelefon",
       "verified": "Telefon disahkan",
       "resend": "Hantar semula kod",
       "expiresIn": "Tamat dalam {{seconds}}s",
       "tooManyAttempts": "Terlalu banyak percubaan. Cuba lagi dalam beberapa minit.",
       "invalidCode": "Kod tidak sah. Cuba lagi.",
       "codeExpired": "Kod tamat tempoh.",
-      "changeNumber": "Tukar nombor",
-      "orTrySms": "Cuba melalui SMS",
       "verifyPhone": "Sahkan nombor telefon anda"
     }
   },

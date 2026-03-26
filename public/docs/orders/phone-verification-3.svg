@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+<defs><style>text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }</style></defs>
+<rect width="800" height="450" fill="#f4f5f7" rx="8"/>
+<!-- Phone frame -->
+<rect x="250" y="15" width="300" height="420" rx="24" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+<rect x="350" y="22" width="100" height="12" rx="6" fill="#e5e7eb"/>
+<!-- Store header -->
+<rect x="260" y="40" width="280" height="36" fill="#10b981" opacity="0.15"/>
+<text x="400" y="63" font-size="10" font-weight="600" fill="#059669" text-anchor="middle">My Store</text>
+<!-- Checkout form (dimmed) -->
+<rect x="270" y="82" width="260" height="130" fill="#1f2937" opacity="0.05" rx="6"/>
+<text x="280" y="100" font-size="9" fill="#9ca3af">Name</text>
+<rect x="280" y="104" width="240" height="16" rx="3" fill="#f4f5f7"/>
+<text x="280" y="132" font-size="9" fill="#9ca3af">Phone</text>
+<rect x="280" y="136" width="240" height="16" rx="3" fill="#f4f5f7"/>
+<text x="290" y="149" font-size="8" fill="#6b7280">+213 555 123 456</text>
+<text x="280" y="168" font-size="9" fill="#9ca3af">City</text>
+<rect x="280" y="172" width="240" height="16" rx="3" fill="#f4f5f7"/>
+<text x="280" y="200" font-size="9" fill="#9ca3af">Address</text>
+<!-- Overlay dim -->
+<rect x="260" y="40" width="280" height="180" fill="#ffffff" opacity="0.5"/>
+<!-- Verification bottom sheet -->
+<rect x="260" y="220" width="280" height="210" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+<!-- Handle bar -->
+<rect x="380" y="226" width="40" height="4" rx="2" fill="#d1d5db"/>
+<!-- Sheet content -->
+<text x="400" y="252" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="700">Verify Your Phone</text>
+<text x="400" y="270" font-size="9" fill="#6b7280" text-anchor="middle">We sent a code to +213 555 123 456</text>
+<!-- OTP input boxes -->
+<rect x="310" y="286" width="40" height="46" rx="8" fill="#f4f5f7" stroke="#10b981" stroke-width="2"/>
+<text x="330" y="316" font-size="20" fill="#1f2937" text-anchor="middle" font-weight="700">4</text>
+<rect x="358" y="286" width="40" height="46" rx="8" fill="#f4f5f7" stroke="#10b981" stroke-width="2"/>
+<text x="378" y="316" font-size="20" fill="#1f2937" text-anchor="middle" font-weight="700">7</text>
+<rect x="406" y="286" width="40" height="46" rx="8" fill="#f4f5f7" stroke="#10b981" stroke-width="2"/>
+<text x="426" y="316" font-size="20" fill="#1f2937" text-anchor="middle" font-weight="700">2</text>
+<rect x="454" y="286" width="40" height="46" rx="8" fill="#f4f5f7" stroke="#d1d5db" stroke-width="2"/>
+<!-- Cursor blink -->
+<rect x="470" y="296" width="2" height="24" fill="#10b981" opacity="0.7"/>
+<!-- Timer -->
+<text x="400" y="352" font-size="9" fill="#6b7280" text-anchor="middle">Code expires in 1:42</text>
+<!-- Verify button -->
+<rect x="310" y="366" width="180" height="36" rx="8" fill="#10b981"/>
+<text x="400" y="389" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="600">Verify &amp; Place Order</text>
+<!-- Resend -->
+<text x="400" y="418" font-size="9" fill="#10b981" text-anchor="middle">Resend code</text>
+<!-- Annotations -->
+<g class="doc-annotations">
+<!-- Arrow pointing to OTP boxes -->
+<circle cx="400" cy="310" r="55" fill="#ef4444" opacity="0.06"/><circle cx="400" cy="310" r="55" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 3"/>
+<rect x="570" y="240" width="180" height="50" rx="6" fill="#ef4444"/>
+<text x="580" y="256" font-size="9" fill="#fff" font-weight="600">Customer enters the 4-digit</text>
+<text x="580" y="270" font-size="9" fill="#fff">code sent to their phone</text>
+<text x="580" y="282" font-size="8" fill="#fff" opacity="0.8">Auto-submits when complete</text>
+<line x1="570" y1="268" x2="460" y2="310" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+<!-- Arrow pointing to verify button -->
+<rect x="570" y="350" width="180" height="36" rx="6" fill="#ef4444"/>
+<text x="580" y="366" font-size="9" fill="#fff" font-weight="600">HMAC-signed token</text>
+<text x="580" y="378" font-size="9" fill="#fff">passed to order API</text>
+<line x1="570" y1="370" x2="496" y2="384" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2"/>
+</g>
+</svg>

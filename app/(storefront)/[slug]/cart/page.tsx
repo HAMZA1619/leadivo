@@ -206,9 +206,8 @@ export default function CartPage() {
 
   const storeConfig = useStoreConfig()
   const requireCaptcha = storeConfig?.requireCaptcha ?? false
-  const requireFlashCall = storeConfig?.requireFlashCall ?? false
   const requireSmsOtp = storeConfig?.requireSmsOtp ?? false
-  const requireVerification = requireFlashCall || requireSmsOtp
+  const requireVerification = requireSmsOtp
   const verificationTokenRef = useRef<string | null>(null)
   const [verificationOpen, setVerificationOpen] = useState(false)
   const showFields = {
@@ -746,8 +745,6 @@ export default function CartPage() {
           phone={form.customer_phone}
           country={form.customer_country}
           slug={slug}
-          requireFlashCall={requireFlashCall}
-          requireSmsOtp={requireSmsOtp}
           onVerified={handleVerified}
         />
       )}

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -39,6 +39,8 @@ interface DesignControlsProps {
   onPreviewTabChange: (tab: PreviewTab) => void
   description: string
   onDescriptionChange: (value: string) => void
+  activeSection: string
+  onActiveSectionChange: (section: string) => void
 }
 
 const themes = [
@@ -59,9 +61,9 @@ const defaultSectionForTab: Record<PreviewTab, SectionId> = {
   thankyou: "thankyou",
 }
 
-export function DesignControls({ state, onChange, storeId, previewTab, onPreviewTabChange, description, onDescriptionChange }: DesignControlsProps) {
+export function DesignControls({ state, onChange, storeId, previewTab, onPreviewTabChange, description, onDescriptionChange, activeSection, onActiveSectionChange }: DesignControlsProps) {
   const { t } = useTranslation()
-  const [activeSection, setActiveSection] = useState<SectionId>("branding")
+  const setActiveSection = onActiveSectionChange
 
   // Sync sidebar when preview tab changes externally (e.g. clicking preview tabs)
   useEffect(() => {
@@ -69,7 +71,7 @@ export function DesignControls({ state, onChange, storeId, previewTab, onPreview
     if (currentSection && currentSection.previewTab !== previewTab) {
       setActiveSection(defaultSectionForTab[previewTab])
     }
-  }, [previewTab, activeSection])
+  }, [previewTab, activeSection, setActiveSection])
 
   function handleSectionChange(id: SectionId) {
     setActiveSection(id)
@@ -1011,20 +1013,6 @@ export function DesignControls({ state, onChange, storeId, previewTab, onPreview
                   onCheckedChange={(v) => onChange({ requireCaptcha: v })}
                 />
               </div>
-
-              {/* Flash Call — hidden until Infobip voice routes are available
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label htmlFor="require-flash-call" className="text-sm">{t("design.requireFlashCall")}</Label>
-                  <p className="text-[11px] text-muted-foreground">{t("design.requireFlashCallHint")}</p>
-                </div>
-                <Switch
-                  id="require-flash-call"
-                  checked={state.requireFlashCall}
-                  onCheckedChange={(v) => onChange({ requireFlashCall: v })}
-                />
-              </div>
-              */}
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">

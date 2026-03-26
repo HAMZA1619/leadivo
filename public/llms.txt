@@ -23,6 +23,7 @@ Leadivo empowers social media sellers and small businesses to build beautiful, h
 - **TikTok Event API**: Track conversions from TikTok ads to optimize your campaigns.
 - **Google Sheets Sync**: Automatically sync orders to Google Sheets with fully customizable column mapping.
 - **Google Analytics**: Built-in GA4 tracking to understand your store traffic.
+- **Fake Order Protection**: Fight fake COD orders with SMS OTP phone verification at checkout — customers must confirm a 4-digit code before placing an order. Combined with hCaptcha protection for layered security.
 - **Abandoned Cart Recovery**: Automatically identify and recover abandoned checkouts to recapture lost sales.
 - **Custom Store Design**: Fine-tune every detail — colors, fonts, button styles, spacing, shadows, product card layouts — all with a real-time live preview.
 - **Custom Domains**: Connect your own domain for a fully branded shopping experience.

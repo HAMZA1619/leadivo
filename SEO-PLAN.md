@@ -1,6 +1,7 @@
 # SEO & Content Plan
 
 Global SaaS SEO strategy. Homepage targets worldwide. Country pages (`/dz`, `/ma`, etc.) handle local SEO.
+Content + community + social = free traffic flywheel.
 
 ---
 
@@ -15,9 +16,12 @@ Global SaaS SEO strategy. Homepage targets worldwide. Country pages (`/dz`, `/ma
 /tn            → Tunisia-specific
 /sa            → Saudi Arabia-specific
 /eg            → Egypt-specific
+/ae            → UAE-specific
 /compare/*     → Competitor comparison pages
 /blog/*        → Content marketing
 /docs/*        → Knowledge base (already exists)
+/customers     → Testimonials & success stories (planned)
+/changelog     → Public changelog (planned)
 ```
 
 **How `hreflang` connects them:**
@@ -38,14 +42,24 @@ Google uses this to serve the right page: a French user in Canada sees `/fr`, a 
 
 - [x] Root metadata (title template, description, keywords, OG, Twitter cards)
 - [x] JSON-LD on homepage (SoftwareApplication, Organization, FAQPage)
-- [x] Dynamic sitemap.ts (homepage, docs, legal pages)
-- [x] robots.ts (blocks /dashboard, /api, /auth)
+- [x] Dynamic sitemap.ts (homepage, docs, blog, comparison pages, legal pages)
+- [x] robots.ts (blocks /dashboard, /api, /auth + AI bot rules)
 - [x] Canonical URLs on all pages
 - [x] Security headers in next.config.ts
 - [x] Dynamic per-store metadata (title, description, OG image)
 - [x] Dynamic per-product metadata (title, images, OG)
 - [x] Dashboard excluded from indexing (noindex, nofollow)
-- [x] Docs system with category/article structure
+- [x] Docs system with 50+ articles, category/article structure, FAQs
+- [x] Blog system with 22 posts (8 global + 14 country-specific), trilingual
+- [x] 4 comparison pages (Shopify, WooCommerce, YouCan, Salla)
+- [x] 7 country landing pages with JSON-LD and hreflang
+- [x] RSS feed at /blog/feed.xml
+- [x] PWA manifest configured
+- [x] Per-store sitemaps for merchant storefronts
+- [x] llms.txt for LLM indexing
+- [x] security.txt in .well-known
+- [x] 20-language support with RTL
+- [x] Analytics: GA4, Facebook Pixel, TikTok Pixel, Meta CAPI integration
 
 ---
 
@@ -193,76 +207,107 @@ Content to include on `/dz`:
 
 ## Medium Priority
 
-### 6. Comparison Pages
+### 6. Comparison Pages — Expand & Localize
 
-**Global target keywords:**
-- "best ecommerce platform", "Shopify alternative", "free online store builder"
-- "Leadivo vs Shopify", "Leadivo vs Wix", "Leadivo vs BigCommerce"
-- "best Shopify alternative for social sellers"
-- Regional (for country pages to link to): "Leadivo vs Youcan", "Leadivo vs Zid"
+**Already done:**
+- [x] `/compare` — overview page
+- [x] `/compare/shopify` — Leadivo vs Shopify
+- [x] `/compare/woocommerce` — Leadivo vs WooCommerce
+- [x] `/compare/youcan` — Leadivo vs YouCan
+- [x] `/compare/salla` — Leadivo vs Salla
+- [x] FAQPage JSON-LD on each comparison page
+- [x] In sitemap with priority 0.7
 
-**Routes to create:**
-- [ ] `/compare` — overview page comparing all platforms
-- [ ] `/compare/shopify` — Leadivo vs Shopify (highest search volume)
+**New comparison pages to create:**
+- [ ] `/compare/expandcart` — Leadivo vs Expandcart (popular in Egypt)
+- [ ] `/compare/ecwid` — Leadivo vs Ecwid
 - [ ] `/compare/wix` — Leadivo vs Wix
 - [ ] `/compare/bigcommerce` — Leadivo vs BigCommerce
-- [ ] `/compare/youcan` — Leadivo vs Youcan (link from `/dz` and `/ma`)
-- [ ] `/compare/zid` — Leadivo vs Zid (link from `/sa`)
+- [ ] `/compare/ecomadina` — Leadivo vs EcoMadina (MENA competitor)
+- [ ] `/compare/instagram-selling` — Leadivo vs selling on Instagram directly (your real competitor for social sellers)
+- [ ] `/compare/facebook-marketplace` — Leadivo vs Facebook Marketplace selling
 
-**Page structure for each comparison:**
-```
-1. Hero: "Leadivo vs [Competitor] — Which Is Right for You?"
-2. Feature comparison table (pricing, COD support, WhatsApp, multi-language, analytics)
-3. Where Leadivo wins (free tier, COD analytics, social selling, multi-language)
-4. Where [Competitor] wins (be honest — builds trust and SEO credibility)
-5. Who should choose Leadivo vs [Competitor]
-6. CTA: "Try Leadivo Free"
-7. FAQ section with FAQPage JSON-LD
-```
+**Arabic comparison pages (huge opportunity — almost zero competition):**
+- [ ] Arabic versions targeting: `ليديفو مقابل يوكان`, `ليديفو مقابل سلة`, `ليديفو مقابل شوبيفاي`
+- [ ] Target keywords: `[competitor] alternative` / `بديل [competitor]` / `بديل شوبيفاي عربي`
+- [ ] Target keywords: `[competitor] pricing` / `اسعار [competitor]`
 
-**SEO for comparison pages:**
-- [ ] Add `FAQPage` JSON-LD to each comparison page
-- [ ] Internal link from homepage features section
-- [ ] Add to sitemap with priority 0.7
+**"Alternative" keyword pages:**
+- [ ] Create pages targeting `[competitor] alternative` for each competitor
+- [ ] Both English and Arabic versions
+- [ ] These have high commercial intent and low competition in Arabic
 
 ### 7. Blog / Content Section
 
 **Route:** `/blog`
 
-**Technical setup:**
-- [x] Create blog system with MDX or Supabase-backed content
+**Technical setup (all done):**
+- [x] MDX blog system with trilingual support (en/ar/fr)
 - [x] Dynamic metadata per post (title, description, OG image, author)
-- [x] `Article` JSON-LD on each post (author, datePublished, dateModified, publisher)
-- [x] Blog index page with pagination
-- [x] Category/tag system for organization
+- [x] Article + FAQPage + HowTo + BreadcrumbList JSON-LD
+- [x] Blog index page with category filtering
+- [x] Category/tag system (Getting Started, Growth, Social Commerce, Country Guides)
 - [x] Add blog posts to sitemap dynamically
 - [x] RSS feed at `/blog/feed.xml`
+- [x] Auto-generated table of contents from h2/h3 headings
+- [x] Related posts (3 per article)
+- [x] 22 posts published (8 global + 14 country-specific)
 
-**Content calendar — first 10 articles:**
+**Published articles:**
+- [x] How to Start Selling Online
+- [x] Reduce COD Return Rates
+- [x] Instagram to Store
+- [x] WhatsApp Commerce Guide
+- [x] COD vs Online Payment
+- [x] Product Page That Converts
+- [x] TikTok to Store
+- [x] Pricing for COD Markets
+- [x] Country guides: DZ, MA, SA, EG, TN, AE, NG (×2 each)
 
-Mix of global articles (rank worldwide) and regional articles (rank locally, link from country pages).
+**Next wave — "Fake Orders" content angle (YOUR UNFAIR ADVANTAGE):**
 
-| # | Title | Target Keyword | Audience | Priority |
+Fake orders are the #1 pain point for COD sellers in MENA. You have actual solutions (SMS OTP, hCaptcha). Almost zero competition for this content.
+
+| # | Title | Target Keyword | Language | Priority |
 |---|-------|----------------|----------|----------|
-| 1 | How to Start Selling Online in 2026: Complete Guide | "how to start selling online" | Global | High |
-| 2 | How to Reduce COD Return Rates | "reduce COD returns ecommerce" | Global (COD markets) | High |
-| 3 | How to Turn Your Instagram Into a Store | "sell on Instagram without website" | Global | High |
-| 4 | WhatsApp Commerce: The Complete Guide | "WhatsApp ecommerce" | Global | Medium |
-| 5 | COD vs Online Payment: Pros and Cons for Sellers | "COD vs online payment ecommerce" | Global | Medium |
-| 6 | How to Create a Product Page That Converts | "product page best practices" | Global | Medium |
-| 7 | How to Start Ecommerce in Algeria (FR: Comment lancer un e-commerce en Algérie) | "ecommerce Algeria" | `/dz` regional | Medium |
-| 8 | TikTok to Store: Convert Followers Into Customers | "sell on TikTok" | Global | Medium |
-| 9 | Best Delivery Companies in Algeria (FR: Meilleures entreprises de livraison en Algérie) | "delivery companies Algeria" | `/dz` regional | Low |
-| 10 | How to Price Products for COD Markets | "pricing COD ecommerce" | Global | Low |
+| 1 | How to Reduce Fake COD Orders by 80% | "fake orders COD", "الطلبات الوهمية" | EN + AR + FR | **Critical** |
+| 2 | The Real Cost of Fake Orders in Algeria/Morocco | "تكلفة الطلبات الوهمية" | FR + AR | High |
+| 3 | Phone Verification for E-commerce: Complete Guide | "SMS verification ecommerce" | EN | High |
+| 4 | How to Protect Your COD Store from Fraud | "COD fraud prevention" | EN + AR | High |
+
+**Programmatic SEO — "Category × Country" pages (350+ pages):**
+
+Generate template-based pages at scale:
+
+| Template | Example | Volume |
+|----------|---------|--------|
+| "How to sell [category] online in [country]" | "How to sell clothing online in Algeria" | 50 categories × 7 countries = 350 pages |
+| "Best [category] store examples" | "Best fashion store examples" | 50 pages |
+| "[City] e-commerce guide" | "Algiers e-commerce guide" | 20+ pages |
+
+**Arabic e-commerce glossary (programmatic SEO):**
+- [ ] Create glossary pages for e-commerce terms in Arabic
+- [ ] Target: `ما هو الدروبشيبينغ`, `ما معنى COD`, `ما هو معدل التحويل`
+- [ ] Many Arabic speakers search for translations of e-commerce concepts
+- [ ] Each term gets its own page — excellent for long-tail SEO
+
+**Integration-specific landing pages:**
+- [ ] "WhatsApp Integration for E-commerce Stores"
+- [ ] "Facebook Pixel for COD Stores"
+- [ ] "Google Sheets Order Tracking for E-commerce"
+- [ ] "TikTok Pixel Setup for Online Stores"
+- [ ] Target: "[integration] + e-commerce" keywords
 
 **Content guidelines:**
 - Global articles in English only (unless high-volume French/Arabic keyword exists)
 - Regional articles in English + local language (FR for Algeria, AR for Saudi)
+- **Arabic content has dramatically less competition than English** — a well-written Arabic blog post can rank page 1 in weeks
 - 1500–2500 words per article
 - Include at least 2 internal links to product features or docs
-- Include a CTA at the end ("Start your free store on Leadivo")
+- Include a CTA at the end ("Start your free trial on Leadivo")
 - Add table of contents for articles over 1500 words
 - Regional blog posts should link to corresponding country page (`/dz`, `/ma`, etc.)
+- Embed YouTube tutorials in relevant blog posts (when created)
 
 ### 8. Docs SEO Enhancements
 
@@ -292,34 +337,221 @@ Mix of global articles (rank worldwide) and regional articles (rank locally, lin
 
 ## Low Priority
 
-### 10. Customer Testimonials / Case Studies
+### 10. Social Proof & Conversion (CRITICAL GAP)
 
-**Target:** "is Leadivo legit", "Leadivo reviews"
+Your landing page has zero social proof. This kills conversion for visitors who find you via SEO.
 
-**Action items:**
+**Landing page social proof (add immediately):**
+- [ ] Add user/store count: "X+ stores created" or "Trusted by X+ sellers"
+- [ ] Add 3-5 merchant testimonials with real photos and store names
+- [ ] Add trust badges (SSL, secure, etc.)
+- [ ] Add "Store of the week" showcase section
+- [ ] Add country flags showing where sellers are active
+
+**Testimonials / Case Studies page:**
 - [ ] Create `/customers` or `/success-stories` route
 - [ ] Collect 5-10 real testimonials from active stores
 - [ ] Include: store name, niche, results (orders, revenue growth)
 - [ ] Add `Review` JSON-LD schema with aggregate rating
-- [ ] Feature top testimonials on homepage
-- [ ] Add video testimonials if possible (YouTube embeds — also helps YouTube SEO)
+- [ ] Add video testimonials if possible (YouTube embeds)
 
-### 11. Link Building Strategy
+**Public changelog:**
+- [ ] Create `/changelog` page showing recent updates
+- [ ] Prospects can see the platform is actively developed
+- [ ] Good for SEO (fresh content, regular updates)
 
-**Action items:**
-- [ ] Submit to SaaS directories: G2, Capterra, Product Hunt, AlternativeTo
+### 11. Email & Newsletter Capture (CRITICAL GAP)
+
+You're losing every visitor who isn't ready to sign up today.
+
+- [ ] Add email capture to landing page (e.g., "Get free e-commerce tips" or "Free COD selling guide")
+- [ ] Add email capture to blog sidebar/footer
+- [ ] Create a lead magnet: "Free Guide: How to Start Selling Online in [Country]" (PDF)
+- [ ] Set up email drip sequence for captured leads
+- [ ] Add exit-intent popup with offer (optional)
+
+### 12. Link Building Strategy
+
+**Free directory listings (do this week):**
+- [ ] AlternativeTo.net — list as alternative to Shopify, YouCan, Salla
+- [ ] G2 — create profile, ask early users for reviews
+- [ ] Capterra — create profile
+- [ ] TrustPilot — create profile
+- [ ] Product Hunt — launch (see Section 16)
+- [ ] SaaSHub, BetaList, SideProjectors
+- [ ] Arabic tech/startup directories
+
+**Ongoing link building:**
 - [ ] Submit to ecommerce/tech blogs for reviews
 - [ ] Guest post on business/tech blogs in target markets
 - [ ] Create a "Made with Leadivo" badge that links back (for storefronts)
-- [ ] Create shareable resources (infographics about COD ecommerce, social selling stats)
-- [ ] Answer Quora/Reddit questions about ecommerce with links
+- [ ] Create shareable resources (infographics about COD ecommerce, fake order stats)
+- [ ] Answer Quora Arabic (كورا بالعربي) questions about ecommerce
+- [ ] Answer Reddit questions (r/arabs, country-specific subreddits)
 
-### 12. Local SEO
+**Technical content for backlinks (Dev.to / Hashnode):**
+- [ ] "How we handle 20 languages with RTL support in Next.js"
+- [ ] "Building a multi-tenant e-commerce platform with Supabase RLS"
+- [ ] "Implementing phone verification for COD markets"
+- [ ] These generate high-quality backlinks from developer communities
+
+### 13. Local SEO
 
 **Action items:**
 - [ ] Create Google Business Profile (if applicable)
 - [ ] Add `Organization` JSON-LD with address
 - [ ] Ensure NAP (Name, Address, Phone) consistency across all listings
+
+---
+
+## Free Traffic & Brand Awareness
+
+### 14. YouTube Strategy (Arabic E-commerce YouTube is Exploding)
+
+Arabic e-commerce tutorials get 50k-500k views with low competition. YouTube is the #2 search engine.
+
+**Videos to create (priority order):**
+
+| # | Title | Target Keyword | Language | Priority |
+|---|-------|----------------|----------|----------|
+| 1 | How to create an online store in 10 minutes | "انشاء متجر الكتروني" | Arabic | **Critical** |
+| 2 | How to stop fake COD orders | "الطلبات الوهمية" | Arabic | High |
+| 3 | Best way to sell online in Algeria 2026 | "البيع اونلاين في الجزائر" | Arabic + French | High |
+| 4 | Shopify vs Leadivo for Arab sellers | "شوبيفاي مقابل ليديفو" | Arabic | High |
+| 5 | How to set up shipping zones | "اعداد مناطق الشحن" | Arabic | Medium |
+| 6 | Design your store in 5 minutes (design builder) | "تصميم متجر الكتروني" | Arabic | Medium |
+| 7 | How to sell online in Morocco/Tunisia/Saudi | country-specific | Arabic + FR | Medium |
+| 8 | WhatsApp selling tips for beginners | "البيع عبر واتساب" | Arabic | Medium |
+
+**YouTube SEO:**
+- Arabic titles, tags, descriptions, and timestamps
+- End screens linking to signup
+- Embed videos on landing page, blog posts, and docs
+- Create a branded intro/outro
+
+**Content format:**
+- Screen recordings with Arabic voiceover
+- 5-15 minutes per video
+- Thumbnail with Arabic text (high CTR in MENA)
+
+### 15. Social Media Organic Growth
+
+**Facebook Groups (WHERE YOUR USERS LIVE — #1 free channel for MENA):**
+- [ ] Join 10-15 Arabic e-commerce Facebook Groups:
+  - Algerian: التجارة الالكترونية في الجزائر (50k-200k members)
+  - Moroccan: dropshipping/e-commerce groups
+  - Tunisian: entrepreneur groups
+  - Saudi/UAE: small business groups
+  - Generic: Arabic e-commerce groups
+- [ ] Post educational content (NOT links) — pricing tips, fake order prevention, shipping advice
+- [ ] Answer questions, link to blog when relevant
+- [ ] Share case studies of stores built on Leadivo
+- [ ] Create "challenges": "Build your store in 30 minutes — here's how"
+- **This is exactly how YouCan grew in Morocco**
+
+**TikTok (organic reach still high in MENA):**
+- [ ] 30-second store creation timelapses
+- [ ] "POV: You just got a fake order" → show SMS verification feature
+- [ ] Before/after: ugly generic store → beautiful Leadivo store
+- [ ] "Things Shopify sellers in MENA wish they knew" → COD, local currencies, Arabic RTL
+- [ ] Cross-post all content to Instagram Reels
+
+**Instagram:**
+- [ ] Post merchant store showcases: "Store of the week"
+- [ ] Before/after design builder transformations
+- [ ] Carousel posts: "5 features that help you sell more"
+- [ ] Reels: same content as TikTok, cross-posted
+
+**Twitter/X (Arabic tech/business community):**
+- [ ] Build in public: share feature launches, user milestones
+- [ ] Engage with Arabic startup/e-commerce accounts
+- [ ] Thread format: "10 things I learned building an e-commerce platform for Arab sellers"
+- [ ] Tag and engage with other indie makers
+
+### 16. Community Building
+
+**WhatsApp (dominant messaging platform in MENA):**
+- [ ] Create a WhatsApp Channel (broadcast) for tips and product updates
+- [ ] Create country-specific WhatsApp groups (Algeria sellers, Morocco sellers, etc.)
+- [ ] These become self-sustaining communities where sellers help each other
+
+**Facebook Group (position as community, not product group):**
+- [ ] Create "Arab E-Commerce Sellers" group (NOT "Leadivo Users")
+- [ ] Weekly tips thread
+- [ ] Monthly "share your store" thread
+- [ ] Q&A sessions
+- [ ] Guest expert sessions with successful MENA sellers
+
+**Telegram:**
+- [ ] Create a Telegram channel for updates
+- [ ] Create a group for community discussion
+- [ ] Cross-post blog content and tips
+
+### 17. Product Hunt & Maker Community Launch
+
+**Product Hunt launch:**
+- [ ] Positioning: "The e-commerce platform built for COD markets"
+- [ ] Tagline: "E-commerce platform for markets where cash is king"
+- [ ] Best day: Tuesday or Wednesday
+- [ ] Prepare: hunter, 5+ makers, pre-written social posts
+- [ ] Email existing users asking for support
+- [ ] The MENA/COD angle is genuinely interesting to Western tech audiences
+
+**Indie Hackers:**
+- [ ] Create product page
+- [ ] Post: "I built an e-commerce platform for a $50B market that Shopify ignores"
+- [ ] Share revenue milestones (gets shared widely)
+
+**Hacker News:**
+- [ ] "Show HN" post with the MENA/COD story
+- [ ] Technical angle: multi-tenant Next.js, 20-language support, Supabase RLS
+
+### 18. Referral & Ambassador Program
+
+- [ ] Create referral link system for existing users
+- [ ] Reward: extended trial or feature perks for referrals
+- [ ] Identify most active early users as ambassadors
+- [ ] Many MENA social sellers have their own audiences — they bring other sellers
+- [ ] "Made with Leadivo" badge on storefronts linking back
+
+### 19. Arabic Press & Podcasts
+
+**Arabic tech media (free PR):**
+- [ ] Pitch story to: Wamda, Magnitt, Arabnet, Unlimit Tech
+- [ ] Angle: "Algerian/Moroccan founder builds e-commerce platform for MENA"
+- [ ] The local founder angle gets coverage that generic pitches don't
+
+**Arabic podcast guesting:**
+- [ ] Target: Swalif Business (سوالف بزنس), Podeo Arabic shows, Finyal Arabic business podcasts
+- [ ] Pitch: "The reality of e-commerce in North Africa" or "Why COD still dominates Arab e-commerce"
+- [ ] Arabic business/tech podcasts have fewer guests available — easier to get booked
+
+**University & startup ecosystem:**
+- [ ] Offer free workshops at incubators: Flat6Labs, Startupbootcamp MENA, TPME (Algeria)
+- [ ] University entrepreneurship clubs: "Launch your store in 1 hour"
+- [ ] Young sellers are your ICP — these relationships generate loyal early adopters
+
+### 20. Enriched Country Pages
+
+Current country pages need real content, not just redirects. Each should be a comprehensive local guide.
+
+**Content to add to each country page:**
+- [ ] Local success stories / merchant testimonials
+- [ ] Local delivery ecosystem details (Yalidine, EcoTrack for Algeria, etc.)
+- [ ] Local payment context (COD dominance stats, mobile money)
+- [ ] Local e-commerce market size and growth stats
+- [ ] Common challenges in that market + how Leadivo solves them
+- [ ] Local language keywords in meta tags
+
+**Arabic keyword targets per country:**
+| Country | High-Value Arabic Keywords |
+|---------|--------------------------|
+| Algeria | `إنشاء متجر إلكتروني الجزائر`, `أفضل منصة متجر الجزائر`, `البيع اونلاين الجزائر` |
+| Morocco | `إنشاء متجر إلكتروني المغرب`, `أفضل منصة بيع المغرب` |
+| Saudi | `إنشاء متجر إلكتروني السعودية`, `بديل سلة`, `منصة تجارة الكترونية` |
+| Egypt | `إنشاء متجر إلكتروني مصر`, `أفضل منصة بيع مصر` |
+| Tunisia | `créer boutique en ligne Tunisie`, `منصة تجارة تونس` |
+| UAE | `إنشاء متجر إلكتروني الامارات`, `منصة بيع اونلاين دبي` |
 
 ---
 
@@ -355,13 +587,16 @@ Mix of global articles (rank worldwide) and regional articles (rank locally, lin
 
 | Differentiator | Why It Matters | Competitors Lacking This |
 |---------------|---------------|------------------------|
+| Fake Order Protection | SMS OTP + hCaptcha — #1 pain point for COD sellers | No competitor has built-in phone verification |
 | COD Analytics | Reduce failed deliveries, track return rates | Shopify, Wix, BigCommerce |
 | Multi-language Stores | 20+ languages in one store, RTL native | Most support 1-2 languages |
 | Mobile-first Storefront | Optimized for mobile shoppers worldwide | Most platforms are desktop-first |
 | Social-to-Store | Turn Instagram/TikTok followers into buyers | Requires plugins on competitors |
 | No Coding Required | Instant setup, drag-and-drop | WooCommerce requires dev skills |
 | WhatsApp Integration | Native order notifications via WhatsApp | Most require third-party tools |
-| Free Tier | Start selling with zero upfront cost | Shopify charges from day 1 |
+| Multi-Market Pricing | Auto exchange rates, rounding rules, city-level shipping | Shopify requires apps for this |
+| Customer Database (CRM) | Auto-populated from orders, tags, notes, phone normalization | Shopify requires separate CRM |
+| 14-day Free Trial | Try all features before paying | Shopify charges from day 1 |
 
 ---
 
@@ -404,13 +639,70 @@ Mix of global articles (rank worldwide) and regional articles (rank locally, lin
 
 ## Implementation Priority Order
 
-1. **Week 1-2:** Technical fixes (manifest, hreflang, BreadcrumbList, HSTS, alt texts)
-2. **Week 2-3:** Homepage copy optimization (global keywords) + `/fr` and `/ar` language pages
-3. **Week 3-4:** `/dz` Algeria country page + set up blog system
-4. **Week 4-5:** Publish first 3 blog posts + comparison pages (Shopify, Wix)
-5. **Week 5-6:** Dynamic OG image generation + more country pages (`/ma`, `/sa`)
-6. **Week 6-8:** Testimonials + remaining comparison pages + link building
-7. **Ongoing:** Blog content (2 posts/month), new country pages, GSC monitoring
+### Week 1 — Quick Wins (Highest ROI, Lowest Effort)
+- [ ] Add social proof to landing page (store count, testimonials, trust badges)
+- [ ] Add email/newsletter capture to landing page and blog
+- [ ] Submit to free directories: AlternativeTo, G2, Capterra, SaaSHub, BetaList
+- [ ] Create WhatsApp Channel for tips and updates
+- [ ] Join 10 Arabic Facebook Groups and start observing
+
+### Week 2 — Content Engine
+- [ ] Write "How to Reduce Fake COD Orders by 80%" blog post (EN + AR + FR)
+- [ ] Write 2 more Arabic-first blog posts targeting low-competition keywords
+- [ ] Enrich country pages with real content, local keywords, local context
+- [ ] Start contributing in Facebook Groups (educational content, not links)
+
+### Week 3-4 — Video & Expansion
+- [ ] Record first 3 Arabic YouTube tutorials (store creation, fake orders, design builder)
+- [ ] Create 3 new comparison pages (Expandcart, Ecwid, Instagram selling)
+- [ ] Create Arabic comparison page versions
+- [ ] Start TikTok/Reels content (store creation timelapses)
+
+### Month 2 — Community & Launch
+- [ ] Launch on Product Hunt
+- [ ] Post on Indie Hackers + Hacker News (Show HN)
+- [ ] Create Facebook Group for Arab E-Commerce Sellers
+- [ ] Write technical blog posts on Dev.to/Hashnode for backlinks
+- [ ] Start programmatic SEO: first batch of "category × country" pages
+- [ ] Pitch Arabic tech media (Wamda, Magnitt, Arabnet)
+
+### Month 3 — Scale
+- [ ] Arabic podcast outreach and guesting
+- [ ] Set up referral/ambassador program
+- [ ] Expand programmatic SEO (glossary pages, integration pages)
+- [ ] University/incubator workshop outreach
+- [ ] Create public changelog page
+- [ ] Create `/customers` success stories page
+
+### Ongoing
+- [ ] 4 blog posts/month (2 Arabic, 1 English, 1 French)
+- [ ] 2 YouTube videos/month
+- [ ] 3-5 TikTok/Reels per week
+- [ ] Daily Facebook Group engagement
+- [ ] Weekly WhatsApp Channel tip
+- [ ] Monthly GSC review + keyword opportunity analysis
+- [ ] Quarterly comparison page updates + content refresh
+
+---
+
+## Competitor Traction Insights (What Worked for Them)
+
+| Platform | Market | How They Grew | Key Lesson for Leadivo |
+|----------|--------|---------------|----------------------|
+| Shopify | Global | Owned "how to start an online store" content early, app ecosystem created evangelists | Own Arabic content for this keyword NOW |
+| Salla | Saudi | Arabic-first content, WhatsApp/Twitter community, Saudi government support | Hyper-local focus + Arabic content |
+| YouCan | Morocco | YouTube tutorials (AR+FR), Facebook Groups, free tier for volume | Community-first in Facebook Groups + bilingual content |
+| Expandcart | Egypt | Arabic SEO content, webinars for Arab entrepreneurs, payment partnerships | Educational content in Arabic has almost no competition |
+
+**Common pattern:** All started with geographic/linguistic focus → community before paid marketing → educational content (blog + YouTube) as primary acquisition.
+
+---
+
+## The #1 Insight
+
+**Arabic-language content about e-commerce has dramatically less competition than English.**
+
+A well-written Arabic blog post targeting `كيف تبدأ التجارة الالكترونية في الجزائر` can rank on page 1 within weeks, while the equivalent English content would take months. Your 20-language, RTL-ready infrastructure is a genuine competitive advantage — lean into it aggressively for content and SEO.
 
 ---
 
@@ -421,3 +713,5 @@ Mix of global articles (rank worldwide) and regional articles (rank locally, lin
 - E-commerce in Algeria 2026 Guide — ecommaps.com
 - E-commerce in MENA — Bain & Company
 - COD Challenges in MENA — istizada.com
+- Competitor analysis: Shopify, Salla, YouCan, Expandcart growth strategies
+- MENA social media usage data — Facebook Groups, WhatsApp, TikTok adoption rates

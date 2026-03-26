@@ -50,6 +50,7 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       "social media store builder",
       "shopify alternative arabic",
       "ecommerce platform cod",
+      "fake cod orders protection",
     ],
     knownForKey: "compare.shopify.knownFor",
     leadivoFitKey: "compare.shopify.leadivoFit",
@@ -68,6 +69,7 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       { key: "compare.feature.shippingZones", leadivo: true, other: true },
       { key: "compare.feature.reviews", leadivo: true, other: "plugin" },
       { key: "compare.feature.customerDatabase", leadivo: true, other: true },
+      { key: "compare.feature.orderProtection", leadivo: true, other: false },
       { key: "compare.feature.pricing", leadivo: "$19/mo", other: "$39/mo+" },
     ],
     highlights: [
@@ -122,6 +124,7 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       "cod store no hosting",
       "ecommerce without wordpress",
       "simple online store builder",
+      "fake cod orders protection",
     ],
     knownForKey: "compare.woocommerce.knownFor",
     leadivoFitKey: "compare.woocommerce.leadivoFit",
@@ -140,6 +143,7 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       { key: "compare.feature.maintenance", leadivo: true, other: false },
       { key: "compare.feature.reviews", leadivo: true, other: "plugin" },
       { key: "compare.feature.customerDatabase", leadivo: true, other: "plugin" },
+      { key: "compare.feature.orderProtection", leadivo: true, other: false },
       { key: "compare.feature.pricing", leadivo: "$19/mo", other: "$20+/mo*" },
     ],
     highlights: [
@@ -194,6 +198,7 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       "cod ecommerce platform",
       "multi market store builder",
       "arabic ecommerce platform",
+      "fake cod orders protection",
     ],
     knownForKey: "compare.youcan.knownFor",
     leadivoFitKey: "compare.youcan.leadivoFit",
@@ -212,6 +217,7 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       { key: "compare.feature.cityShipping", leadivo: true, other: false },
       { key: "compare.feature.reviews", leadivo: true, other: true },
       { key: "compare.feature.customerDatabase", leadivo: true, other: "limited" },
+      { key: "compare.feature.orderProtection", leadivo: true, other: false },
       { key: "compare.feature.pricing", leadivo: "$19/mo", other: "$19/mo+" },
     ],
     highlights: [
@@ -266,6 +272,7 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       "cod store international",
       "multi market ecommerce",
       "arabic store builder global",
+      "fake cod orders protection",
     ],
     knownForKey: "compare.salla.knownFor",
     leadivoFitKey: "compare.salla.leadivoFit",
@@ -284,6 +291,7 @@ export const COMPARE_PLATFORMS: ComparePlatform[] = [
       { key: "compare.feature.cityShipping", leadivo: true, other: true },
       { key: "compare.feature.reviews", leadivo: true, other: true },
       { key: "compare.feature.customerDatabase", leadivo: true, other: true },
+      { key: "compare.feature.orderProtection", leadivo: true, other: false },
       { key: "compare.feature.pricing", leadivo: "$19/mo", other: "$27/mo+" },
     ],
     highlights: [

@@ -1,6 +1,6 @@
-# Leadivo
+# Leadivo™
 
-> Leadivo is the all-in-one e-commerce platform purpose-built for COD (Cash on Delivery) sellers across MENA and North Africa. Launch a professional online store, manage orders, and grow your social commerce business — fast.
+> Leadivo™ is the all-in-one e-commerce platform purpose-built for COD (Cash on Delivery) sellers across MENA and North Africa. Launch a professional online store, manage orders, and grow your social commerce business — fast.
 
 ## What is Leadivo?
 
@@ -8,26 +8,26 @@ Leadivo empowers social media sellers and small businesses to build beautiful, h
 
 ## Why Sellers Choose Leadivo
 
-- **Launch in Minutes**: Go from zero to a fully branded storefront with 20+ color themes, 50+ Google Fonts, and a drag-and-drop design builder — no coding required.
-- **Built for COD Markets**: The only platform designed from the ground up for Cash on Delivery — the preferred payment method across MENA and North Africa.
-- **Sell in Any Currency**: Create markets by country with automatic exchange rates, smart price adjustments, and professional rounding rules.
-- **Reach Customers in Their Language**: Support for 20+ languages including Arabic (full RTL), French, English, Spanish, Portuguese, German, and more.
-- **Powerful Product Tools**: Manage products, variants, and collections with ease. Import your catalog via Shopify-compatible CSV in seconds.
-- **Product Reviews & Ratings**: Customers leave verified star ratings, comments, and photos after delivery. Store owners moderate reviews and customize display styles — minimal, card, or bubble.
-- **Customer Database (CRM)**: Every order automatically builds a customer profile with contact info, purchase history, tags (VIP, Wholesale, etc.), notes, and lifetime stats. Export your database anytime.
-- **Streamlined Order Management**: Track every order from placement to delivery with a visual timeline, bulk status updates, CSV export, and smart filtering.
-- **Flexible Shipping**: Set country-level and city-level shipping rates, offer free shipping thresholds, and handle city exclusions effortlessly.
-- **Smart Discount Codes**: Create percentage or fixed-amount coupons with advanced rules — minimum order, usage caps, date ranges, and market-specific targeting.
-- **WhatsApp Integration**: Send automatic order confirmations and recover abandoned carts through WhatsApp Business API — right where your customers are.
-- **Facebook Pixel & Meta CAPI**: Full-funnel conversion tracking with both client-side pixel events and server-side Meta Conversions API.
-- **TikTok Event API**: Track conversions from TikTok ads to optimize your campaigns.
-- **Google Sheets Sync**: Automatically sync orders to Google Sheets with fully customizable column mapping.
+- **Launch in Minutes**: Go from zero to a fully branded storefront with 20+ color presets, 50+ Google Fonts, and a design builder with live preview — no coding required.
+- **Built for COD Markets**: Designed from the ground up for Cash on Delivery — the preferred payment method across MENA and North Africa.
+- **Sell in Any Currency**: Create markets by country with automatic exchange rates, smart price adjustments, and professional rounding rules (0.99, 0.95, nearest 5, etc.).
+- **Reach Customers in Their Language**: Support for 20 languages including Arabic (full RTL), French, English, Spanish, Portuguese, German, and more.
+- **Powerful Product Tools**: Manage products, variants, and collections with ease. Add product FAQs, track stock, and import your catalog via Shopify-compatible CSV in seconds.
+- **Product Reviews & Ratings**: Customers leave verified star ratings, comments, and photos after delivery via secure links. Store owners moderate reviews (approve/reject/bulk actions) and customize display styles — minimal, card, or bubble.
+- **Customer Database (CRM)**: Every order automatically builds a customer profile with contact info, purchase history, tags (VIP, Wholesale, Loyal, New), notes, and lifetime stats. Search, filter, sort, and export your customer database as CSV.
+- **Streamlined Order Management**: Track every order from placement to delivery with a visual status timeline, bulk status updates, CSV export, and smart filtering.
+- **Flexible Shipping**: Set country-level and city-level shipping rates, offer free shipping thresholds, handle city exclusions, and bulk import city rates via CSV.
+- **Smart Discount Codes**: Create percentage or fixed-amount coupons with advanced rules — minimum order, usage caps, per-customer limits, date ranges, and market-specific targeting.
+- **WhatsApp Integration**: Send automatic order confirmations, recover abandoned carts, and deliver review links through WhatsApp Business API — right where your customers are.
+- **Facebook Pixel & Meta CAPI**: Full-funnel conversion tracking with both client-side pixel events (ViewContent, AddToCart, InitiateCheckout) and server-side Meta Conversions API (Purchase).
+- **TikTok Event API**: Track conversions from TikTok ads with server-side event tracking to optimize your campaigns.
+- **Google Sheets Sync**: Automatically sync orders to Google Sheets with 20+ customizable column mappings.
 - **Google Analytics**: Built-in GA4 tracking to understand your store traffic.
-- **Fake Order Protection**: Fight fake COD orders with SMS OTP phone verification at checkout — customers must confirm a 4-digit code before placing an order. Combined with hCaptcha protection for layered security.
-- **Abandoned Cart Recovery**: Automatically identify and recover abandoned checkouts to recapture lost sales.
-- **Custom Store Design**: Fine-tune every detail — colors, fonts, button styles, spacing, shadows, product card layouts — all with a real-time live preview.
+- **Fake Order Protection**: Fight fake COD orders with SMS OTP phone verification at checkout — customers must confirm a 4-digit code before placing an order. Combined with hCaptcha CAPTCHA protection for layered security.
+- **Abandoned Cart Recovery**: Automatically identify and recover abandoned checkouts via WhatsApp to recapture lost sales.
+- **Custom Store Design**: Fine-tune every detail — colors, fonts, button styles, spacing, shadows, product card layouts, variant selector style, FAQ display, review settings — all with a real-time 4-tab live preview.
 - **Custom Domains**: Connect your own domain for a fully branded shopping experience.
-- **AI-Powered Assistant**: Get instant help managing your store with a built-in AI chat assistant.
+- **AI-Powered Assistant**: Get instant help managing your store with a built-in AI chat assistant that knows your store data.
 
 ## Who is Leadivo For?
 

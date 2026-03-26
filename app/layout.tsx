@@ -46,8 +46,8 @@ export const metadata: Metadata = {
     },
   },
   title: {
-    default: "Leadivo — Turn Your Social Media Into a Store",
-    template: "%s | Leadivo",
+    default: "Leadivo™ — Turn Your Social Media Into a Store",
+    template: "%s | Leadivo™",
   },
   description:
     "Turn followers into customers. Create a beautiful storefront in seconds. Share one link in your bio — no coding needed.",
@@ -59,11 +59,14 @@ export const metadata: Metadata = {
     "storefront",
     "COD",
     "WhatsApp orders",
+    "fake COD orders",
+    "COD order protection",
+    "phone verification ecommerce",
   ],
   openGraph: {
     type: "website",
-    siteName: "Leadivo",
-    title: "Leadivo — Turn Your Social Media Into a Store",
+    siteName: "Leadivo™",
+    title: "Leadivo™ — Turn Your Social Media Into a Store",
     description:
       "Turn followers into customers. Create a beautiful storefront in seconds. Share one link in your bio — no coding needed.",
     locale: "en_US",
@@ -71,7 +74,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Leadivo — Turn Your Social Media Into a Store",
+    title: "Leadivo™ — Turn Your Social Media Into a Store",
     description:
       "Turn followers into customers. Create a beautiful storefront in seconds. Share one link in your bio — no coding needed.",
     images: ["/og-image.png"],

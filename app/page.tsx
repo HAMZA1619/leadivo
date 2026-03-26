@@ -6,7 +6,7 @@ const APP_URL = process.env.NEXT_PUBLIC_ROOT_DOMAIN
   : process.env.NEXT_PUBLIC_APP_URL || "https://www.leadivo.app"
 
 export const metadata: Metadata = {
-  title: "Leadivo — Turn Your Social Media Into a Store",
+  title: "Leadivo™ — Turn Your Social Media Into a Store",
   description:
     "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders via WhatsApp or COD — no coding needed. Free trial included.",
   keywords: [
@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     "no-code ecommerce",
     "sell on Instagram",
     "sell on TikTok",
+    "fake COD orders",
+    "COD order protection",
+    "phone verification ecommerce",
   ],
   alternates: {
     canonical: APP_URL,
@@ -28,14 +31,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: APP_URL,
-    siteName: "Leadivo",
-    title: "Leadivo — Turn Your Social Media Into a Store",
+    siteName: "Leadivo™",
+    title: "Leadivo™ — Turn Your Social Media Into a Store",
     description:
       "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders directly — no coding needed.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Leadivo — Turn Your Social Media Into a Store",
+    title: "Leadivo™ — Turn Your Social Media Into a Store",
     description:
       "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders directly — no coding needed.",
   },
@@ -129,10 +132,10 @@ const faqJsonLd = {
     },
     {
       "@type": "Question",
-      name: "How do I protect my store from fake orders?",
+      name: "How do I protect my store from fake COD orders?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Leadivo offers built-in checkout protection with SMS OTP verification and CAPTCHA. When enabled, customers must confirm their phone number with a one-time code before placing an order.",
+        text: "Leadivo offers built-in fake order protection with SMS OTP phone verification and hCaptcha at checkout. When enabled, customers must confirm their phone number with a 4-digit code before placing a COD order — reducing fake orders and failed deliveries.",
       },
     },
   ],

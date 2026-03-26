@@ -341,11 +341,13 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 
 ### Dashboard — Billing & Subscription
 - Two-tier pricing: Free and Pro.
-- Polar integration for payment processing (`app/api/webhooks/polar/`).
+- **Provider-agnostic billing abstraction** (`lib/billing.ts`) — all payment provider API calls go through this single module. Currently backed by Polar; to switch providers (e.g. Stripe), only this file needs to change.
+- Polar webhook for payment processing (`app/api/webhooks/polar/`).
 - Subscription statuses: trialing, active, past_due, expired, canceled.
 - Trial period management.
 - Cancel subscription endpoint (`app/api/subscription/cancel/`).
-- Invoice history (`app/api/billing/invoices/`).
+- Invoice history (`app/api/billing/invoices/`) — serves from local `billing_invoices` table first, falls back to provider API.
+- Local invoice storage (`billing_invoices` table) — provider-safe copy of payment history.
 
 ### Dashboard — Settings
 - Profile management (full_name, avatar_url).
@@ -603,6 +605,11 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 
 ### profiles
 - `id` (Supabase auth uid), `full_name`, `avatar_url`, `subscription_status`, `trial_ends_at`.
+- `billing_customer_id`, `billing_subscription_id` — provider-agnostic billing IDs (previously `polar_*`).
+
+### billing_invoices
+- `id`, `user_id`, `provider_invoice_id`, `amount`, `currency`, `status`, `billing_reason`, `created_at`.
+- Local copy of invoices for provider migration safety. RLS: users can view own invoices.
 
 ---
 
@@ -681,7 +688,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 
 ## External Services
 - **Supabase** — database, auth, RLS.
-- **Polar** — subscription billing.
+- **Polar** — subscription billing (abstracted via `lib/billing.ts`).
 - **WhatsApp Business API** — order notifications.
 - **Meta Conversions API** — conversion tracking.
 - **Google Sheets API** — order syncing.

@@ -4,10 +4,10 @@ CREATE TABLE profiles (
   email TEXT NOT NULL,
   full_name TEXT,
   avatar_url TEXT,
-  polar_customer_id TEXT,
+  billing_customer_id TEXT,
   subscription_tier TEXT NOT NULL DEFAULT 'free' CHECK (subscription_tier IN ('free', 'pro')),
   subscription_status TEXT DEFAULT 'inactive',
-  polar_subscription_id TEXT,
+  billing_subscription_id TEXT,
   trial_ends_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -1565,3 +1565,23 @@ ALTER TABLE phone_verifications ENABLE ROW LEVEL SECURITY;
 -- No user-facing policies — accessed only via service role (admin client) in API routes
 
 CREATE INDEX idx_phone_verifications_lookup ON phone_verifications (store_id, phone, status);
+
+-- Billing invoices (local copy for provider migration safety)
+CREATE TABLE billing_invoices (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  provider_invoice_id TEXT NOT NULL UNIQUE,
+  amount INTEGER NOT NULL,
+  currency TEXT NOT NULL DEFAULT 'usd',
+  status TEXT NOT NULL,
+  billing_reason TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+ALTER TABLE billing_invoices ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own invoices"
+  ON billing_invoices FOR SELECT
+  USING (user_id = (select auth.uid()));
+
+CREATE INDEX idx_billing_invoices_user ON billing_invoices (user_id, created_at DESC);

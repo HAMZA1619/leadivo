@@ -1,5 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin"
-import { validateEvent, WebhookVerificationError } from "@polar-sh/sdk/webhooks"
+import { validateWebhookEvent, WebhookSignatureError } from "@/lib/billing"
 import { revalidateTag } from "next/cache"
 import { NextResponse } from "next/server"
 
@@ -17,23 +17,18 @@ async function revalidateOwnerStore(supabase: ReturnType<typeof createAdminClien
 
 export async function POST(request: Request) {
   try {
-    const secret = process.env.POLAR_WEBHOOK_SECRET
-    if (!secret) {
-      return NextResponse.json(
-        { error: "Webhook secret not configured" },
-        { status: 503 }
-      )
-    }
-
     const body = await request.text()
     const headers = Object.fromEntries(request.headers.entries())
 
-    let event: { type: string; data: Record<string, unknown> }
+    let event
     try {
-      event = validateEvent(body, headers, secret) as typeof event
+      event = validateWebhookEvent(body, headers)
     } catch (e) {
-      if (e instanceof WebhookVerificationError) {
+      if (e instanceof WebhookSignatureError) {
         return NextResponse.json({ error: "Invalid signature" }, { status: 401 })
+      }
+      if (e instanceof Error && e.message === "Webhook secret not configured") {
+        return NextResponse.json({ error: e.message }, { status: 503 })
       }
       throw e
     }
@@ -43,37 +38,36 @@ export async function POST(request: Request) {
 
     switch (event.type) {
       case "subscription.active": {
-        const subId = event.data?.id as string | undefined
-        const customerId = event.data?.customerId as string | undefined
-        const meta = event.data?.metadata as Record<string, string> | undefined
-        const userId = meta?.user_id
+        const subId = event.subscriptionId
+        const customerId = event.customerId
+        const userId = event.metadata?.user_id
         if (!subId) break
 
         const update = {
           subscription_status: "active",
           subscription_tier: "pro",
-          polar_subscription_id: subId,
-          ...(customerId ? { polar_customer_id: customerId } : {}),
+          billing_subscription_id: subId,
+          ...(customerId ? { billing_customer_id: customerId } : {}),
         }
 
         if (userId) {
           await supabase.from("profiles").update(update).eq("id", userId)
           ownerId = userId
         } else if (customerId) {
-          const { data } = await supabase.from("profiles").update(update).eq("polar_customer_id", customerId).select("id").single()
+          const { data } = await supabase.from("profiles").update(update).eq("billing_customer_id", customerId).select("id").single()
           ownerId = data?.id
         }
         break
       }
 
       case "subscription.canceled": {
-        const subId = event.data?.id as string | undefined
+        const subId = event.subscriptionId
         if (!subId) break
 
         const { data } = await supabase
           .from("profiles")
           .update({ subscription_status: "canceled" })
-          .eq("polar_subscription_id", subId)
+          .eq("billing_subscription_id", subId)
           .select("id")
           .single()
         ownerId = data?.id
@@ -81,7 +75,7 @@ export async function POST(request: Request) {
       }
 
       case "subscription.revoked": {
-        const subId = event.data?.id as string | undefined
+        const subId = event.subscriptionId
         if (!subId) break
 
         const { data } = await supabase
@@ -90,7 +84,7 @@ export async function POST(request: Request) {
             subscription_status: "expired",
             subscription_tier: "free",
           })
-          .eq("polar_subscription_id", subId)
+          .eq("billing_subscription_id", subId)
           .select("id")
           .single()
         ownerId = data?.id
@@ -98,7 +92,7 @@ export async function POST(request: Request) {
       }
 
       case "subscription.past_due": {
-        const subId = event.data?.id as string | undefined
+        const subId = event.subscriptionId
         if (!subId) break
 
         const { data } = await supabase
@@ -106,12 +100,27 @@ export async function POST(request: Request) {
           .update({
             subscription_status: "past_due",
           })
-          .eq("polar_subscription_id", subId)
+          .eq("billing_subscription_id", subId)
           .select("id")
           .single()
         ownerId = data?.id
         break
       }
+    }
+
+    // Store invoice locally for provider migration safety
+    if (ownerId && event.type === "subscription.active") {
+      await supabase.from("billing_invoices").upsert(
+        {
+          user_id: ownerId,
+          provider_invoice_id: event.subscriptionId ?? "",
+          amount: 0,
+          currency: "usd",
+          status: "paid",
+          billing_reason: "subscription_create",
+        },
+        { onConflict: "provider_invoice_id" }
+      ).select()
     }
 
     if (ownerId) {

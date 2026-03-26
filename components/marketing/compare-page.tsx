@@ -81,16 +81,16 @@ function FeatureValue({ value }: { value: boolean | string }) {
   return <span className="text-sm font-medium">{value}</span>
 }
 
-export function ComparePage({ platform }: { platform: ComparePlatform }) {
+export function ComparePage({ platform, locale }: { platform: ComparePlatform; locale?: string }) {
   return (
-    <I18nProvider>
-      <CompareContent platform={platform} />
-      <LanguageSwitcher />
+    <I18nProvider overrideLang={locale}>
+      <CompareContent platform={platform} linkPrefix={locale ? `/${locale}` : ""} />
+      {!locale && <LanguageSwitcher />}
     </I18nProvider>
   )
 }
 
-function CompareContent({ platform }: { platform: ComparePlatform }) {
+function CompareContent({ platform, linkPrefix = "" }: { platform: ComparePlatform; linkPrefix?: string }) {
   const { t, i18n } = useTranslation()
   const isRtl = i18n.dir() === "rtl"
 
@@ -100,7 +100,7 @@ function CompareContent({ platform }: { platform: ComparePlatform }) {
 
       {/* Back link */}
       <div className="mx-auto w-full max-w-5xl px-4 pt-8">
-        <Link href="/compare" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+        <Link href={`${linkPrefix}/compare`} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
           {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
           {t("compare.backToAll")}
         </Link>
@@ -269,7 +269,7 @@ function CompareContent({ platform }: { platform: ComparePlatform }) {
             {COMPARE_PLATFORMS.filter((p) => p.slug !== platform.slug).map((p) => (
               <Link
                 key={p.slug}
-                href={`/compare/${p.slug}`}
+                href={`${linkPrefix}/compare/${p.slug}`}
                 className="rounded-lg border p-4 text-center transition-colors hover:border-primary/50 hover:bg-muted/30"
               >
                 <span className="text-sm font-medium">Leadivo vs {p.name}</span>
@@ -288,13 +288,13 @@ function CompareContent({ platform }: { platform: ComparePlatform }) {
               <p className="mt-2 text-sm text-muted-foreground">{t("landing.footerTagline")}</p>
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <Link href="/docs" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/docs`} className="transition-colors hover:text-foreground">
                 {t("docs.title")}
               </Link>
-              <Link href="/privacy" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/privacy`} className="transition-colors hover:text-foreground">
                 {t("landing.privacyPolicy")}
               </Link>
-              <Link href="/terms" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/terms`} className="transition-colors hover:text-foreground">
                 {t("landing.termsOfService")}
               </Link>
             </div>

@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next"
 import { CATEGORIES, ARTICLES } from "@/lib/docs/content"
 import { getAllPosts } from "@/lib/blog/content"
 import { getAllCompareSlugs } from "@/lib/compare"
+import { getAllAppSlugs } from "@/lib/apps"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN
@@ -47,16 +48,87 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: urlJoin(baseUrl, "docs"), lastModified: new Date("2026-03-01"), changeFrequency: "weekly" as const, priority: 0.8 },
     ...docCategoryPages,
     ...docArticlePages,
+    { url: urlJoin(baseUrl, "ar", "docs"), lastModified: new Date("2026-03-26"), changeFrequency: "weekly" as const, priority: 0.7 },
+    ...CATEGORIES.map((cat) => ({
+      url: urlJoin(baseUrl, "ar", "docs", cat.slug),
+      lastModified: new Date("2026-03-26"),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    })),
+    ...ARTICLES.map((article) => {
+      const category = CATEGORIES.find((c) => c.slug === article.category)
+      return {
+        url: urlJoin(baseUrl, "ar", "docs", category?.slug ?? article.category, article.slug),
+        lastModified: new Date("2026-03-26"),
+        changeFrequency: "weekly" as const,
+        priority: 0.5,
+      }
+    }),
+    { url: urlJoin(baseUrl, "fr", "docs"), lastModified: new Date("2026-03-26"), changeFrequency: "weekly" as const, priority: 0.7 },
+    ...CATEGORIES.map((cat) => ({
+      url: urlJoin(baseUrl, "fr", "docs", cat.slug),
+      lastModified: new Date("2026-03-26"),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    })),
+    ...ARTICLES.map((article) => {
+      const category = CATEGORIES.find((c) => c.slug === article.category)
+      return {
+        url: urlJoin(baseUrl, "fr", "docs", category?.slug ?? article.category, article.slug),
+        lastModified: new Date("2026-03-26"),
+        changeFrequency: "weekly" as const,
+        priority: 0.5,
+      }
+    }),
     { url: urlJoin(baseUrl, "blog"), lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
     ...blogPosts,
-    { url: urlJoin(baseUrl, "compare"), lastModified: new Date("2026-03-16"), changeFrequency: "monthly" as const, priority: 0.7 },
+    { url: urlJoin(baseUrl, "compare"), lastModified: new Date("2026-03-26"), changeFrequency: "monthly" as const, priority: 0.7 },
     ...getAllCompareSlugs().map((slug) => ({
       url: urlJoin(baseUrl, "compare", slug),
-      lastModified: new Date("2026-03-16"),
+      lastModified: new Date("2026-03-26"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    { url: urlJoin(baseUrl, "ar", "compare"), lastModified: new Date("2026-03-26"), changeFrequency: "monthly" as const, priority: 0.7 },
+    ...getAllCompareSlugs().map((slug) => ({
+      url: urlJoin(baseUrl, "ar", "compare", slug),
+      lastModified: new Date("2026-03-26"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    { url: urlJoin(baseUrl, "fr", "compare"), lastModified: new Date("2026-03-26"), changeFrequency: "monthly" as const, priority: 0.7 },
+    ...getAllCompareSlugs().map((slug) => ({
+      url: urlJoin(baseUrl, "fr", "compare", slug),
+      lastModified: new Date("2026-03-26"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    { url: urlJoin(baseUrl, "apps"), lastModified: new Date("2026-03-26"), changeFrequency: "monthly" as const, priority: 0.7 },
+    ...getAllAppSlugs().map((slug) => ({
+      url: urlJoin(baseUrl, "apps", slug),
+      lastModified: new Date("2026-03-26"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    { url: urlJoin(baseUrl, "ar", "apps"), lastModified: new Date("2026-03-26"), changeFrequency: "monthly" as const, priority: 0.7 },
+    ...getAllAppSlugs().map((slug) => ({
+      url: urlJoin(baseUrl, "ar", "apps", slug),
+      lastModified: new Date("2026-03-26"),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    { url: urlJoin(baseUrl, "fr", "apps"), lastModified: new Date("2026-03-26"), changeFrequency: "monthly" as const, priority: 0.7 },
+    ...getAllAppSlugs().map((slug) => ({
+      url: urlJoin(baseUrl, "fr", "apps", slug),
+      lastModified: new Date("2026-03-26"),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
     { url: urlJoin(baseUrl, "privacy"), lastModified: new Date("2026-01-01"), changeFrequency: "yearly" as const, priority: 0.3 },
     { url: urlJoin(baseUrl, "terms"), lastModified: new Date("2026-01-01"), changeFrequency: "yearly" as const, priority: 0.3 },
+    { url: urlJoin(baseUrl, "ar", "privacy"), lastModified: new Date("2026-03-26"), changeFrequency: "yearly" as const, priority: 0.3 },
+    { url: urlJoin(baseUrl, "ar", "terms"), lastModified: new Date("2026-03-26"), changeFrequency: "yearly" as const, priority: 0.3 },
+    { url: urlJoin(baseUrl, "fr", "privacy"), lastModified: new Date("2026-03-26"), changeFrequency: "yearly" as const, priority: 0.3 },
+    { url: urlJoin(baseUrl, "fr", "terms"), lastModified: new Date("2026-03-26"), changeFrequency: "yearly" as const, priority: 0.3 },
   ]
 }

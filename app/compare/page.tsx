@@ -8,18 +8,26 @@ const APP_URL = process.env.NEXT_PUBLIC_ROOT_DOMAIN
 export const metadata: Metadata = {
   title: "Compare Leadivo — See How Leadivo Stacks Up",
   description:
-    "Compare Leadivo with Shopify, WooCommerce, YouCan, and Salla. See why social sellers and COD businesses choose Leadivo for fast, mobile-first storefronts.",
+    "Compare Leadivo with Shopify, WooCommerce, Wix, YouCan, Salla, and more. See why social sellers and COD businesses choose Leadivo for mobile-first storefronts.",
   keywords: [
     "leadivo comparison",
     "leadivo vs shopify",
     "leadivo vs woocommerce",
     "leadivo vs youcan",
     "leadivo vs salla",
+    "leadivo vs wix",
+    "leadivo vs expandcart",
+    "leadivo vs bigcommerce",
     "cod store builder comparison",
     "best ecommerce platform cod",
   ],
   alternates: {
     canonical: `${APP_URL}/compare`,
+    languages: {
+      en: `${APP_URL}/compare`,
+      ar: `${APP_URL}/ar/compare`,
+      fr: `${APP_URL}/fr/compare`,
+    },
   },
   openGraph: {
     type: "website",
@@ -27,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "Leadivo",
     title: "Compare Leadivo — See How Leadivo Stacks Up",
     description:
-      "Compare Leadivo with Shopify, WooCommerce, YouCan, and Salla. See why social sellers and COD businesses choose Leadivo.",
+      "Compare Leadivo with Shopify, WooCommerce, Wix, YouCan, Salla, and more. See why social sellers and COD businesses choose Leadivo.",
   },
 }
 

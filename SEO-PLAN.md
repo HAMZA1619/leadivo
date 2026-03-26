@@ -51,7 +51,7 @@ Google uses this to serve the right page: a French user in Canada sees `/fr`, a 
 - [x] Dashboard excluded from indexing (noindex, nofollow)
 - [x] Docs system with 50+ articles, category/article structure, FAQs
 - [x] Blog system with 22 posts (8 global + 14 country-specific), trilingual
-- [x] 4 comparison pages (Shopify, WooCommerce, YouCan, Salla)
+- [x] 11 comparison pages (Shopify, WooCommerce, YouCan, Salla, ExpandCart, Ecwid, Wix, BigCommerce, EcoMadina, Instagram Selling, Facebook Marketplace)
 - [x] 7 country landing pages with JSON-LD and hreflang
 - [x] RSS feed at /blog/feed.xml
 - [x] PWA manifest configured
@@ -219,18 +219,18 @@ Content to include on `/dz`:
 - [x] In sitemap with priority 0.7
 
 **New comparison pages to create:**
-- [ ] `/compare/expandcart` — Leadivo vs Expandcart (popular in Egypt)
-- [ ] `/compare/ecwid` — Leadivo vs Ecwid
-- [ ] `/compare/wix` — Leadivo vs Wix
-- [ ] `/compare/bigcommerce` — Leadivo vs BigCommerce
-- [ ] `/compare/ecomadina` — Leadivo vs EcoMadina (MENA competitor)
-- [ ] `/compare/instagram-selling` — Leadivo vs selling on Instagram directly (your real competitor for social sellers)
-- [ ] `/compare/facebook-marketplace` — Leadivo vs Facebook Marketplace selling
+- [x] `/compare/expandcart` — Leadivo vs Expandcart (popular in Egypt)
+- [x] `/compare/ecwid` — Leadivo vs Ecwid
+- [x] `/compare/wix` — Leadivo vs Wix
+- [x] `/compare/bigcommerce` — Leadivo vs BigCommerce
+- [x] `/compare/ecomadina` — Leadivo vs EcoMadina (MENA competitor)
+- [x] `/compare/instagram-selling` — Leadivo vs selling on Instagram directly (your real competitor for social sellers)
+- [x] `/compare/facebook-marketplace` — Leadivo vs Facebook Marketplace selling
 
 **Arabic comparison pages (huge opportunity — almost zero competition):**
-- [ ] Arabic versions targeting: `ليديفو مقابل يوكان`, `ليديفو مقابل سلة`, `ليديفو مقابل شوبيفاي`
-- [ ] Target keywords: `[competitor] alternative` / `بديل [competitor]` / `بديل شوبيفاي عربي`
-- [ ] Target keywords: `[competitor] pricing` / `اسعار [competitor]`
+- [x] Arabic versions targeting: `ليديفو مقابل يوكان`, `ليديفو مقابل سلة`, `ليديفو مقابل شوبيفاي` — all 11 platforms at `/ar/compare/[platform]`
+- [x] Target keywords: `[competitor] alternative` / `بديل [competitor]` / `بديل شوبيفاي عربي` — included in Arabic meta keywords
+- [x] Target keywords: `[competitor] pricing` / `اسعار [competitor]` — included in Arabic meta keywords
 
 **"Alternative" keyword pages:**
 - [ ] Create pages targeting `[competitor] alternative` for each competitor
@@ -292,11 +292,12 @@ Generate template-based pages at scale:
 - [ ] Each term gets its own page — excellent for long-tail SEO
 
 **Integration-specific landing pages:**
-- [ ] "WhatsApp Integration for E-commerce Stores"
-- [ ] "Facebook Pixel for COD Stores"
-- [ ] "Google Sheets Order Tracking for E-commerce"
-- [ ] "TikTok Pixel Setup for Online Stores"
-- [ ] Target: "[integration] + e-commerce" keywords
+- [x] "WhatsApp Integration for E-commerce Stores" — `/apps/whatsapp` + `/ar/apps/whatsapp`
+- [x] "Facebook Pixel for COD Stores" — `/apps/facebook-pixel` + `/ar/apps/facebook-pixel`
+- [x] "Google Sheets Order Tracking for E-commerce" — `/apps/google-sheets` + `/ar/apps/google-sheets`
+- [x] "TikTok Pixel Setup for Online Stores" — `/apps/tiktok-pixel` + `/ar/apps/tiktok-pixel`
+- [x] Google Analytics for Online Stores — `/apps/google-analytics` + `/ar/apps/google-analytics`
+- [x] Target: "[integration] + e-commerce" keywords — included in EN + AR metadata
 
 **Content guidelines:**
 - Global articles in English only (unless high-volume French/Arabic keyword exists)
@@ -313,8 +314,12 @@ Generate template-based pages at scale:
 
 **Action items:**
 - [x] Add `BreadcrumbList` JSON-LD to all doc pages
-- [ ] Add `HowTo` JSON-LD to step-by-step guides
+- [x] Add `HowTo` JSON-LD to step-by-step guides (EN, AR, FR)
 - [x] Ensure docs have unique meta descriptions (not auto-generated)
+- [x] Arabic docs at `/ar/docs/` with Arabic metadata, BreadcrumbList, FAQPage, HowTo JSON-LD
+- [x] French docs at `/fr/docs/` with French metadata, BreadcrumbList, FAQPage, HowTo JSON-LD
+- [x] `hreflang` linking between EN, AR, FR docs (all pages)
+- [x] All AR/FR docs URLs added to sitemap
 - [ ] Add search-friendly headings with keywords
 - [ ] Internal link from blog articles to relevant docs
 - [ ] Add `dateModified` to doc metadata for freshness signals

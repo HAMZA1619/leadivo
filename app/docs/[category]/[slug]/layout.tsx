@@ -21,6 +21,11 @@ export async function generateMetadata({
     description: article.description.en,
     alternates: {
       canonical: `${APP_URL}/docs/${category}/${slug}`,
+      languages: {
+        en: `${APP_URL}/docs/${category}/${slug}`,
+        ar: `${APP_URL}/ar/docs/${category}/${slug}`,
+        fr: `${APP_URL}/fr/docs/${category}/${slug}`,
+      },
     },
     openGraph: {
       title: `${article.title.en} — Leadivo Docs`,

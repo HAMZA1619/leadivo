@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: "Read the terms and conditions for using Leadivo, the online store builder for social media sellers.",
   alternates: {
     canonical: `${APP_URL}/terms`,
+    languages: { en: `${APP_URL}/terms`, ar: `${APP_URL}/ar/terms`, fr: `${APP_URL}/fr/terms` },
   },
 }
 

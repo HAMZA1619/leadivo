@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   description: "Learn how to use Leadivo to create and manage your online store.",
   alternates: {
     canonical: `${APP_URL}/docs`,
+    languages: {
+      en: `${APP_URL}/docs`,
+      ar: `${APP_URL}/ar/docs`,
+      fr: `${APP_URL}/fr/docs`,
+    },
   },
   openGraph: {
     type: "website",

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: "Learn how Leadivo collects, uses, and protects your personal data. Read our full privacy policy.",
   alternates: {
     canonical: `${APP_URL}/privacy`,
+    languages: { en: `${APP_URL}/privacy`, ar: `${APP_URL}/ar/privacy`, fr: `${APP_URL}/fr/privacy` },
   },
 }
 

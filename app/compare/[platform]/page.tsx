@@ -22,6 +22,11 @@ export async function generateMetadata({ params }: { params: Promise<{ platform:
     keywords: platform.keywords,
     alternates: {
       canonical: `${APP_URL}/compare/${slug}`,
+      languages: {
+        en: `${APP_URL}/compare/${slug}`,
+        ar: `${APP_URL}/ar/compare/${slug}`,
+        fr: `${APP_URL}/fr/compare/${slug}`,
+      },
     },
     openGraph: {
       type: "website",

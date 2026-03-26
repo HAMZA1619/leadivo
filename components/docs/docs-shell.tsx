@@ -9,15 +9,17 @@ import { MarketingHeader } from "@/components/marketing/marketing-header"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
 
-export function DocsShell({ children }: { children: React.ReactNode }) {
+export function DocsShell({ children, locale }: { children: React.ReactNode; locale?: string }) {
+  const linkPrefix = locale ? `/${locale}` : ""
   return (
-    <I18nProvider>
-      <DocsShellInner>{children}</DocsShellInner>
+    <I18nProvider overrideLang={locale}>
+      <DocsShellInner linkPrefix={linkPrefix}>{children}</DocsShellInner>
+      {!locale && <LanguageSwitcher />}
     </I18nProvider>
   )
 }
 
-function DocsShellInner({ children }: { children: React.ReactNode }) {
+function DocsShellInner({ children, linkPrefix = "" }: { children: React.ReactNode; linkPrefix?: string }) {
   const { t } = useTranslation()
 
   return (
@@ -34,16 +36,16 @@ function DocsShellInner({ children }: { children: React.ReactNode }) {
               <p className="mt-2 text-sm text-muted-foreground">{t("landing.footerTagline")}</p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-              <Link href="/docs" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/docs`} className="transition-colors hover:text-foreground">
                 {t("docs.title")}
               </Link>
-              <Link href="/compare" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/compare`} className="transition-colors hover:text-foreground">
                 {t("compare.backToAll")}
               </Link>
-              <Link href="/privacy" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/privacy`} className="transition-colors hover:text-foreground">
                 {t("landing.privacyPolicy")}
               </Link>
-              <Link href="/terms" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/terms`} className="transition-colors hover:text-foreground">
                 {t("landing.termsOfService")}
               </Link>
             </div>
@@ -54,7 +56,6 @@ function DocsShellInner({ children }: { children: React.ReactNode }) {
           </p>
         </div>
       </footer>
-      <LanguageSwitcher />
     </div>
   )
 }

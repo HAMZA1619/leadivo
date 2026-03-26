@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next"
 import { cn } from "@/lib/utils"
 
 const NAV_ITEMS = [
+  { href: "/apps", labelKey: "apps.indexTitle" },
   { href: "/blog", labelKey: "blog.title" },
   { href: "/docs", labelKey: "docs.title" },
   { href: "/compare", labelKey: "compare.backToAll" },
@@ -25,7 +26,8 @@ export function MarketingHeader() {
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/"
-    return pathname === href || pathname.startsWith(href + "/")
+    // Match both /docs and /ar/docs, /fr/docs etc.
+    return pathname === href || pathname.startsWith(href + "/") || pathname.endsWith(href) || pathname.includes(href + "/")
   }
 
   return (

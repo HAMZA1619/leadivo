@@ -48,16 +48,16 @@ function FadeIn({ children, className = "", delay = 0 }: { children: ReactNode; 
   )
 }
 
-export function CompareIndex() {
+export function CompareIndex({ locale }: { locale?: string } = {}) {
   return (
-    <I18nProvider>
-      <CompareIndexContent />
-      <LanguageSwitcher />
+    <I18nProvider overrideLang={locale}>
+      <CompareIndexContent linkPrefix={locale ? `/${locale}` : ""} />
+      {!locale && <LanguageSwitcher />}
     </I18nProvider>
   )
 }
 
-function CompareIndexContent() {
+function CompareIndexContent({ linkPrefix = "" }: { linkPrefix?: string }) {
   const { t } = useTranslation()
 
   const leadivoStrengths = [
@@ -118,7 +118,7 @@ function CompareIndexContent() {
             {COMPARE_PLATFORMS.map((p, i) => (
               <FadeIn key={p.slug} delay={i * 60}>
                 <Link
-                  href={`/compare/${p.slug}`}
+                  href={`${linkPrefix}/compare/${p.slug}`}
                   className="group flex items-center justify-between rounded-xl border p-6 transition-all hover:border-primary/50 hover:shadow-md"
                 >
                   <div>
@@ -161,13 +161,13 @@ function CompareIndexContent() {
               <p className="mt-2 text-sm text-muted-foreground">{t("landing.footerTagline")}</p>
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <Link href="/docs" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/docs`} className="transition-colors hover:text-foreground">
                 {t("docs.title")}
               </Link>
-              <Link href="/privacy" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/privacy`} className="transition-colors hover:text-foreground">
                 {t("landing.privacyPolicy")}
               </Link>
-              <Link href="/terms" className="transition-colors hover:text-foreground">
+              <Link href={`${linkPrefix}/terms`} className="transition-colors hover:text-foreground">
                 {t("landing.termsOfService")}
               </Link>
             </div>

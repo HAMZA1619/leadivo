@@ -19,6 +19,11 @@ export async function generateMetadata({
     description: category.description.en,
     alternates: {
       canonical: `${APP_URL}/docs/${slug}`,
+      languages: {
+        en: `${APP_URL}/docs/${slug}`,
+        ar: `${APP_URL}/ar/docs/${slug}`,
+        fr: `${APP_URL}/fr/docs/${slug}`,
+      },
     },
     openGraph: {
       type: "website",

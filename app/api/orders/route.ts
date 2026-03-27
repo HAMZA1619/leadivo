@@ -4,6 +4,7 @@ import { getImageUrl } from "@/lib/utils"
 import { getMarketExchangeRate } from "@/lib/market/exchange-rates"
 import { applyRounding, type RoundingRule } from "@/lib/market/resolve-price"
 import { COUNTRIES } from "@/lib/constants"
+import { normalizePhone } from "@/lib/integrations/apps/whatsapp"
 import { NextResponse } from "next/server"
 
 export const maxDuration = 60
@@ -99,11 +100,13 @@ export async function POST(request: Request) {
 
     // Verify phone verification token if enabled
     const requireSmsOtp = typeof ds.requireSmsOtp === "boolean" ? ds.requireSmsOtp : false
+    let phoneVerified = false
     if (requireSmsOtp) {
       const { validateVerificationToken } = await import("@/lib/integrations/infobip/verification")
       if (!verification_token || !validateVerificationToken(verification_token, customer_phone, store.id, customer_country)) {
         return NextResponse.json({ error: "Phone verification required" }, { status: 400 })
       }
+      phoneVerified = true
     }
 
     // Resolve market for currency
@@ -397,6 +400,7 @@ export async function POST(request: Request) {
         customer_city: customer_city || null,
         customer_country: country,
         customer_address,
+        status: phoneVerified ? "confirmed" : "pending",
         payment_method: "cod",
         note: note || null,
         ip_address: ipAddress,
@@ -459,6 +463,22 @@ export async function POST(request: Request) {
     // Increment discount usage
     if (discountId) {
       await supabase.rpc("increment_discount_usage", { p_discount_id: discountId })
+    }
+
+    // Insert OTP confirmation record if phone was verified
+    if (phoneVerified) {
+      try {
+        await admin.from("order_confirmations").insert({
+          order_id: order.id,
+          store_id: store.id,
+          customer_phone: normalizePhone(customer_phone, country),
+          method: "otp",
+          status: "confirmed",
+          responded_at: new Date().toISOString(),
+        })
+      } catch (confirmErr) {
+        console.error("[orders] OTP confirmation record error:", confirmErr)
+      }
     }
 
     // Mark any abandoned checkout as recovered

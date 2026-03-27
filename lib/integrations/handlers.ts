@@ -37,6 +37,7 @@ export async function dispatchSingle(
         store.name,
         currency,
         configLang || store.language,
+        store.id,
       )
       return { confirmationSent: result.confirmationSent }
     }

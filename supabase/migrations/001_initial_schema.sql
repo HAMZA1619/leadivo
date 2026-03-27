@@ -958,12 +958,13 @@ $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
 GRANT EXECUTE ON FUNCTION public.upsert_abandoned_checkout TO anon;
 GRANT EXECUTE ON FUNCTION public.upsert_abandoned_checkout TO authenticated;
 
--- Order Confirmations (WhatsApp COD confirmation tracking)
+-- Order Confirmations (WhatsApp/OTP COD confirmation tracking)
 CREATE TABLE order_confirmations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
   store_id UUID NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
   customer_phone TEXT NOT NULL,
+  method TEXT NOT NULL DEFAULT 'whatsapp' CHECK (method IN ('whatsapp', 'otp')),
   status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'canceled')),
   sent_at TIMESTAMPTZ,
   responded_at TIMESTAMPTZ,
@@ -1585,3 +1586,27 @@ CREATE POLICY "Users can view own invoices"
   USING (user_id = (select auth.uid()));
 
 CREATE INDEX idx_billing_invoices_user ON billing_invoices (user_id, created_at DESC);
+
+-- Short Links (URL shortener for WhatsApp notifications)
+CREATE TABLE short_links (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  store_id UUID NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+  code TEXT NOT NULL UNIQUE,
+  original_url TEXT NOT NULL,
+  clicks INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_short_links_store ON short_links(store_id);
+
+ALTER TABLE short_links ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Store owners can view own short links"
+  ON short_links FOR SELECT
+  USING (store_id IN (SELECT id FROM stores WHERE owner_id = (select auth.uid())));
+
+-- Atomically increment click counter for short links
+CREATE OR REPLACE FUNCTION increment_short_link_clicks(link_code TEXT)
+RETURNS VOID AS $$
+  UPDATE short_links SET clicks = clicks + 1 WHERE code = link_code;
+$$ LANGUAGE sql SECURITY DEFINER SET search_path = public;

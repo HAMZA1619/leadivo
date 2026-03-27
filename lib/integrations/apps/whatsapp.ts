@@ -208,7 +208,9 @@ async function generateAIMessage(
   storeName: string,
   currency: string,
   language: string,
-  codConfirmation?: boolean
+  codConfirmation?: boolean,
+  storeId?: string,
+  storeBaseUrl?: string
 ): Promise<string | null> {
   const apiKey = process.env.GROQ_API_KEY_WHATSAPP
   if (!apiKey) return null
@@ -260,16 +262,21 @@ ${itemsList}`
     let reviewLinksContext = ""
     if (payload.new_status === "delivered" && payload.store_slug && payload.order_id && payload.items?.length) {
       const { generateReviewToken } = await import("@/lib/reviews")
+      const { shortenUrl } = await import("@/lib/shorten")
       const appUrl = process.env.NEXT_PUBLIC_APP_URL || ""
+      const resolvedBaseUrl = storeBaseUrl || `${appUrl}/${payload.store_slug}`
       const phone = normalizePhone(payload.customer_phone, payload.customer_country)
-      const links = payload.items.map((item) => {
+      const links = await Promise.all(payload.items.map(async (item) => {
         const productId = item.product_id
         if (!productId) return null
         const token = generateReviewToken(payload.order_id!, productId, phone)
-        return `- ${item.product_name}: ${appUrl}/${payload.store_slug}/products/${productId}/review?order=${payload.order_id}&phone=${encodeURIComponent(phone)}&token=${token}`
-      }).filter(Boolean)
-      if (links.length > 0) {
-        reviewLinksContext = `\n\nReview links (include these in the message so the customer can leave a review):\n${links.join("\n")}`
+        const longUrl = `${appUrl}/${payload.store_slug}/products/${productId}/review?order=${payload.order_id}&phone=${encodeURIComponent(phone)}&token=${token}`
+        const shortUrl = storeId ? await shortenUrl(longUrl, storeId, resolvedBaseUrl) : longUrl
+        return `- ${item.product_name}: ${shortUrl}`
+      }))
+      const filteredLinks = links.filter(Boolean)
+      if (filteredLinks.length > 0) {
+        reviewLinksContext = `\n\nReview links (include these in the message so the customer can leave a review):\n${filteredLinks.join("\n")}`
       }
     }
 
@@ -345,7 +352,7 @@ No emojis. No links. No "Dear". No bold/asterisks. Output ONLY the message.`,
     "checkout.abandoned": `Write a WhatsApp cart recovery message. Language: ${langName}. Every word MUST be in ${langName} except the dynamic values below.
 
 ${keepAsIs}
-- Store URL: "${(payload as unknown as AbandonedCheckoutPayload).store_url}" (copy exactly)
+- Store URL: use exactly as shown in the context (copy exactly)
 
 Separate sections with blank lines. Do NOT use any bold formatting or asterisks (*) around words.
 Structure:
@@ -511,12 +518,38 @@ export async function handleWhatsApp(
   config: WhatsAppConfig,
   storeName: string,
   currency: string,
-  storeLanguage?: string
+  storeLanguage?: string,
+  storeId?: string
 ): Promise<{ confirmationSent: boolean }> {
   if (!config.connected || !config.instance_name) return { confirmationSent: false }
 
   const enabledEvents = config.enabled_events ?? ["order.created"]
   if (!enabledEvents.includes(eventType)) return { confirmationSent: false }
+
+  // Resolve the store's canonical base URL (respects custom domains)
+  let storeBaseUrl: string | undefined
+  if (storeId) {
+    const { createAdminClient } = await import("@/lib/supabase/admin")
+    const { getStoreUrl } = await import("@/lib/utils")
+    const supabase = createAdminClient()
+    const { data: store } = await supabase
+      .from("stores")
+      .select("slug, custom_domain, domain_verified")
+      .eq("id", storeId)
+      .single()
+    if (store) {
+      storeBaseUrl = getStoreUrl(store.slug, store.custom_domain, store.domain_verified)
+    }
+  }
+
+  // Shorten abandoned checkout recovery URL before passing to message builders
+  if (eventType === "checkout.abandoned" && storeId && storeBaseUrl) {
+    const aPayload = payload as unknown as AbandonedCheckoutPayload
+    if (aPayload.store_url) {
+      const { shortenUrl } = await import("@/lib/shorten")
+      aPayload.store_url = await shortenUrl(aPayload.store_url, storeId, storeBaseUrl)
+    }
+  }
 
   const codConfirmation =
     eventType === "order.created" &&
@@ -524,7 +557,7 @@ export async function handleWhatsApp(
     !!payload.order_id
 
   const message =
-    (await generateAIMessage(eventType, payload, storeName, currency, storeLanguage || "en", codConfirmation)) ||
+    (await generateAIMessage(eventType, payload, storeName, currency, storeLanguage || "en", codConfirmation, storeId, storeBaseUrl)) ||
     buildWhatsAppMessage(eventType, payload, storeName, currency, storeLanguage || "en", codConfirmation)
   if (!message) return { confirmationSent: false }
 

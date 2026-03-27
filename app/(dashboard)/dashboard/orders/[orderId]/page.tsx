@@ -51,7 +51,7 @@ export default async function OrderDetailPage({
       .single(),
     supabase
       .from("order_confirmations")
-      .select("status, sent_at, responded_at")
+      .select("status, method, sent_at, responded_at")
       .eq("order_id", orderId)
       .maybeSingle(),
   ])
@@ -295,7 +295,7 @@ export default async function OrderDetailPage({
               <div>
                 <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                   <MessageSquare className="h-3.5 w-3.5" />
-                  <T k="orderDetail.whatsappConfirmation" />
+                  {confirmation.method === "otp" ? <T k="orderDetail.otpConfirmation" /> : <T k="orderDetail.whatsappConfirmation" />}
                 </h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
@@ -313,7 +313,7 @@ export default async function OrderDetailPage({
                         <T k="orderDetail.confirmationPending" />
                       )}
                       {confirmation.status === "confirmed" && (
-                        <T k="orderDetail.confirmationConfirmed" />
+                        confirmation.method === "otp" ? <T k="orderDetail.confirmationConfirmedOtp" /> : <T k="orderDetail.confirmationConfirmed" />
                       )}
                       {confirmation.status === "canceled" && (
                         <T k="orderDetail.confirmationCanceled" />

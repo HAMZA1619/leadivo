@@ -381,6 +381,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
   - HMAC-signed verification token passed to order creation API.
   - Settings: `requireSmsOtp` toggle in Design Builder → Security tab.
 - Order creation via `app/api/checkout/`.
+- OTP-verified orders are auto-confirmed (`status: confirmed`) with an `order_confirmations` record (`method: otp`).
 
 ### Storefront — Market & Currency
 - Market/currency picker UI.
@@ -611,6 +612,13 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - `id`, `user_id`, `provider_invoice_id`, `amount`, `currency`, `status`, `billing_reason`, `created_at`.
 - Local copy of invoices for provider migration safety. RLS: users can view own invoices.
 
+### short_links
+- `id`, `store_id`, `code` (unique random 6-char string), `original_url`, `clicks` (counter), `created_at`.
+- Used to shorten long review URLs in WhatsApp notifications.
+- Redirect route: `app/(storefront)/[slug]/r/[code]/route.ts` — looks up code, increments clicks, 302 redirects.
+- Helper: `lib/shorten.ts` — `shortenUrl(url, storeId, baseUrl)` deduplicates by (store_id, original_url), retries on code collision.
+- Atomic click increment via `increment_short_link_clicks` RPC function.
+
 ---
 
 ## Business Logic
@@ -618,6 +626,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 ### Order Status Workflow
 - Valid transitions: pending → confirmed → shipped → delivered. Also: any non-terminal → returned, any non-terminal → canceled.
 - Terminal statuses: `delivered`, `canceled` — no further transitions allowed.
+- OTP-verified orders skip `pending` and are created directly as `confirmed`.
 
 ### Pricing & Currency
 - **Fixed mode**: store owner sets prices per product/variant per market manually.
@@ -654,7 +663,7 @@ In short: any new order field must flow end-to-end — schema → trigger payloa
 - Abandoned checkout recovery messages.
 - AI-generated messages with order context, fallback templates.
 - Phone number normalization.
-- Review link generation: tokenized review links appended to delivery notifications.
+- Review link generation: tokenized review links appended to delivery notifications, auto-shortened via `short_links` table for cleaner WhatsApp messages.
 
 ### Meta Conversions API (Facebook Pixel)
 - Client-side events: ViewContent, AddToCart, InitiateCheckout.

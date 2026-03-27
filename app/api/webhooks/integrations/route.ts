@@ -102,6 +102,7 @@ export async function POST(request: Request) {
               order_id: enrichedPayload.order_id,
               store_id: event.store_id,
               customer_phone: normalizedPhone,
+              method: "whatsapp",
               status: "pending",
               sent_at: new Date().toISOString(),
             })
@@ -225,6 +226,7 @@ export async function POST(request: Request) {
                 order_id: enrichedPayload.order_id,
                 store_id: event.store_id,
                 customer_phone: normalizedPhone,
+                method: "whatsapp",
                 status: "pending",
                 sent_at: new Date().toISOString(),
               })

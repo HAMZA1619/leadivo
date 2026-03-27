@@ -23,6 +23,7 @@ Leadivo empowers social media sellers and small businesses to build beautiful, h
 - **TikTok Event API**: Track conversions from TikTok ads with server-side event tracking to optimize your campaigns.
 - **Google Sheets Sync**: Automatically sync orders to Google Sheets with 20+ customizable column mappings.
 - **Google Analytics**: Built-in GA4 tracking to understand your store traffic.
+- **Yalidine Express Shipping**: Ship orders across all 58 Algerian wilayas with auto-created parcels, printed labels, real-time tracking, and COD collection — directly from your dashboard.
 - **Fake Order Protection**: Fight fake COD orders with SMS OTP phone verification at checkout — customers must confirm a 4-digit code before placing an order. Combined with hCaptcha CAPTCHA protection for layered security.
 - **Abandoned Cart Recovery**: Automatically identify and recover abandoned checkouts via WhatsApp to recapture lost sales.
 - **Custom Store Design**: Fine-tune every detail — colors, fonts, button styles, spacing, shadows, product card layouts, variant selector style, FAQ display, review settings — all with a real-time 4-tab live preview.
@@ -45,3 +46,4 @@ Start your 14-day free trial today and experience every feature Leadivo has to o
 - Compare with Shopify: https://www.leadivo.app/compare/shopify
 - Compare with YouCan: https://www.leadivo.app/compare/youcan
 - Compare with Salla: https://www.leadivo.app/compare/salla
+- Yalidine Express Integration: https://www.leadivo.app/apps/yalidine

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" rx="12" fill="#F8FAFC"/>
+  <rect x="40" y="40" width="720" height="370" rx="8" fill="white" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="400" y="80" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1E293B">Order #1025</text>
+  <rect x="120" y="100" width="560" height="1" fill="#E2E8F0"/>
+  <text x="140" y="135" font-family="system-ui" font-size="13" font-weight="500" fill="#64748B">Tracking</text>
+  <text x="300" y="135" font-family="system-ui" font-size="13" fill="#E02424">yal-A7B2C9D</text>
+  <text x="140" y="170" font-family="system-ui" font-size="13" font-weight="500" fill="#64748B">Status</text>
+  <rect x="300" y="155" width="80" height="24" rx="12" fill="#DCFCE7"/>
+  <text x="340" y="172" text-anchor="middle" font-family="system-ui" font-size="11" font-weight="500" fill="#16A34A">Shipped</text>
+  <text x="140" y="210" font-family="system-ui" font-size="13" font-weight="500" fill="#64748B">Carrier</text>
+  <text x="300" y="210" font-family="system-ui" font-size="13" fill="#1E293B">Yalidine Express</text>
+  <rect x="120" y="240" width="200" height="36" rx="6" fill="#E02424"/>
+  <text x="220" y="263" text-anchor="middle" font-family="system-ui" font-size="12" font-weight="500" fill="white">Print Label</text>
+  <rect x="340" y="240" width="200" height="36" rx="6" fill="white" stroke="#E02424" stroke-width="1"/>
+  <text x="440" y="263" text-anchor="middle" font-family="system-ui" font-size="12" font-weight="500" fill="#E02424">Track Parcel</text>
+</svg>

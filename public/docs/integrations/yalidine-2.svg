@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" rx="12" fill="#F8FAFC"/>
+  <rect x="40" y="40" width="720" height="370" rx="8" fill="white" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="400" y="80" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1E293B">Configure Yalidine</text>
+  <rect x="120" y="110" width="560" height="44" rx="6" fill="white" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="140" y="137" font-family="system-ui" font-size="13" fill="#94A3B8">API ID</text>
+  <rect x="120" y="170" width="560" height="44" rx="6" fill="white" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="140" y="197" font-family="system-ui" font-size="13" fill="#94A3B8">API Token</text>
+  <rect x="120" y="230" width="560" height="44" rx="6" fill="#FEF2F2" stroke="#E02424" stroke-width="1"/>
+  <text x="400" y="257" text-anchor="middle" font-family="system-ui" font-size="13" font-weight="500" fill="#E02424">Test Connection</text>
+  <rect x="120" y="290" width="560" height="44" rx="6" fill="white" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="140" y="317" font-family="system-ui" font-size="13" fill="#94A3B8">Origin Wilaya: Alger</text>
+  <rect x="320" y="355" width="160" height="40" rx="8" fill="#E02424"/>
+  <text x="400" y="380" text-anchor="middle" font-family="system-ui" font-size="14" font-weight="500" fill="white">Save</text>
+</svg>

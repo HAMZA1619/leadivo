@@ -14,7 +14,7 @@ export interface AppLandingPage {
   name: string
   iconId: string
   iconColor: string
-  category: "marketing" | "analytics" | "communication" | "productivity"
+  category: "marketing" | "analytics" | "communication" | "productivity" | "shipping"
   metaTitle: { en: string; ar: string; fr: string }
   metaDescription: { en: string; ar: string; fr: string }
   keywords: string[]
@@ -350,6 +350,68 @@ export const APP_PAGES: AppLandingPage[] = [
           en: "Yes, Google Analytics is free from Google and built into every Leadivo store. Just add your measurement ID — no extra cost or plugins needed.",
           ar: "نعم، Google Analytics مجاني من جوجل ومدمج في كل متجر Leadivo. فقط أضف معرف القياس — بدون تكاليف إضافية أو إضافات.",
           fr: "Oui, Google Analytics est gratuit de Google et intégré à chaque boutique Leadivo. Ajoutez simplement votre ID de mesure — sans coût supplémentaire ni plugins.",
+        },
+      },
+    ],
+  },
+  {
+    slug: "yalidine",
+    name: "Yalidine Express",
+    iconId: "yalidine",
+    iconColor: "#E02424",
+    category: "shipping",
+    metaTitle: {
+      en: "Yalidine Express Shipping for Online Stores",
+      ar: "شحن يالدين إكسبرس للمتاجر الإلكترونية",
+      fr: "Livraison Yalidine Express pour boutiques en ligne",
+    },
+    metaDescription: {
+      en: "Ship orders with Yalidine Express from your Leadivo store. Auto-create parcels, print labels, and track deliveries across all 58 wilayas.",
+      ar: "اشحن الطلبات عبر يالدين إكسبرس من متجر Leadivo. إنشاء طرود تلقائي، طباعة الملصقات، وتتبع التوصيلات عبر 58 ولاية.",
+      fr: "Expédiez vos commandes avec Yalidine Express depuis votre boutique Leadivo. Création automatique de colis, impression d'étiquettes et suivi.",
+    },
+    keywords: [
+      "yalidine express", "yalidine shipping", "yalidine API",
+      "algeria shipping", "livraison algerie", "شحن الجزائر",
+      "يالدين إكسبرس", "COD algerie", "ecommerce shipping algeria",
+    ],
+    heroDescKey: "apps.yalidine.heroDesc",
+    features: [
+      { titleKey: "apps.yalidine.feature.auto.title", descKey: "apps.yalidine.feature.auto.desc", icon: "Zap" },
+      { titleKey: "apps.yalidine.feature.tracking.title", descKey: "apps.yalidine.feature.tracking.desc", icon: "Truck" },
+      { titleKey: "apps.yalidine.feature.labels.title", descKey: "apps.yalidine.feature.labels.desc", icon: "Tag" },
+      { titleKey: "apps.yalidine.feature.cod.title", descKey: "apps.yalidine.feature.cod.desc", icon: "CreditCard" },
+      { titleKey: "apps.yalidine.feature.coverage.title", descKey: "apps.yalidine.feature.coverage.desc", icon: "Globe" },
+      { titleKey: "apps.yalidine.feature.status.title", descKey: "apps.yalidine.feature.status.desc", icon: "RefreshCw" },
+    ],
+    steps: [
+      { titleKey: "apps.yalidine.step.connect.title", descKey: "apps.yalidine.step.connect.desc" },
+      { titleKey: "apps.yalidine.step.configure.title", descKey: "apps.yalidine.step.configure.desc" },
+      { titleKey: "apps.yalidine.step.ship.title", descKey: "apps.yalidine.step.ship.desc" },
+    ],
+    faqs: [
+      {
+        question: {
+          en: "How do I get my Yalidine API credentials?",
+          ar: "كيف أحصل على بيانات API الخاصة بيالدين؟",
+          fr: "Comment obtenir mes identifiants API Yalidine ?",
+        },
+        answer: {
+          en: "Sign up as a merchant at yalidine.com, then go to the developer section at yalidine.app/dev to generate your API ID and Token.",
+          ar: "سجّل كتاجر في yalidine.com، ثم انتقل إلى قسم المطورين في yalidine.app/dev لإنشاء معرف API والرمز الخاص بك.",
+          fr: "Inscrivez-vous sur yalidine.com, puis rendez-vous dans la section développeur sur yalidine.app/dev pour générer votre API ID et Token.",
+        },
+      },
+      {
+        question: {
+          en: "Which wilayas does Yalidine deliver to?",
+          ar: "ما هي الولايات التي تغطيها يالدين؟",
+          fr: "Quelles wilayas Yalidine couvre-t-elle ?",
+        },
+        answer: {
+          en: "Yalidine covers all 58 Algerian wilayas with over 1,400 communes. Both home delivery and stop desk (relay point) options are available.",
+          ar: "تغطي يالدين جميع الولايات الـ 58 في الجزائر مع أكثر من 1,400 بلدية. يتوفر التوصيل للمنزل والتوصيل لمكاتب الاستلام.",
+          fr: "Yalidine couvre les 58 wilayas algériennes avec plus de 1 400 communes. Livraison à domicile et en point relais disponibles.",
         },
       },
     ],

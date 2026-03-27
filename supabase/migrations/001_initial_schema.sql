@@ -168,6 +168,9 @@ CREATE TABLE orders (
   ip_address TEXT,
   market_id UUID REFERENCES markets(id) ON DELETE SET NULL,
   currency TEXT NOT NULL DEFAULT 'USD',
+  shipment_tracking TEXT,
+  shipment_label_url TEXT,
+  shipping_provider TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

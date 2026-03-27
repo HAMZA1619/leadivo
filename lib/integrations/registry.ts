@@ -3,6 +3,7 @@ import { metaCapiApp } from "@/lib/integrations/apps/meta-capi"
 import { tiktokEapiApp } from "@/lib/integrations/apps/tiktok-eapi"
 import { googleSheetsApp } from "@/lib/integrations/apps/google-sheets"
 import { googleAnalyticsApp } from "@/lib/integrations/apps/google-analytics"
+import { yalidineApp } from "@/lib/integrations/apps/yalidine"
 
 export type IntegrationEventType = "order.created" | "order.status_changed" | "checkout.abandoned"
 
@@ -23,6 +24,7 @@ export const APPS: Record<string, AppDefinition> = {
   "tiktok-eapi": tiktokEapiApp,
   "google-sheets": googleSheetsApp,
   "google-analytics": googleAnalyticsApp,
+  yalidine: yalidineApp,
 }
 
 export const APP_LIST = Object.values(APPS)

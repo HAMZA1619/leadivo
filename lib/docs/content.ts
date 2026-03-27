@@ -1632,6 +1632,61 @@ export const ARTICLES: DocArticle[] = [
     ],
   },
 
+  // ── Yalidine ────────────────────────────────────────────────────────
+  {
+    slug: "yalidine",
+    category: "integrations",
+    title: {
+      en: "Connect Yalidine Express Shipping",
+      ar: "ربط شحن يالدين إكسبرس",
+      fr: "Connecter la livraison Yalidine Express",
+    },
+    description: {
+      en: "Auto-ship orders to Yalidine, print labels, and track deliveries from your dashboard.",
+      ar: "اشحن الطلبات تلقائياً عبر يالدين، اطبع الملصقات، وتتبع التوصيلات من لوحة التحكم.",
+      fr: "Expédiez automatiquement les commandes via Yalidine, imprimez les étiquettes et suivez les livraisons.",
+    },
+    steps: [
+      {
+        title: { en: "Install Yalidine from Integrations", ar: "ثبّت يالدين من التكاملات", fr: "Installez Yalidine depuis Intégrations" },
+        description: {
+          en: "Go to Dashboard → Integrations. Find the Yalidine Express card and click Install. The app will appear in your installed integrations list. Yalidine Express is Algeria's leading shipping carrier, covering all 58 wilayas with over 1,400 communes and full COD (cash on delivery) support.",
+          ar: "انتقل إلى لوحة التحكم ← التكاملات. ابحث عن بطاقة يالدين إكسبرس وانقر تثبيت. سيظهر التطبيق في قائمة التكاملات المثبتة. يالدين إكسبرس هي شركة الشحن الرائدة في الجزائر، تغطي جميع الـ 58 ولاية مع أكثر من 1,400 بلدية ودعم كامل للدفع عند الاستلام.",
+          fr: "Allez dans Tableau de bord → Intégrations. Trouvez la carte Yalidine Express et cliquez Installer. L'application apparaîtra dans vos intégrations installées. Yalidine Express est le transporteur leader en Algérie, couvrant les 58 wilayas avec plus de 1 400 communes et le paiement à la livraison.",
+        },
+        image: "/docs/integrations/yalidine-1.svg",
+      },
+      {
+        title: { en: "Enter your API credentials", ar: "أدخل بيانات API الخاصة بك", fr: "Entrez vos identifiants API" },
+        description: {
+          en: "Click Setup to open the configuration panel. Enter your Yalidine API ID and API Token (from yalidine.app/dev). Click Test Connection to verify your credentials work. Then select your origin wilaya (where you ship from), and choose express or economic delivery mode. Enable auto-shipment to automatically create parcels when new orders come in.",
+          ar: "انقر إعداد لفتح لوحة الإعدادات. أدخل معرف API ورمز API الخاص بيالدين (من yalidine.app/dev). انقر اختبار الاتصال للتحقق. ثم اختر ولاية الشحن الأصلية، ونوع التوصيل (سريع أو اقتصادي). فعّل الشحن التلقائي لإنشاء الطرود تلقائياً عند وصول طلبات جديدة.",
+          fr: "Cliquez sur Configurer pour ouvrir le panneau. Entrez votre API ID et API Token Yalidine (depuis yalidine.app/dev). Cliquez Tester la connexion pour vérifier. Sélectionnez votre wilaya d'origine, choisissez le mode de livraison express ou économique. Activez l'expédition automatique pour créer les colis à chaque nouvelle commande.",
+        },
+        image: "/docs/integrations/yalidine-2.svg",
+      },
+      {
+        title: { en: "Orders ship automatically", ar: "الطلبات تُشحن تلقائياً", fr: "Les commandes sont expédiées automatiquement" },
+        description: {
+          en: "Once connected, new orders are automatically sent to Yalidine as parcels. You can view tracking numbers, print shipping labels, and monitor delivery status directly from your order details page. When Yalidine delivers a parcel, the order status updates automatically. COD payments are collected by Yalidine and reimbursed to you daily.",
+          ar: "بمجرد الاتصال، تُرسل الطلبات الجديدة تلقائياً إلى يالدين كطرود. يمكنك عرض أرقام التتبع، طباعة ملصقات الشحن، ومتابعة حالة التوصيل مباشرة من صفحة تفاصيل الطلب. عند توصيل يالدين للطرد، تتحدث حالة الطلب تلقائياً. مبالغ الدفع عند الاستلام تجمعها يالدين وتعيدها لك يومياً.",
+          fr: "Une fois connecté, les nouvelles commandes sont automatiquement envoyées à Yalidine. Vous pouvez voir les numéros de suivi, imprimer les étiquettes et suivre l'état de livraison depuis la page de détails de commande. Quand Yalidine livre un colis, le statut se met à jour automatiquement. Les paiements à la livraison sont collectés par Yalidine et remboursés quotidiennement.",
+        },
+        image: "/docs/integrations/yalidine-3.svg",
+      },
+    ],
+    faqs: [
+      {
+        question: { en: "How do I get my Yalidine API credentials?", ar: "كيف أحصل على بيانات API الخاصة بيالدين؟", fr: "Comment obtenir mes identifiants API Yalidine ?" },
+        answer: { en: "Sign up as a merchant at yalidine.com, then go to the developer section at yalidine.app/dev to generate your API ID and Token.", ar: "سجّل كتاجر في yalidine.com، ثم انتقل إلى قسم المطورين في yalidine.app/dev لإنشاء معرف API والرمز الخاص بك.", fr: "Inscrivez-vous sur yalidine.com, puis rendez-vous dans la section développeur sur yalidine.app/dev pour générer votre API ID et Token." },
+      },
+      {
+        question: { en: "How does COD work with Yalidine?", ar: "كيف يعمل الدفع عند الاستلام مع يالدين؟", fr: "Comment fonctionne le paiement à la livraison avec Yalidine ?" },
+        answer: { en: "Yalidine collects the order amount from your customer on delivery, then reimburses you daily. A small COD commission (~1.5%) is deducted. You can track payment status from your dashboard.", ar: "تجمع يالدين مبلغ الطلب من عميلك عند التوصيل، ثم تعيده لك يومياً. يتم خصم عمولة صغيرة (~1.5%). يمكنك تتبع حالة الدفع من لوحة التحكم.", fr: "Yalidine collecte le montant auprès de votre client à la livraison, puis vous rembourse quotidiennement. Une petite commission (~1,5%) est déduite." },
+      },
+    ],
+  },
+
   // ── Reviews ──────────────────────────────────────────────────────────
   {
     slug: "product-reviews",

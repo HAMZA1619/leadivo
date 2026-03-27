@@ -53,6 +53,7 @@ import { MetaIcon } from "@/components/icons/meta"
 import { TiktokIcon } from "@/components/icons/tiktok"
 import { GoogleSheetsIcon } from "@/components/icons/google-sheets"
 import { GoogleAnalyticsIcon } from "@/components/icons/google-analytics"
+import { YalidineIcon } from "@/components/icons/yalidine"
 
 function FadeIn({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -90,6 +91,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?:
   tiktok: TiktokIcon,
   "google-sheets": GoogleSheetsIcon,
   "google-analytics": GoogleAnalyticsIcon,
+  yalidine: YalidineIcon,
 }
 
 /** Map app slug → docs article slug (only overrides where they differ) */
@@ -112,7 +114,7 @@ function getIntegrationPath(appSlug: string) {
 const FEATURE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   Bell, ShoppingCart, Sparkles, Truck, Star, Globe, Server, MousePointerClick,
   CreditCard, FlaskConical, Target, BarChart3, RefreshCw, Settings, Table,
-  Rows3, Upload, TrendingUp, Shield, Zap, Eye, Gift,
+  Rows3, Upload, TrendingUp, Shield, Zap, Eye, Gift, Tag,
 }
 
 export function AppsPage({ app, locale }: { app: AppLandingPage; locale?: string }) {

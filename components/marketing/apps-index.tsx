@@ -22,6 +22,7 @@ import { MetaIcon } from "@/components/icons/meta"
 import { TiktokIcon } from "@/components/icons/tiktok"
 import { GoogleSheetsIcon } from "@/components/icons/google-sheets"
 import { GoogleAnalyticsIcon } from "@/components/icons/google-analytics"
+import { YalidineIcon } from "@/components/icons/yalidine"
 
 function FadeIn({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -59,9 +60,10 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string; style?:
   tiktok: TiktokIcon,
   "google-sheets": GoogleSheetsIcon,
   "google-analytics": GoogleAnalyticsIcon,
+  yalidine: YalidineIcon,
 }
 
-const CATEGORY_ORDER = ["communication", "marketing", "productivity", "analytics"] as const
+const CATEGORY_ORDER = ["communication", "marketing", "shipping", "productivity", "analytics"] as const
 
 export function AppsIndex({ locale }: { locale?: string } = {}) {
   return (

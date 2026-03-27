@@ -2,6 +2,7 @@ import { handleWhatsApp } from "@/lib/integrations/apps/whatsapp"
 import { handleMetaCAPI } from "@/lib/integrations/apps/meta-capi"
 import { handleTiktokEAPI } from "@/lib/integrations/apps/tiktok-eapi"
 import { handleGoogleSheets } from "@/lib/integrations/apps/google-sheets.server"
+import { handleYalidine } from "@/lib/integrations/apps/yalidine"
 
 interface IntegrationEvent {
   event_type: string
@@ -67,6 +68,16 @@ export async function dispatchSingle(
         store.id,
         store.name,
         currency,
+      )
+      break
+    case "yalidine":
+      await handleYalidine(
+        event.event_type,
+        event.payload as unknown as Parameters<typeof handleYalidine>[1],
+        integration.config as unknown as Parameters<typeof handleYalidine>[2],
+        store.name,
+        currency,
+        store.id,
       )
       break
     default:

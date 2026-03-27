@@ -176,10 +176,12 @@ CREATE INDEX idx_orders_status ON orders(store_id, status);
 CREATE INDEX idx_orders_created_at ON orders(store_id, created_at DESC);
 CREATE UNIQUE INDEX idx_orders_store_number ON orders(store_id, order_number);
 
--- Auto-assign per-store sequential order number
+-- Auto-assign per-store sequential order number (with advisory lock to prevent duplicates)
 CREATE OR REPLACE FUNCTION public.set_order_number()
 RETURNS TRIGGER AS $$
 BEGIN
+  -- Use advisory lock keyed on store_id to serialize order number generation per store
+  PERFORM pg_advisory_xact_lock(hashtext(NEW.store_id::text));
   SELECT COALESCE(MAX(order_number), 14) + 1 INTO NEW.order_number
   FROM public.orders
   WHERE store_id = NEW.store_id;
@@ -226,12 +228,27 @@ CREATE TABLE store_images (
 );
 CREATE INDEX idx_store_images_store ON store_images(store_id);
 
--- Increment discount usage counter (atomic)
+-- Increment discount usage counter (atomic, returns false if max_uses exceeded)
 CREATE OR REPLACE FUNCTION public.increment_discount_usage(p_discount_id UUID)
-RETURNS VOID AS $$
+RETURNS BOOLEAN AS $$
+DECLARE
+  v_updated BOOLEAN;
 BEGIN
   UPDATE public.discounts
   SET times_used = times_used + 1
+  WHERE id = p_discount_id
+    AND (max_uses IS NULL OR times_used < max_uses);
+  v_updated := FOUND;
+  RETURN v_updated;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
+
+-- Rollback discount usage (used when order insert fails after increment)
+CREATE OR REPLACE FUNCTION public.decrement_discount_usage(p_discount_id UUID)
+RETURNS VOID AS $$
+BEGIN
+  UPDATE public.discounts
+  SET times_used = GREATEST(times_used - 1, 0)
   WHERE id = p_discount_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';

@@ -23,6 +23,18 @@ export async function POST(request: Request) {
       )
     }
 
+    // Verify the authenticated user owns this store
+    const { data: store } = await supabase
+      .from("stores")
+      .select("id")
+      .eq("id", store_id)
+      .eq("owner_id", user.id)
+      .single()
+
+    if (!store) {
+      return NextResponse.json({ error: "Store not found" }, { status: 404 })
+    }
+
     const { data: integration } = await supabase
       .from("store_integrations")
       .select("config")
@@ -43,20 +55,38 @@ export async function POST(request: Request) {
       const evolutionKey = process.env.EVOLUTION_API_KEY
 
       if (evolutionUrl && evolutionKey) {
+        const headers = { apikey: evolutionKey }
+        const instanceName = config.instance_name
+
+        // Restart instance first to reset broken socket state
         await fetch(
-          urlJoin(evolutionUrl, "instance/logout", config.instance_name),
+          urlJoin(evolutionUrl, "instance/restart", instanceName),
           {
-            method: "DELETE",
-            headers: { apikey: evolutionKey },
+            method: "POST",
+            headers,
             signal: AbortSignal.timeout(10000),
           }
         ).catch(() => {})
 
+        // Wait for restart to take effect
+        await new Promise((r) => setTimeout(r, 2000))
+
+        // Logout (ignore errors — socket may still be broken)
         await fetch(
-          urlJoin(evolutionUrl, "instance/delete", config.instance_name),
+          urlJoin(evolutionUrl, "instance/logout", instanceName),
           {
             method: "DELETE",
-            headers: { apikey: evolutionKey },
+            headers,
+            signal: AbortSignal.timeout(10000),
+          }
+        ).catch(() => {})
+
+        // Delete instance
+        await fetch(
+          urlJoin(evolutionUrl, "instance/delete", instanceName),
+          {
+            method: "DELETE",
+            headers,
             signal: AbortSignal.timeout(10000),
           }
         ).catch(() => {})

@@ -569,27 +569,50 @@ export async function handleWhatsApp(
 
   const phone = normalizePhone(payload.customer_phone, payload.customer_country)
 
-  const res = await fetch(
-    urlJoin(evolutionUrl, "message/sendText", config.instance_name),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        apikey: evolutionKey,
-      },
-      body: JSON.stringify({
-        number: phone,
-        text: message,
-        linkPreview: eventType === "checkout.abandoned",
-      }),
-      signal: AbortSignal.timeout(15000),
-    }
-  )
+  const maxRetries = 2
+  let lastError: Error | null = null
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => "")
-    throw new Error(`WhatsApp API error ${res.status}: ${body}`)
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const res = await fetch(
+        urlJoin(evolutionUrl, "message/sendText", config.instance_name),
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: evolutionKey,
+          },
+          body: JSON.stringify({
+            number: phone,
+            text: message,
+            linkPreview: eventType === "checkout.abandoned",
+          }),
+          signal: AbortSignal.timeout(15000),
+        }
+      )
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => "")
+        const status = res.status
+        // Only retry on 500+ server errors
+        if (status >= 500 && attempt < maxRetries) {
+          lastError = new Error(`WhatsApp API error ${status}: ${body}`)
+          await new Promise((r) => setTimeout(r, 1000 * (attempt + 1)))
+          continue
+        }
+        throw new Error(`WhatsApp API error ${status}: ${body}`)
+      }
+
+      return { confirmationSent: codConfirmation }
+    } catch (err) {
+      lastError = err instanceof Error ? err : new Error(String(err))
+      // Retry on network/timeout errors (e.g. Connection Closed)
+      if (attempt < maxRetries) {
+        await new Promise((r) => setTimeout(r, 1000 * (attempt + 1)))
+        continue
+      }
+    }
   }
 
-  return { confirmationSent: codConfirmation }
+  throw lastError!
 }

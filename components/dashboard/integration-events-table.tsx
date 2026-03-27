@@ -3,6 +3,12 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -133,8 +139,23 @@ export function IntegrationEventsTable({ appName, integrationId, initialEvents, 
                         {t(`integrations.events.statuses.${event.status}`)}
                       </Badge>
                     </TableCell>
-                    <TableCell className="max-w-[250px] truncate text-sm text-red-600 dark:text-red-400" title={event.error || undefined}>
-                      {parseErrorMessage(event.error) || "—"}
+                    <TableCell className="max-w-[250px] text-sm text-red-600 dark:text-red-400">
+                      {event.error ? (
+                        <TooltipProvider delayDuration={200}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="block cursor-default truncate">
+                                {parseErrorMessage(event.error)}
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="max-w-sm break-all whitespace-pre-wrap text-xs">
+                              {event.error}
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ) : (
+                        "—"
+                      )}
                     </TableCell>
                     <TableCell>
                       <RelativeDate date={event.created_at} />

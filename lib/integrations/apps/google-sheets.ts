@@ -49,7 +49,6 @@ export const AVAILABLE_FIELDS: AvailableField[] = [
   { key: "total", defaultHeader: "Total" },
   { key: "status", defaultHeader: "Status" },
   { key: "note", defaultHeader: "Note" },
-  { key: "ip_address", defaultHeader: "IP Address" },
   { key: "currency", defaultHeader: "Currency" },
   { key: "delivery_fee", defaultHeader: "Delivery Fee" },
   { key: "market_name", defaultHeader: "Market" },
@@ -87,7 +86,6 @@ export interface EventPayload {
   discount_id?: string | null
   discount_amount?: number
   note?: string
-  ip_address?: string | null
   currency?: string
   delivery_fee?: number
   created_at?: string
@@ -159,8 +157,6 @@ function getOrderFieldValue(
       return payload.status || ""
     case "note":
       return payload.note || ""
-    case "ip_address":
-      return payload.ip_address || ""
     case "currency":
       return payload.currency || currency
     case "delivery_fee":

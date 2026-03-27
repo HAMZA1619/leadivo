@@ -1,4 +1,4 @@
-import { createHmac } from "crypto"
+import { createHmac, timingSafeEqual } from "crypto"
 
 export function generateReviewToken(orderId: string, productId: string, phone: string): string {
   const secret = process.env.REVIEW_SECRET
@@ -10,5 +10,6 @@ export function generateReviewToken(orderId: string, productId: string, phone: s
 
 export function verifyReviewToken(orderId: string, productId: string, phone: string, token: string): boolean {
   const expected = generateReviewToken(orderId, productId, phone)
-  return expected === token
+  if (expected.length !== token.length) return false
+  return timingSafeEqual(Buffer.from(expected), Buffer.from(token))
 }

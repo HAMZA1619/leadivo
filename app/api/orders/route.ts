@@ -384,6 +384,14 @@ export async function POST(request: Request) {
 
     const total = subtotal - discountAmount + deliveryFee
 
+    // Atomically increment discount usage before order insert (prevents race condition)
+    if (discountId) {
+      const { data: incremented } = await admin.rpc("increment_discount_usage", { p_discount_id: discountId })
+      if (incremented === false) {
+        return NextResponse.json({ error: "Discount usage limit reached" }, { status: 400 })
+      }
+    }
+
     // Detect country and IP
     const forwarded = request.headers.get("x-forwarded-for")
     const ipAddress = forwarded ? forwarded.split(",")[0].trim() : null
@@ -417,6 +425,10 @@ export async function POST(request: Request) {
 
     if (orderError) {
       console.error("[orders] Order insert failed:", orderError)
+      // Rollback discount usage if we incremented it
+      if (discountId) {
+        await admin.rpc("decrement_discount_usage", { p_discount_id: discountId }).catch(() => {})
+      }
       return NextResponse.json({ error: "Failed to create order" }, { status: 500 })
     }
 
@@ -458,11 +470,6 @@ export async function POST(request: Request) {
         await admin.from("orders").delete().eq("id", order.id)
         return NextResponse.json({ error: "Not enough stock" }, { status: 400 })
       }
-    }
-
-    // Increment discount usage
-    if (discountId) {
-      await supabase.rpc("increment_discount_usage", { p_discount_id: discountId })
     }
 
     // Insert OTP confirmation record if phone was verified

@@ -90,7 +90,7 @@ export async function GET(request: NextRequest) {
           return Response.json({ error: "rate_limit" }, { status: 429, headers: { "Retry-After": String(RATE_LIMIT_TTL) } })
         }
       } catch {
-        // Skip rate limiting if Redis fails
+        return Response.json({ error: "Service temporarily unavailable" }, { status: 503 })
       }
     }
 

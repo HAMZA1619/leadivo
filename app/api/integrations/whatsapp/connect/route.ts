@@ -46,7 +46,15 @@ export async function POST(request: Request) {
     const instanceName = `store-${store_id}`
     const headers = { "Content-Type": "application/json", apikey: evolutionKey }
 
-    // Step 1: Delete any existing stale instance
+    // Step 1: Delete any existing stale instance (restart first to reset broken socket)
+    await fetch(urlJoin(evolutionUrl, "instance/restart", instanceName), {
+      method: "POST",
+      headers: { apikey: evolutionKey },
+      signal: AbortSignal.timeout(5000),
+    }).catch(() => {})
+
+    await new Promise((r) => setTimeout(r, 2000))
+
     await fetch(urlJoin(evolutionUrl, "instance/logout", instanceName), {
       method: "DELETE",
       headers: { apikey: evolutionKey },
@@ -112,13 +120,14 @@ export async function POST(request: Request) {
 
     // Step 3: Configure webhook for inbound messages
     if (appUrl && webhookSecret) {
-      const webhookUrl = `${appUrl}/api/webhooks/whatsapp?secret=${webhookSecret}`
+      const webhookUrl = `${appUrl}/api/webhooks/whatsapp`
       await fetch(urlJoin(evolutionUrl, "webhook/set", instanceName), {
         method: "POST",
         headers,
         body: JSON.stringify({
           webhook: {
             url: webhookUrl,
+            headers: { "x-webhook-secret": webhookSecret },
             enabled: true,
             webhook_by_events: false,
             webhook_base64: false,
@@ -126,7 +135,7 @@ export async function POST(request: Request) {
           },
         }),
         signal: AbortSignal.timeout(10000),
-      }).catch(() => {})
+      }).catch((err) => console.error("Webhook setup failed:", err))
     }
 
     return NextResponse.json({
@@ -136,7 +145,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error("WhatsApp connect error:", err)
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Internal server error" },
+      { error: "Internal server error" },
       { status: 500 }
     )
   }

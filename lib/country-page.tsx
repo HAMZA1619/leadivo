@@ -56,9 +56,10 @@ export function generateCountryJsonLd(country: CountryConfig) {
     description: country.metaDescription,
     offers: {
       "@type": "Offer",
-      price: "0",
+      name: "Pro Plan",
+      price: "19",
       priceCurrency: "USD",
-      description: country.lang === "ar" ? "تجربة مجانية" : "Essai gratuit inclus",
+      description: country.lang === "ar" ? "تجربة مجانية 14 يوم، بدون بطاقة ائتمان" : "Essai gratuit de 14 jours inclus, sans carte bancaire",
     },
   }
 

@@ -6,14 +6,14 @@ const APP_URL = process.env.NEXT_PUBLIC_ROOT_DOMAIN
   : process.env.NEXT_PUBLIC_APP_URL || "https://www.leadivo.app"
 
 export const metadata: Metadata = {
-  title: "Leadivo™ — Turn Your Social Media Into a Store",
+  title: "Leadivo™ — COD E-commerce Platform for Social Sellers",
   description:
-    "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders via WhatsApp or COD — no coding needed. Free trial included.",
+    "Launch a storefront in seconds, manage orders, automate WhatsApp notifications, and protect against fake COD orders — no coding needed. 14-day free trial.",
   keywords: [
     "online store builder",
-    "link in bio store",
+    "social commerce platform",
     "ecommerce platform",
-    "social media store",
+    "COD ecommerce",
     "COD store",
     "WhatsApp orders",
     "create online store",
@@ -32,15 +32,15 @@ export const metadata: Metadata = {
     type: "website",
     url: APP_URL,
     siteName: "Leadivo™",
-    title: "Leadivo™ — Turn Your Social Media Into a Store",
+    title: "Leadivo™ — COD E-commerce Platform for Social Sellers",
     description:
-      "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders directly — no coding needed.",
+      "Launch a storefront in seconds, manage orders, automate WhatsApp notifications, and protect against fake COD orders — no coding needed.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Leadivo™ — Turn Your Social Media Into a Store",
+    title: "Leadivo™ — COD E-commerce Platform for Social Sellers",
     description:
-      "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders directly — no coding needed.",
+      "Launch a storefront in seconds, manage orders, automate WhatsApp notifications, and protect against fake COD orders — no coding needed.",
   },
 }
 
@@ -52,12 +52,13 @@ const jsonLd = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description:
-    "Create a beautiful storefront in seconds. Share one link in your bio. Receive orders directly — no coding needed.",
+    "COD e-commerce platform for social sellers. Manage orders, automate WhatsApp notifications, run CRM, set multi-market pricing, and protect against fake orders — no coding needed.",
   offers: {
     "@type": "Offer",
-    price: "0",
+    name: "Pro Plan",
+    price: "19",
     priceCurrency: "USD",
-    description: "Free trial included",
+    description: "14-day free trial included. No credit card required to start.",
   },
 }
 
@@ -79,7 +80,7 @@ const faqJsonLd = {
       name: "What is Leadivo?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Leadivo is a platform that lets you create a beautiful online storefront in seconds. Share one link in your bio and start receiving orders — no coding or technical skills needed.",
+        text: "Leadivo is a COD e-commerce platform built for social sellers. You get a full online storefront, order management dashboard, built-in CRM, WhatsApp order automation, multi-market pricing, shipping zones, discount engine, product reviews, and fake order protection — all with no coding required.",
       },
     },
     {
